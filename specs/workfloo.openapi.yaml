@@ -1,0 +1,1029 @@
+openapi: 3.0.0
+info:
+  contact: {}
+  description: >-
+    API pública de Workfloo: ejecuta un workfloo, consulta su estatus y revisa
+    el historial/detalle de ejecuciones.
+
+    Todos los endpoints se autentican con el header x-api-key.
+
+
+    Ambientes: producción en https://workfloo.kiban.com y sandbox en https://sandbox.workfloo.kiban.com.
+
+    El host sandbox activa ese modo de forma implícita y tiene precedencia: ahí el query param sandbox se ignora.
+
+    Desde el host de producción se puede forzar el modo sandbox por request con sandbox=true.
+  title: Workfloo API
+  version: "1.0"
+paths:
+  /api/v1/workfloo:
+    get:
+      description: >-
+        Devuelve una página de ejecuciones envuelta en un objeto con
+        currentPage/hasNextPage/items.
+
+        Cualquier query param adicional no listado aquí se interpreta como filtro de búsqueda sobre el listado (searchableBy).
+      operationId: listWorkfloos
+      parameters:
+        - description: Número de página, empieza en 1
+          in: query
+          name: page
+          required: true
+          schema:
+            type: integer
+        - description: Cantidad de resultados por página
+          in: query
+          name: itemsPerPage
+          required: true
+          schema:
+            type: integer
+        - description: Filtra por estado de la ejecución
+          in: query
+          name: status
+          schema:
+            type: string
+        - description: Fecha inicial del rango (RFC3339)
+          in: query
+          name: from
+          schema:
+            type: string
+        - description: Fecha final del rango (RFC3339)
+          in: query
+          name: to
+          schema:
+            type: string
+        - description: Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya
+            es implícito
+          in: query
+          name: sandbox
+          schema:
+            type: boolean
+      responses:
+        "200":
+          description: Página de ejecuciones
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/controller_workfloo_model.WorkflooPage"
+        "400":
+          description: Query params de paginación ausentes o mal formados
+        "401":
+          description: API key ausente o inválida
+        "403":
+          description: La API key no tiene acceso al listado
+        "409":
+          description: Conflicto al mapear los resultados
+        "500":
+          description: Error interno
+        "503":
+          description: Servicio dependiente no disponible
+      security:
+        - ApiKeyAuth: []
+      summary: Historial de ejecuciones (v1)
+      tags:
+        - workfloo
+    post:
+      description: Crea y arranca una ejecución a partir de una definición de
+        workfloo. Devuelve el id de la ejecución para consultar su estatus.
+      operationId: executeWorkfloo
+      parameters:
+        - description: Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya
+            es implícito
+          in: query
+          name: sandbox
+          schema:
+            type: boolean
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/controller_workfloo_model.Execute"
+        description: Definición a ejecutar y datos iniciales
+        required: true
+      responses:
+        "200":
+          description: Ejecución creada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/controller_workfloo_model.ExecuteResponse"
+        "400":
+          description: Body inválido, faltan campos requeridos, o el primer nodo/validador
+            rechazó los datos
+        "401":
+          description: API key ausente o inválida
+        "403":
+          description: La API key no tiene acceso a esa definición
+        "404":
+          description: La definición de workfloo no existe
+        "409":
+          description: Conflicto al crear la ejecución
+        "500":
+          description: Error interno
+        "503":
+          description: Servicio dependiente no disponible
+      security:
+        - ApiKeyAuth: []
+      summary: Ejecutar un workfloo
+      tags:
+        - workfloo
+  "/api/v1/workfloo/{id}":
+    get:
+      description: "Devuelve el historial completo de una ejecución: todos sus nodos
+        con request/response, variables, documentos y decisiones."
+      operationId: getWorkfloo
+      parameters:
+        - description: Id de la ejecución
+          in: path
+          name: id
+          required: true
+          schema:
+            type: string
+        - description: Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya
+            es implícito
+          in: query
+          name: sandbox
+          schema:
+            type: boolean
+      responses:
+        "200":
+          description: Detalle de la ejecución
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/controller_workfloo_model.WorkflooResume"
+        "400":
+          description: Id ausente o mal formado
+        "401":
+          description: API key ausente o inválida
+        "403":
+          description: La API key no tiene acceso a esa ejecución
+        "404":
+          description: La ejecución no existe
+        "409":
+          description: Conflicto al mapear la ejecución
+        "500":
+          description: Error interno
+        "503":
+          description: Servicio dependiente no disponible
+      security:
+        - ApiKeyAuth: []
+      summary: Detalle de una ejecución
+      tags:
+        - workfloo
+  "/api/v1/workfloo/status/{id}":
+    get:
+      description: >-
+        Devuelve el estado actual de la ejecución y el paso en el que está
+        parada, con el payload que ese paso espera (formulario, documento, NIP,
+        timer o corrección).
+
+        Cuando el paso está procesando, currentNodeType lleva el sufijo _PROCESSING y el payload se omite.
+      operationId: getWorkflooStatus
+      parameters:
+        - description: Id de la ejecución
+          in: path
+          name: id
+          required: true
+          schema:
+            type: string
+        - description: Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya
+            es implícito
+          in: query
+          name: sandbox
+          schema:
+            type: boolean
+      responses:
+        "200":
+          description: Estatus de la ejecución
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/controller_workfloo_model.WorkflooStatus"
+        "400":
+          description: Id ausente o mal formado
+        "401":
+          description: API key ausente o inválida
+        "403":
+          description: La API key no tiene acceso a esa ejecución
+        "404":
+          description: La ejecución no existe
+        "409":
+          description: Conflicto al mapear el estatus
+        "500":
+          description: Error interno
+        "503":
+          description: Servicio dependiente no disponible
+      security:
+        - ApiKeyAuth: []
+      summary: Estatus de una ejecución
+      tags:
+        - workfloo
+  /api/v2/workfloo:
+    get:
+      description: >-
+        Igual que v1 pero devuelve el arreglo de ejecuciones directo, sin
+        envoltorio. La paginación viaja en el header Link.
+
+        Con format=csv la respuesta es un archivo CSV en lugar de JSON.
+
+        Cualquier query param adicional no listado aquí se interpreta como filtro de búsqueda sobre el listado (searchableBy).
+      operationId: listWorkfloosV2
+      parameters:
+        - description: Número de página, empieza en 1
+          in: query
+          name: page
+          schema:
+            type: integer
+        - description: Cantidad de resultados por página
+          in: query
+          name: itemsPerPage
+          schema:
+            type: integer
+        - description: Filtra por estado de la ejecución
+          in: query
+          name: status
+          schema:
+            type: string
+        - description: Fecha inicial del rango (RFC3339)
+          in: query
+          name: from
+          schema:
+            type: string
+        - description: Fecha final del rango (RFC3339)
+          in: query
+          name: to
+          schema:
+            type: string
+        - description: Formato de la respuesta
+          in: query
+          name: format
+          schema:
+            type: string
+            enum:
+              - json
+              - csv
+        - description: Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya
+            es implícito
+          in: query
+          name: sandbox
+          schema:
+            type: boolean
+      responses:
+        "200":
+          description: Arreglo de ejecuciones. El header Link trae las páginas
+            siguiente/anterior
+          headers:
+            Link:
+              description: Enlaces de paginación RFC 5988 (rel="next" / rel="prev").
+                Vacío si no hay más páginas.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/controller_workfloo_model.Workfloo"
+                type: array
+            text/csv:
+              schema:
+                items:
+                  $ref: "#/components/schemas/controller_workfloo_model.Workfloo"
+                type: array
+        "400":
+          description: Query params de paginación mal formados
+        "401":
+          description: API key ausente o inválida
+        "403":
+          description: La API key no tiene acceso al listado
+        "409":
+          description: Conflicto al mapear los resultados
+        "500":
+          description: Error interno
+        "503":
+          description: Servicio dependiente no disponible
+      security:
+        - ApiKeyAuth: []
+      summary: Historial de ejecuciones (v2)
+      tags:
+        - workfloo
+servers:
+  - url: https://workfloo.kiban.com
+    description: Producción
+  - url: https://sandbox.workfloo.kiban.com
+    description: Sandbox. Activa el modo sandbox implícitamente; el query param sandbox se ignora en este host.
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      description: API key del espacio. Se envía en cada request; nunca se hardcodea
+        en el cliente.
+      in: header
+      name: x-api-key
+      type: apiKey
+  schemas:
+    controller_workfloo_definition_model.AutoFilledBy:
+      properties:
+        nameNode:
+          type: string
+        nodeId:
+          type: string
+      type: object
+    controller_workfloo_definition_model.Document:
+      properties:
+        documentField:
+          items:
+            $ref: "#/components/schemas/controller_workfloo_definition_model.FileDocument"
+          type: array
+      type: object
+    controller_workfloo_definition_model.Field:
+      properties:
+        fieldMetadata:
+          $ref: "#/components/schemas/controller_workfloo_definition_model.FieldMetadata"
+        id:
+          type: string
+        name:
+          type: string
+        predefined:
+          type: boolean
+        required:
+          type: boolean
+        section:
+          type: string
+        set:
+          $ref: "#/components/schemas/controller_workfloo_definition_model.SetData"
+        showIf:
+          items:
+            $ref: "#/components/schemas/controller_workfloo_definition_model.ShowIf"
+          type: array
+      type: object
+    controller_workfloo_definition_model.FieldMetadata:
+      properties:
+        autoFilledBy:
+          items:
+            $ref: "#/components/schemas/controller_workfloo_definition_model.AutoFilledBy"
+          type: array
+        autofillNodeId:
+          type: string
+        defaultValue: {}
+        html:
+          type: string
+        map:
+          additionalProperties:
+            type: string
+          type: object
+        max:
+          type: integer
+        maxLength:
+          type: integer
+        maxVal:
+          type: number
+        min:
+          type: integer
+        minLength:
+          type: integer
+        minVal:
+          type: number
+        regex:
+          type: string
+        regexMessage:
+          type: string
+        show:
+          $ref: "#/components/schemas/controller_workfloo_definition_model.Show"
+        type:
+          type: string
+      type: object
+    controller_workfloo_definition_model.FileDocument:
+      properties:
+        fileMetadata:
+          $ref: "#/components/schemas/controller_workfloo_definition_model.FileMetadata"
+        id:
+          type: string
+        name:
+          type: string
+        predefined:
+          type: boolean
+        required:
+          type: boolean
+        set:
+          $ref: "#/components/schemas/controller_workfloo_definition_model.SetDataDocumen\
+            t"
+      type: object
+    controller_workfloo_definition_model.FileDocumentSet:
+      properties:
+        fileMetadata:
+          $ref: "#/components/schemas/controller_workfloo_definition_model.FileMetadata"
+        id:
+          type: string
+        name:
+          type: string
+        predefined:
+          type: boolean
+        required:
+          type: boolean
+      type: object
+    controller_workfloo_definition_model.FileMetadata:
+      properties:
+        formats:
+          items:
+            type: string
+          type: array
+        max:
+          type: integer
+        maxSize:
+          type: integer
+        min:
+          type: integer
+      type: object
+    controller_workfloo_definition_model.Form:
+      properties:
+        formFieldSection:
+          items:
+            $ref: "#/components/schemas/controller_workfloo_definition_model.FormFieldSecti\
+              on"
+          type: array
+      type: object
+    controller_workfloo_definition_model.FormFieldSection:
+      properties:
+        fields:
+          items:
+            $ref: "#/components/schemas/controller_workfloo_definition_model.Field"
+          type: array
+        section:
+          type: string
+      type: object
+    controller_workfloo_definition_model.SetData:
+      properties:
+        fields:
+          items:
+            $ref: "#/components/schemas/controller_workfloo_definition_model.Field"
+          type: array
+        optionalAt:
+          items:
+            type: string
+          type: array
+        required:
+          items:
+            type: string
+          type: array
+      type: object
+    controller_workfloo_definition_model.SetDataDocument:
+      properties:
+        files:
+          items:
+            $ref: "#/components/schemas/controller_workfloo_definition_model.FileDocumentSe\
+              t"
+          type: array
+        optionalAt:
+          items:
+            type: string
+          type: array
+        required:
+          items:
+            type: string
+          type: array
+      type: object
+    controller_workfloo_definition_model.Show:
+      properties:
+        field:
+          type: string
+        value:
+          type: string
+      type: object
+    controller_workfloo_definition_model.ShowIf:
+      properties:
+        field:
+          type: string
+        requiredWithValues:
+          items:
+            type: string
+          type: array
+        values:
+          items:
+            type: string
+          type: array
+      type: object
+    controller_workfloo_model.Api:
+      properties:
+        duration:
+          type: integer
+        request:
+          $ref: "#/components/schemas/controller_workfloo_model.ApiHttp"
+        response:
+          $ref: "#/components/schemas/controller_workfloo_model.ApiHttp"
+        url:
+          type: string
+      type: object
+    controller_workfloo_model.ApiData:
+      properties:
+        request:
+          $ref: "#/components/schemas/controller_workfloo_model.ApiDataResume"
+        response:
+          $ref: "#/components/schemas/controller_workfloo_model.ApiDataResume"
+      type: object
+    controller_workfloo_model.ApiDataResume:
+      properties:
+        body: {}
+        headers:
+          additionalProperties:
+            type: string
+          type: object
+        httpCode:
+          type: integer
+        queryParams:
+          additionalProperties:
+            type: string
+          type: object
+        url:
+          type: string
+      type: object
+    controller_workfloo_model.ApiHttp:
+      properties:
+        body:
+          items:
+            type: integer
+          type: array
+        date:
+          type: string
+        headers:
+          additionalProperties:
+            type: string
+          type: object
+        httpCode:
+          type: integer
+        queryParams:
+          additionalProperties:
+            type: string
+          type: object
+      type: object
+    controller_workfloo_model.Data:
+      properties:
+        fields:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+        section:
+          additionalProperties:
+            type: string
+          type: object
+      type: object
+    controller_workfloo_model.DecisionTree:
+      properties:
+        message:
+          type: string
+        nameNode:
+          type: string
+        result:
+          type: boolean
+      type: object
+    controller_workfloo_model.DocumentsResume:
+      properties:
+        name:
+          type: string
+        size:
+          type: string
+        value: {}
+      type: object
+    controller_workfloo_model.Event:
+      properties:
+        date:
+          type: string
+        errorMessage:
+          type: string
+        status:
+          type: string
+      type: object
+    controller_workfloo_model.Execute:
+      properties:
+        callbackUrl:
+          type: string
+        callbackXApiKey:
+          type: string
+        document:
+          additionalProperties: true
+          type: object
+        form:
+          additionalProperties: true
+          type: object
+        idWorkflooDefinition:
+          type: string
+        scenarioId:
+          type: string
+      required:
+        - idWorkflooDefinition
+      type: object
+    controller_workfloo_model.ExecuteResponse:
+      properties:
+        id:
+          type: string
+        idUnykoo:
+          type: integer
+      type: object
+    controller_workfloo_model.File:
+      properties:
+        name:
+          additionalProperties:
+            type: string
+          type: object
+        value:
+          type: string
+      type: object
+    controller_workfloo_model.Form:
+      properties:
+        fields:
+          items:
+            $ref: "#/components/schemas/controller_workfloo_model.FormField"
+          type: array
+      type: object
+    controller_workfloo_model.FormField:
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        value:
+          type: string
+      type: object
+    controller_workfloo_model.FormResume:
+      properties:
+        fields:
+          additionalProperties: true
+          type: object
+      type: object
+    controller_workfloo_model.Label:
+      properties:
+        labels:
+          items:
+            type: string
+          type: array
+      type: object
+    controller_workfloo_model.Link:
+      properties:
+        data:
+          additionalProperties: true
+          type: object
+        id:
+          type: string
+        key:
+          type: string
+        service:
+          type: string
+        subService:
+          type: string
+      type: object
+    controller_workfloo_model.LinkNipStatus:
+      properties:
+        companyName:
+          type: string
+        countryCode:
+          type: string
+        email:
+          type: string
+        events:
+          items:
+            $ref: "#/components/schemas/controller_workfloo_model.Event"
+          type: array
+        key:
+          type: string
+        keyTypeNode:
+          type: string
+        nipType:
+          type: string
+        phase:
+          type: string
+        phoneNumber:
+          type: string
+        privacyNotice:
+          type: string
+        terms:
+          type: string
+        widget: {}
+      type: object
+    controller_workfloo_model.LinkResume:
+      properties:
+        events:
+          items:
+            $ref: "#/components/schemas/controller_workfloo_model.Event"
+          type: array
+        key:
+          type: string
+        phase:
+          type: string
+      type: object
+    controller_workfloo_model.Node:
+      properties:
+        api:
+          $ref: "#/components/schemas/controller_workfloo_model.Api"
+        created:
+          type: string
+        createdBy:
+          description: TODO MOVER
+          type: string
+        decisionTree:
+          items:
+            $ref: "#/components/schemas/controller_workfloo_model.DecisionTree"
+          type: array
+        form:
+          $ref: "#/components/schemas/controller_workfloo_model.Form"
+        id:
+          type: string
+        link:
+          $ref: "#/components/schemas/controller_workfloo_model.Link"
+        modified:
+          type: string
+        name:
+          type: string
+        ruleset:
+          $ref: "#/components/schemas/controller_workfloo_model.Ruleset"
+        status:
+          type: string
+        type:
+          type: string
+        variables:
+          $ref: "#/components/schemas/controller_workfloo_model.Variables"
+      type: object
+    controller_workfloo_model.NodeDetail:
+      properties:
+        createdBy:
+          type: string
+        dateFound:
+          type: string
+        errorMessage:
+          type: string
+        httpCode:
+          type: integer
+        idLink:
+          type: string
+        idWorkfloo:
+          type: string
+        origin:
+          type: string
+        responseTime:
+          type: integer
+        status:
+          type: string
+      type: object
+    controller_workfloo_model.NodeResume:
+      properties:
+        apiData:
+          $ref: "#/components/schemas/controller_workfloo_model.ApiData"
+        created:
+          type: string
+        data:
+          items:
+            $ref: "#/components/schemas/controller_workfloo_model.Data"
+          type: array
+        decisionTree:
+          items:
+            $ref: "#/components/schemas/controller_workfloo_model.DecisionTree"
+          type: array
+        detail:
+          $ref: "#/components/schemas/controller_workfloo_model.NodeDetail"
+        documents:
+          additionalProperties:
+            $ref: "#/components/schemas/controller_workfloo_model.DocumentsResume"
+          type: object
+        files:
+          items:
+            $ref: "#/components/schemas/controller_workfloo_model.File"
+          type: array
+        form:
+          $ref: "#/components/schemas/controller_workfloo_model.FormResume"
+        id:
+          type: string
+        label:
+          $ref: "#/components/schemas/controller_workfloo_model.Label"
+        link:
+          $ref: "#/components/schemas/controller_workfloo_model.LinkResume"
+        modified:
+          type: string
+        name:
+          type: string
+        pdf:
+          $ref: "#/components/schemas/controller_workfloo_model.Pdf"
+        request: {}
+        response: {}
+        ruleset:
+          $ref: "#/components/schemas/controller_workfloo_model.Ruleset"
+        timer:
+          $ref: "#/components/schemas/controller_workfloo_model.Timer"
+        type:
+          type: string
+        validation:
+          $ref: "#/components/schemas/controller_workfloo_model.ValidationResume"
+        variables:
+          items:
+            $ref: "#/components/schemas/controller_workfloo_model.Variable"
+          type: array
+      type: object
+    controller_workfloo_model.Pdf:
+      properties:
+        errorMessage:
+          type: string
+        pdfBase64:
+          type: string
+      type: object
+    controller_workfloo_model.RemainingTime:
+      properties:
+        hours:
+          type: integer
+        minutes:
+          type: integer
+        seconds:
+          type: integer
+      type: object
+    controller_workfloo_model.ReviewResume:
+      properties:
+        fieldId:
+          type: string
+        message:
+          type: string
+        sourceNodeId:
+          type: string
+      type: object
+    controller_workfloo_model.Rules:
+      properties:
+        message:
+          type: string
+      type: object
+    controller_workfloo_model.Ruleset:
+      properties:
+        decision:
+          items:
+            $ref: "#/components/schemas/controller_workfloo_model.Rules"
+          type: array
+        exit:
+          type: string
+        labels:
+          items:
+            type: string
+          type: array
+      type: object
+    controller_workfloo_model.Timer:
+      properties:
+        endWaitDate:
+          type: string
+        remainingTime:
+          $ref: "#/components/schemas/controller_workfloo_model.RemainingTime"
+      type: object
+    controller_workfloo_model.ValidationField:
+      properties:
+        fieldId:
+          type: string
+        message:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+        value: {}
+      type: object
+    controller_workfloo_model.ValidationResume:
+      properties:
+        decision:
+          type: string
+        reviewedAt:
+          type: string
+        reviewedBy:
+          type: string
+        reviewerNote:
+          type: string
+        reviews:
+          items:
+            $ref: "#/components/schemas/controller_workfloo_model.ReviewResume"
+          type: array
+      type: object
+    controller_workfloo_model.ValidationStatus:
+      properties:
+        fields:
+          items:
+            $ref: "#/components/schemas/controller_workfloo_model.ValidationField"
+          type: array
+        instruction:
+          type: string
+        reviewerNote:
+          type: string
+      type: object
+    controller_workfloo_model.Variable:
+      properties:
+        name:
+          type: string
+        value: {}
+      type: object
+    controller_workfloo_model.Variables:
+      properties:
+        variables:
+          type: string
+      type: object
+    controller_workfloo_model.Workfloo:
+      properties:
+        companyName:
+          type: string
+        createdAt:
+          type: string
+        createdBy:
+          type: string
+        currentNodeName:
+          type: string
+        firstName:
+          type: string
+        id:
+          type: string
+        idUnykoo:
+          type: integer
+        ipOrigin:
+          type: string
+        labels:
+          items:
+            type: string
+          type: array
+        lastName1:
+          type: string
+        lastName2:
+          type: string
+        modifiedAt:
+          type: string
+        name:
+          type: string
+        origin:
+          type: string
+        rfcPf:
+          type: string
+        rfcPm:
+          type: string
+        secondName:
+          type: string
+        status:
+          type: string
+        steps:
+          items:
+            $ref: "#/components/schemas/controller_workfloo_model.Node"
+          type: array
+      type: object
+    controller_workfloo_model.WorkflooPage:
+      properties:
+        currentPage:
+          type: integer
+        hasNextPage:
+          type: boolean
+        items:
+          items:
+            $ref: "#/components/schemas/controller_workfloo_model.Workfloo"
+          type: array
+      type: object
+    controller_workfloo_model.WorkflooResume:
+      properties:
+        created:
+          type: string
+        id:
+          type: string
+        idUnykoo:
+          type: integer
+        ipOrigin:
+          type: string
+        labels:
+          items:
+            type: string
+          type: array
+        modified:
+          type: string
+        name:
+          type: string
+        nodes:
+          items:
+            $ref: "#/components/schemas/controller_workfloo_model.NodeResume"
+          type: array
+        origin:
+          type: string
+        sceneryId:
+          type: string
+        sceneryName:
+          type: string
+        status:
+          type: string
+      type: object
+    controller_workfloo_model.WorkflooStatus:
+      properties:
+        currentNodeId:
+          type: string
+        currentNodeName:
+          type: string
+        currentNodeType:
+          type: string
+        document:
+          $ref: "#/components/schemas/controller_workfloo_definition_model.Document"
+        form:
+          $ref: "#/components/schemas/controller_workfloo_definition_model.Form"
+        id:
+          type: string
+        link:
+          $ref: "#/components/schemas/controller_workfloo_model.LinkNipStatus"
+        name:
+          type: string
+        status:
+          type: string
+        timer:
+          $ref: "#/components/schemas/controller_workfloo_model.Timer"
+        validation:
+          $ref: "#/components/schemas/controller_workfloo_model.ValidationStatus"
+      type: object
