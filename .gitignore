@@ -5,3 +5,11 @@ node_modules/
 openapitools.json
 
 # packages/** SÍ se commitea (100% generado). NO se ignora a propósito.
+# Pero los artefactos de compilación de cada SDK no son fuente: fuera.
+packages/java/target/
+packages/csharp/**/bin/
+packages/csharp/**/obj/
+packages/node/dist/
+packages/python/**/__pycache__/
+packages/python/**/*.egg-info/
+

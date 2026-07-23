@@ -1,0 +1,3092 @@
+openapi: 3.0.0
+info:
+  contact: {}
+  description: |-
+    API pública de Workfloo: ejecuta un workfloo, consulta su estatus y revisa el historial/detalle de ejecuciones.
+    Todos los endpoints se autentican con el header x-api-key.
+
+    Ambientes: producción en https://workfloo.kiban.com y sandbox en https://sandbox.workfloo.kiban.com.
+    El host sandbox activa ese modo de forma implícita y tiene precedencia: ahí el query param sandbox se ignora.
+    Desde el host de producción se puede forzar el modo sandbox por request con sandbox=true.
+  title: Workfloo API
+  version: "1.0"
+servers:
+- description: Producción
+  url: https://workfloo.kiban.com
+- description: Sandbox. Activa el modo sandbox implícitamente; el query param sandbox
+    se ignora en este host.
+  url: https://sandbox.workfloo.kiban.com
+paths:
+  /api/v1/workfloo:
+    get:
+      description: |-
+        Devuelve una página de ejecuciones envuelta en un objeto con currentPage/hasNextPage/items.
+        Cualquier query param adicional no listado aquí se interpreta como filtro de búsqueda sobre el listado (searchableBy).
+      operationId: listWorkfloos
+      parameters:
+      - description: "Número de página, empieza en 1"
+        explode: true
+        in: query
+        name: page
+        required: true
+        schema:
+          type: integer
+        style: form
+      - description: Cantidad de resultados por página
+        explode: true
+        in: query
+        name: itemsPerPage
+        required: true
+        schema:
+          type: integer
+        style: form
+      - description: Filtra por estado de la ejecución
+        explode: true
+        in: query
+        name: status
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Fecha inicial del rango (RFC3339)
+        explode: true
+        in: query
+        name: from
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Fecha final del rango (RFC3339)
+        explode: true
+        in: query
+        name: to
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: "Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde\
+          \ ya es implícito"
+        explode: true
+        in: query
+        name: sandbox
+        required: false
+        schema:
+          type: boolean
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/controller_workfloo_model.WorkflooPage"
+          description: Página de ejecuciones
+        "400":
+          description: Query params de paginación ausentes o mal formados
+        "401":
+          description: API key ausente o inválida
+        "403":
+          description: La API key no tiene acceso al listado
+        "409":
+          description: Conflicto al mapear los resultados
+        "500":
+          description: Error interno
+        "503":
+          description: Servicio dependiente no disponible
+      security:
+      - ApiKeyAuth: []
+      summary: Historial de ejecuciones (v1)
+      tags:
+      - workfloo
+    post:
+      description: Crea y arranca una ejecución a partir de una definición de workfloo.
+        Devuelve el id de la ejecución para consultar su estatus.
+      operationId: executeWorkfloo
+      parameters:
+      - description: "Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde\
+          \ ya es implícito"
+        explode: true
+        in: query
+        name: sandbox
+        required: false
+        schema:
+          type: boolean
+        style: form
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/controller_workfloo_model.Execute"
+        description: Definición a ejecutar y datos iniciales
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/controller_workfloo_model.ExecuteResponse"
+          description: Ejecución creada
+        "400":
+          description: "Body inválido, faltan campos requeridos, o el primer nodo/validador\
+            \ rechazó los datos"
+        "401":
+          description: API key ausente o inválida
+        "403":
+          description: La API key no tiene acceso a esa definición
+        "404":
+          description: La definición de workfloo no existe
+        "409":
+          description: Conflicto al crear la ejecución
+        "500":
+          description: Error interno
+        "503":
+          description: Servicio dependiente no disponible
+      security:
+      - ApiKeyAuth: []
+      summary: Ejecutar un workfloo
+      tags:
+      - workfloo
+  /api/v1/workfloo/{id}:
+    get:
+      description: "Devuelve el historial completo de una ejecución: todos sus nodos\
+        \ con request/response, variables, documentos y decisiones."
+      operationId: getWorkfloo
+      parameters:
+      - description: Id de la ejecución
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: "Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde\
+          \ ya es implícito"
+        explode: true
+        in: query
+        name: sandbox
+        required: false
+        schema:
+          type: boolean
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/controller_workfloo_model.WorkflooResume"
+          description: Detalle de la ejecución
+        "400":
+          description: Id ausente o mal formado
+        "401":
+          description: API key ausente o inválida
+        "403":
+          description: La API key no tiene acceso a esa ejecución
+        "404":
+          description: La ejecución no existe
+        "409":
+          description: Conflicto al mapear la ejecución
+        "500":
+          description: Error interno
+        "503":
+          description: Servicio dependiente no disponible
+      security:
+      - ApiKeyAuth: []
+      summary: Detalle de una ejecución
+      tags:
+      - workfloo
+  /api/v1/workfloo/status/{id}:
+    get:
+      description: |-
+        Devuelve el estado actual de la ejecución y el paso en el que está parada, con el payload que ese paso espera (formulario, documento, NIP, timer o corrección).
+        Cuando el paso está procesando, currentNodeType lleva el sufijo _PROCESSING y el payload se omite.
+      operationId: getWorkflooStatus
+      parameters:
+      - description: Id de la ejecución
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: "Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde\
+          \ ya es implícito"
+        explode: true
+        in: query
+        name: sandbox
+        required: false
+        schema:
+          type: boolean
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/controller_workfloo_model.WorkflooStatus"
+          description: Estatus de la ejecución
+        "400":
+          description: Id ausente o mal formado
+        "401":
+          description: API key ausente o inválida
+        "403":
+          description: La API key no tiene acceso a esa ejecución
+        "404":
+          description: La ejecución no existe
+        "409":
+          description: Conflicto al mapear el estatus
+        "500":
+          description: Error interno
+        "503":
+          description: Servicio dependiente no disponible
+      security:
+      - ApiKeyAuth: []
+      summary: Estatus de una ejecución
+      tags:
+      - workfloo
+  /api/v2/workfloo:
+    get:
+      description: |-
+        Igual que v1 pero devuelve el arreglo de ejecuciones directo, sin envoltorio. La paginación viaja en el header Link.
+        Con format=csv la respuesta es un archivo CSV en lugar de JSON.
+        Cualquier query param adicional no listado aquí se interpreta como filtro de búsqueda sobre el listado (searchableBy).
+      operationId: listWorkfloosV2
+      parameters:
+      - description: "Número de página, empieza en 1"
+        explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          type: integer
+        style: form
+      - description: Cantidad de resultados por página
+        explode: true
+        in: query
+        name: itemsPerPage
+        required: false
+        schema:
+          type: integer
+        style: form
+      - description: Filtra por estado de la ejecución
+        explode: true
+        in: query
+        name: status
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Fecha inicial del rango (RFC3339)
+        explode: true
+        in: query
+        name: from
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Fecha final del rango (RFC3339)
+        explode: true
+        in: query
+        name: to
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Formato de la respuesta
+        explode: true
+        in: query
+        name: format
+        required: false
+        schema:
+          enum:
+          - json
+          - csv
+          type: string
+        style: form
+      - description: "Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde\
+          \ ya es implícito"
+        explode: true
+        in: query
+        name: sandbox
+        required: false
+        schema:
+          type: boolean
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/controller_workfloo_model.Workfloo"
+                type: array
+            text/csv:
+              schema:
+                items:
+                  $ref: "#/components/schemas/controller_workfloo_model.Workfloo"
+                type: array
+          description: Arreglo de ejecuciones. El header Link trae las páginas siguiente/anterior
+          headers:
+            Link:
+              description: Enlaces de paginación RFC 5988 (rel="next" / rel="prev").
+                Vacío si no hay más páginas.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "400":
+          description: Query params de paginación mal formados
+        "401":
+          description: API key ausente o inválida
+        "403":
+          description: La API key no tiene acceso al listado
+        "409":
+          description: Conflicto al mapear los resultados
+        "500":
+          description: Error interno
+        "503":
+          description: Servicio dependiente no disponible
+      security:
+      - ApiKeyAuth: []
+      summary: Historial de ejecuciones (v2)
+      tags:
+      - workfloo
+components:
+  schemas:
+    controller_workfloo_definition_model.AutoFilledBy:
+      example:
+        nameNode: nameNode
+        nodeId: nodeId
+      properties:
+        nameNode:
+          type: string
+        nodeId:
+          type: string
+      type: object
+    controller_workfloo_definition_model.Document:
+      example:
+        documentField:
+        - fileMetadata:
+            formats:
+            - formats
+            - formats
+            max: 0
+            maxSize: 6
+            min: 1
+          id: id
+          name: name
+          predefined: true
+          required: true
+          set:
+            files:
+            - fileMetadata:
+                formats:
+                - formats
+                - formats
+                max: 0
+                maxSize: 6
+                min: 1
+              id: id
+              name: name
+              predefined: true
+              required: true
+            - fileMetadata:
+                formats:
+                - formats
+                - formats
+                max: 0
+                maxSize: 6
+                min: 1
+              id: id
+              name: name
+              predefined: true
+              required: true
+            optionalAt:
+            - optionalAt
+            - optionalAt
+            required:
+            - required
+            - required
+        - fileMetadata:
+            formats:
+            - formats
+            - formats
+            max: 0
+            maxSize: 6
+            min: 1
+          id: id
+          name: name
+          predefined: true
+          required: true
+          set:
+            files:
+            - fileMetadata:
+                formats:
+                - formats
+                - formats
+                max: 0
+                maxSize: 6
+                min: 1
+              id: id
+              name: name
+              predefined: true
+              required: true
+            - fileMetadata:
+                formats:
+                - formats
+                - formats
+                max: 0
+                maxSize: 6
+                min: 1
+              id: id
+              name: name
+              predefined: true
+              required: true
+            optionalAt:
+            - optionalAt
+            - optionalAt
+            required:
+            - required
+            - required
+      properties:
+        documentField:
+          items:
+            $ref: "#/components/schemas/controller_workfloo_definition_model.FileDocument"
+          type: array
+      type: object
+    controller_workfloo_definition_model.Field:
+      example:
+        fieldMetadata:
+          autoFilledBy:
+          - nameNode: nameNode
+            nodeId: nodeId
+          - nameNode: nameNode
+            nodeId: nodeId
+          autofillNodeId: autofillNodeId
+          defaultValue: ""
+          html: html
+          map:
+            key: map
+          max: 5
+          maxLength: 5
+          maxVal: 2.3021358869347655
+          min: 7
+          minLength: 9
+          minVal: 3.616076749251911
+          regex: regex
+          regexMessage: regexMessage
+          show:
+            field: field
+            value: value
+          type: type
+        id: id
+        name: name
+        predefined: true
+        required: true
+        section: section
+        set:
+          fields:
+          - null
+          - null
+          optionalAt:
+          - optionalAt
+          - optionalAt
+          required:
+          - required
+          - required
+        showIf:
+        - field: field
+          requiredWithValues:
+          - requiredWithValues
+          - requiredWithValues
+          values:
+          - values
+          - values
+        - field: field
+          requiredWithValues:
+          - requiredWithValues
+          - requiredWithValues
+          values:
+          - values
+          - values
+      properties:
+        fieldMetadata:
+          $ref: "#/components/schemas/controller_workfloo_definition_model.FieldMetadata"
+        id:
+          type: string
+        name:
+          type: string
+        predefined:
+          type: boolean
+        required:
+          type: boolean
+        section:
+          type: string
+        set:
+          $ref: "#/components/schemas/controller_workfloo_definition_model.SetData"
+        showIf:
+          items:
+            $ref: "#/components/schemas/controller_workfloo_definition_model.ShowIf"
+          type: array
+      type: object
+    controller_workfloo_definition_model.FieldMetadata:
+      example:
+        autoFilledBy:
+        - nameNode: nameNode
+          nodeId: nodeId
+        - nameNode: nameNode
+          nodeId: nodeId
+        autofillNodeId: autofillNodeId
+        defaultValue: ""
+        html: html
+        map:
+          key: map
+        max: 5
+        maxLength: 5
+        maxVal: 2.3021358869347655
+        min: 7
+        minLength: 9
+        minVal: 3.616076749251911
+        regex: regex
+        regexMessage: regexMessage
+        show:
+          field: field
+          value: value
+        type: type
+      properties:
+        autoFilledBy:
+          items:
+            $ref: "#/components/schemas/controller_workfloo_definition_model.AutoFilledBy"
+          type: array
+        autofillNodeId:
+          type: string
+        defaultValue: {}
+        html:
+          type: string
+        map:
+          additionalProperties:
+            type: string
+          type: object
+        max:
+          type: integer
+        maxLength:
+          type: integer
+        maxVal:
+          type: number
+        min:
+          type: integer
+        minLength:
+          type: integer
+        minVal:
+          type: number
+        regex:
+          type: string
+        regexMessage:
+          type: string
+        show:
+          $ref: "#/components/schemas/controller_workfloo_definition_model.Show"
+        type:
+          type: string
+      type: object
+    controller_workfloo_definition_model.FileDocument:
+      example:
+        fileMetadata:
+          formats:
+          - formats
+          - formats
+          max: 0
+          maxSize: 6
+          min: 1
+        id: id
+        name: name
+        predefined: true
+        required: true
+        set:
+          files:
+          - fileMetadata:
+              formats:
+              - formats
+              - formats
+              max: 0
+              maxSize: 6
+              min: 1
+            id: id
+            name: name
+            predefined: true
+            required: true
+          - fileMetadata:
+              formats:
+              - formats
+              - formats
+              max: 0
+              maxSize: 6
+              min: 1
+            id: id
+            name: name
+            predefined: true
+            required: true
+          optionalAt:
+          - optionalAt
+          - optionalAt
+          required:
+          - required
+          - required
+      properties:
+        fileMetadata:
+          $ref: "#/components/schemas/controller_workfloo_definition_model.FileMetadata"
+        id:
+          type: string
+        name:
+          type: string
+        predefined:
+          type: boolean
+        required:
+          type: boolean
+        set:
+          $ref: "#/components/schemas/controller_workfloo_definition_model.SetDataDocument"
+      type: object
+    controller_workfloo_definition_model.FileDocumentSet:
+      example:
+        fileMetadata:
+          formats:
+          - formats
+          - formats
+          max: 0
+          maxSize: 6
+          min: 1
+        id: id
+        name: name
+        predefined: true
+        required: true
+      properties:
+        fileMetadata:
+          $ref: "#/components/schemas/controller_workfloo_definition_model.FileMetadata"
+        id:
+          type: string
+        name:
+          type: string
+        predefined:
+          type: boolean
+        required:
+          type: boolean
+      type: object
+    controller_workfloo_definition_model.FileMetadata:
+      example:
+        formats:
+        - formats
+        - formats
+        max: 0
+        maxSize: 6
+        min: 1
+      properties:
+        formats:
+          items:
+            type: string
+          type: array
+        max:
+          type: integer
+        maxSize:
+          type: integer
+        min:
+          type: integer
+      type: object
+    controller_workfloo_definition_model.Form:
+      example:
+        formFieldSection:
+        - fields:
+          - fieldMetadata:
+              autoFilledBy:
+              - nameNode: nameNode
+                nodeId: nodeId
+              - nameNode: nameNode
+                nodeId: nodeId
+              autofillNodeId: autofillNodeId
+              defaultValue: ""
+              html: html
+              map:
+                key: map
+              max: 5
+              maxLength: 5
+              maxVal: 2.3021358869347655
+              min: 7
+              minLength: 9
+              minVal: 3.616076749251911
+              regex: regex
+              regexMessage: regexMessage
+              show:
+                field: field
+                value: value
+              type: type
+            id: id
+            name: name
+            predefined: true
+            required: true
+            section: section
+            set:
+              fields:
+              - null
+              - null
+              optionalAt:
+              - optionalAt
+              - optionalAt
+              required:
+              - required
+              - required
+            showIf:
+            - field: field
+              requiredWithValues:
+              - requiredWithValues
+              - requiredWithValues
+              values:
+              - values
+              - values
+            - field: field
+              requiredWithValues:
+              - requiredWithValues
+              - requiredWithValues
+              values:
+              - values
+              - values
+          - fieldMetadata:
+              autoFilledBy:
+              - nameNode: nameNode
+                nodeId: nodeId
+              - nameNode: nameNode
+                nodeId: nodeId
+              autofillNodeId: autofillNodeId
+              defaultValue: ""
+              html: html
+              map:
+                key: map
+              max: 5
+              maxLength: 5
+              maxVal: 2.3021358869347655
+              min: 7
+              minLength: 9
+              minVal: 3.616076749251911
+              regex: regex
+              regexMessage: regexMessage
+              show:
+                field: field
+                value: value
+              type: type
+            id: id
+            name: name
+            predefined: true
+            required: true
+            section: section
+            set:
+              fields:
+              - null
+              - null
+              optionalAt:
+              - optionalAt
+              - optionalAt
+              required:
+              - required
+              - required
+            showIf:
+            - field: field
+              requiredWithValues:
+              - requiredWithValues
+              - requiredWithValues
+              values:
+              - values
+              - values
+            - field: field
+              requiredWithValues:
+              - requiredWithValues
+              - requiredWithValues
+              values:
+              - values
+              - values
+          section: section
+        - fields:
+          - fieldMetadata:
+              autoFilledBy:
+              - nameNode: nameNode
+                nodeId: nodeId
+              - nameNode: nameNode
+                nodeId: nodeId
+              autofillNodeId: autofillNodeId
+              defaultValue: ""
+              html: html
+              map:
+                key: map
+              max: 5
+              maxLength: 5
+              maxVal: 2.3021358869347655
+              min: 7
+              minLength: 9
+              minVal: 3.616076749251911
+              regex: regex
+              regexMessage: regexMessage
+              show:
+                field: field
+                value: value
+              type: type
+            id: id
+            name: name
+            predefined: true
+            required: true
+            section: section
+            set:
+              fields:
+              - null
+              - null
+              optionalAt:
+              - optionalAt
+              - optionalAt
+              required:
+              - required
+              - required
+            showIf:
+            - field: field
+              requiredWithValues:
+              - requiredWithValues
+              - requiredWithValues
+              values:
+              - values
+              - values
+            - field: field
+              requiredWithValues:
+              - requiredWithValues
+              - requiredWithValues
+              values:
+              - values
+              - values
+          - fieldMetadata:
+              autoFilledBy:
+              - nameNode: nameNode
+                nodeId: nodeId
+              - nameNode: nameNode
+                nodeId: nodeId
+              autofillNodeId: autofillNodeId
+              defaultValue: ""
+              html: html
+              map:
+                key: map
+              max: 5
+              maxLength: 5
+              maxVal: 2.3021358869347655
+              min: 7
+              minLength: 9
+              minVal: 3.616076749251911
+              regex: regex
+              regexMessage: regexMessage
+              show:
+                field: field
+                value: value
+              type: type
+            id: id
+            name: name
+            predefined: true
+            required: true
+            section: section
+            set:
+              fields:
+              - null
+              - null
+              optionalAt:
+              - optionalAt
+              - optionalAt
+              required:
+              - required
+              - required
+            showIf:
+            - field: field
+              requiredWithValues:
+              - requiredWithValues
+              - requiredWithValues
+              values:
+              - values
+              - values
+            - field: field
+              requiredWithValues:
+              - requiredWithValues
+              - requiredWithValues
+              values:
+              - values
+              - values
+          section: section
+      properties:
+        formFieldSection:
+          items:
+            $ref: "#/components/schemas/controller_workfloo_definition_model.FormFieldSection"
+          type: array
+      type: object
+    controller_workfloo_definition_model.FormFieldSection:
+      example:
+        fields:
+        - fieldMetadata:
+            autoFilledBy:
+            - nameNode: nameNode
+              nodeId: nodeId
+            - nameNode: nameNode
+              nodeId: nodeId
+            autofillNodeId: autofillNodeId
+            defaultValue: ""
+            html: html
+            map:
+              key: map
+            max: 5
+            maxLength: 5
+            maxVal: 2.3021358869347655
+            min: 7
+            minLength: 9
+            minVal: 3.616076749251911
+            regex: regex
+            regexMessage: regexMessage
+            show:
+              field: field
+              value: value
+            type: type
+          id: id
+          name: name
+          predefined: true
+          required: true
+          section: section
+          set:
+            fields:
+            - null
+            - null
+            optionalAt:
+            - optionalAt
+            - optionalAt
+            required:
+            - required
+            - required
+          showIf:
+          - field: field
+            requiredWithValues:
+            - requiredWithValues
+            - requiredWithValues
+            values:
+            - values
+            - values
+          - field: field
+            requiredWithValues:
+            - requiredWithValues
+            - requiredWithValues
+            values:
+            - values
+            - values
+        - fieldMetadata:
+            autoFilledBy:
+            - nameNode: nameNode
+              nodeId: nodeId
+            - nameNode: nameNode
+              nodeId: nodeId
+            autofillNodeId: autofillNodeId
+            defaultValue: ""
+            html: html
+            map:
+              key: map
+            max: 5
+            maxLength: 5
+            maxVal: 2.3021358869347655
+            min: 7
+            minLength: 9
+            minVal: 3.616076749251911
+            regex: regex
+            regexMessage: regexMessage
+            show:
+              field: field
+              value: value
+            type: type
+          id: id
+          name: name
+          predefined: true
+          required: true
+          section: section
+          set:
+            fields:
+            - null
+            - null
+            optionalAt:
+            - optionalAt
+            - optionalAt
+            required:
+            - required
+            - required
+          showIf:
+          - field: field
+            requiredWithValues:
+            - requiredWithValues
+            - requiredWithValues
+            values:
+            - values
+            - values
+          - field: field
+            requiredWithValues:
+            - requiredWithValues
+            - requiredWithValues
+            values:
+            - values
+            - values
+        section: section
+      properties:
+        fields:
+          items:
+            $ref: "#/components/schemas/controller_workfloo_definition_model.Field"
+          type: array
+        section:
+          type: string
+      type: object
+    controller_workfloo_definition_model.SetData:
+      example:
+        fields:
+        - null
+        - null
+        optionalAt:
+        - optionalAt
+        - optionalAt
+        required:
+        - required
+        - required
+      properties:
+        fields:
+          items:
+            $ref: "#/components/schemas/controller_workfloo_definition_model.Field"
+          type: array
+        optionalAt:
+          items:
+            type: string
+          type: array
+        required:
+          items:
+            type: string
+          type: array
+      type: object
+    controller_workfloo_definition_model.SetDataDocument:
+      example:
+        files:
+        - fileMetadata:
+            formats:
+            - formats
+            - formats
+            max: 0
+            maxSize: 6
+            min: 1
+          id: id
+          name: name
+          predefined: true
+          required: true
+        - fileMetadata:
+            formats:
+            - formats
+            - formats
+            max: 0
+            maxSize: 6
+            min: 1
+          id: id
+          name: name
+          predefined: true
+          required: true
+        optionalAt:
+        - optionalAt
+        - optionalAt
+        required:
+        - required
+        - required
+      properties:
+        files:
+          items:
+            $ref: "#/components/schemas/controller_workfloo_definition_model.FileDocumentSet"
+          type: array
+        optionalAt:
+          items:
+            type: string
+          type: array
+        required:
+          items:
+            type: string
+          type: array
+      type: object
+    controller_workfloo_definition_model.Show:
+      example:
+        field: field
+        value: value
+      properties:
+        field:
+          type: string
+        value:
+          type: string
+      type: object
+    controller_workfloo_definition_model.ShowIf:
+      example:
+        field: field
+        requiredWithValues:
+        - requiredWithValues
+        - requiredWithValues
+        values:
+        - values
+        - values
+      properties:
+        field:
+          type: string
+        requiredWithValues:
+          items:
+            type: string
+          type: array
+        values:
+          items:
+            type: string
+          type: array
+      type: object
+    controller_workfloo_model.Api:
+      example:
+        duration: 1
+        request:
+          body:
+          - 5
+          - 5
+          date: date
+          headers:
+            key: headers
+          httpCode: 5
+          queryParams:
+            key: queryParams
+        response:
+          body:
+          - 5
+          - 5
+          date: date
+          headers:
+            key: headers
+          httpCode: 5
+          queryParams:
+            key: queryParams
+        url: url
+      properties:
+        duration:
+          type: integer
+        request:
+          $ref: "#/components/schemas/controller_workfloo_model.ApiHttp"
+        response:
+          $ref: "#/components/schemas/controller_workfloo_model.ApiHttp"
+        url:
+          type: string
+      type: object
+    controller_workfloo_model.ApiData:
+      example:
+        request:
+          body: ""
+          headers:
+            key: headers
+          httpCode: 6
+          queryParams:
+            key: queryParams
+          url: url
+        response:
+          body: ""
+          headers:
+            key: headers
+          httpCode: 6
+          queryParams:
+            key: queryParams
+          url: url
+      properties:
+        request:
+          $ref: "#/components/schemas/controller_workfloo_model.ApiDataResume"
+        response:
+          $ref: "#/components/schemas/controller_workfloo_model.ApiDataResume"
+      type: object
+    controller_workfloo_model.ApiDataResume:
+      example:
+        body: ""
+        headers:
+          key: headers
+        httpCode: 6
+        queryParams:
+          key: queryParams
+        url: url
+      properties:
+        body: {}
+        headers:
+          additionalProperties:
+            type: string
+          type: object
+        httpCode:
+          type: integer
+        queryParams:
+          additionalProperties:
+            type: string
+          type: object
+        url:
+          type: string
+      type: object
+    controller_workfloo_model.ApiHttp:
+      example:
+        body:
+        - 5
+        - 5
+        date: date
+        headers:
+          key: headers
+        httpCode: 5
+        queryParams:
+          key: queryParams
+      properties:
+        body:
+          items:
+            type: integer
+          type: array
+        date:
+          type: string
+        headers:
+          additionalProperties:
+            type: string
+          type: object
+        httpCode:
+          type: integer
+        queryParams:
+          additionalProperties:
+            type: string
+          type: object
+      type: object
+    controller_workfloo_model.Data:
+      example:
+        fields:
+        - key: ""
+        - key: ""
+        section:
+          key: section
+      properties:
+        fields:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+        section:
+          additionalProperties:
+            type: string
+          type: object
+      type: object
+    controller_workfloo_model.DecisionTree:
+      example:
+        message: message
+        nameNode: nameNode
+        result: true
+      properties:
+        message:
+          type: string
+        nameNode:
+          type: string
+        result:
+          type: boolean
+      type: object
+    controller_workfloo_model.DocumentsResume:
+      example:
+        name: name
+        size: size
+        value: ""
+      properties:
+        name:
+          type: string
+        size:
+          type: string
+        value: {}
+      type: object
+    controller_workfloo_model.Event:
+      example:
+        date: date
+        errorMessage: errorMessage
+        status: status
+      properties:
+        date:
+          type: string
+        errorMessage:
+          type: string
+        status:
+          type: string
+      type: object
+    controller_workfloo_model.Execute:
+      properties:
+        callbackUrl:
+          type: string
+        callbackXApiKey:
+          type: string
+        document:
+          additionalProperties: true
+          type: object
+        form:
+          additionalProperties: true
+          type: object
+        idWorkflooDefinition:
+          type: string
+        scenarioId:
+          type: string
+      required:
+      - idWorkflooDefinition
+      type: object
+    controller_workfloo_model.ExecuteResponse:
+      example:
+        id: id
+        idUnykoo: 0
+      properties:
+        id:
+          type: string
+        idUnykoo:
+          type: integer
+      type: object
+    controller_workfloo_model.File:
+      example:
+        name:
+          key: name
+        value: value
+      properties:
+        name:
+          additionalProperties:
+            type: string
+          type: object
+        value:
+          type: string
+      type: object
+    controller_workfloo_model.Form:
+      example:
+        fields:
+        - id: id
+          name: name
+          value: value
+        - id: id
+          name: name
+          value: value
+      properties:
+        fields:
+          items:
+            $ref: "#/components/schemas/controller_workfloo_model.FormField"
+          type: array
+      type: object
+    controller_workfloo_model.FormField:
+      example:
+        id: id
+        name: name
+        value: value
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        value:
+          type: string
+      type: object
+    controller_workfloo_model.FormResume:
+      example:
+        fields:
+          key: ""
+      properties:
+        fields:
+          additionalProperties: true
+          type: object
+      type: object
+    controller_workfloo_model.Label:
+      example:
+        labels:
+        - labels
+        - labels
+      properties:
+        labels:
+          items:
+            type: string
+          type: array
+      type: object
+    controller_workfloo_model.Link:
+      example:
+        data:
+          key: ""
+        id: id
+        key: key
+        service: service
+        subService: subService
+      properties:
+        data:
+          additionalProperties: true
+          type: object
+        id:
+          type: string
+        key:
+          type: string
+        service:
+          type: string
+        subService:
+          type: string
+      type: object
+    controller_workfloo_model.LinkNipStatus:
+      example:
+        companyName: companyName
+        countryCode: countryCode
+        email: email
+        events:
+        - date: date
+          errorMessage: errorMessage
+          status: status
+        - date: date
+          errorMessage: errorMessage
+          status: status
+        key: key
+        keyTypeNode: keyTypeNode
+        nipType: nipType
+        phase: phase
+        phoneNumber: phoneNumber
+        privacyNotice: privacyNotice
+        terms: terms
+        widget: ""
+      properties:
+        companyName:
+          type: string
+        countryCode:
+          type: string
+        email:
+          type: string
+        events:
+          items:
+            $ref: "#/components/schemas/controller_workfloo_model.Event"
+          type: array
+        key:
+          type: string
+        keyTypeNode:
+          type: string
+        nipType:
+          type: string
+        phase:
+          type: string
+        phoneNumber:
+          type: string
+        privacyNotice:
+          type: string
+        terms:
+          type: string
+        widget: {}
+      type: object
+    controller_workfloo_model.LinkResume:
+      example:
+        events:
+        - date: date
+          errorMessage: errorMessage
+          status: status
+        - date: date
+          errorMessage: errorMessage
+          status: status
+        key: key
+        phase: phase
+      properties:
+        events:
+          items:
+            $ref: "#/components/schemas/controller_workfloo_model.Event"
+          type: array
+        key:
+          type: string
+        phase:
+          type: string
+      type: object
+    controller_workfloo_model.Node:
+      example:
+        api:
+          duration: 1
+          request:
+            body:
+            - 5
+            - 5
+            date: date
+            headers:
+              key: headers
+            httpCode: 5
+            queryParams:
+              key: queryParams
+          response:
+            body:
+            - 5
+            - 5
+            date: date
+            headers:
+              key: headers
+            httpCode: 5
+            queryParams:
+              key: queryParams
+          url: url
+        created: created
+        createdBy: createdBy
+        decisionTree:
+        - message: message
+          nameNode: nameNode
+          result: true
+        - message: message
+          nameNode: nameNode
+          result: true
+        form:
+          fields:
+          - id: id
+            name: name
+            value: value
+          - id: id
+            name: name
+            value: value
+        id: id
+        link:
+          data:
+            key: ""
+          id: id
+          key: key
+          service: service
+          subService: subService
+        modified: modified
+        name: name
+        ruleset:
+          decision:
+          - message: message
+          - message: message
+          exit: exit
+          labels:
+          - labels
+          - labels
+        status: status
+        type: type
+        variables:
+          variables: variables
+      properties:
+        api:
+          $ref: "#/components/schemas/controller_workfloo_model.Api"
+        created:
+          type: string
+        createdBy:
+          description: TODO MOVER
+          type: string
+        decisionTree:
+          items:
+            $ref: "#/components/schemas/controller_workfloo_model.DecisionTree"
+          type: array
+        form:
+          $ref: "#/components/schemas/controller_workfloo_model.Form"
+        id:
+          type: string
+        link:
+          $ref: "#/components/schemas/controller_workfloo_model.Link"
+        modified:
+          type: string
+        name:
+          type: string
+        ruleset:
+          $ref: "#/components/schemas/controller_workfloo_model.Ruleset"
+        status:
+          type: string
+        type:
+          type: string
+        variables:
+          $ref: "#/components/schemas/controller_workfloo_model.Variables"
+      type: object
+    controller_workfloo_model.NodeDetail:
+      example:
+        createdBy: createdBy
+        dateFound: dateFound
+        errorMessage: errorMessage
+        httpCode: 1
+        idLink: idLink
+        idWorkfloo: idWorkfloo
+        origin: origin
+        responseTime: 5
+        status: status
+      properties:
+        createdBy:
+          type: string
+        dateFound:
+          type: string
+        errorMessage:
+          type: string
+        httpCode:
+          type: integer
+        idLink:
+          type: string
+        idWorkfloo:
+          type: string
+        origin:
+          type: string
+        responseTime:
+          type: integer
+        status:
+          type: string
+      type: object
+    controller_workfloo_model.NodeResume:
+      example:
+        apiData:
+          request:
+            body: ""
+            headers:
+              key: headers
+            httpCode: 6
+            queryParams:
+              key: queryParams
+            url: url
+          response:
+            body: ""
+            headers:
+              key: headers
+            httpCode: 6
+            queryParams:
+              key: queryParams
+            url: url
+        created: created
+        data:
+        - fields:
+          - key: ""
+          - key: ""
+          section:
+            key: section
+        - fields:
+          - key: ""
+          - key: ""
+          section:
+            key: section
+        decisionTree:
+        - message: message
+          nameNode: nameNode
+          result: true
+        - message: message
+          nameNode: nameNode
+          result: true
+        detail:
+          createdBy: createdBy
+          dateFound: dateFound
+          errorMessage: errorMessage
+          httpCode: 1
+          idLink: idLink
+          idWorkfloo: idWorkfloo
+          origin: origin
+          responseTime: 5
+          status: status
+        documents:
+          key:
+            name: name
+            size: size
+            value: ""
+        files:
+        - name:
+            key: name
+          value: value
+        - name:
+            key: name
+          value: value
+        form:
+          fields:
+            key: ""
+        id: id
+        label:
+          labels:
+          - labels
+          - labels
+        link:
+          events:
+          - date: date
+            errorMessage: errorMessage
+            status: status
+          - date: date
+            errorMessage: errorMessage
+            status: status
+          key: key
+          phase: phase
+        modified: modified
+        name: name
+        pdf:
+          errorMessage: errorMessage
+          pdfBase64: pdfBase64
+        request: ""
+        response: ""
+        ruleset:
+          decision:
+          - message: message
+          - message: message
+          exit: exit
+          labels:
+          - labels
+          - labels
+        timer:
+          endWaitDate: endWaitDate
+          remainingTime:
+            hours: 5
+            minutes: 2
+            seconds: 7
+        type: type
+        validation:
+          decision: decision
+          reviewedAt: reviewedAt
+          reviewedBy: reviewedBy
+          reviewerNote: reviewerNote
+          reviews:
+          - fieldId: fieldId
+            message: message
+            sourceNodeId: sourceNodeId
+          - fieldId: fieldId
+            message: message
+            sourceNodeId: sourceNodeId
+        variables:
+        - name: name
+          value: ""
+        - name: name
+          value: ""
+      properties:
+        apiData:
+          $ref: "#/components/schemas/controller_workfloo_model.ApiData"
+        created:
+          type: string
+        data:
+          items:
+            $ref: "#/components/schemas/controller_workfloo_model.Data"
+          type: array
+        decisionTree:
+          items:
+            $ref: "#/components/schemas/controller_workfloo_model.DecisionTree"
+          type: array
+        detail:
+          $ref: "#/components/schemas/controller_workfloo_model.NodeDetail"
+        documents:
+          additionalProperties:
+            $ref: "#/components/schemas/controller_workfloo_model.DocumentsResume"
+          type: object
+        files:
+          items:
+            $ref: "#/components/schemas/controller_workfloo_model.File"
+          type: array
+        form:
+          $ref: "#/components/schemas/controller_workfloo_model.FormResume"
+        id:
+          type: string
+        label:
+          $ref: "#/components/schemas/controller_workfloo_model.Label"
+        link:
+          $ref: "#/components/schemas/controller_workfloo_model.LinkResume"
+        modified:
+          type: string
+        name:
+          type: string
+        pdf:
+          $ref: "#/components/schemas/controller_workfloo_model.Pdf"
+        request: {}
+        response: {}
+        ruleset:
+          $ref: "#/components/schemas/controller_workfloo_model.Ruleset"
+        timer:
+          $ref: "#/components/schemas/controller_workfloo_model.Timer"
+        type:
+          type: string
+        validation:
+          $ref: "#/components/schemas/controller_workfloo_model.ValidationResume"
+        variables:
+          items:
+            $ref: "#/components/schemas/controller_workfloo_model.Variable"
+          type: array
+      type: object
+    controller_workfloo_model.Pdf:
+      example:
+        errorMessage: errorMessage
+        pdfBase64: pdfBase64
+      properties:
+        errorMessage:
+          type: string
+        pdfBase64:
+          type: string
+      type: object
+    controller_workfloo_model.RemainingTime:
+      example:
+        hours: 5
+        minutes: 2
+        seconds: 7
+      properties:
+        hours:
+          type: integer
+        minutes:
+          type: integer
+        seconds:
+          type: integer
+      type: object
+    controller_workfloo_model.ReviewResume:
+      example:
+        fieldId: fieldId
+        message: message
+        sourceNodeId: sourceNodeId
+      properties:
+        fieldId:
+          type: string
+        message:
+          type: string
+        sourceNodeId:
+          type: string
+      type: object
+    controller_workfloo_model.Rules:
+      example:
+        message: message
+      properties:
+        message:
+          type: string
+      type: object
+    controller_workfloo_model.Ruleset:
+      example:
+        decision:
+        - message: message
+        - message: message
+        exit: exit
+        labels:
+        - labels
+        - labels
+      properties:
+        decision:
+          items:
+            $ref: "#/components/schemas/controller_workfloo_model.Rules"
+          type: array
+        exit:
+          type: string
+        labels:
+          items:
+            type: string
+          type: array
+      type: object
+    controller_workfloo_model.Timer:
+      example:
+        endWaitDate: endWaitDate
+        remainingTime:
+          hours: 5
+          minutes: 2
+          seconds: 7
+      properties:
+        endWaitDate:
+          type: string
+        remainingTime:
+          $ref: "#/components/schemas/controller_workfloo_model.RemainingTime"
+      type: object
+    controller_workfloo_model.ValidationField:
+      example:
+        fieldId: fieldId
+        message: message
+        name: name
+        type: type
+        value: ""
+      properties:
+        fieldId:
+          type: string
+        message:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+        value: {}
+      type: object
+    controller_workfloo_model.ValidationResume:
+      example:
+        decision: decision
+        reviewedAt: reviewedAt
+        reviewedBy: reviewedBy
+        reviewerNote: reviewerNote
+        reviews:
+        - fieldId: fieldId
+          message: message
+          sourceNodeId: sourceNodeId
+        - fieldId: fieldId
+          message: message
+          sourceNodeId: sourceNodeId
+      properties:
+        decision:
+          type: string
+        reviewedAt:
+          type: string
+        reviewedBy:
+          type: string
+        reviewerNote:
+          type: string
+        reviews:
+          items:
+            $ref: "#/components/schemas/controller_workfloo_model.ReviewResume"
+          type: array
+      type: object
+    controller_workfloo_model.ValidationStatus:
+      example:
+        fields:
+        - fieldId: fieldId
+          message: message
+          name: name
+          type: type
+          value: ""
+        - fieldId: fieldId
+          message: message
+          name: name
+          type: type
+          value: ""
+        instruction: instruction
+        reviewerNote: reviewerNote
+      properties:
+        fields:
+          items:
+            $ref: "#/components/schemas/controller_workfloo_model.ValidationField"
+          type: array
+        instruction:
+          type: string
+        reviewerNote:
+          type: string
+      type: object
+    controller_workfloo_model.Variable:
+      example:
+        name: name
+        value: ""
+      properties:
+        name:
+          type: string
+        value: {}
+      type: object
+    controller_workfloo_model.Variables:
+      example:
+        variables: variables
+      properties:
+        variables:
+          type: string
+      type: object
+    controller_workfloo_model.Workfloo:
+      example:
+        companyName: companyName
+        createdAt: createdAt
+        createdBy: createdBy
+        currentNodeName: currentNodeName
+        firstName: firstName
+        id: id
+        idUnykoo: 6
+        ipOrigin: ipOrigin
+        labels:
+        - labels
+        - labels
+        lastName1: lastName1
+        lastName2: lastName2
+        modifiedAt: modifiedAt
+        name: name
+        origin: origin
+        rfcPf: rfcPf
+        rfcPm: rfcPm
+        secondName: secondName
+        status: status
+        steps:
+        - api:
+            duration: 1
+            request:
+              body:
+              - 5
+              - 5
+              date: date
+              headers:
+                key: headers
+              httpCode: 5
+              queryParams:
+                key: queryParams
+            response:
+              body:
+              - 5
+              - 5
+              date: date
+              headers:
+                key: headers
+              httpCode: 5
+              queryParams:
+                key: queryParams
+            url: url
+          created: created
+          createdBy: createdBy
+          decisionTree:
+          - message: message
+            nameNode: nameNode
+            result: true
+          - message: message
+            nameNode: nameNode
+            result: true
+          form:
+            fields:
+            - id: id
+              name: name
+              value: value
+            - id: id
+              name: name
+              value: value
+          id: id
+          link:
+            data:
+              key: ""
+            id: id
+            key: key
+            service: service
+            subService: subService
+          modified: modified
+          name: name
+          ruleset:
+            decision:
+            - message: message
+            - message: message
+            exit: exit
+            labels:
+            - labels
+            - labels
+          status: status
+          type: type
+          variables:
+            variables: variables
+        - api:
+            duration: 1
+            request:
+              body:
+              - 5
+              - 5
+              date: date
+              headers:
+                key: headers
+              httpCode: 5
+              queryParams:
+                key: queryParams
+            response:
+              body:
+              - 5
+              - 5
+              date: date
+              headers:
+                key: headers
+              httpCode: 5
+              queryParams:
+                key: queryParams
+            url: url
+          created: created
+          createdBy: createdBy
+          decisionTree:
+          - message: message
+            nameNode: nameNode
+            result: true
+          - message: message
+            nameNode: nameNode
+            result: true
+          form:
+            fields:
+            - id: id
+              name: name
+              value: value
+            - id: id
+              name: name
+              value: value
+          id: id
+          link:
+            data:
+              key: ""
+            id: id
+            key: key
+            service: service
+            subService: subService
+          modified: modified
+          name: name
+          ruleset:
+            decision:
+            - message: message
+            - message: message
+            exit: exit
+            labels:
+            - labels
+            - labels
+          status: status
+          type: type
+          variables:
+            variables: variables
+      properties:
+        companyName:
+          type: string
+        createdAt:
+          type: string
+        createdBy:
+          type: string
+        currentNodeName:
+          type: string
+        firstName:
+          type: string
+        id:
+          type: string
+        idUnykoo:
+          type: integer
+        ipOrigin:
+          type: string
+        labels:
+          items:
+            type: string
+          type: array
+        lastName1:
+          type: string
+        lastName2:
+          type: string
+        modifiedAt:
+          type: string
+        name:
+          type: string
+        origin:
+          type: string
+        rfcPf:
+          type: string
+        rfcPm:
+          type: string
+        secondName:
+          type: string
+        status:
+          type: string
+        steps:
+          items:
+            $ref: "#/components/schemas/controller_workfloo_model.Node"
+          type: array
+      type: object
+    controller_workfloo_model.WorkflooPage:
+      example:
+        currentPage: 0
+        hasNextPage: true
+        items:
+        - companyName: companyName
+          createdAt: createdAt
+          createdBy: createdBy
+          currentNodeName: currentNodeName
+          firstName: firstName
+          id: id
+          idUnykoo: 6
+          ipOrigin: ipOrigin
+          labels:
+          - labels
+          - labels
+          lastName1: lastName1
+          lastName2: lastName2
+          modifiedAt: modifiedAt
+          name: name
+          origin: origin
+          rfcPf: rfcPf
+          rfcPm: rfcPm
+          secondName: secondName
+          status: status
+          steps:
+          - api:
+              duration: 1
+              request:
+                body:
+                - 5
+                - 5
+                date: date
+                headers:
+                  key: headers
+                httpCode: 5
+                queryParams:
+                  key: queryParams
+              response:
+                body:
+                - 5
+                - 5
+                date: date
+                headers:
+                  key: headers
+                httpCode: 5
+                queryParams:
+                  key: queryParams
+              url: url
+            created: created
+            createdBy: createdBy
+            decisionTree:
+            - message: message
+              nameNode: nameNode
+              result: true
+            - message: message
+              nameNode: nameNode
+              result: true
+            form:
+              fields:
+              - id: id
+                name: name
+                value: value
+              - id: id
+                name: name
+                value: value
+            id: id
+            link:
+              data:
+                key: ""
+              id: id
+              key: key
+              service: service
+              subService: subService
+            modified: modified
+            name: name
+            ruleset:
+              decision:
+              - message: message
+              - message: message
+              exit: exit
+              labels:
+              - labels
+              - labels
+            status: status
+            type: type
+            variables:
+              variables: variables
+          - api:
+              duration: 1
+              request:
+                body:
+                - 5
+                - 5
+                date: date
+                headers:
+                  key: headers
+                httpCode: 5
+                queryParams:
+                  key: queryParams
+              response:
+                body:
+                - 5
+                - 5
+                date: date
+                headers:
+                  key: headers
+                httpCode: 5
+                queryParams:
+                  key: queryParams
+              url: url
+            created: created
+            createdBy: createdBy
+            decisionTree:
+            - message: message
+              nameNode: nameNode
+              result: true
+            - message: message
+              nameNode: nameNode
+              result: true
+            form:
+              fields:
+              - id: id
+                name: name
+                value: value
+              - id: id
+                name: name
+                value: value
+            id: id
+            link:
+              data:
+                key: ""
+              id: id
+              key: key
+              service: service
+              subService: subService
+            modified: modified
+            name: name
+            ruleset:
+              decision:
+              - message: message
+              - message: message
+              exit: exit
+              labels:
+              - labels
+              - labels
+            status: status
+            type: type
+            variables:
+              variables: variables
+        - companyName: companyName
+          createdAt: createdAt
+          createdBy: createdBy
+          currentNodeName: currentNodeName
+          firstName: firstName
+          id: id
+          idUnykoo: 6
+          ipOrigin: ipOrigin
+          labels:
+          - labels
+          - labels
+          lastName1: lastName1
+          lastName2: lastName2
+          modifiedAt: modifiedAt
+          name: name
+          origin: origin
+          rfcPf: rfcPf
+          rfcPm: rfcPm
+          secondName: secondName
+          status: status
+          steps:
+          - api:
+              duration: 1
+              request:
+                body:
+                - 5
+                - 5
+                date: date
+                headers:
+                  key: headers
+                httpCode: 5
+                queryParams:
+                  key: queryParams
+              response:
+                body:
+                - 5
+                - 5
+                date: date
+                headers:
+                  key: headers
+                httpCode: 5
+                queryParams:
+                  key: queryParams
+              url: url
+            created: created
+            createdBy: createdBy
+            decisionTree:
+            - message: message
+              nameNode: nameNode
+              result: true
+            - message: message
+              nameNode: nameNode
+              result: true
+            form:
+              fields:
+              - id: id
+                name: name
+                value: value
+              - id: id
+                name: name
+                value: value
+            id: id
+            link:
+              data:
+                key: ""
+              id: id
+              key: key
+              service: service
+              subService: subService
+            modified: modified
+            name: name
+            ruleset:
+              decision:
+              - message: message
+              - message: message
+              exit: exit
+              labels:
+              - labels
+              - labels
+            status: status
+            type: type
+            variables:
+              variables: variables
+          - api:
+              duration: 1
+              request:
+                body:
+                - 5
+                - 5
+                date: date
+                headers:
+                  key: headers
+                httpCode: 5
+                queryParams:
+                  key: queryParams
+              response:
+                body:
+                - 5
+                - 5
+                date: date
+                headers:
+                  key: headers
+                httpCode: 5
+                queryParams:
+                  key: queryParams
+              url: url
+            created: created
+            createdBy: createdBy
+            decisionTree:
+            - message: message
+              nameNode: nameNode
+              result: true
+            - message: message
+              nameNode: nameNode
+              result: true
+            form:
+              fields:
+              - id: id
+                name: name
+                value: value
+              - id: id
+                name: name
+                value: value
+            id: id
+            link:
+              data:
+                key: ""
+              id: id
+              key: key
+              service: service
+              subService: subService
+            modified: modified
+            name: name
+            ruleset:
+              decision:
+              - message: message
+              - message: message
+              exit: exit
+              labels:
+              - labels
+              - labels
+            status: status
+            type: type
+            variables:
+              variables: variables
+      properties:
+        currentPage:
+          type: integer
+        hasNextPage:
+          type: boolean
+        items:
+          items:
+            $ref: "#/components/schemas/controller_workfloo_model.Workfloo"
+          type: array
+      type: object
+    controller_workfloo_model.WorkflooResume:
+      example:
+        created: created
+        id: id
+        idUnykoo: 0
+        ipOrigin: ipOrigin
+        labels:
+        - labels
+        - labels
+        modified: modified
+        name: name
+        nodes:
+        - apiData:
+            request:
+              body: ""
+              headers:
+                key: headers
+              httpCode: 6
+              queryParams:
+                key: queryParams
+              url: url
+            response:
+              body: ""
+              headers:
+                key: headers
+              httpCode: 6
+              queryParams:
+                key: queryParams
+              url: url
+          created: created
+          data:
+          - fields:
+            - key: ""
+            - key: ""
+            section:
+              key: section
+          - fields:
+            - key: ""
+            - key: ""
+            section:
+              key: section
+          decisionTree:
+          - message: message
+            nameNode: nameNode
+            result: true
+          - message: message
+            nameNode: nameNode
+            result: true
+          detail:
+            createdBy: createdBy
+            dateFound: dateFound
+            errorMessage: errorMessage
+            httpCode: 1
+            idLink: idLink
+            idWorkfloo: idWorkfloo
+            origin: origin
+            responseTime: 5
+            status: status
+          documents:
+            key:
+              name: name
+              size: size
+              value: ""
+          files:
+          - name:
+              key: name
+            value: value
+          - name:
+              key: name
+            value: value
+          form:
+            fields:
+              key: ""
+          id: id
+          label:
+            labels:
+            - labels
+            - labels
+          link:
+            events:
+            - date: date
+              errorMessage: errorMessage
+              status: status
+            - date: date
+              errorMessage: errorMessage
+              status: status
+            key: key
+            phase: phase
+          modified: modified
+          name: name
+          pdf:
+            errorMessage: errorMessage
+            pdfBase64: pdfBase64
+          request: ""
+          response: ""
+          ruleset:
+            decision:
+            - message: message
+            - message: message
+            exit: exit
+            labels:
+            - labels
+            - labels
+          timer:
+            endWaitDate: endWaitDate
+            remainingTime:
+              hours: 5
+              minutes: 2
+              seconds: 7
+          type: type
+          validation:
+            decision: decision
+            reviewedAt: reviewedAt
+            reviewedBy: reviewedBy
+            reviewerNote: reviewerNote
+            reviews:
+            - fieldId: fieldId
+              message: message
+              sourceNodeId: sourceNodeId
+            - fieldId: fieldId
+              message: message
+              sourceNodeId: sourceNodeId
+          variables:
+          - name: name
+            value: ""
+          - name: name
+            value: ""
+        - apiData:
+            request:
+              body: ""
+              headers:
+                key: headers
+              httpCode: 6
+              queryParams:
+                key: queryParams
+              url: url
+            response:
+              body: ""
+              headers:
+                key: headers
+              httpCode: 6
+              queryParams:
+                key: queryParams
+              url: url
+          created: created
+          data:
+          - fields:
+            - key: ""
+            - key: ""
+            section:
+              key: section
+          - fields:
+            - key: ""
+            - key: ""
+            section:
+              key: section
+          decisionTree:
+          - message: message
+            nameNode: nameNode
+            result: true
+          - message: message
+            nameNode: nameNode
+            result: true
+          detail:
+            createdBy: createdBy
+            dateFound: dateFound
+            errorMessage: errorMessage
+            httpCode: 1
+            idLink: idLink
+            idWorkfloo: idWorkfloo
+            origin: origin
+            responseTime: 5
+            status: status
+          documents:
+            key:
+              name: name
+              size: size
+              value: ""
+          files:
+          - name:
+              key: name
+            value: value
+          - name:
+              key: name
+            value: value
+          form:
+            fields:
+              key: ""
+          id: id
+          label:
+            labels:
+            - labels
+            - labels
+          link:
+            events:
+            - date: date
+              errorMessage: errorMessage
+              status: status
+            - date: date
+              errorMessage: errorMessage
+              status: status
+            key: key
+            phase: phase
+          modified: modified
+          name: name
+          pdf:
+            errorMessage: errorMessage
+            pdfBase64: pdfBase64
+          request: ""
+          response: ""
+          ruleset:
+            decision:
+            - message: message
+            - message: message
+            exit: exit
+            labels:
+            - labels
+            - labels
+          timer:
+            endWaitDate: endWaitDate
+            remainingTime:
+              hours: 5
+              minutes: 2
+              seconds: 7
+          type: type
+          validation:
+            decision: decision
+            reviewedAt: reviewedAt
+            reviewedBy: reviewedBy
+            reviewerNote: reviewerNote
+            reviews:
+            - fieldId: fieldId
+              message: message
+              sourceNodeId: sourceNodeId
+            - fieldId: fieldId
+              message: message
+              sourceNodeId: sourceNodeId
+          variables:
+          - name: name
+            value: ""
+          - name: name
+            value: ""
+        origin: origin
+        sceneryId: sceneryId
+        sceneryName: sceneryName
+        status: status
+      properties:
+        created:
+          type: string
+        id:
+          type: string
+        idUnykoo:
+          type: integer
+        ipOrigin:
+          type: string
+        labels:
+          items:
+            type: string
+          type: array
+        modified:
+          type: string
+        name:
+          type: string
+        nodes:
+          items:
+            $ref: "#/components/schemas/controller_workfloo_model.NodeResume"
+          type: array
+        origin:
+          type: string
+        sceneryId:
+          type: string
+        sceneryName:
+          type: string
+        status:
+          type: string
+      type: object
+    controller_workfloo_model.WorkflooStatus:
+      example:
+        currentNodeId: currentNodeId
+        currentNodeName: currentNodeName
+        currentNodeType: currentNodeType
+        document:
+          documentField:
+          - fileMetadata:
+              formats:
+              - formats
+              - formats
+              max: 0
+              maxSize: 6
+              min: 1
+            id: id
+            name: name
+            predefined: true
+            required: true
+            set:
+              files:
+              - fileMetadata:
+                  formats:
+                  - formats
+                  - formats
+                  max: 0
+                  maxSize: 6
+                  min: 1
+                id: id
+                name: name
+                predefined: true
+                required: true
+              - fileMetadata:
+                  formats:
+                  - formats
+                  - formats
+                  max: 0
+                  maxSize: 6
+                  min: 1
+                id: id
+                name: name
+                predefined: true
+                required: true
+              optionalAt:
+              - optionalAt
+              - optionalAt
+              required:
+              - required
+              - required
+          - fileMetadata:
+              formats:
+              - formats
+              - formats
+              max: 0
+              maxSize: 6
+              min: 1
+            id: id
+            name: name
+            predefined: true
+            required: true
+            set:
+              files:
+              - fileMetadata:
+                  formats:
+                  - formats
+                  - formats
+                  max: 0
+                  maxSize: 6
+                  min: 1
+                id: id
+                name: name
+                predefined: true
+                required: true
+              - fileMetadata:
+                  formats:
+                  - formats
+                  - formats
+                  max: 0
+                  maxSize: 6
+                  min: 1
+                id: id
+                name: name
+                predefined: true
+                required: true
+              optionalAt:
+              - optionalAt
+              - optionalAt
+              required:
+              - required
+              - required
+        form:
+          formFieldSection:
+          - fields:
+            - fieldMetadata:
+                autoFilledBy:
+                - nameNode: nameNode
+                  nodeId: nodeId
+                - nameNode: nameNode
+                  nodeId: nodeId
+                autofillNodeId: autofillNodeId
+                defaultValue: ""
+                html: html
+                map:
+                  key: map
+                max: 5
+                maxLength: 5
+                maxVal: 2.3021358869347655
+                min: 7
+                minLength: 9
+                minVal: 3.616076749251911
+                regex: regex
+                regexMessage: regexMessage
+                show:
+                  field: field
+                  value: value
+                type: type
+              id: id
+              name: name
+              predefined: true
+              required: true
+              section: section
+              set:
+                fields:
+                - null
+                - null
+                optionalAt:
+                - optionalAt
+                - optionalAt
+                required:
+                - required
+                - required
+              showIf:
+              - field: field
+                requiredWithValues:
+                - requiredWithValues
+                - requiredWithValues
+                values:
+                - values
+                - values
+              - field: field
+                requiredWithValues:
+                - requiredWithValues
+                - requiredWithValues
+                values:
+                - values
+                - values
+            - fieldMetadata:
+                autoFilledBy:
+                - nameNode: nameNode
+                  nodeId: nodeId
+                - nameNode: nameNode
+                  nodeId: nodeId
+                autofillNodeId: autofillNodeId
+                defaultValue: ""
+                html: html
+                map:
+                  key: map
+                max: 5
+                maxLength: 5
+                maxVal: 2.3021358869347655
+                min: 7
+                minLength: 9
+                minVal: 3.616076749251911
+                regex: regex
+                regexMessage: regexMessage
+                show:
+                  field: field
+                  value: value
+                type: type
+              id: id
+              name: name
+              predefined: true
+              required: true
+              section: section
+              set:
+                fields:
+                - null
+                - null
+                optionalAt:
+                - optionalAt
+                - optionalAt
+                required:
+                - required
+                - required
+              showIf:
+              - field: field
+                requiredWithValues:
+                - requiredWithValues
+                - requiredWithValues
+                values:
+                - values
+                - values
+              - field: field
+                requiredWithValues:
+                - requiredWithValues
+                - requiredWithValues
+                values:
+                - values
+                - values
+            section: section
+          - fields:
+            - fieldMetadata:
+                autoFilledBy:
+                - nameNode: nameNode
+                  nodeId: nodeId
+                - nameNode: nameNode
+                  nodeId: nodeId
+                autofillNodeId: autofillNodeId
+                defaultValue: ""
+                html: html
+                map:
+                  key: map
+                max: 5
+                maxLength: 5
+                maxVal: 2.3021358869347655
+                min: 7
+                minLength: 9
+                minVal: 3.616076749251911
+                regex: regex
+                regexMessage: regexMessage
+                show:
+                  field: field
+                  value: value
+                type: type
+              id: id
+              name: name
+              predefined: true
+              required: true
+              section: section
+              set:
+                fields:
+                - null
+                - null
+                optionalAt:
+                - optionalAt
+                - optionalAt
+                required:
+                - required
+                - required
+              showIf:
+              - field: field
+                requiredWithValues:
+                - requiredWithValues
+                - requiredWithValues
+                values:
+                - values
+                - values
+              - field: field
+                requiredWithValues:
+                - requiredWithValues
+                - requiredWithValues
+                values:
+                - values
+                - values
+            - fieldMetadata:
+                autoFilledBy:
+                - nameNode: nameNode
+                  nodeId: nodeId
+                - nameNode: nameNode
+                  nodeId: nodeId
+                autofillNodeId: autofillNodeId
+                defaultValue: ""
+                html: html
+                map:
+                  key: map
+                max: 5
+                maxLength: 5
+                maxVal: 2.3021358869347655
+                min: 7
+                minLength: 9
+                minVal: 3.616076749251911
+                regex: regex
+                regexMessage: regexMessage
+                show:
+                  field: field
+                  value: value
+                type: type
+              id: id
+              name: name
+              predefined: true
+              required: true
+              section: section
+              set:
+                fields:
+                - null
+                - null
+                optionalAt:
+                - optionalAt
+                - optionalAt
+                required:
+                - required
+                - required
+              showIf:
+              - field: field
+                requiredWithValues:
+                - requiredWithValues
+                - requiredWithValues
+                values:
+                - values
+                - values
+              - field: field
+                requiredWithValues:
+                - requiredWithValues
+                - requiredWithValues
+                values:
+                - values
+                - values
+            section: section
+        id: id
+        link:
+          companyName: companyName
+          countryCode: countryCode
+          email: email
+          events:
+          - date: date
+            errorMessage: errorMessage
+            status: status
+          - date: date
+            errorMessage: errorMessage
+            status: status
+          key: key
+          keyTypeNode: keyTypeNode
+          nipType: nipType
+          phase: phase
+          phoneNumber: phoneNumber
+          privacyNotice: privacyNotice
+          terms: terms
+          widget: ""
+        name: name
+        status: status
+        timer:
+          endWaitDate: endWaitDate
+          remainingTime:
+            hours: 5
+            minutes: 2
+            seconds: 7
+        validation:
+          fields:
+          - fieldId: fieldId
+            message: message
+            name: name
+            type: type
+            value: ""
+          - fieldId: fieldId
+            message: message
+            name: name
+            type: type
+            value: ""
+          instruction: instruction
+          reviewerNote: reviewerNote
+      properties:
+        currentNodeId:
+          type: string
+        currentNodeName:
+          type: string
+        currentNodeType:
+          type: string
+        document:
+          $ref: "#/components/schemas/controller_workfloo_definition_model.Document"
+        form:
+          $ref: "#/components/schemas/controller_workfloo_definition_model.Form"
+        id:
+          type: string
+        link:
+          $ref: "#/components/schemas/controller_workfloo_model.LinkNipStatus"
+        name:
+          type: string
+        status:
+          type: string
+        timer:
+          $ref: "#/components/schemas/controller_workfloo_model.Timer"
+        validation:
+          $ref: "#/components/schemas/controller_workfloo_model.ValidationStatus"
+      type: object
+  securitySchemes:
+    ApiKeyAuth:
+      description: API key del espacio. Se envía en cada request; nunca se hardcodea
+        en el cliente.
+      in: header
+      name: x-api-key
+      type: apiKey

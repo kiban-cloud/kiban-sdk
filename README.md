@@ -25,7 +25,7 @@ packages/                  SDKs generados (se commitean, no se editan)
 
 | Lenguaje | Generador | Paquete |
 |---|---|---|
-| Node/TypeScript | `typescript-node` | `kiban.sdk.workfloo` |
+| Node/TypeScript | `typescript-axios` | `kiban.sdk.workfloo` |
 | Go | `go` | `workfloo` (módulo `github.com/kiban-cloud/kiban-sdk`) |
 | Java | `java` | `kiban.sdk.workfloo` (artifact `kiban.sdk:workfloo`) |
 | Python | `python` | import `kiban.sdk.workfloo` · PyPI `kiban-sdk-workfloo` |
@@ -59,6 +59,24 @@ npm run gen:spec
 
 # 2) Generar los 5 SDKs (o un subconjunto: ./scripts/gen-sdks.sh node python)
 npm run gen:sdks
+```
+
+## Smoke test
+
+Prueba el flujo real **ejecutar → estatus → historial** contra **sandbox**. La
+API key se lee del entorno; nunca se escribe en el código ni se commitea.
+
+```bash
+export KIBAN_API_KEY=...                  # API key de sandbox
+export KIBAN_WORKFLOO_DEFINITION_ID=...   # una definición válida en sandbox
+
+# Python
+pip install pydantic urllib3 python-dateutil
+python3 scripts/smoke_test.py
+
+# Node (compila el SDK primero)
+cd packages/node && npm install && npx tsc && cd -
+node scripts/smoke-test.mjs
 ```
 
 ## Publicar
