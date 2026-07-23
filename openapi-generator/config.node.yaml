@@ -1,0 +1,6 @@
+# openapi-generator · Node/TypeScript (generator: typescript-node)
+# El cliente recibe la API key (x-api-key) por configuración, nunca hardcodeada.
+npmName: kiban.sdk.workfloo
+npmVersion: 0.1.0
+supportsES6: true
+modelPropertyNaming: original

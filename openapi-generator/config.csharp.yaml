@@ -1,0 +1,5 @@
+# openapi-generator · C# (generator: csharp)
+# El cliente recibe la API key (x-api-key) por configuración, nunca hardcodeada.
+packageName: kiban.sdk.workfloo
+packageVersion: 0.1.0
+targetFramework: net8.0

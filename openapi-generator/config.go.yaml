@@ -1,0 +1,9 @@
+# openapi-generator · Go (generator: go)
+# Go NO admite puntos en el nombre de paquete, así que el paquete importable es
+# "workfloo". La identidad kiban.sdk.workfloo se refleja en el path del módulo
+# (gitUserId/gitRepoId → el go.mod generado).
+packageName: workfloo
+packageVersion: 0.1.0
+gitUserId: kiban-cloud
+gitRepoId: kiban-sdk
+isGoSubmodule: true
