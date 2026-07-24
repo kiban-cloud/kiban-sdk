@@ -6,7 +6,8 @@
   "scripts": {
     "gen:spec": "bash scripts/gen-spec.sh",
     "gen:sdks": "bash scripts/gen-sdks.sh",
-    "lint:spec": "redocly lint specs/workfloo.openapi.yaml"
+    "lint:spec": "redocly lint specs/workfloo.openapi.yaml",
+    "docs": "redocly build-docs specs/workfloo.openapi.yaml -o docs/index.html"
   },
   "devDependencies": {
     "@openapitools/openapi-generator-cli": "^2.13.4",
