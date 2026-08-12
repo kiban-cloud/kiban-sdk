@@ -1,0 +1,12 @@
+# openapi-generator · Node/TypeScript (generator: typescript-axios)
+#
+# Se usa typescript-axios y NO typescript-node: este último genera un cliente
+# que depende de `request`, deprecado desde 2020 y con vulnerabilidades
+# conocidas — inaceptable en un SDK que se entrega a clientes externos.
+# axios se mantiene activamente y además funciona en navegador, no sólo en Node.
+#
+# El cliente recibe la API key (x-api-key) por configuración, nunca hardcodeada.
+npmName: kiban.sdk.workfloo
+npmVersion: 0.1.0
+supportsES6: true
+withSeparateModelsAndApi: false

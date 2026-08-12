@@ -1,0 +1,6 @@
+# openapi-generator · Python (generator: python)
+# packageName con puntos → paquete namespaced importable como kiban.sdk.workfloo.
+# projectName es el nombre de distribución en PyPI (guiones, no puntos).
+packageName: kiban.sdk.workfloo
+projectName: kiban-sdk-workfloo
+packageVersion: 0.1.0

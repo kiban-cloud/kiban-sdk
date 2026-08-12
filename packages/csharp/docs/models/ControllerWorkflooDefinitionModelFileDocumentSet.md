@@ -1,0 +1,14 @@
+# kiban.sdk.workfloo.Model.ControllerWorkflooDefinitionModelFileDocumentSet
+
+## Properties
+
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**FileMetadata** | [**ControllerWorkflooDefinitionModelFileMetadata**](ControllerWorkflooDefinitionModelFileMetadata.md) |  | [optional] 
+**Id** | **string** |  | [optional] 
+**Name** | **string** |  | [optional] 
+**Predefined** | **bool** |  | [optional] 
+**Required** | **bool** |  | [optional] 
+
+[[Back to Model list]](../../README.md#documentation-for-models) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to README]](../../README.md)
+
