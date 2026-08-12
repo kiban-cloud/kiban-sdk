@@ -43,6 +43,8 @@ namespace kiban.sdk.workfloo.Client
             _jsonOptions.Converters.Add(new DateTimeNullableJsonConverter());
             _jsonOptions.Converters.Add(new DateOnlyJsonConverter());
             _jsonOptions.Converters.Add(new DateOnlyNullableJsonConverter());
+            _jsonOptions.Converters.Add(new ControllerPoolModelExecuteJsonConverter());
+            _jsonOptions.Converters.Add(new ControllerPoolModelExecuteResponseJsonConverter());
             _jsonOptions.Converters.Add(new ControllerWorkflooDefinitionModelAutoFilledByJsonConverter());
             _jsonOptions.Converters.Add(new ControllerWorkflooDefinitionModelDocumentJsonConverter());
             _jsonOptions.Converters.Add(new ControllerWorkflooDefinitionModelFieldJsonConverter());
@@ -67,6 +69,7 @@ namespace kiban.sdk.workfloo.Client
             _jsonOptions.Converters.Add(new ControllerWorkflooModelExecuteJsonConverter());
             _jsonOptions.Converters.Add(new ControllerWorkflooModelExecuteResponseJsonConverter());
             _jsonOptions.Converters.Add(new ControllerWorkflooModelFileJsonConverter());
+            _jsonOptions.Converters.Add(new ControllerWorkflooModelFileResponseJsonConverter());
             _jsonOptions.Converters.Add(new ControllerWorkflooModelFormJsonConverter());
             _jsonOptions.Converters.Add(new ControllerWorkflooModelFormFieldJsonConverter());
             _jsonOptions.Converters.Add(new ControllerWorkflooModelFormResumeJsonConverter());
@@ -74,11 +77,18 @@ namespace kiban.sdk.workfloo.Client
             _jsonOptions.Converters.Add(new ControllerWorkflooModelLinkJsonConverter());
             _jsonOptions.Converters.Add(new ControllerWorkflooModelLinkNipStatusJsonConverter());
             _jsonOptions.Converters.Add(new ControllerWorkflooModelLinkResumeJsonConverter());
+            _jsonOptions.Converters.Add(new ControllerWorkflooModelNipResendRequestJsonConverter());
+            _jsonOptions.Converters.Add(new ControllerWorkflooModelNipResendStatusJsonConverter());
+            _jsonOptions.Converters.Add(new ControllerWorkflooModelNipSendRequestJsonConverter());
+            _jsonOptions.Converters.Add(new ControllerWorkflooModelNipValidateRequestJsonConverter());
+            _jsonOptions.Converters.Add(new ControllerWorkflooModelNipValidateResponseJsonConverter());
             _jsonOptions.Converters.Add(new ControllerWorkflooModelNodeJsonConverter());
             _jsonOptions.Converters.Add(new ControllerWorkflooModelNodeDetailJsonConverter());
             _jsonOptions.Converters.Add(new ControllerWorkflooModelNodeResumeJsonConverter());
             _jsonOptions.Converters.Add(new ControllerWorkflooModelPdfJsonConverter());
             _jsonOptions.Converters.Add(new ControllerWorkflooModelRemainingTimeJsonConverter());
+            _jsonOptions.Converters.Add(new ControllerWorkflooModelReviewFieldRequestJsonConverter());
+            _jsonOptions.Converters.Add(new ControllerWorkflooModelReviewRequestJsonConverter());
             _jsonOptions.Converters.Add(new ControllerWorkflooModelReviewResumeJsonConverter());
             _jsonOptions.Converters.Add(new ControllerWorkflooModelRulesJsonConverter());
             _jsonOptions.Converters.Add(new ControllerWorkflooModelRulesetJsonConverter());
@@ -95,6 +105,7 @@ namespace kiban.sdk.workfloo.Client
             JsonSerializerOptionsProvider jsonSerializerOptionsProvider = new(_jsonOptions);
             _services.AddSingleton(jsonSerializerOptionsProvider);
             _services.AddSingleton<IApiFactory, ApiFactory>();
+            _services.AddSingleton<PoolApiEvents>();
             _services.AddSingleton<WorkflooApiEvents>();
             OnHostConfigurationCreated();
         }
@@ -141,6 +152,7 @@ namespace kiban.sdk.workfloo.Client
 
             List<IHttpClientBuilder> builders = new List<IHttpClientBuilder>();
 
+            builders.Add(_services.AddHttpClient<IPoolApi, PoolApi>("kiban.sdk.workfloo.Api.IPoolApi", client));
             builders.Add(_services.AddHttpClient<IWorkflooApi, WorkflooApi>("kiban.sdk.workfloo.Api.IWorkflooApi", client));
 
             foreach (IHttpClientBuilder instance in builders)

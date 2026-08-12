@@ -70,6 +70,9 @@ namespace kiban.sdk.workfloo.Test.Api
         [Fact]
         public void ConfigureApiWithAClientTest()
         {
+            var poolApi = _hostUsingConfigureWithAClient.Services.GetRequiredService<IPoolApi>();
+            Assert.True(poolApi.HttpClient.BaseAddress != null);
+
             var workflooApi = _hostUsingConfigureWithAClient.Services.GetRequiredService<IWorkflooApi>();
             Assert.True(workflooApi.HttpClient.BaseAddress != null);
         }
@@ -80,6 +83,9 @@ namespace kiban.sdk.workfloo.Test.Api
         [Fact]
         public void ConfigureApiWithoutAClientTest()
         {
+            var poolApi = _hostUsingConfigureWithoutAClient.Services.GetRequiredService<IPoolApi>();
+            Assert.True(poolApi.HttpClient.BaseAddress != null);
+
             var workflooApi = _hostUsingConfigureWithoutAClient.Services.GetRequiredService<IWorkflooApi>();
             Assert.True(workflooApi.HttpClient.BaseAddress != null);
         }
@@ -90,6 +96,9 @@ namespace kiban.sdk.workfloo.Test.Api
         [Fact]
         public void AddApiWithAClientTest()
         {
+            var poolApi = _hostUsingAddWithAClient.Services.GetRequiredService<IPoolApi>();
+            Assert.True(poolApi.HttpClient.BaseAddress != null);
+            
             var workflooApi = _hostUsingAddWithAClient.Services.GetRequiredService<IWorkflooApi>();
             Assert.True(workflooApi.HttpClient.BaseAddress != null);
         }
@@ -100,6 +109,9 @@ namespace kiban.sdk.workfloo.Test.Api
         [Fact]
         public void AddApiWithoutAClientTest()
         {
+            var poolApi = _hostUsingAddWithoutAClient.Services.GetRequiredService<IPoolApi>();
+            Assert.True(poolApi.HttpClient.BaseAddress != null);
+
             var workflooApi = _hostUsingAddWithoutAClient.Services.GetRequiredService<IWorkflooApi>();
             Assert.True(workflooApi.HttpClient.BaseAddress != null);
         }

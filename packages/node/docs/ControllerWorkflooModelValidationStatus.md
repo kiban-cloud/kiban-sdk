@@ -8,6 +8,7 @@ Name | Type | Description | Notes
 **fields** | [**Array&lt;ControllerWorkflooModelValidationField&gt;**](ControllerWorkflooModelValidationField.md) |  | [optional] [default to undefined]
 **instruction** | **string** |  | [optional] [default to undefined]
 **reviewerNote** | **string** |  | [optional] [default to undefined]
+**state** | **string** |  | [optional] [default to undefined]
 
 ## Example
 
@@ -18,6 +19,7 @@ const instance: ControllerWorkflooModelValidationStatus = {
     fields,
     instruction,
     reviewerNote,
+    state,
 };
 ```
 

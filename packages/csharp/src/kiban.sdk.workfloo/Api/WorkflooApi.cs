@@ -64,6 +64,60 @@ namespace kiban.sdk.workfloo.Api
         Task<IExecuteWorkflooApiResponse?> ExecuteWorkflooOrDefaultAsync(ControllerWorkflooModelExecute controllerWorkflooModelExecute, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
+        /// Enviar los documentos de un paso
+        /// </summary>
+        /// <remarks>
+        /// Envía los documentos del nodo DOCUMENT actual. El body es un objeto {documentoId: base64} (los de tipo \&quot;set\&quot; van como arreglo de objetos).
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="id">Id de la ejecución</param>
+        /// <param name="body">Documentos: {documentoId: base64}</param>
+        /// <param name="sandbox">Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="IExecuteWorkflooDocumentApiResponse"/>&gt;</returns>
+        Task<IExecuteWorkflooDocumentApiResponse> ExecuteWorkflooDocumentAsync(string id, Object body, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Enviar los documentos de un paso
+        /// </summary>
+        /// <remarks>
+        /// Envía los documentos del nodo DOCUMENT actual. El body es un objeto {documentoId: base64} (los de tipo \&quot;set\&quot; van como arreglo de objetos).
+        /// </remarks>
+        /// <param name="id">Id de la ejecución</param>
+        /// <param name="body">Documentos: {documentoId: base64}</param>
+        /// <param name="sandbox">Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="IExecuteWorkflooDocumentApiResponse"/>?&gt;</returns>
+        Task<IExecuteWorkflooDocumentApiResponse?> ExecuteWorkflooDocumentOrDefaultAsync(string id, Object body, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Enviar el formulario de un paso
+        /// </summary>
+        /// <remarks>
+        /// Envía las respuestas del nodo FORM actual de la ejecución. El body es un objeto {campoId: valor} con los campos del formulario.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="id">Id de la ejecución</param>
+        /// <param name="body">Campos del formulario: {campoId: valor}</param>
+        /// <param name="sandbox">Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="IExecuteWorkflooFormApiResponse"/>&gt;</returns>
+        Task<IExecuteWorkflooFormApiResponse> ExecuteWorkflooFormAsync(string id, Object body, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Enviar el formulario de un paso
+        /// </summary>
+        /// <remarks>
+        /// Envía las respuestas del nodo FORM actual de la ejecución. El body es un objeto {campoId: valor} con los campos del formulario.
+        /// </remarks>
+        /// <param name="id">Id de la ejecución</param>
+        /// <param name="body">Campos del formulario: {campoId: valor}</param>
+        /// <param name="sandbox">Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="IExecuteWorkflooFormApiResponse"/>?&gt;</returns>
+        Task<IExecuteWorkflooFormApiResponse?> ExecuteWorkflooFormOrDefaultAsync(string id, Object body, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default);
+
+        /// <summary>
         /// Detalle de una ejecución
         /// </summary>
         /// <remarks>
@@ -87,6 +141,35 @@ namespace kiban.sdk.workfloo.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IGetWorkflooApiResponse"/>?&gt;</returns>
         Task<IGetWorkflooApiResponse?> GetWorkflooOrDefaultAsync(string id, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Descargar un archivo de un nodo
+        /// </summary>
+        /// <remarks>
+        /// Devuelve, en base64, un archivo producido/subido en un nodo de la ejecución, identificado por nodeId + name.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="id">Id de la ejecución</param>
+        /// <param name="nodeId">Id del nodo que contiene el archivo</param>
+        /// <param name="name">Nombre del archivo</param>
+        /// <param name="sandbox">Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="IGetWorkflooFileApiResponse"/>&gt;</returns>
+        Task<IGetWorkflooFileApiResponse> GetWorkflooFileAsync(string id, string nodeId, string name, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Descargar un archivo de un nodo
+        /// </summary>
+        /// <remarks>
+        /// Devuelve, en base64, un archivo producido/subido en un nodo de la ejecución, identificado por nodeId + name.
+        /// </remarks>
+        /// <param name="id">Id de la ejecución</param>
+        /// <param name="nodeId">Id del nodo que contiene el archivo</param>
+        /// <param name="name">Nombre del archivo</param>
+        /// <param name="sandbox">Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="IGetWorkflooFileApiResponse"/>?&gt;</returns>
+        Task<IGetWorkflooFileApiResponse?> GetWorkflooFileOrDefaultAsync(string id, string nodeId, string name, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Estatus de una ejecución
@@ -180,12 +263,255 @@ namespace kiban.sdk.workfloo.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IListWorkfloosV2ApiResponse"/>?&gt;</returns>
         Task<IListWorkfloosV2ApiResponse?> ListWorkfloosV2OrDefaultAsync(Option<int> page = default, Option<int> itemsPerPage = default, Option<string> status = default, Option<string> from = default, Option<string> to = default, Option<string> format = default, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Reenviar el NIP
+        /// </summary>
+        /// <remarks>
+        /// Reenvía el NIP y devuelve el estado del flujo NIP. El body es opcional (teléfono al que reenviar).
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="id">Id de la ejecución</param>
+        /// <param name="sandbox">Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="controllerWorkflooModelNipResendRequest">Teléfono al que reenviar (opcional) (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="IResendWorkflooNipApiResponse"/>&gt;</returns>
+        Task<IResendWorkflooNipApiResponse> ResendWorkflooNipAsync(string id, Option<bool> sandbox = default, Option<ControllerWorkflooModelNipResendRequest> controllerWorkflooModelNipResendRequest = default, System.Threading.CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Reenviar el NIP
+        /// </summary>
+        /// <remarks>
+        /// Reenvía el NIP y devuelve el estado del flujo NIP. El body es opcional (teléfono al que reenviar).
+        /// </remarks>
+        /// <param name="id">Id de la ejecución</param>
+        /// <param name="sandbox">Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="controllerWorkflooModelNipResendRequest">Teléfono al que reenviar (opcional) (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="IResendWorkflooNipApiResponse"/>?&gt;</returns>
+        Task<IResendWorkflooNipApiResponse?> ResendWorkflooNipOrDefaultAsync(string id, Option<bool> sandbox = default, Option<ControllerWorkflooModelNipResendRequest> controllerWorkflooModelNipResendRequest = default, System.Threading.CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Revisar un paso de validación
+        /// </summary>
+        /// <remarks>
+        /// Aplica la decisión del revisor sobre un nodo VALIDATION en estado REVIEW: aprobar o rechazar. En un rechazo, reviews indica los campos a corregir con su mensaje.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="id">Id de la ejecución</param>
+        /// <param name="controllerWorkflooModelReviewRequest">Decisión del revisor</param>
+        /// <param name="sandbox">Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="IReviewWorkflooValidationApiResponse"/>&gt;</returns>
+        Task<IReviewWorkflooValidationApiResponse> ReviewWorkflooValidationAsync(string id, ControllerWorkflooModelReviewRequest controllerWorkflooModelReviewRequest, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Revisar un paso de validación
+        /// </summary>
+        /// <remarks>
+        /// Aplica la decisión del revisor sobre un nodo VALIDATION en estado REVIEW: aprobar o rechazar. En un rechazo, reviews indica los campos a corregir con su mensaje.
+        /// </remarks>
+        /// <param name="id">Id de la ejecución</param>
+        /// <param name="controllerWorkflooModelReviewRequest">Decisión del revisor</param>
+        /// <param name="sandbox">Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="IReviewWorkflooValidationApiResponse"/>?&gt;</returns>
+        Task<IReviewWorkflooValidationApiResponse?> ReviewWorkflooValidationOrDefaultAsync(string id, ControllerWorkflooModelReviewRequest controllerWorkflooModelReviewRequest, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Enviar el NIP
+        /// </summary>
+        /// <remarks>
+        /// Envía el NIP (código de un solo uso) del nodo NIP actual. El body es opcional; si se incluye teléfono, countryCode y phoneNumber van juntos.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="id">Id de la ejecución</param>
+        /// <param name="sandbox">Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="controllerWorkflooModelNipSendRequest">Teléfono al que enviar el NIP (opcional) (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="ISendWorkflooNipApiResponse"/>&gt;</returns>
+        Task<ISendWorkflooNipApiResponse> SendWorkflooNipAsync(string id, Option<bool> sandbox = default, Option<ControllerWorkflooModelNipSendRequest> controllerWorkflooModelNipSendRequest = default, System.Threading.CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Enviar el NIP
+        /// </summary>
+        /// <remarks>
+        /// Envía el NIP (código de un solo uso) del nodo NIP actual. El body es opcional; si se incluye teléfono, countryCode y phoneNumber van juntos.
+        /// </remarks>
+        /// <param name="id">Id de la ejecución</param>
+        /// <param name="sandbox">Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="controllerWorkflooModelNipSendRequest">Teléfono al que enviar el NIP (opcional) (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="ISendWorkflooNipApiResponse"/>?&gt;</returns>
+        Task<ISendWorkflooNipApiResponse?> SendWorkflooNipOrDefaultAsync(string id, Option<bool> sandbox = default, Option<ControllerWorkflooModelNipSendRequest> controllerWorkflooModelNipSendRequest = default, System.Threading.CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Enviar la corrección de un paso de validación
+        /// </summary>
+        /// <remarks>
+        /// Reenvía los campos corregidos por el prospecto cuando un nodo VALIDATION está en estado CORRECTION. El body es un objeto {campoId: valor}, igual que el formulario.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="id">Id de la ejecución</param>
+        /// <param name="body">Campos corregidos: {campoId: valor}</param>
+        /// <param name="sandbox">Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="ISubmitWorkflooCorrectionApiResponse"/>&gt;</returns>
+        Task<ISubmitWorkflooCorrectionApiResponse> SubmitWorkflooCorrectionAsync(string id, Object body, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Enviar la corrección de un paso de validación
+        /// </summary>
+        /// <remarks>
+        /// Reenvía los campos corregidos por el prospecto cuando un nodo VALIDATION está en estado CORRECTION. El body es un objeto {campoId: valor}, igual que el formulario.
+        /// </remarks>
+        /// <param name="id">Id de la ejecución</param>
+        /// <param name="body">Campos corregidos: {campoId: valor}</param>
+        /// <param name="sandbox">Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="ISubmitWorkflooCorrectionApiResponse"/>?&gt;</returns>
+        Task<ISubmitWorkflooCorrectionApiResponse?> SubmitWorkflooCorrectionOrDefaultAsync(string id, Object body, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Validar el NIP
+        /// </summary>
+        /// <remarks>
+        /// Valida el NIP capturado por el usuario y devuelve la fase resultante del flujo NIP.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="id">Id de la ejecución</param>
+        /// <param name="controllerWorkflooModelNipValidateRequest">El NIP a validar</param>
+        /// <param name="sandbox">Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="IValidateWorkflooNipApiResponse"/>&gt;</returns>
+        Task<IValidateWorkflooNipApiResponse> ValidateWorkflooNipAsync(string id, ControllerWorkflooModelNipValidateRequest controllerWorkflooModelNipValidateRequest, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Validar el NIP
+        /// </summary>
+        /// <remarks>
+        /// Valida el NIP capturado por el usuario y devuelve la fase resultante del flujo NIP.
+        /// </remarks>
+        /// <param name="id">Id de la ejecución</param>
+        /// <param name="controllerWorkflooModelNipValidateRequest">El NIP a validar</param>
+        /// <param name="sandbox">Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="IValidateWorkflooNipApiResponse"/>?&gt;</returns>
+        Task<IValidateWorkflooNipApiResponse?> ValidateWorkflooNipOrDefaultAsync(string id, ControllerWorkflooModelNipValidateRequest controllerWorkflooModelNipValidateRequest, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default);
     }
 
     /// <summary>
     /// The <see cref="IExecuteWorkflooApiResponse"/>
     /// </summary>
     public interface IExecuteWorkflooApiResponse : kiban.sdk.workfloo.Client.IApiResponse, IOk<kiban.sdk.workfloo.Model.ControllerWorkflooModelExecuteResponse?>
+    {
+        /// <summary>
+        /// Returns true if the response is 200 Ok
+        /// </summary>
+        /// <returns></returns>
+        bool IsOk { get; }
+
+        /// <summary>
+        /// Returns true if the response is 400 BadRequest
+        /// </summary>
+        /// <returns></returns>
+        bool IsBadRequest { get; }
+
+        /// <summary>
+        /// Returns true if the response is 401 Unauthorized
+        /// </summary>
+        /// <returns></returns>
+        bool IsUnauthorized { get; }
+
+        /// <summary>
+        /// Returns true if the response is 403 Forbidden
+        /// </summary>
+        /// <returns></returns>
+        bool IsForbidden { get; }
+
+        /// <summary>
+        /// Returns true if the response is 404 NotFound
+        /// </summary>
+        /// <returns></returns>
+        bool IsNotFound { get; }
+
+        /// <summary>
+        /// Returns true if the response is 409 Conflict
+        /// </summary>
+        /// <returns></returns>
+        bool IsConflict { get; }
+
+        /// <summary>
+        /// Returns true if the response is 500 InternalServerError
+        /// </summary>
+        /// <returns></returns>
+        bool IsInternalServerError { get; }
+
+        /// <summary>
+        /// Returns true if the response is 503 ServiceUnavailable
+        /// </summary>
+        /// <returns></returns>
+        bool IsServiceUnavailable { get; }
+    }
+
+    /// <summary>
+    /// The <see cref="IExecuteWorkflooDocumentApiResponse"/>
+    /// </summary>
+    public interface IExecuteWorkflooDocumentApiResponse : kiban.sdk.workfloo.Client.IApiResponse
+    {
+        /// <summary>
+        /// Returns true if the response is 200 Ok
+        /// </summary>
+        /// <returns></returns>
+        bool IsOk { get; }
+
+        /// <summary>
+        /// Returns true if the response is 400 BadRequest
+        /// </summary>
+        /// <returns></returns>
+        bool IsBadRequest { get; }
+
+        /// <summary>
+        /// Returns true if the response is 401 Unauthorized
+        /// </summary>
+        /// <returns></returns>
+        bool IsUnauthorized { get; }
+
+        /// <summary>
+        /// Returns true if the response is 403 Forbidden
+        /// </summary>
+        /// <returns></returns>
+        bool IsForbidden { get; }
+
+        /// <summary>
+        /// Returns true if the response is 404 NotFound
+        /// </summary>
+        /// <returns></returns>
+        bool IsNotFound { get; }
+
+        /// <summary>
+        /// Returns true if the response is 409 Conflict
+        /// </summary>
+        /// <returns></returns>
+        bool IsConflict { get; }
+
+        /// <summary>
+        /// Returns true if the response is 500 InternalServerError
+        /// </summary>
+        /// <returns></returns>
+        bool IsInternalServerError { get; }
+
+        /// <summary>
+        /// Returns true if the response is 503 ServiceUnavailable
+        /// </summary>
+        /// <returns></returns>
+        bool IsServiceUnavailable { get; }
+    }
+
+    /// <summary>
+    /// The <see cref="IExecuteWorkflooFormApiResponse"/>
+    /// </summary>
+    public interface IExecuteWorkflooFormApiResponse : kiban.sdk.workfloo.Client.IApiResponse
     {
         /// <summary>
         /// Returns true if the response is 200 Ok
@@ -276,6 +602,54 @@ namespace kiban.sdk.workfloo.Api
         /// </summary>
         /// <returns></returns>
         bool IsConflict { get; }
+
+        /// <summary>
+        /// Returns true if the response is 500 InternalServerError
+        /// </summary>
+        /// <returns></returns>
+        bool IsInternalServerError { get; }
+
+        /// <summary>
+        /// Returns true if the response is 503 ServiceUnavailable
+        /// </summary>
+        /// <returns></returns>
+        bool IsServiceUnavailable { get; }
+    }
+
+    /// <summary>
+    /// The <see cref="IGetWorkflooFileApiResponse"/>
+    /// </summary>
+    public interface IGetWorkflooFileApiResponse : kiban.sdk.workfloo.Client.IApiResponse, IOk<kiban.sdk.workfloo.Model.ControllerWorkflooModelFileResponse?>
+    {
+        /// <summary>
+        /// Returns true if the response is 200 Ok
+        /// </summary>
+        /// <returns></returns>
+        bool IsOk { get; }
+
+        /// <summary>
+        /// Returns true if the response is 400 BadRequest
+        /// </summary>
+        /// <returns></returns>
+        bool IsBadRequest { get; }
+
+        /// <summary>
+        /// Returns true if the response is 401 Unauthorized
+        /// </summary>
+        /// <returns></returns>
+        bool IsUnauthorized { get; }
+
+        /// <summary>
+        /// Returns true if the response is 403 Forbidden
+        /// </summary>
+        /// <returns></returns>
+        bool IsForbidden { get; }
+
+        /// <summary>
+        /// Returns true if the response is 404 NotFound
+        /// </summary>
+        /// <returns></returns>
+        bool IsNotFound { get; }
 
         /// <summary>
         /// Returns true if the response is 500 InternalServerError
@@ -441,6 +815,258 @@ namespace kiban.sdk.workfloo.Api
     }
 
     /// <summary>
+    /// The <see cref="IResendWorkflooNipApiResponse"/>
+    /// </summary>
+    public interface IResendWorkflooNipApiResponse : kiban.sdk.workfloo.Client.IApiResponse, IOk<kiban.sdk.workfloo.Model.ControllerWorkflooModelNipResendStatus?>
+    {
+        /// <summary>
+        /// Returns true if the response is 200 Ok
+        /// </summary>
+        /// <returns></returns>
+        bool IsOk { get; }
+
+        /// <summary>
+        /// Returns true if the response is 400 BadRequest
+        /// </summary>
+        /// <returns></returns>
+        bool IsBadRequest { get; }
+
+        /// <summary>
+        /// Returns true if the response is 401 Unauthorized
+        /// </summary>
+        /// <returns></returns>
+        bool IsUnauthorized { get; }
+
+        /// <summary>
+        /// Returns true if the response is 403 Forbidden
+        /// </summary>
+        /// <returns></returns>
+        bool IsForbidden { get; }
+
+        /// <summary>
+        /// Returns true if the response is 404 NotFound
+        /// </summary>
+        /// <returns></returns>
+        bool IsNotFound { get; }
+
+        /// <summary>
+        /// Returns true if the response is 500 InternalServerError
+        /// </summary>
+        /// <returns></returns>
+        bool IsInternalServerError { get; }
+
+        /// <summary>
+        /// Returns true if the response is 503 ServiceUnavailable
+        /// </summary>
+        /// <returns></returns>
+        bool IsServiceUnavailable { get; }
+    }
+
+    /// <summary>
+    /// The <see cref="IReviewWorkflooValidationApiResponse"/>
+    /// </summary>
+    public interface IReviewWorkflooValidationApiResponse : kiban.sdk.workfloo.Client.IApiResponse
+    {
+        /// <summary>
+        /// Returns true if the response is 200 Ok
+        /// </summary>
+        /// <returns></returns>
+        bool IsOk { get; }
+
+        /// <summary>
+        /// Returns true if the response is 400 BadRequest
+        /// </summary>
+        /// <returns></returns>
+        bool IsBadRequest { get; }
+
+        /// <summary>
+        /// Returns true if the response is 401 Unauthorized
+        /// </summary>
+        /// <returns></returns>
+        bool IsUnauthorized { get; }
+
+        /// <summary>
+        /// Returns true if the response is 403 Forbidden
+        /// </summary>
+        /// <returns></returns>
+        bool IsForbidden { get; }
+
+        /// <summary>
+        /// Returns true if the response is 404 NotFound
+        /// </summary>
+        /// <returns></returns>
+        bool IsNotFound { get; }
+
+        /// <summary>
+        /// Returns true if the response is 409 Conflict
+        /// </summary>
+        /// <returns></returns>
+        bool IsConflict { get; }
+
+        /// <summary>
+        /// Returns true if the response is 500 InternalServerError
+        /// </summary>
+        /// <returns></returns>
+        bool IsInternalServerError { get; }
+
+        /// <summary>
+        /// Returns true if the response is 503 ServiceUnavailable
+        /// </summary>
+        /// <returns></returns>
+        bool IsServiceUnavailable { get; }
+    }
+
+    /// <summary>
+    /// The <see cref="ISendWorkflooNipApiResponse"/>
+    /// </summary>
+    public interface ISendWorkflooNipApiResponse : kiban.sdk.workfloo.Client.IApiResponse
+    {
+        /// <summary>
+        /// Returns true if the response is 200 Ok
+        /// </summary>
+        /// <returns></returns>
+        bool IsOk { get; }
+
+        /// <summary>
+        /// Returns true if the response is 400 BadRequest
+        /// </summary>
+        /// <returns></returns>
+        bool IsBadRequest { get; }
+
+        /// <summary>
+        /// Returns true if the response is 401 Unauthorized
+        /// </summary>
+        /// <returns></returns>
+        bool IsUnauthorized { get; }
+
+        /// <summary>
+        /// Returns true if the response is 403 Forbidden
+        /// </summary>
+        /// <returns></returns>
+        bool IsForbidden { get; }
+
+        /// <summary>
+        /// Returns true if the response is 404 NotFound
+        /// </summary>
+        /// <returns></returns>
+        bool IsNotFound { get; }
+
+        /// <summary>
+        /// Returns true if the response is 500 InternalServerError
+        /// </summary>
+        /// <returns></returns>
+        bool IsInternalServerError { get; }
+
+        /// <summary>
+        /// Returns true if the response is 503 ServiceUnavailable
+        /// </summary>
+        /// <returns></returns>
+        bool IsServiceUnavailable { get; }
+    }
+
+    /// <summary>
+    /// The <see cref="ISubmitWorkflooCorrectionApiResponse"/>
+    /// </summary>
+    public interface ISubmitWorkflooCorrectionApiResponse : kiban.sdk.workfloo.Client.IApiResponse
+    {
+        /// <summary>
+        /// Returns true if the response is 200 Ok
+        /// </summary>
+        /// <returns></returns>
+        bool IsOk { get; }
+
+        /// <summary>
+        /// Returns true if the response is 400 BadRequest
+        /// </summary>
+        /// <returns></returns>
+        bool IsBadRequest { get; }
+
+        /// <summary>
+        /// Returns true if the response is 401 Unauthorized
+        /// </summary>
+        /// <returns></returns>
+        bool IsUnauthorized { get; }
+
+        /// <summary>
+        /// Returns true if the response is 403 Forbidden
+        /// </summary>
+        /// <returns></returns>
+        bool IsForbidden { get; }
+
+        /// <summary>
+        /// Returns true if the response is 404 NotFound
+        /// </summary>
+        /// <returns></returns>
+        bool IsNotFound { get; }
+
+        /// <summary>
+        /// Returns true if the response is 409 Conflict
+        /// </summary>
+        /// <returns></returns>
+        bool IsConflict { get; }
+
+        /// <summary>
+        /// Returns true if the response is 500 InternalServerError
+        /// </summary>
+        /// <returns></returns>
+        bool IsInternalServerError { get; }
+
+        /// <summary>
+        /// Returns true if the response is 503 ServiceUnavailable
+        /// </summary>
+        /// <returns></returns>
+        bool IsServiceUnavailable { get; }
+    }
+
+    /// <summary>
+    /// The <see cref="IValidateWorkflooNipApiResponse"/>
+    /// </summary>
+    public interface IValidateWorkflooNipApiResponse : kiban.sdk.workfloo.Client.IApiResponse, IOk<kiban.sdk.workfloo.Model.ControllerWorkflooModelNipValidateResponse?>
+    {
+        /// <summary>
+        /// Returns true if the response is 200 Ok
+        /// </summary>
+        /// <returns></returns>
+        bool IsOk { get; }
+
+        /// <summary>
+        /// Returns true if the response is 400 BadRequest
+        /// </summary>
+        /// <returns></returns>
+        bool IsBadRequest { get; }
+
+        /// <summary>
+        /// Returns true if the response is 401 Unauthorized
+        /// </summary>
+        /// <returns></returns>
+        bool IsUnauthorized { get; }
+
+        /// <summary>
+        /// Returns true if the response is 403 Forbidden
+        /// </summary>
+        /// <returns></returns>
+        bool IsForbidden { get; }
+
+        /// <summary>
+        /// Returns true if the response is 404 NotFound
+        /// </summary>
+        /// <returns></returns>
+        bool IsNotFound { get; }
+
+        /// <summary>
+        /// Returns true if the response is 500 InternalServerError
+        /// </summary>
+        /// <returns></returns>
+        bool IsInternalServerError { get; }
+
+        /// <summary>
+        /// Returns true if the response is 503 ServiceUnavailable
+        /// </summary>
+        /// <returns></returns>
+        bool IsServiceUnavailable { get; }
+    }
+
+    /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
     public class WorkflooApiEvents
@@ -468,6 +1094,46 @@ namespace kiban.sdk.workfloo.Api
         /// <summary>
         /// The event raised after the server response
         /// </summary>
+        public event EventHandler<ApiResponseEventArgs>? OnExecuteWorkflooDocument;
+
+        /// <summary>
+        /// The event raised after an error querying the server
+        /// </summary>
+        public event EventHandler<ExceptionEventArgs>? OnErrorExecuteWorkflooDocument;
+
+        internal void ExecuteOnExecuteWorkflooDocument(WorkflooApi.ExecuteWorkflooDocumentApiResponse apiResponse)
+        {
+            OnExecuteWorkflooDocument?.Invoke(this, new ApiResponseEventArgs(apiResponse));
+        }
+
+        internal void ExecuteOnErrorExecuteWorkflooDocument(Exception exception)
+        {
+            OnErrorExecuteWorkflooDocument?.Invoke(this, new ExceptionEventArgs(exception));
+        }
+
+        /// <summary>
+        /// The event raised after the server response
+        /// </summary>
+        public event EventHandler<ApiResponseEventArgs>? OnExecuteWorkflooForm;
+
+        /// <summary>
+        /// The event raised after an error querying the server
+        /// </summary>
+        public event EventHandler<ExceptionEventArgs>? OnErrorExecuteWorkflooForm;
+
+        internal void ExecuteOnExecuteWorkflooForm(WorkflooApi.ExecuteWorkflooFormApiResponse apiResponse)
+        {
+            OnExecuteWorkflooForm?.Invoke(this, new ApiResponseEventArgs(apiResponse));
+        }
+
+        internal void ExecuteOnErrorExecuteWorkflooForm(Exception exception)
+        {
+            OnErrorExecuteWorkflooForm?.Invoke(this, new ExceptionEventArgs(exception));
+        }
+
+        /// <summary>
+        /// The event raised after the server response
+        /// </summary>
         public event EventHandler<ApiResponseEventArgs>? OnGetWorkfloo;
 
         /// <summary>
@@ -483,6 +1149,26 @@ namespace kiban.sdk.workfloo.Api
         internal void ExecuteOnErrorGetWorkfloo(Exception exception)
         {
             OnErrorGetWorkfloo?.Invoke(this, new ExceptionEventArgs(exception));
+        }
+
+        /// <summary>
+        /// The event raised after the server response
+        /// </summary>
+        public event EventHandler<ApiResponseEventArgs>? OnGetWorkflooFile;
+
+        /// <summary>
+        /// The event raised after an error querying the server
+        /// </summary>
+        public event EventHandler<ExceptionEventArgs>? OnErrorGetWorkflooFile;
+
+        internal void ExecuteOnGetWorkflooFile(WorkflooApi.GetWorkflooFileApiResponse apiResponse)
+        {
+            OnGetWorkflooFile?.Invoke(this, new ApiResponseEventArgs(apiResponse));
+        }
+
+        internal void ExecuteOnErrorGetWorkflooFile(Exception exception)
+        {
+            OnErrorGetWorkflooFile?.Invoke(this, new ExceptionEventArgs(exception));
         }
 
         /// <summary>
@@ -543,6 +1229,106 @@ namespace kiban.sdk.workfloo.Api
         internal void ExecuteOnErrorListWorkfloosV2(Exception exception)
         {
             OnErrorListWorkfloosV2?.Invoke(this, new ExceptionEventArgs(exception));
+        }
+
+        /// <summary>
+        /// The event raised after the server response
+        /// </summary>
+        public event EventHandler<ApiResponseEventArgs>? OnResendWorkflooNip;
+
+        /// <summary>
+        /// The event raised after an error querying the server
+        /// </summary>
+        public event EventHandler<ExceptionEventArgs>? OnErrorResendWorkflooNip;
+
+        internal void ExecuteOnResendWorkflooNip(WorkflooApi.ResendWorkflooNipApiResponse apiResponse)
+        {
+            OnResendWorkflooNip?.Invoke(this, new ApiResponseEventArgs(apiResponse));
+        }
+
+        internal void ExecuteOnErrorResendWorkflooNip(Exception exception)
+        {
+            OnErrorResendWorkflooNip?.Invoke(this, new ExceptionEventArgs(exception));
+        }
+
+        /// <summary>
+        /// The event raised after the server response
+        /// </summary>
+        public event EventHandler<ApiResponseEventArgs>? OnReviewWorkflooValidation;
+
+        /// <summary>
+        /// The event raised after an error querying the server
+        /// </summary>
+        public event EventHandler<ExceptionEventArgs>? OnErrorReviewWorkflooValidation;
+
+        internal void ExecuteOnReviewWorkflooValidation(WorkflooApi.ReviewWorkflooValidationApiResponse apiResponse)
+        {
+            OnReviewWorkflooValidation?.Invoke(this, new ApiResponseEventArgs(apiResponse));
+        }
+
+        internal void ExecuteOnErrorReviewWorkflooValidation(Exception exception)
+        {
+            OnErrorReviewWorkflooValidation?.Invoke(this, new ExceptionEventArgs(exception));
+        }
+
+        /// <summary>
+        /// The event raised after the server response
+        /// </summary>
+        public event EventHandler<ApiResponseEventArgs>? OnSendWorkflooNip;
+
+        /// <summary>
+        /// The event raised after an error querying the server
+        /// </summary>
+        public event EventHandler<ExceptionEventArgs>? OnErrorSendWorkflooNip;
+
+        internal void ExecuteOnSendWorkflooNip(WorkflooApi.SendWorkflooNipApiResponse apiResponse)
+        {
+            OnSendWorkflooNip?.Invoke(this, new ApiResponseEventArgs(apiResponse));
+        }
+
+        internal void ExecuteOnErrorSendWorkflooNip(Exception exception)
+        {
+            OnErrorSendWorkflooNip?.Invoke(this, new ExceptionEventArgs(exception));
+        }
+
+        /// <summary>
+        /// The event raised after the server response
+        /// </summary>
+        public event EventHandler<ApiResponseEventArgs>? OnSubmitWorkflooCorrection;
+
+        /// <summary>
+        /// The event raised after an error querying the server
+        /// </summary>
+        public event EventHandler<ExceptionEventArgs>? OnErrorSubmitWorkflooCorrection;
+
+        internal void ExecuteOnSubmitWorkflooCorrection(WorkflooApi.SubmitWorkflooCorrectionApiResponse apiResponse)
+        {
+            OnSubmitWorkflooCorrection?.Invoke(this, new ApiResponseEventArgs(apiResponse));
+        }
+
+        internal void ExecuteOnErrorSubmitWorkflooCorrection(Exception exception)
+        {
+            OnErrorSubmitWorkflooCorrection?.Invoke(this, new ExceptionEventArgs(exception));
+        }
+
+        /// <summary>
+        /// The event raised after the server response
+        /// </summary>
+        public event EventHandler<ApiResponseEventArgs>? OnValidateWorkflooNip;
+
+        /// <summary>
+        /// The event raised after an error querying the server
+        /// </summary>
+        public event EventHandler<ExceptionEventArgs>? OnErrorValidateWorkflooNip;
+
+        internal void ExecuteOnValidateWorkflooNip(WorkflooApi.ValidateWorkflooNipApiResponse apiResponse)
+        {
+            OnValidateWorkflooNip?.Invoke(this, new ApiResponseEventArgs(apiResponse));
+        }
+
+        internal void ExecuteOnErrorValidateWorkflooNip(Exception exception)
+        {
+            OnErrorValidateWorkflooNip?.Invoke(this, new ExceptionEventArgs(exception));
         }
     }
 
@@ -904,6 +1690,580 @@ namespace kiban.sdk.workfloo.Api
             partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
         }
 
+        partial void FormatExecuteWorkflooDocument(ref string id, ref Object body, ref Option<bool> sandbox);
+
+        /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="body"></param>
+        /// <returns></returns>
+        private void ValidateExecuteWorkflooDocument(string id, Object body)
+        {
+            if (id == null)
+                throw new ArgumentNullException(nameof(id));
+
+            if (body == null)
+                throw new ArgumentNullException(nameof(body));
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="id"></param>
+        /// <param name="body"></param>
+        /// <param name="sandbox"></param>
+        private void AfterExecuteWorkflooDocumentDefaultImplementation(IExecuteWorkflooDocumentApiResponse apiResponseLocalVar, string id, Object body, Option<bool> sandbox)
+        {
+            bool suppressDefaultLog = false;
+            AfterExecuteWorkflooDocument(ref suppressDefaultLog, apiResponseLocalVar, id, body, sandbox);
+            if (!suppressDefaultLog)
+                Logger.LogInformation(RestLogEvents.ApiRequestCompleted, "{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="suppressDefaultLog"></param>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="id"></param>
+        /// <param name="body"></param>
+        /// <param name="sandbox"></param>
+        partial void AfterExecuteWorkflooDocument(ref bool suppressDefaultLog, IExecuteWorkflooDocumentApiResponse apiResponseLocalVar, string id, Object body, Option<bool> sandbox);
+
+        /// <summary>
+        /// Logs exceptions that occur while retrieving the server response
+        /// </summary>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
+        /// <param name="id"></param>
+        /// <param name="body"></param>
+        /// <param name="sandbox"></param>
+        private void OnErrorExecuteWorkflooDocumentDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string id, Object body, Option<bool> sandbox)
+        {
+            bool suppressDefaultLogLocalVar = false;
+            OnErrorExecuteWorkflooDocument(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, id, body, sandbox);
+            if (!suppressDefaultLogLocalVar)
+                Logger.LogError(RestLogEvents.ApiRequestFailed, exceptionLocalVar, "An error occurred while sending the request to the server.");
+        }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
+        /// <param name="id"></param>
+        /// <param name="body"></param>
+        /// <param name="sandbox"></param>
+        partial void OnErrorExecuteWorkflooDocument(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string id, Object body, Option<bool> sandbox);
+
+        /// <summary>
+        /// Enviar los documentos de un paso Envía los documentos del nodo DOCUMENT actual. El body es un objeto {documentoId: base64} (los de tipo \&quot;set\&quot; van como arreglo de objetos).
+        /// </summary>
+        /// <param name="id">Id de la ejecución</param>
+        /// <param name="body">Documentos: {documentoId: base64}</param>
+        /// <param name="sandbox">Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="IExecuteWorkflooDocumentApiResponse"/>&gt;</returns>
+        public async Task<IExecuteWorkflooDocumentApiResponse?> ExecuteWorkflooDocumentOrDefaultAsync(string id, Object body, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                return await ExecuteWorkflooDocumentAsync(id, body, sandbox, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Enviar los documentos de un paso Envía los documentos del nodo DOCUMENT actual. El body es un objeto {documentoId: base64} (los de tipo \&quot;set\&quot; van como arreglo de objetos).
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="id">Id de la ejecución</param>
+        /// <param name="body">Documentos: {documentoId: base64}</param>
+        /// <param name="sandbox">Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="IExecuteWorkflooDocumentApiResponse"/>&gt;</returns>
+        public async Task<IExecuteWorkflooDocumentApiResponse> ExecuteWorkflooDocumentAsync(string id, Object body, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default)
+        {
+            UriBuilder uriBuilderLocalVar = new UriBuilder();
+
+            try
+            {
+                ValidateExecuteWorkflooDocument(id, body);
+
+                FormatExecuteWorkflooDocument(ref id, ref body, ref sandbox);
+
+                using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
+                {
+                    uriBuilderLocalVar.Host = HttpClient.BaseAddress!.Host;
+                    uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
+                    uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
+                    uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
+                        ? "/api/v1/workfloo/{id}/document"
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/api/v1/workfloo/{id}/document");
+                    uriBuilderLocalVar.Path = uriBuilderLocalVar.Path.Replace("%7Bid%7D", Uri.EscapeDataString(id.ToString()));
+
+                    System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
+
+                    if (sandbox.IsSet)
+                        parseQueryStringLocalVar["sandbox"] = ClientUtils.ParameterToString(sandbox.Value);
+
+                    uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
+
+                    httpRequestMessageLocalVar.Content = (body as object) is kiban.sdk.workfloo.Client.FileParameter fileParameterLocalVar
+                        ? httpRequestMessageLocalVar.Content = new StreamContent(fileParameterLocalVar.Content)
+                        : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(body, _jsonSerializerOptions));
+
+                    List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
+                    ApiKeyToken apiKeyTokenLocalVar1 = (ApiKeyToken) await ApiKeyProvider.GetAsync("x-api-key", cancellationToken).ConfigureAwait(false);
+                    tokenBaseLocalVars.Add(apiKeyTokenLocalVar1);
+                    apiKeyTokenLocalVar1.UseInHeader(httpRequestMessageLocalVar);
+
+                    httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
+
+                    string[] contentTypes = new string[] {
+                        "application/json"
+                    };
+
+                    string? contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
+
+                    if (contentTypeLocalVar != null && httpRequestMessageLocalVar.Content != null)
+                        httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
+
+                    httpRequestMessageLocalVar.Method = HttpMethod.Post;
+
+                    DateTime requestedAtLocalVar = DateTime.UtcNow;
+
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
+                    {
+                        ExecuteWorkflooDocumentApiResponse apiResponseLocalVar;
+
+                        switch ((int)httpResponseMessageLocalVar.StatusCode) {
+                            default: {
+                                string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                                apiResponseLocalVar = new(Logger, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/api/v1/workfloo/{id}/document", requestedAtLocalVar, _jsonSerializerOptions);
+
+                                break;
+                            }
+                        }
+
+                        AfterExecuteWorkflooDocumentDefaultImplementation(apiResponseLocalVar, id, body, sandbox);
+
+                        Events.ExecuteOnExecuteWorkflooDocument(apiResponseLocalVar);
+
+                        if (apiResponseLocalVar.StatusCode == (HttpStatusCode) 429)
+                            foreach(TokenBase tokenBaseLocalVar in tokenBaseLocalVars)
+                                tokenBaseLocalVar.BeginRateLimit();
+
+                        return apiResponseLocalVar;
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                OnErrorExecuteWorkflooDocumentDefaultImplementation(e, "/api/v1/workfloo/{id}/document", uriBuilderLocalVar.Path, id, body, sandbox);
+                Events.ExecuteOnErrorExecuteWorkflooDocument(e);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// The <see cref="ExecuteWorkflooDocumentApiResponse"/>
+        /// </summary>
+        public partial class ExecuteWorkflooDocumentApiResponse : kiban.sdk.workfloo.Client.ApiResponse, IExecuteWorkflooDocumentApiResponse
+        {
+            /// <summary>
+            /// The logger
+            /// </summary>
+            public ILogger<WorkflooApi> Logger { get; }
+
+            /// <summary>
+            /// The <see cref="ExecuteWorkflooDocumentApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="rawContent"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public ExecuteWorkflooDocumentApiResponse(ILogger<WorkflooApi> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            /// <summary>
+            /// The <see cref="ExecuteWorkflooDocumentApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="contentStream"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public ExecuteWorkflooDocumentApiResponse(ILogger<WorkflooApi> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, System.IO.Stream contentStream, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, contentStream, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOk => 200 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 400 BadRequest
+            /// </summary>
+            /// <returns></returns>
+            public bool IsBadRequest => 400 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 401 Unauthorized
+            /// </summary>
+            /// <returns></returns>
+            public bool IsUnauthorized => 401 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 403 Forbidden
+            /// </summary>
+            /// <returns></returns>
+            public bool IsForbidden => 403 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 404 NotFound
+            /// </summary>
+            /// <returns></returns>
+            public bool IsNotFound => 404 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 409 Conflict
+            /// </summary>
+            /// <returns></returns>
+            public bool IsConflict => 409 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 500 InternalServerError
+            /// </summary>
+            /// <returns></returns>
+            public bool IsInternalServerError => 500 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 503 ServiceUnavailable
+            /// </summary>
+            /// <returns></returns>
+            public bool IsServiceUnavailable => 503 == (int)StatusCode;
+
+            private void OnDeserializationErrorDefaultImplementation(Exception exception, HttpStatusCode httpStatusCode)
+            {
+                bool suppressDefaultLog = false;
+                OnDeserializationError(ref suppressDefaultLog, exception, httpStatusCode);
+                if (!suppressDefaultLog)
+                    Logger.LogError(RestLogEvents.ApiDeserializationFailed, exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
+            }
+
+            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+        }
+
+        partial void FormatExecuteWorkflooForm(ref string id, ref Object body, ref Option<bool> sandbox);
+
+        /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="body"></param>
+        /// <returns></returns>
+        private void ValidateExecuteWorkflooForm(string id, Object body)
+        {
+            if (id == null)
+                throw new ArgumentNullException(nameof(id));
+
+            if (body == null)
+                throw new ArgumentNullException(nameof(body));
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="id"></param>
+        /// <param name="body"></param>
+        /// <param name="sandbox"></param>
+        private void AfterExecuteWorkflooFormDefaultImplementation(IExecuteWorkflooFormApiResponse apiResponseLocalVar, string id, Object body, Option<bool> sandbox)
+        {
+            bool suppressDefaultLog = false;
+            AfterExecuteWorkflooForm(ref suppressDefaultLog, apiResponseLocalVar, id, body, sandbox);
+            if (!suppressDefaultLog)
+                Logger.LogInformation(RestLogEvents.ApiRequestCompleted, "{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="suppressDefaultLog"></param>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="id"></param>
+        /// <param name="body"></param>
+        /// <param name="sandbox"></param>
+        partial void AfterExecuteWorkflooForm(ref bool suppressDefaultLog, IExecuteWorkflooFormApiResponse apiResponseLocalVar, string id, Object body, Option<bool> sandbox);
+
+        /// <summary>
+        /// Logs exceptions that occur while retrieving the server response
+        /// </summary>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
+        /// <param name="id"></param>
+        /// <param name="body"></param>
+        /// <param name="sandbox"></param>
+        private void OnErrorExecuteWorkflooFormDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string id, Object body, Option<bool> sandbox)
+        {
+            bool suppressDefaultLogLocalVar = false;
+            OnErrorExecuteWorkflooForm(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, id, body, sandbox);
+            if (!suppressDefaultLogLocalVar)
+                Logger.LogError(RestLogEvents.ApiRequestFailed, exceptionLocalVar, "An error occurred while sending the request to the server.");
+        }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
+        /// <param name="id"></param>
+        /// <param name="body"></param>
+        /// <param name="sandbox"></param>
+        partial void OnErrorExecuteWorkflooForm(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string id, Object body, Option<bool> sandbox);
+
+        /// <summary>
+        /// Enviar el formulario de un paso Envía las respuestas del nodo FORM actual de la ejecución. El body es un objeto {campoId: valor} con los campos del formulario.
+        /// </summary>
+        /// <param name="id">Id de la ejecución</param>
+        /// <param name="body">Campos del formulario: {campoId: valor}</param>
+        /// <param name="sandbox">Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="IExecuteWorkflooFormApiResponse"/>&gt;</returns>
+        public async Task<IExecuteWorkflooFormApiResponse?> ExecuteWorkflooFormOrDefaultAsync(string id, Object body, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                return await ExecuteWorkflooFormAsync(id, body, sandbox, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Enviar el formulario de un paso Envía las respuestas del nodo FORM actual de la ejecución. El body es un objeto {campoId: valor} con los campos del formulario.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="id">Id de la ejecución</param>
+        /// <param name="body">Campos del formulario: {campoId: valor}</param>
+        /// <param name="sandbox">Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="IExecuteWorkflooFormApiResponse"/>&gt;</returns>
+        public async Task<IExecuteWorkflooFormApiResponse> ExecuteWorkflooFormAsync(string id, Object body, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default)
+        {
+            UriBuilder uriBuilderLocalVar = new UriBuilder();
+
+            try
+            {
+                ValidateExecuteWorkflooForm(id, body);
+
+                FormatExecuteWorkflooForm(ref id, ref body, ref sandbox);
+
+                using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
+                {
+                    uriBuilderLocalVar.Host = HttpClient.BaseAddress!.Host;
+                    uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
+                    uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
+                    uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
+                        ? "/api/v1/workfloo/{id}/form"
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/api/v1/workfloo/{id}/form");
+                    uriBuilderLocalVar.Path = uriBuilderLocalVar.Path.Replace("%7Bid%7D", Uri.EscapeDataString(id.ToString()));
+
+                    System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
+
+                    if (sandbox.IsSet)
+                        parseQueryStringLocalVar["sandbox"] = ClientUtils.ParameterToString(sandbox.Value);
+
+                    uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
+
+                    httpRequestMessageLocalVar.Content = (body as object) is kiban.sdk.workfloo.Client.FileParameter fileParameterLocalVar
+                        ? httpRequestMessageLocalVar.Content = new StreamContent(fileParameterLocalVar.Content)
+                        : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(body, _jsonSerializerOptions));
+
+                    List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
+                    ApiKeyToken apiKeyTokenLocalVar1 = (ApiKeyToken) await ApiKeyProvider.GetAsync("x-api-key", cancellationToken).ConfigureAwait(false);
+                    tokenBaseLocalVars.Add(apiKeyTokenLocalVar1);
+                    apiKeyTokenLocalVar1.UseInHeader(httpRequestMessageLocalVar);
+
+                    httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
+
+                    string[] contentTypes = new string[] {
+                        "application/json"
+                    };
+
+                    string? contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
+
+                    if (contentTypeLocalVar != null && httpRequestMessageLocalVar.Content != null)
+                        httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
+
+                    httpRequestMessageLocalVar.Method = HttpMethod.Post;
+
+                    DateTime requestedAtLocalVar = DateTime.UtcNow;
+
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
+                    {
+                        ExecuteWorkflooFormApiResponse apiResponseLocalVar;
+
+                        switch ((int)httpResponseMessageLocalVar.StatusCode) {
+                            default: {
+                                string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                                apiResponseLocalVar = new(Logger, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/api/v1/workfloo/{id}/form", requestedAtLocalVar, _jsonSerializerOptions);
+
+                                break;
+                            }
+                        }
+
+                        AfterExecuteWorkflooFormDefaultImplementation(apiResponseLocalVar, id, body, sandbox);
+
+                        Events.ExecuteOnExecuteWorkflooForm(apiResponseLocalVar);
+
+                        if (apiResponseLocalVar.StatusCode == (HttpStatusCode) 429)
+                            foreach(TokenBase tokenBaseLocalVar in tokenBaseLocalVars)
+                                tokenBaseLocalVar.BeginRateLimit();
+
+                        return apiResponseLocalVar;
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                OnErrorExecuteWorkflooFormDefaultImplementation(e, "/api/v1/workfloo/{id}/form", uriBuilderLocalVar.Path, id, body, sandbox);
+                Events.ExecuteOnErrorExecuteWorkflooForm(e);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// The <see cref="ExecuteWorkflooFormApiResponse"/>
+        /// </summary>
+        public partial class ExecuteWorkflooFormApiResponse : kiban.sdk.workfloo.Client.ApiResponse, IExecuteWorkflooFormApiResponse
+        {
+            /// <summary>
+            /// The logger
+            /// </summary>
+            public ILogger<WorkflooApi> Logger { get; }
+
+            /// <summary>
+            /// The <see cref="ExecuteWorkflooFormApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="rawContent"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public ExecuteWorkflooFormApiResponse(ILogger<WorkflooApi> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            /// <summary>
+            /// The <see cref="ExecuteWorkflooFormApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="contentStream"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public ExecuteWorkflooFormApiResponse(ILogger<WorkflooApi> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, System.IO.Stream contentStream, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, contentStream, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOk => 200 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 400 BadRequest
+            /// </summary>
+            /// <returns></returns>
+            public bool IsBadRequest => 400 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 401 Unauthorized
+            /// </summary>
+            /// <returns></returns>
+            public bool IsUnauthorized => 401 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 403 Forbidden
+            /// </summary>
+            /// <returns></returns>
+            public bool IsForbidden => 403 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 404 NotFound
+            /// </summary>
+            /// <returns></returns>
+            public bool IsNotFound => 404 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 409 Conflict
+            /// </summary>
+            /// <returns></returns>
+            public bool IsConflict => 409 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 500 InternalServerError
+            /// </summary>
+            /// <returns></returns>
+            public bool IsInternalServerError => 500 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 503 ServiceUnavailable
+            /// </summary>
+            /// <returns></returns>
+            public bool IsServiceUnavailable => 503 == (int)StatusCode;
+
+            private void OnDeserializationErrorDefaultImplementation(Exception exception, HttpStatusCode httpStatusCode)
+            {
+                bool suppressDefaultLog = false;
+                OnDeserializationError(ref suppressDefaultLog, exception, httpStatusCode);
+                if (!suppressDefaultLog)
+                    Logger.LogError(RestLogEvents.ApiDeserializationFailed, exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
+            }
+
+            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+        }
+
         partial void FormatGetWorkfloo(ref string id, ref Option<bool> sandbox);
 
         /// <summary>
@@ -1185,6 +2545,328 @@ namespace kiban.sdk.workfloo.Api
             /// </summary>
             /// <returns></returns>
             public bool IsConflict => 409 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 500 InternalServerError
+            /// </summary>
+            /// <returns></returns>
+            public bool IsInternalServerError => 500 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 503 ServiceUnavailable
+            /// </summary>
+            /// <returns></returns>
+            public bool IsServiceUnavailable => 503 == (int)StatusCode;
+
+            private void OnDeserializationErrorDefaultImplementation(Exception exception, HttpStatusCode httpStatusCode)
+            {
+                bool suppressDefaultLog = false;
+                OnDeserializationError(ref suppressDefaultLog, exception, httpStatusCode);
+                if (!suppressDefaultLog)
+                    Logger.LogError(RestLogEvents.ApiDeserializationFailed, exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
+            }
+
+            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+        }
+
+        partial void FormatGetWorkflooFile(ref string id, ref string nodeId, ref string name, ref Option<bool> sandbox);
+
+        /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="nodeId"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        private void ValidateGetWorkflooFile(string id, string nodeId, string name)
+        {
+            if (id == null)
+                throw new ArgumentNullException(nameof(id));
+
+            if (nodeId == null)
+                throw new ArgumentNullException(nameof(nodeId));
+
+            if (name == null)
+                throw new ArgumentNullException(nameof(name));
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="id"></param>
+        /// <param name="nodeId"></param>
+        /// <param name="name"></param>
+        /// <param name="sandbox"></param>
+        private void AfterGetWorkflooFileDefaultImplementation(IGetWorkflooFileApiResponse apiResponseLocalVar, string id, string nodeId, string name, Option<bool> sandbox)
+        {
+            bool suppressDefaultLog = false;
+            AfterGetWorkflooFile(ref suppressDefaultLog, apiResponseLocalVar, id, nodeId, name, sandbox);
+            if (!suppressDefaultLog)
+                Logger.LogInformation(RestLogEvents.ApiRequestCompleted, "{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="suppressDefaultLog"></param>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="id"></param>
+        /// <param name="nodeId"></param>
+        /// <param name="name"></param>
+        /// <param name="sandbox"></param>
+        partial void AfterGetWorkflooFile(ref bool suppressDefaultLog, IGetWorkflooFileApiResponse apiResponseLocalVar, string id, string nodeId, string name, Option<bool> sandbox);
+
+        /// <summary>
+        /// Logs exceptions that occur while retrieving the server response
+        /// </summary>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
+        /// <param name="id"></param>
+        /// <param name="nodeId"></param>
+        /// <param name="name"></param>
+        /// <param name="sandbox"></param>
+        private void OnErrorGetWorkflooFileDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string id, string nodeId, string name, Option<bool> sandbox)
+        {
+            bool suppressDefaultLogLocalVar = false;
+            OnErrorGetWorkflooFile(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, id, nodeId, name, sandbox);
+            if (!suppressDefaultLogLocalVar)
+                Logger.LogError(RestLogEvents.ApiRequestFailed, exceptionLocalVar, "An error occurred while sending the request to the server.");
+        }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
+        /// <param name="id"></param>
+        /// <param name="nodeId"></param>
+        /// <param name="name"></param>
+        /// <param name="sandbox"></param>
+        partial void OnErrorGetWorkflooFile(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string id, string nodeId, string name, Option<bool> sandbox);
+
+        /// <summary>
+        /// Descargar un archivo de un nodo Devuelve, en base64, un archivo producido/subido en un nodo de la ejecución, identificado por nodeId + name.
+        /// </summary>
+        /// <param name="id">Id de la ejecución</param>
+        /// <param name="nodeId">Id del nodo que contiene el archivo</param>
+        /// <param name="name">Nombre del archivo</param>
+        /// <param name="sandbox">Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="IGetWorkflooFileApiResponse"/>&gt;</returns>
+        public async Task<IGetWorkflooFileApiResponse?> GetWorkflooFileOrDefaultAsync(string id, string nodeId, string name, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                return await GetWorkflooFileAsync(id, nodeId, name, sandbox, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Descargar un archivo de un nodo Devuelve, en base64, un archivo producido/subido en un nodo de la ejecución, identificado por nodeId + name.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="id">Id de la ejecución</param>
+        /// <param name="nodeId">Id del nodo que contiene el archivo</param>
+        /// <param name="name">Nombre del archivo</param>
+        /// <param name="sandbox">Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="IGetWorkflooFileApiResponse"/>&gt;</returns>
+        public async Task<IGetWorkflooFileApiResponse> GetWorkflooFileAsync(string id, string nodeId, string name, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default)
+        {
+            UriBuilder uriBuilderLocalVar = new UriBuilder();
+
+            try
+            {
+                ValidateGetWorkflooFile(id, nodeId, name);
+
+                FormatGetWorkflooFile(ref id, ref nodeId, ref name, ref sandbox);
+
+                using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
+                {
+                    uriBuilderLocalVar.Host = HttpClient.BaseAddress!.Host;
+                    uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
+                    uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
+                    uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
+                        ? "/api/v1/workfloo/{id}/file"
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/api/v1/workfloo/{id}/file");
+                    uriBuilderLocalVar.Path = uriBuilderLocalVar.Path.Replace("%7Bid%7D", Uri.EscapeDataString(id.ToString()));
+
+                    System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
+
+                    parseQueryStringLocalVar["nodeId"] = ClientUtils.ParameterToString(nodeId);
+                    parseQueryStringLocalVar["name"] = ClientUtils.ParameterToString(name);
+
+                    if (sandbox.IsSet)
+                        parseQueryStringLocalVar["sandbox"] = ClientUtils.ParameterToString(sandbox.Value);
+
+                    uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
+
+                    List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
+                    ApiKeyToken apiKeyTokenLocalVar1 = (ApiKeyToken) await ApiKeyProvider.GetAsync("x-api-key", cancellationToken).ConfigureAwait(false);
+                    tokenBaseLocalVars.Add(apiKeyTokenLocalVar1);
+                    apiKeyTokenLocalVar1.UseInHeader(httpRequestMessageLocalVar);
+
+                    httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
+
+                    string[] acceptLocalVars = new string[] {
+                        "application/json"
+                    };
+
+                    IEnumerable<MediaTypeWithQualityHeaderValue> acceptHeaderValuesLocalVar = ClientUtils.SelectHeaderAcceptArray(acceptLocalVars);
+
+                    foreach (var acceptLocalVar in acceptHeaderValuesLocalVar)
+                        httpRequestMessageLocalVar.Headers.Accept.Add(acceptLocalVar);
+
+                    httpRequestMessageLocalVar.Method = HttpMethod.Get;
+
+                    DateTime requestedAtLocalVar = DateTime.UtcNow;
+
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
+                    {
+                        GetWorkflooFileApiResponse apiResponseLocalVar;
+
+                        switch ((int)httpResponseMessageLocalVar.StatusCode) {
+                            default: {
+                                string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                                apiResponseLocalVar = new(Logger, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/api/v1/workfloo/{id}/file", requestedAtLocalVar, _jsonSerializerOptions);
+
+                                break;
+                            }
+                        }
+
+                        AfterGetWorkflooFileDefaultImplementation(apiResponseLocalVar, id, nodeId, name, sandbox);
+
+                        Events.ExecuteOnGetWorkflooFile(apiResponseLocalVar);
+
+                        if (apiResponseLocalVar.StatusCode == (HttpStatusCode) 429)
+                            foreach(TokenBase tokenBaseLocalVar in tokenBaseLocalVars)
+                                tokenBaseLocalVar.BeginRateLimit();
+
+                        return apiResponseLocalVar;
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                OnErrorGetWorkflooFileDefaultImplementation(e, "/api/v1/workfloo/{id}/file", uriBuilderLocalVar.Path, id, nodeId, name, sandbox);
+                Events.ExecuteOnErrorGetWorkflooFile(e);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// The <see cref="GetWorkflooFileApiResponse"/>
+        /// </summary>
+        public partial class GetWorkflooFileApiResponse : kiban.sdk.workfloo.Client.ApiResponse, IGetWorkflooFileApiResponse
+        {
+            /// <summary>
+            /// The logger
+            /// </summary>
+            public ILogger<WorkflooApi> Logger { get; }
+
+            /// <summary>
+            /// The <see cref="GetWorkflooFileApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="rawContent"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public GetWorkflooFileApiResponse(ILogger<WorkflooApi> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            /// <summary>
+            /// The <see cref="GetWorkflooFileApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="contentStream"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public GetWorkflooFileApiResponse(ILogger<WorkflooApi> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, System.IO.Stream contentStream, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, contentStream, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOk => 200 == (int)StatusCode;
+
+            /// <summary>
+            /// Deserializes the response if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public kiban.sdk.workfloo.Model.ControllerWorkflooModelFileResponse? Ok()
+            {
+                // This logic may be modified with the AsModel.mustache template
+                return IsOk
+                    ? System.Text.Json.JsonSerializer.Deserialize<kiban.sdk.workfloo.Model.ControllerWorkflooModelFileResponse>(RawContent, _jsonSerializerOptions)
+                    : null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryOk([NotNullWhen(true)]out kiban.sdk.workfloo.Model.ControllerWorkflooModelFileResponse? result)
+            {
+                result = null;
+
+                try
+                {
+                    result = Ok();
+                } catch (Exception e)
+                {
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)200);
+                }
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 400 BadRequest
+            /// </summary>
+            /// <returns></returns>
+            public bool IsBadRequest => 400 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 401 Unauthorized
+            /// </summary>
+            /// <returns></returns>
+            public bool IsUnauthorized => 401 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 403 Forbidden
+            /// </summary>
+            /// <returns></returns>
+            public bool IsForbidden => 403 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 404 NotFound
+            /// </summary>
+            /// <returns></returns>
+            public bool IsNotFound => 404 == (int)StatusCode;
 
             /// <summary>
             /// Returns true if the response is 500 InternalServerError
@@ -2191,6 +3873,1511 @@ namespace kiban.sdk.workfloo.Api
             /// </summary>
             /// <returns></returns>
             public bool IsConflict => 409 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 500 InternalServerError
+            /// </summary>
+            /// <returns></returns>
+            public bool IsInternalServerError => 500 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 503 ServiceUnavailable
+            /// </summary>
+            /// <returns></returns>
+            public bool IsServiceUnavailable => 503 == (int)StatusCode;
+
+            private void OnDeserializationErrorDefaultImplementation(Exception exception, HttpStatusCode httpStatusCode)
+            {
+                bool suppressDefaultLog = false;
+                OnDeserializationError(ref suppressDefaultLog, exception, httpStatusCode);
+                if (!suppressDefaultLog)
+                    Logger.LogError(RestLogEvents.ApiDeserializationFailed, exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
+            }
+
+            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+        }
+
+        partial void FormatResendWorkflooNip(ref string id, ref Option<bool> sandbox, Option<ControllerWorkflooModelNipResendRequest> controllerWorkflooModelNipResendRequest);
+
+        /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="controllerWorkflooModelNipResendRequest"></param>
+        /// <returns></returns>
+        private void ValidateResendWorkflooNip(string id, Option<ControllerWorkflooModelNipResendRequest> controllerWorkflooModelNipResendRequest)
+        {
+            if (id == null)
+                throw new ArgumentNullException(nameof(id));
+
+            if (controllerWorkflooModelNipResendRequest.IsSet && controllerWorkflooModelNipResendRequest.Value == null)
+                throw new ArgumentNullException(nameof(controllerWorkflooModelNipResendRequest));
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="id"></param>
+        /// <param name="sandbox"></param>
+        /// <param name="controllerWorkflooModelNipResendRequest"></param>
+        private void AfterResendWorkflooNipDefaultImplementation(IResendWorkflooNipApiResponse apiResponseLocalVar, string id, Option<bool> sandbox, Option<ControllerWorkflooModelNipResendRequest> controllerWorkflooModelNipResendRequest)
+        {
+            bool suppressDefaultLog = false;
+            AfterResendWorkflooNip(ref suppressDefaultLog, apiResponseLocalVar, id, sandbox, controllerWorkflooModelNipResendRequest);
+            if (!suppressDefaultLog)
+                Logger.LogInformation(RestLogEvents.ApiRequestCompleted, "{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="suppressDefaultLog"></param>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="id"></param>
+        /// <param name="sandbox"></param>
+        /// <param name="controllerWorkflooModelNipResendRequest"></param>
+        partial void AfterResendWorkflooNip(ref bool suppressDefaultLog, IResendWorkflooNipApiResponse apiResponseLocalVar, string id, Option<bool> sandbox, Option<ControllerWorkflooModelNipResendRequest> controllerWorkflooModelNipResendRequest);
+
+        /// <summary>
+        /// Logs exceptions that occur while retrieving the server response
+        /// </summary>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
+        /// <param name="id"></param>
+        /// <param name="sandbox"></param>
+        /// <param name="controllerWorkflooModelNipResendRequest"></param>
+        private void OnErrorResendWorkflooNipDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string id, Option<bool> sandbox, Option<ControllerWorkflooModelNipResendRequest> controllerWorkflooModelNipResendRequest)
+        {
+            bool suppressDefaultLogLocalVar = false;
+            OnErrorResendWorkflooNip(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, id, sandbox, controllerWorkflooModelNipResendRequest);
+            if (!suppressDefaultLogLocalVar)
+                Logger.LogError(RestLogEvents.ApiRequestFailed, exceptionLocalVar, "An error occurred while sending the request to the server.");
+        }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
+        /// <param name="id"></param>
+        /// <param name="sandbox"></param>
+        /// <param name="controllerWorkflooModelNipResendRequest"></param>
+        partial void OnErrorResendWorkflooNip(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string id, Option<bool> sandbox, Option<ControllerWorkflooModelNipResendRequest> controllerWorkflooModelNipResendRequest);
+
+        /// <summary>
+        /// Reenviar el NIP Reenvía el NIP y devuelve el estado del flujo NIP. El body es opcional (teléfono al que reenviar).
+        /// </summary>
+        /// <param name="id">Id de la ejecución</param>
+        /// <param name="sandbox">Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="controllerWorkflooModelNipResendRequest">Teléfono al que reenviar (opcional) (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="IResendWorkflooNipApiResponse"/>&gt;</returns>
+        public async Task<IResendWorkflooNipApiResponse?> ResendWorkflooNipOrDefaultAsync(string id, Option<bool> sandbox = default, Option<ControllerWorkflooModelNipResendRequest> controllerWorkflooModelNipResendRequest = default, System.Threading.CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                return await ResendWorkflooNipAsync(id, sandbox, controllerWorkflooModelNipResendRequest, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Reenviar el NIP Reenvía el NIP y devuelve el estado del flujo NIP. El body es opcional (teléfono al que reenviar).
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="id">Id de la ejecución</param>
+        /// <param name="sandbox">Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="controllerWorkflooModelNipResendRequest">Teléfono al que reenviar (opcional) (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="IResendWorkflooNipApiResponse"/>&gt;</returns>
+        public async Task<IResendWorkflooNipApiResponse> ResendWorkflooNipAsync(string id, Option<bool> sandbox = default, Option<ControllerWorkflooModelNipResendRequest> controllerWorkflooModelNipResendRequest = default, System.Threading.CancellationToken cancellationToken = default)
+        {
+            UriBuilder uriBuilderLocalVar = new UriBuilder();
+
+            try
+            {
+                ValidateResendWorkflooNip(id, controllerWorkflooModelNipResendRequest);
+
+                FormatResendWorkflooNip(ref id, ref sandbox, controllerWorkflooModelNipResendRequest);
+
+                using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
+                {
+                    uriBuilderLocalVar.Host = HttpClient.BaseAddress!.Host;
+                    uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
+                    uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
+                    uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
+                        ? "/api/v1/workfloo/{id}/nip/resend"
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/api/v1/workfloo/{id}/nip/resend");
+                    uriBuilderLocalVar.Path = uriBuilderLocalVar.Path.Replace("%7Bid%7D", Uri.EscapeDataString(id.ToString()));
+
+                    System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
+
+                    if (sandbox.IsSet)
+                        parseQueryStringLocalVar["sandbox"] = ClientUtils.ParameterToString(sandbox.Value);
+
+                    uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
+
+                    if (controllerWorkflooModelNipResendRequest.IsSet)
+                    {
+                      httpRequestMessageLocalVar.Content = (controllerWorkflooModelNipResendRequest.Value as object) is kiban.sdk.workfloo.Client.FileParameter fileParameterLocalVar
+                        ? httpRequestMessageLocalVar.Content = new StreamContent(fileParameterLocalVar.Content)
+                        : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(controllerWorkflooModelNipResendRequest.Value, _jsonSerializerOptions));
+                    }
+
+                    List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
+                    ApiKeyToken apiKeyTokenLocalVar1 = (ApiKeyToken) await ApiKeyProvider.GetAsync("x-api-key", cancellationToken).ConfigureAwait(false);
+                    tokenBaseLocalVars.Add(apiKeyTokenLocalVar1);
+                    apiKeyTokenLocalVar1.UseInHeader(httpRequestMessageLocalVar);
+
+                    httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
+
+                    string[] contentTypes = new string[] {
+                        "application/json"
+                    };
+
+                    string? contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
+
+                    if (contentTypeLocalVar != null && httpRequestMessageLocalVar.Content != null)
+                        httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
+
+                    string[] acceptLocalVars = new string[] {
+                        "application/json"
+                    };
+
+                    IEnumerable<MediaTypeWithQualityHeaderValue> acceptHeaderValuesLocalVar = ClientUtils.SelectHeaderAcceptArray(acceptLocalVars);
+
+                    foreach (var acceptLocalVar in acceptHeaderValuesLocalVar)
+                        httpRequestMessageLocalVar.Headers.Accept.Add(acceptLocalVar);
+
+                    httpRequestMessageLocalVar.Method = HttpMethod.Patch;
+
+                    DateTime requestedAtLocalVar = DateTime.UtcNow;
+
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
+                    {
+                        ResendWorkflooNipApiResponse apiResponseLocalVar;
+
+                        switch ((int)httpResponseMessageLocalVar.StatusCode) {
+                            default: {
+                                string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                                apiResponseLocalVar = new(Logger, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/api/v1/workfloo/{id}/nip/resend", requestedAtLocalVar, _jsonSerializerOptions);
+
+                                break;
+                            }
+                        }
+
+                        AfterResendWorkflooNipDefaultImplementation(apiResponseLocalVar, id, sandbox, controllerWorkflooModelNipResendRequest);
+
+                        Events.ExecuteOnResendWorkflooNip(apiResponseLocalVar);
+
+                        if (apiResponseLocalVar.StatusCode == (HttpStatusCode) 429)
+                            foreach(TokenBase tokenBaseLocalVar in tokenBaseLocalVars)
+                                tokenBaseLocalVar.BeginRateLimit();
+
+                        return apiResponseLocalVar;
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                OnErrorResendWorkflooNipDefaultImplementation(e, "/api/v1/workfloo/{id}/nip/resend", uriBuilderLocalVar.Path, id, sandbox, controllerWorkflooModelNipResendRequest);
+                Events.ExecuteOnErrorResendWorkflooNip(e);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// The <see cref="ResendWorkflooNipApiResponse"/>
+        /// </summary>
+        public partial class ResendWorkflooNipApiResponse : kiban.sdk.workfloo.Client.ApiResponse, IResendWorkflooNipApiResponse
+        {
+            /// <summary>
+            /// The logger
+            /// </summary>
+            public ILogger<WorkflooApi> Logger { get; }
+
+            /// <summary>
+            /// The <see cref="ResendWorkflooNipApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="rawContent"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public ResendWorkflooNipApiResponse(ILogger<WorkflooApi> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            /// <summary>
+            /// The <see cref="ResendWorkflooNipApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="contentStream"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public ResendWorkflooNipApiResponse(ILogger<WorkflooApi> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, System.IO.Stream contentStream, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, contentStream, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOk => 200 == (int)StatusCode;
+
+            /// <summary>
+            /// Deserializes the response if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public kiban.sdk.workfloo.Model.ControllerWorkflooModelNipResendStatus? Ok()
+            {
+                // This logic may be modified with the AsModel.mustache template
+                return IsOk
+                    ? System.Text.Json.JsonSerializer.Deserialize<kiban.sdk.workfloo.Model.ControllerWorkflooModelNipResendStatus>(RawContent, _jsonSerializerOptions)
+                    : null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryOk([NotNullWhen(true)]out kiban.sdk.workfloo.Model.ControllerWorkflooModelNipResendStatus? result)
+            {
+                result = null;
+
+                try
+                {
+                    result = Ok();
+                } catch (Exception e)
+                {
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)200);
+                }
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 400 BadRequest
+            /// </summary>
+            /// <returns></returns>
+            public bool IsBadRequest => 400 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 401 Unauthorized
+            /// </summary>
+            /// <returns></returns>
+            public bool IsUnauthorized => 401 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 403 Forbidden
+            /// </summary>
+            /// <returns></returns>
+            public bool IsForbidden => 403 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 404 NotFound
+            /// </summary>
+            /// <returns></returns>
+            public bool IsNotFound => 404 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 500 InternalServerError
+            /// </summary>
+            /// <returns></returns>
+            public bool IsInternalServerError => 500 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 503 ServiceUnavailable
+            /// </summary>
+            /// <returns></returns>
+            public bool IsServiceUnavailable => 503 == (int)StatusCode;
+
+            private void OnDeserializationErrorDefaultImplementation(Exception exception, HttpStatusCode httpStatusCode)
+            {
+                bool suppressDefaultLog = false;
+                OnDeserializationError(ref suppressDefaultLog, exception, httpStatusCode);
+                if (!suppressDefaultLog)
+                    Logger.LogError(RestLogEvents.ApiDeserializationFailed, exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
+            }
+
+            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+        }
+
+        partial void FormatReviewWorkflooValidation(ref string id, ControllerWorkflooModelReviewRequest controllerWorkflooModelReviewRequest, ref Option<bool> sandbox);
+
+        /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="controllerWorkflooModelReviewRequest"></param>
+        /// <returns></returns>
+        private void ValidateReviewWorkflooValidation(string id, ControllerWorkflooModelReviewRequest controllerWorkflooModelReviewRequest)
+        {
+            if (id == null)
+                throw new ArgumentNullException(nameof(id));
+
+            if (controllerWorkflooModelReviewRequest == null)
+                throw new ArgumentNullException(nameof(controllerWorkflooModelReviewRequest));
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="id"></param>
+        /// <param name="controllerWorkflooModelReviewRequest"></param>
+        /// <param name="sandbox"></param>
+        private void AfterReviewWorkflooValidationDefaultImplementation(IReviewWorkflooValidationApiResponse apiResponseLocalVar, string id, ControllerWorkflooModelReviewRequest controllerWorkflooModelReviewRequest, Option<bool> sandbox)
+        {
+            bool suppressDefaultLog = false;
+            AfterReviewWorkflooValidation(ref suppressDefaultLog, apiResponseLocalVar, id, controllerWorkflooModelReviewRequest, sandbox);
+            if (!suppressDefaultLog)
+                Logger.LogInformation(RestLogEvents.ApiRequestCompleted, "{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="suppressDefaultLog"></param>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="id"></param>
+        /// <param name="controllerWorkflooModelReviewRequest"></param>
+        /// <param name="sandbox"></param>
+        partial void AfterReviewWorkflooValidation(ref bool suppressDefaultLog, IReviewWorkflooValidationApiResponse apiResponseLocalVar, string id, ControllerWorkflooModelReviewRequest controllerWorkflooModelReviewRequest, Option<bool> sandbox);
+
+        /// <summary>
+        /// Logs exceptions that occur while retrieving the server response
+        /// </summary>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
+        /// <param name="id"></param>
+        /// <param name="controllerWorkflooModelReviewRequest"></param>
+        /// <param name="sandbox"></param>
+        private void OnErrorReviewWorkflooValidationDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string id, ControllerWorkflooModelReviewRequest controllerWorkflooModelReviewRequest, Option<bool> sandbox)
+        {
+            bool suppressDefaultLogLocalVar = false;
+            OnErrorReviewWorkflooValidation(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, id, controllerWorkflooModelReviewRequest, sandbox);
+            if (!suppressDefaultLogLocalVar)
+                Logger.LogError(RestLogEvents.ApiRequestFailed, exceptionLocalVar, "An error occurred while sending the request to the server.");
+        }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
+        /// <param name="id"></param>
+        /// <param name="controllerWorkflooModelReviewRequest"></param>
+        /// <param name="sandbox"></param>
+        partial void OnErrorReviewWorkflooValidation(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string id, ControllerWorkflooModelReviewRequest controllerWorkflooModelReviewRequest, Option<bool> sandbox);
+
+        /// <summary>
+        /// Revisar un paso de validación Aplica la decisión del revisor sobre un nodo VALIDATION en estado REVIEW: aprobar o rechazar. En un rechazo, reviews indica los campos a corregir con su mensaje.
+        /// </summary>
+        /// <param name="id">Id de la ejecución</param>
+        /// <param name="controllerWorkflooModelReviewRequest">Decisión del revisor</param>
+        /// <param name="sandbox">Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="IReviewWorkflooValidationApiResponse"/>&gt;</returns>
+        public async Task<IReviewWorkflooValidationApiResponse?> ReviewWorkflooValidationOrDefaultAsync(string id, ControllerWorkflooModelReviewRequest controllerWorkflooModelReviewRequest, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                return await ReviewWorkflooValidationAsync(id, controllerWorkflooModelReviewRequest, sandbox, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Revisar un paso de validación Aplica la decisión del revisor sobre un nodo VALIDATION en estado REVIEW: aprobar o rechazar. En un rechazo, reviews indica los campos a corregir con su mensaje.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="id">Id de la ejecución</param>
+        /// <param name="controllerWorkflooModelReviewRequest">Decisión del revisor</param>
+        /// <param name="sandbox">Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="IReviewWorkflooValidationApiResponse"/>&gt;</returns>
+        public async Task<IReviewWorkflooValidationApiResponse> ReviewWorkflooValidationAsync(string id, ControllerWorkflooModelReviewRequest controllerWorkflooModelReviewRequest, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default)
+        {
+            UriBuilder uriBuilderLocalVar = new UriBuilder();
+
+            try
+            {
+                ValidateReviewWorkflooValidation(id, controllerWorkflooModelReviewRequest);
+
+                FormatReviewWorkflooValidation(ref id, controllerWorkflooModelReviewRequest, ref sandbox);
+
+                using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
+                {
+                    uriBuilderLocalVar.Host = HttpClient.BaseAddress!.Host;
+                    uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
+                    uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
+                    uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
+                        ? "/api/v1/workfloo/{id}/review"
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/api/v1/workfloo/{id}/review");
+                    uriBuilderLocalVar.Path = uriBuilderLocalVar.Path.Replace("%7Bid%7D", Uri.EscapeDataString(id.ToString()));
+
+                    System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
+
+                    if (sandbox.IsSet)
+                        parseQueryStringLocalVar["sandbox"] = ClientUtils.ParameterToString(sandbox.Value);
+
+                    uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
+
+                    httpRequestMessageLocalVar.Content = (controllerWorkflooModelReviewRequest as object) is kiban.sdk.workfloo.Client.FileParameter fileParameterLocalVar
+                        ? httpRequestMessageLocalVar.Content = new StreamContent(fileParameterLocalVar.Content)
+                        : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(controllerWorkflooModelReviewRequest, _jsonSerializerOptions));
+
+                    List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
+                    ApiKeyToken apiKeyTokenLocalVar1 = (ApiKeyToken) await ApiKeyProvider.GetAsync("x-api-key", cancellationToken).ConfigureAwait(false);
+                    tokenBaseLocalVars.Add(apiKeyTokenLocalVar1);
+                    apiKeyTokenLocalVar1.UseInHeader(httpRequestMessageLocalVar);
+
+                    httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
+
+                    string[] contentTypes = new string[] {
+                        "application/json"
+                    };
+
+                    string? contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
+
+                    if (contentTypeLocalVar != null && httpRequestMessageLocalVar.Content != null)
+                        httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
+
+                    httpRequestMessageLocalVar.Method = HttpMethod.Post;
+
+                    DateTime requestedAtLocalVar = DateTime.UtcNow;
+
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
+                    {
+                        ReviewWorkflooValidationApiResponse apiResponseLocalVar;
+
+                        switch ((int)httpResponseMessageLocalVar.StatusCode) {
+                            default: {
+                                string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                                apiResponseLocalVar = new(Logger, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/api/v1/workfloo/{id}/review", requestedAtLocalVar, _jsonSerializerOptions);
+
+                                break;
+                            }
+                        }
+
+                        AfterReviewWorkflooValidationDefaultImplementation(apiResponseLocalVar, id, controllerWorkflooModelReviewRequest, sandbox);
+
+                        Events.ExecuteOnReviewWorkflooValidation(apiResponseLocalVar);
+
+                        if (apiResponseLocalVar.StatusCode == (HttpStatusCode) 429)
+                            foreach(TokenBase tokenBaseLocalVar in tokenBaseLocalVars)
+                                tokenBaseLocalVar.BeginRateLimit();
+
+                        return apiResponseLocalVar;
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                OnErrorReviewWorkflooValidationDefaultImplementation(e, "/api/v1/workfloo/{id}/review", uriBuilderLocalVar.Path, id, controllerWorkflooModelReviewRequest, sandbox);
+                Events.ExecuteOnErrorReviewWorkflooValidation(e);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// The <see cref="ReviewWorkflooValidationApiResponse"/>
+        /// </summary>
+        public partial class ReviewWorkflooValidationApiResponse : kiban.sdk.workfloo.Client.ApiResponse, IReviewWorkflooValidationApiResponse
+        {
+            /// <summary>
+            /// The logger
+            /// </summary>
+            public ILogger<WorkflooApi> Logger { get; }
+
+            /// <summary>
+            /// The <see cref="ReviewWorkflooValidationApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="rawContent"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public ReviewWorkflooValidationApiResponse(ILogger<WorkflooApi> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            /// <summary>
+            /// The <see cref="ReviewWorkflooValidationApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="contentStream"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public ReviewWorkflooValidationApiResponse(ILogger<WorkflooApi> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, System.IO.Stream contentStream, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, contentStream, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOk => 200 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 400 BadRequest
+            /// </summary>
+            /// <returns></returns>
+            public bool IsBadRequest => 400 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 401 Unauthorized
+            /// </summary>
+            /// <returns></returns>
+            public bool IsUnauthorized => 401 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 403 Forbidden
+            /// </summary>
+            /// <returns></returns>
+            public bool IsForbidden => 403 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 404 NotFound
+            /// </summary>
+            /// <returns></returns>
+            public bool IsNotFound => 404 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 409 Conflict
+            /// </summary>
+            /// <returns></returns>
+            public bool IsConflict => 409 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 500 InternalServerError
+            /// </summary>
+            /// <returns></returns>
+            public bool IsInternalServerError => 500 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 503 ServiceUnavailable
+            /// </summary>
+            /// <returns></returns>
+            public bool IsServiceUnavailable => 503 == (int)StatusCode;
+
+            private void OnDeserializationErrorDefaultImplementation(Exception exception, HttpStatusCode httpStatusCode)
+            {
+                bool suppressDefaultLog = false;
+                OnDeserializationError(ref suppressDefaultLog, exception, httpStatusCode);
+                if (!suppressDefaultLog)
+                    Logger.LogError(RestLogEvents.ApiDeserializationFailed, exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
+            }
+
+            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+        }
+
+        partial void FormatSendWorkflooNip(ref string id, ref Option<bool> sandbox, Option<ControllerWorkflooModelNipSendRequest> controllerWorkflooModelNipSendRequest);
+
+        /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="controllerWorkflooModelNipSendRequest"></param>
+        /// <returns></returns>
+        private void ValidateSendWorkflooNip(string id, Option<ControllerWorkflooModelNipSendRequest> controllerWorkflooModelNipSendRequest)
+        {
+            if (id == null)
+                throw new ArgumentNullException(nameof(id));
+
+            if (controllerWorkflooModelNipSendRequest.IsSet && controllerWorkflooModelNipSendRequest.Value == null)
+                throw new ArgumentNullException(nameof(controllerWorkflooModelNipSendRequest));
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="id"></param>
+        /// <param name="sandbox"></param>
+        /// <param name="controllerWorkflooModelNipSendRequest"></param>
+        private void AfterSendWorkflooNipDefaultImplementation(ISendWorkflooNipApiResponse apiResponseLocalVar, string id, Option<bool> sandbox, Option<ControllerWorkflooModelNipSendRequest> controllerWorkflooModelNipSendRequest)
+        {
+            bool suppressDefaultLog = false;
+            AfterSendWorkflooNip(ref suppressDefaultLog, apiResponseLocalVar, id, sandbox, controllerWorkflooModelNipSendRequest);
+            if (!suppressDefaultLog)
+                Logger.LogInformation(RestLogEvents.ApiRequestCompleted, "{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="suppressDefaultLog"></param>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="id"></param>
+        /// <param name="sandbox"></param>
+        /// <param name="controllerWorkflooModelNipSendRequest"></param>
+        partial void AfterSendWorkflooNip(ref bool suppressDefaultLog, ISendWorkflooNipApiResponse apiResponseLocalVar, string id, Option<bool> sandbox, Option<ControllerWorkflooModelNipSendRequest> controllerWorkflooModelNipSendRequest);
+
+        /// <summary>
+        /// Logs exceptions that occur while retrieving the server response
+        /// </summary>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
+        /// <param name="id"></param>
+        /// <param name="sandbox"></param>
+        /// <param name="controllerWorkflooModelNipSendRequest"></param>
+        private void OnErrorSendWorkflooNipDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string id, Option<bool> sandbox, Option<ControllerWorkflooModelNipSendRequest> controllerWorkflooModelNipSendRequest)
+        {
+            bool suppressDefaultLogLocalVar = false;
+            OnErrorSendWorkflooNip(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, id, sandbox, controllerWorkflooModelNipSendRequest);
+            if (!suppressDefaultLogLocalVar)
+                Logger.LogError(RestLogEvents.ApiRequestFailed, exceptionLocalVar, "An error occurred while sending the request to the server.");
+        }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
+        /// <param name="id"></param>
+        /// <param name="sandbox"></param>
+        /// <param name="controllerWorkflooModelNipSendRequest"></param>
+        partial void OnErrorSendWorkflooNip(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string id, Option<bool> sandbox, Option<ControllerWorkflooModelNipSendRequest> controllerWorkflooModelNipSendRequest);
+
+        /// <summary>
+        /// Enviar el NIP Envía el NIP (código de un solo uso) del nodo NIP actual. El body es opcional; si se incluye teléfono, countryCode y phoneNumber van juntos.
+        /// </summary>
+        /// <param name="id">Id de la ejecución</param>
+        /// <param name="sandbox">Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="controllerWorkflooModelNipSendRequest">Teléfono al que enviar el NIP (opcional) (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="ISendWorkflooNipApiResponse"/>&gt;</returns>
+        public async Task<ISendWorkflooNipApiResponse?> SendWorkflooNipOrDefaultAsync(string id, Option<bool> sandbox = default, Option<ControllerWorkflooModelNipSendRequest> controllerWorkflooModelNipSendRequest = default, System.Threading.CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                return await SendWorkflooNipAsync(id, sandbox, controllerWorkflooModelNipSendRequest, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Enviar el NIP Envía el NIP (código de un solo uso) del nodo NIP actual. El body es opcional; si se incluye teléfono, countryCode y phoneNumber van juntos.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="id">Id de la ejecución</param>
+        /// <param name="sandbox">Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="controllerWorkflooModelNipSendRequest">Teléfono al que enviar el NIP (opcional) (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="ISendWorkflooNipApiResponse"/>&gt;</returns>
+        public async Task<ISendWorkflooNipApiResponse> SendWorkflooNipAsync(string id, Option<bool> sandbox = default, Option<ControllerWorkflooModelNipSendRequest> controllerWorkflooModelNipSendRequest = default, System.Threading.CancellationToken cancellationToken = default)
+        {
+            UriBuilder uriBuilderLocalVar = new UriBuilder();
+
+            try
+            {
+                ValidateSendWorkflooNip(id, controllerWorkflooModelNipSendRequest);
+
+                FormatSendWorkflooNip(ref id, ref sandbox, controllerWorkflooModelNipSendRequest);
+
+                using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
+                {
+                    uriBuilderLocalVar.Host = HttpClient.BaseAddress!.Host;
+                    uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
+                    uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
+                    uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
+                        ? "/api/v1/workfloo/{id}/nip/send"
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/api/v1/workfloo/{id}/nip/send");
+                    uriBuilderLocalVar.Path = uriBuilderLocalVar.Path.Replace("%7Bid%7D", Uri.EscapeDataString(id.ToString()));
+
+                    System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
+
+                    if (sandbox.IsSet)
+                        parseQueryStringLocalVar["sandbox"] = ClientUtils.ParameterToString(sandbox.Value);
+
+                    uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
+
+                    if (controllerWorkflooModelNipSendRequest.IsSet)
+                    {
+                      httpRequestMessageLocalVar.Content = (controllerWorkflooModelNipSendRequest.Value as object) is kiban.sdk.workfloo.Client.FileParameter fileParameterLocalVar
+                        ? httpRequestMessageLocalVar.Content = new StreamContent(fileParameterLocalVar.Content)
+                        : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(controllerWorkflooModelNipSendRequest.Value, _jsonSerializerOptions));
+                    }
+
+                    List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
+                    ApiKeyToken apiKeyTokenLocalVar1 = (ApiKeyToken) await ApiKeyProvider.GetAsync("x-api-key", cancellationToken).ConfigureAwait(false);
+                    tokenBaseLocalVars.Add(apiKeyTokenLocalVar1);
+                    apiKeyTokenLocalVar1.UseInHeader(httpRequestMessageLocalVar);
+
+                    httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
+
+                    string[] contentTypes = new string[] {
+                        "application/json"
+                    };
+
+                    string? contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
+
+                    if (contentTypeLocalVar != null && httpRequestMessageLocalVar.Content != null)
+                        httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
+
+                    httpRequestMessageLocalVar.Method = HttpMethod.Patch;
+
+                    DateTime requestedAtLocalVar = DateTime.UtcNow;
+
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
+                    {
+                        SendWorkflooNipApiResponse apiResponseLocalVar;
+
+                        switch ((int)httpResponseMessageLocalVar.StatusCode) {
+                            default: {
+                                string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                                apiResponseLocalVar = new(Logger, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/api/v1/workfloo/{id}/nip/send", requestedAtLocalVar, _jsonSerializerOptions);
+
+                                break;
+                            }
+                        }
+
+                        AfterSendWorkflooNipDefaultImplementation(apiResponseLocalVar, id, sandbox, controllerWorkflooModelNipSendRequest);
+
+                        Events.ExecuteOnSendWorkflooNip(apiResponseLocalVar);
+
+                        if (apiResponseLocalVar.StatusCode == (HttpStatusCode) 429)
+                            foreach(TokenBase tokenBaseLocalVar in tokenBaseLocalVars)
+                                tokenBaseLocalVar.BeginRateLimit();
+
+                        return apiResponseLocalVar;
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                OnErrorSendWorkflooNipDefaultImplementation(e, "/api/v1/workfloo/{id}/nip/send", uriBuilderLocalVar.Path, id, sandbox, controllerWorkflooModelNipSendRequest);
+                Events.ExecuteOnErrorSendWorkflooNip(e);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// The <see cref="SendWorkflooNipApiResponse"/>
+        /// </summary>
+        public partial class SendWorkflooNipApiResponse : kiban.sdk.workfloo.Client.ApiResponse, ISendWorkflooNipApiResponse
+        {
+            /// <summary>
+            /// The logger
+            /// </summary>
+            public ILogger<WorkflooApi> Logger { get; }
+
+            /// <summary>
+            /// The <see cref="SendWorkflooNipApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="rawContent"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public SendWorkflooNipApiResponse(ILogger<WorkflooApi> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            /// <summary>
+            /// The <see cref="SendWorkflooNipApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="contentStream"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public SendWorkflooNipApiResponse(ILogger<WorkflooApi> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, System.IO.Stream contentStream, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, contentStream, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOk => 200 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 400 BadRequest
+            /// </summary>
+            /// <returns></returns>
+            public bool IsBadRequest => 400 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 401 Unauthorized
+            /// </summary>
+            /// <returns></returns>
+            public bool IsUnauthorized => 401 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 403 Forbidden
+            /// </summary>
+            /// <returns></returns>
+            public bool IsForbidden => 403 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 404 NotFound
+            /// </summary>
+            /// <returns></returns>
+            public bool IsNotFound => 404 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 500 InternalServerError
+            /// </summary>
+            /// <returns></returns>
+            public bool IsInternalServerError => 500 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 503 ServiceUnavailable
+            /// </summary>
+            /// <returns></returns>
+            public bool IsServiceUnavailable => 503 == (int)StatusCode;
+
+            private void OnDeserializationErrorDefaultImplementation(Exception exception, HttpStatusCode httpStatusCode)
+            {
+                bool suppressDefaultLog = false;
+                OnDeserializationError(ref suppressDefaultLog, exception, httpStatusCode);
+                if (!suppressDefaultLog)
+                    Logger.LogError(RestLogEvents.ApiDeserializationFailed, exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
+            }
+
+            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+        }
+
+        partial void FormatSubmitWorkflooCorrection(ref string id, ref Object body, ref Option<bool> sandbox);
+
+        /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="body"></param>
+        /// <returns></returns>
+        private void ValidateSubmitWorkflooCorrection(string id, Object body)
+        {
+            if (id == null)
+                throw new ArgumentNullException(nameof(id));
+
+            if (body == null)
+                throw new ArgumentNullException(nameof(body));
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="id"></param>
+        /// <param name="body"></param>
+        /// <param name="sandbox"></param>
+        private void AfterSubmitWorkflooCorrectionDefaultImplementation(ISubmitWorkflooCorrectionApiResponse apiResponseLocalVar, string id, Object body, Option<bool> sandbox)
+        {
+            bool suppressDefaultLog = false;
+            AfterSubmitWorkflooCorrection(ref suppressDefaultLog, apiResponseLocalVar, id, body, sandbox);
+            if (!suppressDefaultLog)
+                Logger.LogInformation(RestLogEvents.ApiRequestCompleted, "{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="suppressDefaultLog"></param>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="id"></param>
+        /// <param name="body"></param>
+        /// <param name="sandbox"></param>
+        partial void AfterSubmitWorkflooCorrection(ref bool suppressDefaultLog, ISubmitWorkflooCorrectionApiResponse apiResponseLocalVar, string id, Object body, Option<bool> sandbox);
+
+        /// <summary>
+        /// Logs exceptions that occur while retrieving the server response
+        /// </summary>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
+        /// <param name="id"></param>
+        /// <param name="body"></param>
+        /// <param name="sandbox"></param>
+        private void OnErrorSubmitWorkflooCorrectionDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string id, Object body, Option<bool> sandbox)
+        {
+            bool suppressDefaultLogLocalVar = false;
+            OnErrorSubmitWorkflooCorrection(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, id, body, sandbox);
+            if (!suppressDefaultLogLocalVar)
+                Logger.LogError(RestLogEvents.ApiRequestFailed, exceptionLocalVar, "An error occurred while sending the request to the server.");
+        }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
+        /// <param name="id"></param>
+        /// <param name="body"></param>
+        /// <param name="sandbox"></param>
+        partial void OnErrorSubmitWorkflooCorrection(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string id, Object body, Option<bool> sandbox);
+
+        /// <summary>
+        /// Enviar la corrección de un paso de validación Reenvía los campos corregidos por el prospecto cuando un nodo VALIDATION está en estado CORRECTION. El body es un objeto {campoId: valor}, igual que el formulario.
+        /// </summary>
+        /// <param name="id">Id de la ejecución</param>
+        /// <param name="body">Campos corregidos: {campoId: valor}</param>
+        /// <param name="sandbox">Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="ISubmitWorkflooCorrectionApiResponse"/>&gt;</returns>
+        public async Task<ISubmitWorkflooCorrectionApiResponse?> SubmitWorkflooCorrectionOrDefaultAsync(string id, Object body, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                return await SubmitWorkflooCorrectionAsync(id, body, sandbox, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Enviar la corrección de un paso de validación Reenvía los campos corregidos por el prospecto cuando un nodo VALIDATION está en estado CORRECTION. El body es un objeto {campoId: valor}, igual que el formulario.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="id">Id de la ejecución</param>
+        /// <param name="body">Campos corregidos: {campoId: valor}</param>
+        /// <param name="sandbox">Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="ISubmitWorkflooCorrectionApiResponse"/>&gt;</returns>
+        public async Task<ISubmitWorkflooCorrectionApiResponse> SubmitWorkflooCorrectionAsync(string id, Object body, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default)
+        {
+            UriBuilder uriBuilderLocalVar = new UriBuilder();
+
+            try
+            {
+                ValidateSubmitWorkflooCorrection(id, body);
+
+                FormatSubmitWorkflooCorrection(ref id, ref body, ref sandbox);
+
+                using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
+                {
+                    uriBuilderLocalVar.Host = HttpClient.BaseAddress!.Host;
+                    uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
+                    uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
+                    uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
+                        ? "/api/v1/workfloo/{id}/correction"
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/api/v1/workfloo/{id}/correction");
+                    uriBuilderLocalVar.Path = uriBuilderLocalVar.Path.Replace("%7Bid%7D", Uri.EscapeDataString(id.ToString()));
+
+                    System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
+
+                    if (sandbox.IsSet)
+                        parseQueryStringLocalVar["sandbox"] = ClientUtils.ParameterToString(sandbox.Value);
+
+                    uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
+
+                    httpRequestMessageLocalVar.Content = (body as object) is kiban.sdk.workfloo.Client.FileParameter fileParameterLocalVar
+                        ? httpRequestMessageLocalVar.Content = new StreamContent(fileParameterLocalVar.Content)
+                        : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(body, _jsonSerializerOptions));
+
+                    List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
+                    ApiKeyToken apiKeyTokenLocalVar1 = (ApiKeyToken) await ApiKeyProvider.GetAsync("x-api-key", cancellationToken).ConfigureAwait(false);
+                    tokenBaseLocalVars.Add(apiKeyTokenLocalVar1);
+                    apiKeyTokenLocalVar1.UseInHeader(httpRequestMessageLocalVar);
+
+                    httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
+
+                    string[] contentTypes = new string[] {
+                        "application/json"
+                    };
+
+                    string? contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
+
+                    if (contentTypeLocalVar != null && httpRequestMessageLocalVar.Content != null)
+                        httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
+
+                    httpRequestMessageLocalVar.Method = HttpMethod.Post;
+
+                    DateTime requestedAtLocalVar = DateTime.UtcNow;
+
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
+                    {
+                        SubmitWorkflooCorrectionApiResponse apiResponseLocalVar;
+
+                        switch ((int)httpResponseMessageLocalVar.StatusCode) {
+                            default: {
+                                string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                                apiResponseLocalVar = new(Logger, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/api/v1/workfloo/{id}/correction", requestedAtLocalVar, _jsonSerializerOptions);
+
+                                break;
+                            }
+                        }
+
+                        AfterSubmitWorkflooCorrectionDefaultImplementation(apiResponseLocalVar, id, body, sandbox);
+
+                        Events.ExecuteOnSubmitWorkflooCorrection(apiResponseLocalVar);
+
+                        if (apiResponseLocalVar.StatusCode == (HttpStatusCode) 429)
+                            foreach(TokenBase tokenBaseLocalVar in tokenBaseLocalVars)
+                                tokenBaseLocalVar.BeginRateLimit();
+
+                        return apiResponseLocalVar;
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                OnErrorSubmitWorkflooCorrectionDefaultImplementation(e, "/api/v1/workfloo/{id}/correction", uriBuilderLocalVar.Path, id, body, sandbox);
+                Events.ExecuteOnErrorSubmitWorkflooCorrection(e);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// The <see cref="SubmitWorkflooCorrectionApiResponse"/>
+        /// </summary>
+        public partial class SubmitWorkflooCorrectionApiResponse : kiban.sdk.workfloo.Client.ApiResponse, ISubmitWorkflooCorrectionApiResponse
+        {
+            /// <summary>
+            /// The logger
+            /// </summary>
+            public ILogger<WorkflooApi> Logger { get; }
+
+            /// <summary>
+            /// The <see cref="SubmitWorkflooCorrectionApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="rawContent"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public SubmitWorkflooCorrectionApiResponse(ILogger<WorkflooApi> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            /// <summary>
+            /// The <see cref="SubmitWorkflooCorrectionApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="contentStream"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public SubmitWorkflooCorrectionApiResponse(ILogger<WorkflooApi> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, System.IO.Stream contentStream, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, contentStream, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOk => 200 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 400 BadRequest
+            /// </summary>
+            /// <returns></returns>
+            public bool IsBadRequest => 400 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 401 Unauthorized
+            /// </summary>
+            /// <returns></returns>
+            public bool IsUnauthorized => 401 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 403 Forbidden
+            /// </summary>
+            /// <returns></returns>
+            public bool IsForbidden => 403 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 404 NotFound
+            /// </summary>
+            /// <returns></returns>
+            public bool IsNotFound => 404 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 409 Conflict
+            /// </summary>
+            /// <returns></returns>
+            public bool IsConflict => 409 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 500 InternalServerError
+            /// </summary>
+            /// <returns></returns>
+            public bool IsInternalServerError => 500 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 503 ServiceUnavailable
+            /// </summary>
+            /// <returns></returns>
+            public bool IsServiceUnavailable => 503 == (int)StatusCode;
+
+            private void OnDeserializationErrorDefaultImplementation(Exception exception, HttpStatusCode httpStatusCode)
+            {
+                bool suppressDefaultLog = false;
+                OnDeserializationError(ref suppressDefaultLog, exception, httpStatusCode);
+                if (!suppressDefaultLog)
+                    Logger.LogError(RestLogEvents.ApiDeserializationFailed, exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
+            }
+
+            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+        }
+
+        partial void FormatValidateWorkflooNip(ref string id, ControllerWorkflooModelNipValidateRequest controllerWorkflooModelNipValidateRequest, ref Option<bool> sandbox);
+
+        /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="controllerWorkflooModelNipValidateRequest"></param>
+        /// <returns></returns>
+        private void ValidateValidateWorkflooNip(string id, ControllerWorkflooModelNipValidateRequest controllerWorkflooModelNipValidateRequest)
+        {
+            if (id == null)
+                throw new ArgumentNullException(nameof(id));
+
+            if (controllerWorkflooModelNipValidateRequest == null)
+                throw new ArgumentNullException(nameof(controllerWorkflooModelNipValidateRequest));
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="id"></param>
+        /// <param name="controllerWorkflooModelNipValidateRequest"></param>
+        /// <param name="sandbox"></param>
+        private void AfterValidateWorkflooNipDefaultImplementation(IValidateWorkflooNipApiResponse apiResponseLocalVar, string id, ControllerWorkflooModelNipValidateRequest controllerWorkflooModelNipValidateRequest, Option<bool> sandbox)
+        {
+            bool suppressDefaultLog = false;
+            AfterValidateWorkflooNip(ref suppressDefaultLog, apiResponseLocalVar, id, controllerWorkflooModelNipValidateRequest, sandbox);
+            if (!suppressDefaultLog)
+                Logger.LogInformation(RestLogEvents.ApiRequestCompleted, "{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="suppressDefaultLog"></param>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="id"></param>
+        /// <param name="controllerWorkflooModelNipValidateRequest"></param>
+        /// <param name="sandbox"></param>
+        partial void AfterValidateWorkflooNip(ref bool suppressDefaultLog, IValidateWorkflooNipApiResponse apiResponseLocalVar, string id, ControllerWorkflooModelNipValidateRequest controllerWorkflooModelNipValidateRequest, Option<bool> sandbox);
+
+        /// <summary>
+        /// Logs exceptions that occur while retrieving the server response
+        /// </summary>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
+        /// <param name="id"></param>
+        /// <param name="controllerWorkflooModelNipValidateRequest"></param>
+        /// <param name="sandbox"></param>
+        private void OnErrorValidateWorkflooNipDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string id, ControllerWorkflooModelNipValidateRequest controllerWorkflooModelNipValidateRequest, Option<bool> sandbox)
+        {
+            bool suppressDefaultLogLocalVar = false;
+            OnErrorValidateWorkflooNip(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, id, controllerWorkflooModelNipValidateRequest, sandbox);
+            if (!suppressDefaultLogLocalVar)
+                Logger.LogError(RestLogEvents.ApiRequestFailed, exceptionLocalVar, "An error occurred while sending the request to the server.");
+        }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
+        /// <param name="id"></param>
+        /// <param name="controllerWorkflooModelNipValidateRequest"></param>
+        /// <param name="sandbox"></param>
+        partial void OnErrorValidateWorkflooNip(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string id, ControllerWorkflooModelNipValidateRequest controllerWorkflooModelNipValidateRequest, Option<bool> sandbox);
+
+        /// <summary>
+        /// Validar el NIP Valida el NIP capturado por el usuario y devuelve la fase resultante del flujo NIP.
+        /// </summary>
+        /// <param name="id">Id de la ejecución</param>
+        /// <param name="controllerWorkflooModelNipValidateRequest">El NIP a validar</param>
+        /// <param name="sandbox">Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="IValidateWorkflooNipApiResponse"/>&gt;</returns>
+        public async Task<IValidateWorkflooNipApiResponse?> ValidateWorkflooNipOrDefaultAsync(string id, ControllerWorkflooModelNipValidateRequest controllerWorkflooModelNipValidateRequest, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                return await ValidateWorkflooNipAsync(id, controllerWorkflooModelNipValidateRequest, sandbox, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Validar el NIP Valida el NIP capturado por el usuario y devuelve la fase resultante del flujo NIP.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="id">Id de la ejecución</param>
+        /// <param name="controllerWorkflooModelNipValidateRequest">El NIP a validar</param>
+        /// <param name="sandbox">Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="IValidateWorkflooNipApiResponse"/>&gt;</returns>
+        public async Task<IValidateWorkflooNipApiResponse> ValidateWorkflooNipAsync(string id, ControllerWorkflooModelNipValidateRequest controllerWorkflooModelNipValidateRequest, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default)
+        {
+            UriBuilder uriBuilderLocalVar = new UriBuilder();
+
+            try
+            {
+                ValidateValidateWorkflooNip(id, controllerWorkflooModelNipValidateRequest);
+
+                FormatValidateWorkflooNip(ref id, controllerWorkflooModelNipValidateRequest, ref sandbox);
+
+                using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
+                {
+                    uriBuilderLocalVar.Host = HttpClient.BaseAddress!.Host;
+                    uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
+                    uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
+                    uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
+                        ? "/api/v1/workfloo/{id}/nip/validate"
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/api/v1/workfloo/{id}/nip/validate");
+                    uriBuilderLocalVar.Path = uriBuilderLocalVar.Path.Replace("%7Bid%7D", Uri.EscapeDataString(id.ToString()));
+
+                    System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
+
+                    if (sandbox.IsSet)
+                        parseQueryStringLocalVar["sandbox"] = ClientUtils.ParameterToString(sandbox.Value);
+
+                    uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
+
+                    httpRequestMessageLocalVar.Content = (controllerWorkflooModelNipValidateRequest as object) is kiban.sdk.workfloo.Client.FileParameter fileParameterLocalVar
+                        ? httpRequestMessageLocalVar.Content = new StreamContent(fileParameterLocalVar.Content)
+                        : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(controllerWorkflooModelNipValidateRequest, _jsonSerializerOptions));
+
+                    List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
+                    ApiKeyToken apiKeyTokenLocalVar1 = (ApiKeyToken) await ApiKeyProvider.GetAsync("x-api-key", cancellationToken).ConfigureAwait(false);
+                    tokenBaseLocalVars.Add(apiKeyTokenLocalVar1);
+                    apiKeyTokenLocalVar1.UseInHeader(httpRequestMessageLocalVar);
+
+                    httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
+
+                    string[] contentTypes = new string[] {
+                        "application/json"
+                    };
+
+                    string? contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
+
+                    if (contentTypeLocalVar != null && httpRequestMessageLocalVar.Content != null)
+                        httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
+
+                    string[] acceptLocalVars = new string[] {
+                        "application/json"
+                    };
+
+                    IEnumerable<MediaTypeWithQualityHeaderValue> acceptHeaderValuesLocalVar = ClientUtils.SelectHeaderAcceptArray(acceptLocalVars);
+
+                    foreach (var acceptLocalVar in acceptHeaderValuesLocalVar)
+                        httpRequestMessageLocalVar.Headers.Accept.Add(acceptLocalVar);
+
+                    httpRequestMessageLocalVar.Method = HttpMethod.Patch;
+
+                    DateTime requestedAtLocalVar = DateTime.UtcNow;
+
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
+                    {
+                        ValidateWorkflooNipApiResponse apiResponseLocalVar;
+
+                        switch ((int)httpResponseMessageLocalVar.StatusCode) {
+                            default: {
+                                string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                                apiResponseLocalVar = new(Logger, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/api/v1/workfloo/{id}/nip/validate", requestedAtLocalVar, _jsonSerializerOptions);
+
+                                break;
+                            }
+                        }
+
+                        AfterValidateWorkflooNipDefaultImplementation(apiResponseLocalVar, id, controllerWorkflooModelNipValidateRequest, sandbox);
+
+                        Events.ExecuteOnValidateWorkflooNip(apiResponseLocalVar);
+
+                        if (apiResponseLocalVar.StatusCode == (HttpStatusCode) 429)
+                            foreach(TokenBase tokenBaseLocalVar in tokenBaseLocalVars)
+                                tokenBaseLocalVar.BeginRateLimit();
+
+                        return apiResponseLocalVar;
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                OnErrorValidateWorkflooNipDefaultImplementation(e, "/api/v1/workfloo/{id}/nip/validate", uriBuilderLocalVar.Path, id, controllerWorkflooModelNipValidateRequest, sandbox);
+                Events.ExecuteOnErrorValidateWorkflooNip(e);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// The <see cref="ValidateWorkflooNipApiResponse"/>
+        /// </summary>
+        public partial class ValidateWorkflooNipApiResponse : kiban.sdk.workfloo.Client.ApiResponse, IValidateWorkflooNipApiResponse
+        {
+            /// <summary>
+            /// The logger
+            /// </summary>
+            public ILogger<WorkflooApi> Logger { get; }
+
+            /// <summary>
+            /// The <see cref="ValidateWorkflooNipApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="rawContent"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public ValidateWorkflooNipApiResponse(ILogger<WorkflooApi> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            /// <summary>
+            /// The <see cref="ValidateWorkflooNipApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="contentStream"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public ValidateWorkflooNipApiResponse(ILogger<WorkflooApi> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, System.IO.Stream contentStream, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, contentStream, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOk => 200 == (int)StatusCode;
+
+            /// <summary>
+            /// Deserializes the response if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public kiban.sdk.workfloo.Model.ControllerWorkflooModelNipValidateResponse? Ok()
+            {
+                // This logic may be modified with the AsModel.mustache template
+                return IsOk
+                    ? System.Text.Json.JsonSerializer.Deserialize<kiban.sdk.workfloo.Model.ControllerWorkflooModelNipValidateResponse>(RawContent, _jsonSerializerOptions)
+                    : null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryOk([NotNullWhen(true)]out kiban.sdk.workfloo.Model.ControllerWorkflooModelNipValidateResponse? result)
+            {
+                result = null;
+
+                try
+                {
+                    result = Ok();
+                } catch (Exception e)
+                {
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)200);
+                }
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 400 BadRequest
+            /// </summary>
+            /// <returns></returns>
+            public bool IsBadRequest => 400 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 401 Unauthorized
+            /// </summary>
+            /// <returns></returns>
+            public bool IsUnauthorized => 401 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 403 Forbidden
+            /// </summary>
+            /// <returns></returns>
+            public bool IsForbidden => 403 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 404 NotFound
+            /// </summary>
+            /// <returns></returns>
+            public bool IsNotFound => 404 == (int)StatusCode;
 
             /// <summary>
             /// Returns true if the response is 500 InternalServerError

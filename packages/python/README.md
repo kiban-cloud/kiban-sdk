@@ -81,17 +81,17 @@ configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
 # Enter a context with an instance of the API client
 with kiban.sdk.workfloo.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = kiban.sdk.workfloo.WorkflooApi(api_client)
-    controller_workfloo_model_execute = kiban.sdk.workfloo.ControllerWorkflooModelExecute() # ControllerWorkflooModelExecute | Definición a ejecutar y datos iniciales
+    api_instance = kiban.sdk.workfloo.PoolApi(api_client)
+    controller_pool_model_execute = kiban.sdk.workfloo.ControllerPoolModelExecute() # ControllerPoolModelExecute | Definición del pool y escenarios
     sandbox = True # bool | Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
 
     try:
-        # Ejecutar un workfloo
-        api_response = api_instance.execute_workfloo(controller_workfloo_model_execute, sandbox=sandbox)
-        print("The response of WorkflooApi->execute_workfloo:\n")
+        # Ejecutar un pool
+        api_response = api_instance.execute_pool(controller_pool_model_execute, sandbox=sandbox)
+        print("The response of PoolApi->execute_pool:\n")
         pprint(api_response)
     except ApiException as e:
-        print("Exception when calling WorkflooApi->execute_workfloo: %s\n" % e)
+        print("Exception when calling PoolApi->execute_pool: %s\n" % e)
 
 ```
 
@@ -101,15 +101,26 @@ All URIs are relative to *https://workfloo.kiban.com*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*PoolApi* | [**execute_pool**](docs/PoolApi.md#execute_pool) | **POST** /api/v1/pool | Ejecutar un pool
 *WorkflooApi* | [**execute_workfloo**](docs/WorkflooApi.md#execute_workfloo) | **POST** /api/v1/workfloo | Ejecutar un workfloo
+*WorkflooApi* | [**execute_workfloo_document**](docs/WorkflooApi.md#execute_workfloo_document) | **POST** /api/v1/workfloo/{id}/document | Enviar los documentos de un paso
+*WorkflooApi* | [**execute_workfloo_form**](docs/WorkflooApi.md#execute_workfloo_form) | **POST** /api/v1/workfloo/{id}/form | Enviar el formulario de un paso
 *WorkflooApi* | [**get_workfloo**](docs/WorkflooApi.md#get_workfloo) | **GET** /api/v1/workfloo/{id} | Detalle de una ejecución
+*WorkflooApi* | [**get_workfloo_file**](docs/WorkflooApi.md#get_workfloo_file) | **GET** /api/v1/workfloo/{id}/file | Descargar un archivo de un nodo
 *WorkflooApi* | [**get_workfloo_status**](docs/WorkflooApi.md#get_workfloo_status) | **GET** /api/v1/workfloo/status/{id} | Estatus de una ejecución
 *WorkflooApi* | [**list_workfloos**](docs/WorkflooApi.md#list_workfloos) | **GET** /api/v1/workfloo | Historial de ejecuciones (v1)
 *WorkflooApi* | [**list_workfloos_v2**](docs/WorkflooApi.md#list_workfloos_v2) | **GET** /api/v2/workfloo | Historial de ejecuciones (v2)
+*WorkflooApi* | [**resend_workfloo_nip**](docs/WorkflooApi.md#resend_workfloo_nip) | **PATCH** /api/v1/workfloo/{id}/nip/resend | Reenviar el NIP
+*WorkflooApi* | [**review_workfloo_validation**](docs/WorkflooApi.md#review_workfloo_validation) | **POST** /api/v1/workfloo/{id}/review | Revisar un paso de validación
+*WorkflooApi* | [**send_workfloo_nip**](docs/WorkflooApi.md#send_workfloo_nip) | **PATCH** /api/v1/workfloo/{id}/nip/send | Enviar el NIP
+*WorkflooApi* | [**submit_workfloo_correction**](docs/WorkflooApi.md#submit_workfloo_correction) | **POST** /api/v1/workfloo/{id}/correction | Enviar la corrección de un paso de validación
+*WorkflooApi* | [**validate_workfloo_nip**](docs/WorkflooApi.md#validate_workfloo_nip) | **PATCH** /api/v1/workfloo/{id}/nip/validate | Validar el NIP
 
 
 ## Documentation For Models
 
+ - [ControllerPoolModelExecute](docs/ControllerPoolModelExecute.md)
+ - [ControllerPoolModelExecuteResponse](docs/ControllerPoolModelExecuteResponse.md)
  - [ControllerWorkflooDefinitionModelAutoFilledBy](docs/ControllerWorkflooDefinitionModelAutoFilledBy.md)
  - [ControllerWorkflooDefinitionModelDocument](docs/ControllerWorkflooDefinitionModelDocument.md)
  - [ControllerWorkflooDefinitionModelField](docs/ControllerWorkflooDefinitionModelField.md)
@@ -134,6 +145,7 @@ Class | Method | HTTP request | Description
  - [ControllerWorkflooModelExecute](docs/ControllerWorkflooModelExecute.md)
  - [ControllerWorkflooModelExecuteResponse](docs/ControllerWorkflooModelExecuteResponse.md)
  - [ControllerWorkflooModelFile](docs/ControllerWorkflooModelFile.md)
+ - [ControllerWorkflooModelFileResponse](docs/ControllerWorkflooModelFileResponse.md)
  - [ControllerWorkflooModelForm](docs/ControllerWorkflooModelForm.md)
  - [ControllerWorkflooModelFormField](docs/ControllerWorkflooModelFormField.md)
  - [ControllerWorkflooModelFormResume](docs/ControllerWorkflooModelFormResume.md)
@@ -141,11 +153,18 @@ Class | Method | HTTP request | Description
  - [ControllerWorkflooModelLink](docs/ControllerWorkflooModelLink.md)
  - [ControllerWorkflooModelLinkNipStatus](docs/ControllerWorkflooModelLinkNipStatus.md)
  - [ControllerWorkflooModelLinkResume](docs/ControllerWorkflooModelLinkResume.md)
+ - [ControllerWorkflooModelNipResendRequest](docs/ControllerWorkflooModelNipResendRequest.md)
+ - [ControllerWorkflooModelNipResendStatus](docs/ControllerWorkflooModelNipResendStatus.md)
+ - [ControllerWorkflooModelNipSendRequest](docs/ControllerWorkflooModelNipSendRequest.md)
+ - [ControllerWorkflooModelNipValidateRequest](docs/ControllerWorkflooModelNipValidateRequest.md)
+ - [ControllerWorkflooModelNipValidateResponse](docs/ControllerWorkflooModelNipValidateResponse.md)
  - [ControllerWorkflooModelNode](docs/ControllerWorkflooModelNode.md)
  - [ControllerWorkflooModelNodeDetail](docs/ControllerWorkflooModelNodeDetail.md)
  - [ControllerWorkflooModelNodeResume](docs/ControllerWorkflooModelNodeResume.md)
  - [ControllerWorkflooModelPdf](docs/ControllerWorkflooModelPdf.md)
  - [ControllerWorkflooModelRemainingTime](docs/ControllerWorkflooModelRemainingTime.md)
+ - [ControllerWorkflooModelReviewFieldRequest](docs/ControllerWorkflooModelReviewFieldRequest.md)
+ - [ControllerWorkflooModelReviewRequest](docs/ControllerWorkflooModelReviewRequest.md)
  - [ControllerWorkflooModelReviewResume](docs/ControllerWorkflooModelReviewResume.md)
  - [ControllerWorkflooModelRules](docs/ControllerWorkflooModelRules.md)
  - [ControllerWorkflooModelRuleset](docs/ControllerWorkflooModelRuleset.md)

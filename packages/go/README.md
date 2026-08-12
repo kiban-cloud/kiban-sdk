@@ -76,15 +76,26 @@ All URIs are relative to *https://workfloo.kiban.com*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*PoolAPI* | [**ExecutePool**](docs/PoolAPI.md#executepool) | **Post** /api/v1/pool | Ejecutar un pool
 *WorkflooAPI* | [**ExecuteWorkfloo**](docs/WorkflooAPI.md#executeworkfloo) | **Post** /api/v1/workfloo | Ejecutar un workfloo
+*WorkflooAPI* | [**ExecuteWorkflooDocument**](docs/WorkflooAPI.md#executeworkfloodocument) | **Post** /api/v1/workfloo/{id}/document | Enviar los documentos de un paso
+*WorkflooAPI* | [**ExecuteWorkflooForm**](docs/WorkflooAPI.md#executeworkflooform) | **Post** /api/v1/workfloo/{id}/form | Enviar el formulario de un paso
 *WorkflooAPI* | [**GetWorkfloo**](docs/WorkflooAPI.md#getworkfloo) | **Get** /api/v1/workfloo/{id} | Detalle de una ejecución
+*WorkflooAPI* | [**GetWorkflooFile**](docs/WorkflooAPI.md#getworkfloofile) | **Get** /api/v1/workfloo/{id}/file | Descargar un archivo de un nodo
 *WorkflooAPI* | [**GetWorkflooStatus**](docs/WorkflooAPI.md#getworkfloostatus) | **Get** /api/v1/workfloo/status/{id} | Estatus de una ejecución
 *WorkflooAPI* | [**ListWorkfloos**](docs/WorkflooAPI.md#listworkfloos) | **Get** /api/v1/workfloo | Historial de ejecuciones (v1)
 *WorkflooAPI* | [**ListWorkfloosV2**](docs/WorkflooAPI.md#listworkfloosv2) | **Get** /api/v2/workfloo | Historial de ejecuciones (v2)
+*WorkflooAPI* | [**ResendWorkflooNip**](docs/WorkflooAPI.md#resendworkfloonip) | **Patch** /api/v1/workfloo/{id}/nip/resend | Reenviar el NIP
+*WorkflooAPI* | [**ReviewWorkflooValidation**](docs/WorkflooAPI.md#reviewworkfloovalidation) | **Post** /api/v1/workfloo/{id}/review | Revisar un paso de validación
+*WorkflooAPI* | [**SendWorkflooNip**](docs/WorkflooAPI.md#sendworkfloonip) | **Patch** /api/v1/workfloo/{id}/nip/send | Enviar el NIP
+*WorkflooAPI* | [**SubmitWorkflooCorrection**](docs/WorkflooAPI.md#submitworkfloocorrection) | **Post** /api/v1/workfloo/{id}/correction | Enviar la corrección de un paso de validación
+*WorkflooAPI* | [**ValidateWorkflooNip**](docs/WorkflooAPI.md#validateworkfloonip) | **Patch** /api/v1/workfloo/{id}/nip/validate | Validar el NIP
 
 
 ## Documentation For Models
 
+ - [ControllerPoolModelExecute](docs/ControllerPoolModelExecute.md)
+ - [ControllerPoolModelExecuteResponse](docs/ControllerPoolModelExecuteResponse.md)
  - [ControllerWorkflooDefinitionModelAutoFilledBy](docs/ControllerWorkflooDefinitionModelAutoFilledBy.md)
  - [ControllerWorkflooDefinitionModelDocument](docs/ControllerWorkflooDefinitionModelDocument.md)
  - [ControllerWorkflooDefinitionModelField](docs/ControllerWorkflooDefinitionModelField.md)
@@ -109,6 +120,7 @@ Class | Method | HTTP request | Description
  - [ControllerWorkflooModelExecute](docs/ControllerWorkflooModelExecute.md)
  - [ControllerWorkflooModelExecuteResponse](docs/ControllerWorkflooModelExecuteResponse.md)
  - [ControllerWorkflooModelFile](docs/ControllerWorkflooModelFile.md)
+ - [ControllerWorkflooModelFileResponse](docs/ControllerWorkflooModelFileResponse.md)
  - [ControllerWorkflooModelForm](docs/ControllerWorkflooModelForm.md)
  - [ControllerWorkflooModelFormField](docs/ControllerWorkflooModelFormField.md)
  - [ControllerWorkflooModelFormResume](docs/ControllerWorkflooModelFormResume.md)
@@ -116,11 +128,18 @@ Class | Method | HTTP request | Description
  - [ControllerWorkflooModelLink](docs/ControllerWorkflooModelLink.md)
  - [ControllerWorkflooModelLinkNipStatus](docs/ControllerWorkflooModelLinkNipStatus.md)
  - [ControllerWorkflooModelLinkResume](docs/ControllerWorkflooModelLinkResume.md)
+ - [ControllerWorkflooModelNipResendRequest](docs/ControllerWorkflooModelNipResendRequest.md)
+ - [ControllerWorkflooModelNipResendStatus](docs/ControllerWorkflooModelNipResendStatus.md)
+ - [ControllerWorkflooModelNipSendRequest](docs/ControllerWorkflooModelNipSendRequest.md)
+ - [ControllerWorkflooModelNipValidateRequest](docs/ControllerWorkflooModelNipValidateRequest.md)
+ - [ControllerWorkflooModelNipValidateResponse](docs/ControllerWorkflooModelNipValidateResponse.md)
  - [ControllerWorkflooModelNode](docs/ControllerWorkflooModelNode.md)
  - [ControllerWorkflooModelNodeDetail](docs/ControllerWorkflooModelNodeDetail.md)
  - [ControllerWorkflooModelNodeResume](docs/ControllerWorkflooModelNodeResume.md)
  - [ControllerWorkflooModelPdf](docs/ControllerWorkflooModelPdf.md)
  - [ControllerWorkflooModelRemainingTime](docs/ControllerWorkflooModelRemainingTime.md)
+ - [ControllerWorkflooModelReviewFieldRequest](docs/ControllerWorkflooModelReviewFieldRequest.md)
+ - [ControllerWorkflooModelReviewRequest](docs/ControllerWorkflooModelReviewRequest.md)
  - [ControllerWorkflooModelReviewResume](docs/ControllerWorkflooModelReviewResume.md)
  - [ControllerWorkflooModelRules](docs/ControllerWorkflooModelRules.md)
  - [ControllerWorkflooModelRuleset](docs/ControllerWorkflooModelRuleset.md)

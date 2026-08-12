@@ -8,6 +8,7 @@ Name | Type | Description | Notes
 **fields** | [**List[ControllerWorkflooModelValidationField]**](ControllerWorkflooModelValidationField.md) |  | [optional] 
 **instruction** | **str** |  | [optional] 
 **reviewer_note** | **str** |  | [optional] 
+**state** | **str** |  | [optional] 
 
 ## Example
 

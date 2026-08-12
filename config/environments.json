@@ -1,0 +1,11 @@
+{
+  "_comment": "Este SDK usa SIEMPRE producción. 'sandbox' es el valor por defecto del flag; se puede sobreescribir por corrida con la variable KIBAN_SANDBOX (true/false). Aquí NO van llaves, solo el NOMBRE de la env var que contiene la API key (esa vive en .env.local, o en GitHub Secrets para CI).",
+  "environments": {
+    "prod": {
+      "host": "https://workfloo.kiban.com",
+      "apiKeyVar": "KIBAN_API_KEY_PROD",
+      "sandbox": false
+    }
+  },
+  "defaultEnv": "prod"
+}

@@ -23,6 +23,14 @@ import type { RequestArgs } from './base';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError, operationServerMap } from './base';
 
+export interface ControllerPoolModelExecute {
+    'idPoolDefinition': string;
+    'sceneries'?: { [key: string]: string; };
+}
+export interface ControllerPoolModelExecuteResponse {
+    'idWorkfloo'?: string;
+    'idWorkflooDefinition'?: string;
+}
 export interface ControllerWorkflooDefinitionModelAutoFilledBy {
     'nameNode'?: string;
     'nodeId'?: string;
@@ -163,6 +171,9 @@ export interface ControllerWorkflooModelFile {
     'name'?: { [key: string]: string; };
     'value'?: string;
 }
+export interface ControllerWorkflooModelFileResponse {
+    'fileBase64'?: string;
+}
 export interface ControllerWorkflooModelForm {
     'fields'?: Array<ControllerWorkflooModelFormField>;
 }
@@ -201,6 +212,27 @@ export interface ControllerWorkflooModelLinkNipStatus {
 export interface ControllerWorkflooModelLinkResume {
     'events'?: Array<ControllerWorkflooModelEvent>;
     'key'?: string;
+    'phase'?: string;
+}
+export interface ControllerWorkflooModelNipResendRequest {
+    'countryCode'?: string;
+    'phoneNumber'?: string;
+}
+export interface ControllerWorkflooModelNipResendStatus {
+    'countryCode'?: string;
+    'email'?: string;
+    'nipType'?: string;
+    'phase'?: string;
+    'phoneNumber'?: string;
+}
+export interface ControllerWorkflooModelNipSendRequest {
+    'countryCode'?: string;
+    'phoneNumber'?: string;
+}
+export interface ControllerWorkflooModelNipValidateRequest {
+    'nip': string;
+}
+export interface ControllerWorkflooModelNipValidateResponse {
     'phase'?: string;
 }
 export interface ControllerWorkflooModelNode {
@@ -264,6 +296,16 @@ export interface ControllerWorkflooModelRemainingTime {
     'minutes'?: number;
     'seconds'?: number;
 }
+export interface ControllerWorkflooModelReviewFieldRequest {
+    'fieldId'?: string;
+    'message'?: string;
+    'sourceNodeId'?: string;
+}
+export interface ControllerWorkflooModelReviewRequest {
+    'decision'?: string;
+    'reviewerNote'?: string;
+    'reviews'?: Array<ControllerWorkflooModelReviewFieldRequest>;
+}
 export interface ControllerWorkflooModelReviewResume {
     'fieldId'?: string;
     'message'?: string;
@@ -299,6 +341,7 @@ export interface ControllerWorkflooModelValidationStatus {
     'fields'?: Array<ControllerWorkflooModelValidationField>;
     'instruction'?: string;
     'reviewerNote'?: string;
+    'state'?: string;
 }
 export interface ControllerWorkflooModelVariable {
     'name'?: string;
@@ -362,6 +405,119 @@ export interface ControllerWorkflooModelWorkflooStatus {
 }
 
 /**
+ * PoolApi - axios parameter creator
+ */
+export const PoolApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * Ejecuta un pool de workfloos a partir de su definición. En sandbox, sceneries mapea cada nodo/definición a su escenario de prueba.
+         * @summary Ejecutar un pool
+         * @param {ControllerPoolModelExecute} controllerPoolModelExecute Definición del pool y escenarios
+         * @param {boolean} [sandbox] Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        executePool: async (controllerPoolModelExecute: ControllerPoolModelExecute, sandbox?: boolean, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'controllerPoolModelExecute' is not null or undefined
+            assertParamExists('executePool', 'controllerPoolModelExecute', controllerPoolModelExecute)
+            const localVarPath = `/api/v1/pool`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication ApiKeyAuth required
+            await setApiKeyToObject(localVarHeaderParameter, "x-api-key", configuration)
+
+            if (sandbox !== undefined) {
+                localVarQueryParameter['sandbox'] = sandbox;
+            }
+
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+            localVarHeaderParameter['Accept'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(controllerPoolModelExecute, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * PoolApi - functional programming interface
+ */
+export const PoolApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = PoolApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * Ejecuta un pool de workfloos a partir de su definición. En sandbox, sceneries mapea cada nodo/definición a su escenario de prueba.
+         * @summary Ejecutar un pool
+         * @param {ControllerPoolModelExecute} controllerPoolModelExecute Definición del pool y escenarios
+         * @param {boolean} [sandbox] Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async executePool(controllerPoolModelExecute: ControllerPoolModelExecute, sandbox?: boolean, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ControllerPoolModelExecuteResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.executePool(controllerPoolModelExecute, sandbox, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['PoolApi.executePool']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * PoolApi - factory interface
+ */
+export const PoolApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = PoolApiFp(configuration)
+    return {
+        /**
+         * Ejecuta un pool de workfloos a partir de su definición. En sandbox, sceneries mapea cada nodo/definición a su escenario de prueba.
+         * @summary Ejecutar un pool
+         * @param {ControllerPoolModelExecute} controllerPoolModelExecute Definición del pool y escenarios
+         * @param {boolean} [sandbox] Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        executePool(controllerPoolModelExecute: ControllerPoolModelExecute, sandbox?: boolean, options?: RawAxiosRequestConfig): AxiosPromise<ControllerPoolModelExecuteResponse> {
+            return localVarFp.executePool(controllerPoolModelExecute, sandbox, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * PoolApi - object-oriented interface
+ */
+export class PoolApi extends BaseAPI {
+    /**
+     * Ejecuta un pool de workfloos a partir de su definición. En sandbox, sceneries mapea cada nodo/definición a su escenario de prueba.
+     * @summary Ejecutar un pool
+     * @param {ControllerPoolModelExecute} controllerPoolModelExecute Definición del pool y escenarios
+     * @param {boolean} [sandbox] Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    public executePool(controllerPoolModelExecute: ControllerPoolModelExecute, sandbox?: boolean, options?: RawAxiosRequestConfig) {
+        return PoolApiFp(this.configuration).executePool(controllerPoolModelExecute, sandbox, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
  * WorkflooApi - axios parameter creator
  */
 export const WorkflooApiAxiosParamCreator = function (configuration?: Configuration) {
@@ -410,6 +566,98 @@ export const WorkflooApiAxiosParamCreator = function (configuration?: Configurat
             };
         },
         /**
+         * Envía los documentos del nodo DOCUMENT actual. El body es un objeto {documentoId: base64} (los de tipo \"set\" van como arreglo de objetos).
+         * @summary Enviar los documentos de un paso
+         * @param {string} id Id de la ejecución
+         * @param {object} body Documentos: {documentoId: base64}
+         * @param {boolean} [sandbox] Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        executeWorkflooDocument: async (id: string, body: object, sandbox?: boolean, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('executeWorkflooDocument', 'id', id)
+            // verify required parameter 'body' is not null or undefined
+            assertParamExists('executeWorkflooDocument', 'body', body)
+            const localVarPath = `/api/v1/workfloo/{id}/document`
+                .replace('{id}', encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication ApiKeyAuth required
+            await setApiKeyToObject(localVarHeaderParameter, "x-api-key", configuration)
+
+            if (sandbox !== undefined) {
+                localVarQueryParameter['sandbox'] = sandbox;
+            }
+
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Envía las respuestas del nodo FORM actual de la ejecución. El body es un objeto {campoId: valor} con los campos del formulario.
+         * @summary Enviar el formulario de un paso
+         * @param {string} id Id de la ejecución
+         * @param {object} body Campos del formulario: {campoId: valor}
+         * @param {boolean} [sandbox] Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        executeWorkflooForm: async (id: string, body: object, sandbox?: boolean, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('executeWorkflooForm', 'id', id)
+            // verify required parameter 'body' is not null or undefined
+            assertParamExists('executeWorkflooForm', 'body', body)
+            const localVarPath = `/api/v1/workfloo/{id}/form`
+                .replace('{id}', encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication ApiKeyAuth required
+            await setApiKeyToObject(localVarHeaderParameter, "x-api-key", configuration)
+
+            if (sandbox !== undefined) {
+                localVarQueryParameter['sandbox'] = sandbox;
+            }
+
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * Devuelve el historial completo de una ejecución: todos sus nodos con request/response, variables, documentos y decisiones.
          * @summary Detalle de una ejecución
          * @param {string} id Id de la ejecución
@@ -435,6 +683,62 @@ export const WorkflooApiAxiosParamCreator = function (configuration?: Configurat
 
             // authentication ApiKeyAuth required
             await setApiKeyToObject(localVarHeaderParameter, "x-api-key", configuration)
+
+            if (sandbox !== undefined) {
+                localVarQueryParameter['sandbox'] = sandbox;
+            }
+
+            localVarHeaderParameter['Accept'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Devuelve, en base64, un archivo producido/subido en un nodo de la ejecución, identificado por nodeId + name.
+         * @summary Descargar un archivo de un nodo
+         * @param {string} id Id de la ejecución
+         * @param {string} nodeId Id del nodo que contiene el archivo
+         * @param {string} name Nombre del archivo
+         * @param {boolean} [sandbox] Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getWorkflooFile: async (id: string, nodeId: string, name: string, sandbox?: boolean, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('getWorkflooFile', 'id', id)
+            // verify required parameter 'nodeId' is not null or undefined
+            assertParamExists('getWorkflooFile', 'nodeId', nodeId)
+            // verify required parameter 'name' is not null or undefined
+            assertParamExists('getWorkflooFile', 'name', name)
+            const localVarPath = `/api/v1/workfloo/{id}/file`
+                .replace('{id}', encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication ApiKeyAuth required
+            await setApiKeyToObject(localVarHeaderParameter, "x-api-key", configuration)
+
+            if (nodeId !== undefined) {
+                localVarQueryParameter['nodeId'] = nodeId;
+            }
+
+            if (name !== undefined) {
+                localVarQueryParameter['name'] = name;
+            }
 
             if (sandbox !== undefined) {
                 localVarQueryParameter['sandbox'] = sandbox;
@@ -628,6 +932,234 @@ export const WorkflooApiAxiosParamCreator = function (configuration?: Configurat
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * Reenvía el NIP y devuelve el estado del flujo NIP. El body es opcional (teléfono al que reenviar).
+         * @summary Reenviar el NIP
+         * @param {string} id Id de la ejecución
+         * @param {boolean} [sandbox] Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+         * @param {ControllerWorkflooModelNipResendRequest} [controllerWorkflooModelNipResendRequest] Teléfono al que reenviar (opcional)
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        resendWorkflooNip: async (id: string, sandbox?: boolean, controllerWorkflooModelNipResendRequest?: ControllerWorkflooModelNipResendRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('resendWorkflooNip', 'id', id)
+            const localVarPath = `/api/v1/workfloo/{id}/nip/resend`
+                .replace('{id}', encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication ApiKeyAuth required
+            await setApiKeyToObject(localVarHeaderParameter, "x-api-key", configuration)
+
+            if (sandbox !== undefined) {
+                localVarQueryParameter['sandbox'] = sandbox;
+            }
+
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+            localVarHeaderParameter['Accept'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(controllerWorkflooModelNipResendRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Aplica la decisión del revisor sobre un nodo VALIDATION en estado REVIEW: aprobar o rechazar. En un rechazo, reviews indica los campos a corregir con su mensaje.
+         * @summary Revisar un paso de validación
+         * @param {string} id Id de la ejecución
+         * @param {ControllerWorkflooModelReviewRequest} controllerWorkflooModelReviewRequest Decisión del revisor
+         * @param {boolean} [sandbox] Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        reviewWorkflooValidation: async (id: string, controllerWorkflooModelReviewRequest: ControllerWorkflooModelReviewRequest, sandbox?: boolean, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('reviewWorkflooValidation', 'id', id)
+            // verify required parameter 'controllerWorkflooModelReviewRequest' is not null or undefined
+            assertParamExists('reviewWorkflooValidation', 'controllerWorkflooModelReviewRequest', controllerWorkflooModelReviewRequest)
+            const localVarPath = `/api/v1/workfloo/{id}/review`
+                .replace('{id}', encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication ApiKeyAuth required
+            await setApiKeyToObject(localVarHeaderParameter, "x-api-key", configuration)
+
+            if (sandbox !== undefined) {
+                localVarQueryParameter['sandbox'] = sandbox;
+            }
+
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(controllerWorkflooModelReviewRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Envía el NIP (código de un solo uso) del nodo NIP actual. El body es opcional; si se incluye teléfono, countryCode y phoneNumber van juntos.
+         * @summary Enviar el NIP
+         * @param {string} id Id de la ejecución
+         * @param {boolean} [sandbox] Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+         * @param {ControllerWorkflooModelNipSendRequest} [controllerWorkflooModelNipSendRequest] Teléfono al que enviar el NIP (opcional)
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        sendWorkflooNip: async (id: string, sandbox?: boolean, controllerWorkflooModelNipSendRequest?: ControllerWorkflooModelNipSendRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('sendWorkflooNip', 'id', id)
+            const localVarPath = `/api/v1/workfloo/{id}/nip/send`
+                .replace('{id}', encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication ApiKeyAuth required
+            await setApiKeyToObject(localVarHeaderParameter, "x-api-key", configuration)
+
+            if (sandbox !== undefined) {
+                localVarQueryParameter['sandbox'] = sandbox;
+            }
+
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(controllerWorkflooModelNipSendRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Reenvía los campos corregidos por el prospecto cuando un nodo VALIDATION está en estado CORRECTION. El body es un objeto {campoId: valor}, igual que el formulario.
+         * @summary Enviar la corrección de un paso de validación
+         * @param {string} id Id de la ejecución
+         * @param {object} body Campos corregidos: {campoId: valor}
+         * @param {boolean} [sandbox] Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        submitWorkflooCorrection: async (id: string, body: object, sandbox?: boolean, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('submitWorkflooCorrection', 'id', id)
+            // verify required parameter 'body' is not null or undefined
+            assertParamExists('submitWorkflooCorrection', 'body', body)
+            const localVarPath = `/api/v1/workfloo/{id}/correction`
+                .replace('{id}', encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication ApiKeyAuth required
+            await setApiKeyToObject(localVarHeaderParameter, "x-api-key", configuration)
+
+            if (sandbox !== undefined) {
+                localVarQueryParameter['sandbox'] = sandbox;
+            }
+
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Valida el NIP capturado por el usuario y devuelve la fase resultante del flujo NIP.
+         * @summary Validar el NIP
+         * @param {string} id Id de la ejecución
+         * @param {ControllerWorkflooModelNipValidateRequest} controllerWorkflooModelNipValidateRequest El NIP a validar
+         * @param {boolean} [sandbox] Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        validateWorkflooNip: async (id: string, controllerWorkflooModelNipValidateRequest: ControllerWorkflooModelNipValidateRequest, sandbox?: boolean, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('validateWorkflooNip', 'id', id)
+            // verify required parameter 'controllerWorkflooModelNipValidateRequest' is not null or undefined
+            assertParamExists('validateWorkflooNip', 'controllerWorkflooModelNipValidateRequest', controllerWorkflooModelNipValidateRequest)
+            const localVarPath = `/api/v1/workfloo/{id}/nip/validate`
+                .replace('{id}', encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication ApiKeyAuth required
+            await setApiKeyToObject(localVarHeaderParameter, "x-api-key", configuration)
+
+            if (sandbox !== undefined) {
+                localVarQueryParameter['sandbox'] = sandbox;
+            }
+
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+            localVarHeaderParameter['Accept'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(controllerWorkflooModelNipValidateRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -652,6 +1184,36 @@ export const WorkflooApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
+         * Envía los documentos del nodo DOCUMENT actual. El body es un objeto {documentoId: base64} (los de tipo \"set\" van como arreglo de objetos).
+         * @summary Enviar los documentos de un paso
+         * @param {string} id Id de la ejecución
+         * @param {object} body Documentos: {documentoId: base64}
+         * @param {boolean} [sandbox] Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async executeWorkflooDocument(id: string, body: object, sandbox?: boolean, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.executeWorkflooDocument(id, body, sandbox, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['WorkflooApi.executeWorkflooDocument']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Envía las respuestas del nodo FORM actual de la ejecución. El body es un objeto {campoId: valor} con los campos del formulario.
+         * @summary Enviar el formulario de un paso
+         * @param {string} id Id de la ejecución
+         * @param {object} body Campos del formulario: {campoId: valor}
+         * @param {boolean} [sandbox] Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async executeWorkflooForm(id: string, body: object, sandbox?: boolean, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.executeWorkflooForm(id, body, sandbox, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['WorkflooApi.executeWorkflooForm']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
          * Devuelve el historial completo de una ejecución: todos sus nodos con request/response, variables, documentos y decisiones.
          * @summary Detalle de una ejecución
          * @param {string} id Id de la ejecución
@@ -663,6 +1225,22 @@ export const WorkflooApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getWorkfloo(id, sandbox, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['WorkflooApi.getWorkfloo']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Devuelve, en base64, un archivo producido/subido en un nodo de la ejecución, identificado por nodeId + name.
+         * @summary Descargar un archivo de un nodo
+         * @param {string} id Id de la ejecución
+         * @param {string} nodeId Id del nodo que contiene el archivo
+         * @param {string} name Nombre del archivo
+         * @param {boolean} [sandbox] Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getWorkflooFile(id: string, nodeId: string, name: string, sandbox?: boolean, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ControllerWorkflooModelFileResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getWorkflooFile(id, nodeId, name, sandbox, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['WorkflooApi.getWorkflooFile']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -716,6 +1294,81 @@ export const WorkflooApiFp = function(configuration?: Configuration) {
             const localVarOperationServerBasePath = operationServerMap['WorkflooApi.listWorkfloosV2']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
+        /**
+         * Reenvía el NIP y devuelve el estado del flujo NIP. El body es opcional (teléfono al que reenviar).
+         * @summary Reenviar el NIP
+         * @param {string} id Id de la ejecución
+         * @param {boolean} [sandbox] Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+         * @param {ControllerWorkflooModelNipResendRequest} [controllerWorkflooModelNipResendRequest] Teléfono al que reenviar (opcional)
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async resendWorkflooNip(id: string, sandbox?: boolean, controllerWorkflooModelNipResendRequest?: ControllerWorkflooModelNipResendRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ControllerWorkflooModelNipResendStatus>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.resendWorkflooNip(id, sandbox, controllerWorkflooModelNipResendRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['WorkflooApi.resendWorkflooNip']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Aplica la decisión del revisor sobre un nodo VALIDATION en estado REVIEW: aprobar o rechazar. En un rechazo, reviews indica los campos a corregir con su mensaje.
+         * @summary Revisar un paso de validación
+         * @param {string} id Id de la ejecución
+         * @param {ControllerWorkflooModelReviewRequest} controllerWorkflooModelReviewRequest Decisión del revisor
+         * @param {boolean} [sandbox] Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async reviewWorkflooValidation(id: string, controllerWorkflooModelReviewRequest: ControllerWorkflooModelReviewRequest, sandbox?: boolean, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.reviewWorkflooValidation(id, controllerWorkflooModelReviewRequest, sandbox, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['WorkflooApi.reviewWorkflooValidation']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Envía el NIP (código de un solo uso) del nodo NIP actual. El body es opcional; si se incluye teléfono, countryCode y phoneNumber van juntos.
+         * @summary Enviar el NIP
+         * @param {string} id Id de la ejecución
+         * @param {boolean} [sandbox] Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+         * @param {ControllerWorkflooModelNipSendRequest} [controllerWorkflooModelNipSendRequest] Teléfono al que enviar el NIP (opcional)
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async sendWorkflooNip(id: string, sandbox?: boolean, controllerWorkflooModelNipSendRequest?: ControllerWorkflooModelNipSendRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.sendWorkflooNip(id, sandbox, controllerWorkflooModelNipSendRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['WorkflooApi.sendWorkflooNip']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Reenvía los campos corregidos por el prospecto cuando un nodo VALIDATION está en estado CORRECTION. El body es un objeto {campoId: valor}, igual que el formulario.
+         * @summary Enviar la corrección de un paso de validación
+         * @param {string} id Id de la ejecución
+         * @param {object} body Campos corregidos: {campoId: valor}
+         * @param {boolean} [sandbox] Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async submitWorkflooCorrection(id: string, body: object, sandbox?: boolean, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.submitWorkflooCorrection(id, body, sandbox, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['WorkflooApi.submitWorkflooCorrection']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Valida el NIP capturado por el usuario y devuelve la fase resultante del flujo NIP.
+         * @summary Validar el NIP
+         * @param {string} id Id de la ejecución
+         * @param {ControllerWorkflooModelNipValidateRequest} controllerWorkflooModelNipValidateRequest El NIP a validar
+         * @param {boolean} [sandbox] Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async validateWorkflooNip(id: string, controllerWorkflooModelNipValidateRequest: ControllerWorkflooModelNipValidateRequest, sandbox?: boolean, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ControllerWorkflooModelNipValidateResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.validateWorkflooNip(id, controllerWorkflooModelNipValidateRequest, sandbox, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['WorkflooApi.validateWorkflooNip']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
     }
 };
 
@@ -737,6 +1390,30 @@ export const WorkflooApiFactory = function (configuration?: Configuration, baseP
             return localVarFp.executeWorkfloo(controllerWorkflooModelExecute, sandbox, options).then((request) => request(axios, basePath));
         },
         /**
+         * Envía los documentos del nodo DOCUMENT actual. El body es un objeto {documentoId: base64} (los de tipo \"set\" van como arreglo de objetos).
+         * @summary Enviar los documentos de un paso
+         * @param {string} id Id de la ejecución
+         * @param {object} body Documentos: {documentoId: base64}
+         * @param {boolean} [sandbox] Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        executeWorkflooDocument(id: string, body: object, sandbox?: boolean, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.executeWorkflooDocument(id, body, sandbox, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Envía las respuestas del nodo FORM actual de la ejecución. El body es un objeto {campoId: valor} con los campos del formulario.
+         * @summary Enviar el formulario de un paso
+         * @param {string} id Id de la ejecución
+         * @param {object} body Campos del formulario: {campoId: valor}
+         * @param {boolean} [sandbox] Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        executeWorkflooForm(id: string, body: object, sandbox?: boolean, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.executeWorkflooForm(id, body, sandbox, options).then((request) => request(axios, basePath));
+        },
+        /**
          * Devuelve el historial completo de una ejecución: todos sus nodos con request/response, variables, documentos y decisiones.
          * @summary Detalle de una ejecución
          * @param {string} id Id de la ejecución
@@ -746,6 +1423,19 @@ export const WorkflooApiFactory = function (configuration?: Configuration, baseP
          */
         getWorkfloo(id: string, sandbox?: boolean, options?: RawAxiosRequestConfig): AxiosPromise<ControllerWorkflooModelWorkflooResume> {
             return localVarFp.getWorkfloo(id, sandbox, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Devuelve, en base64, un archivo producido/subido en un nodo de la ejecución, identificado por nodeId + name.
+         * @summary Descargar un archivo de un nodo
+         * @param {string} id Id de la ejecución
+         * @param {string} nodeId Id del nodo que contiene el archivo
+         * @param {string} name Nombre del archivo
+         * @param {boolean} [sandbox] Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getWorkflooFile(id: string, nodeId: string, name: string, sandbox?: boolean, options?: RawAxiosRequestConfig): AxiosPromise<ControllerWorkflooModelFileResponse> {
+            return localVarFp.getWorkflooFile(id, nodeId, name, sandbox, options).then((request) => request(axios, basePath));
         },
         /**
          * Devuelve el estado actual de la ejecución y el paso en el que está parada, con el payload que ese paso espera (formulario, documento, NIP, timer o corrección). Cuando el paso está procesando, currentNodeType lleva el sufijo _PROCESSING y el payload se omite.
@@ -789,6 +1479,66 @@ export const WorkflooApiFactory = function (configuration?: Configuration, baseP
         listWorkfloosV2(page?: number, itemsPerPage?: number, status?: string, from?: string, to?: string, format?: ListWorkfloosV2FormatEnum, sandbox?: boolean, options?: RawAxiosRequestConfig): AxiosPromise<Array<ControllerWorkflooModelWorkfloo>> {
             return localVarFp.listWorkfloosV2(page, itemsPerPage, status, from, to, format, sandbox, options).then((request) => request(axios, basePath));
         },
+        /**
+         * Reenvía el NIP y devuelve el estado del flujo NIP. El body es opcional (teléfono al que reenviar).
+         * @summary Reenviar el NIP
+         * @param {string} id Id de la ejecución
+         * @param {boolean} [sandbox] Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+         * @param {ControllerWorkflooModelNipResendRequest} [controllerWorkflooModelNipResendRequest] Teléfono al que reenviar (opcional)
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        resendWorkflooNip(id: string, sandbox?: boolean, controllerWorkflooModelNipResendRequest?: ControllerWorkflooModelNipResendRequest, options?: RawAxiosRequestConfig): AxiosPromise<ControllerWorkflooModelNipResendStatus> {
+            return localVarFp.resendWorkflooNip(id, sandbox, controllerWorkflooModelNipResendRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Aplica la decisión del revisor sobre un nodo VALIDATION en estado REVIEW: aprobar o rechazar. En un rechazo, reviews indica los campos a corregir con su mensaje.
+         * @summary Revisar un paso de validación
+         * @param {string} id Id de la ejecución
+         * @param {ControllerWorkflooModelReviewRequest} controllerWorkflooModelReviewRequest Decisión del revisor
+         * @param {boolean} [sandbox] Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        reviewWorkflooValidation(id: string, controllerWorkflooModelReviewRequest: ControllerWorkflooModelReviewRequest, sandbox?: boolean, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.reviewWorkflooValidation(id, controllerWorkflooModelReviewRequest, sandbox, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Envía el NIP (código de un solo uso) del nodo NIP actual. El body es opcional; si se incluye teléfono, countryCode y phoneNumber van juntos.
+         * @summary Enviar el NIP
+         * @param {string} id Id de la ejecución
+         * @param {boolean} [sandbox] Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+         * @param {ControllerWorkflooModelNipSendRequest} [controllerWorkflooModelNipSendRequest] Teléfono al que enviar el NIP (opcional)
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        sendWorkflooNip(id: string, sandbox?: boolean, controllerWorkflooModelNipSendRequest?: ControllerWorkflooModelNipSendRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.sendWorkflooNip(id, sandbox, controllerWorkflooModelNipSendRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Reenvía los campos corregidos por el prospecto cuando un nodo VALIDATION está en estado CORRECTION. El body es un objeto {campoId: valor}, igual que el formulario.
+         * @summary Enviar la corrección de un paso de validación
+         * @param {string} id Id de la ejecución
+         * @param {object} body Campos corregidos: {campoId: valor}
+         * @param {boolean} [sandbox] Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        submitWorkflooCorrection(id: string, body: object, sandbox?: boolean, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.submitWorkflooCorrection(id, body, sandbox, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Valida el NIP capturado por el usuario y devuelve la fase resultante del flujo NIP.
+         * @summary Validar el NIP
+         * @param {string} id Id de la ejecución
+         * @param {ControllerWorkflooModelNipValidateRequest} controllerWorkflooModelNipValidateRequest El NIP a validar
+         * @param {boolean} [sandbox] Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        validateWorkflooNip(id: string, controllerWorkflooModelNipValidateRequest: ControllerWorkflooModelNipValidateRequest, sandbox?: boolean, options?: RawAxiosRequestConfig): AxiosPromise<ControllerWorkflooModelNipValidateResponse> {
+            return localVarFp.validateWorkflooNip(id, controllerWorkflooModelNipValidateRequest, sandbox, options).then((request) => request(axios, basePath));
+        },
     };
 };
 
@@ -809,6 +1559,32 @@ export class WorkflooApi extends BaseAPI {
     }
 
     /**
+     * Envía los documentos del nodo DOCUMENT actual. El body es un objeto {documentoId: base64} (los de tipo \"set\" van como arreglo de objetos).
+     * @summary Enviar los documentos de un paso
+     * @param {string} id Id de la ejecución
+     * @param {object} body Documentos: {documentoId: base64}
+     * @param {boolean} [sandbox] Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    public executeWorkflooDocument(id: string, body: object, sandbox?: boolean, options?: RawAxiosRequestConfig) {
+        return WorkflooApiFp(this.configuration).executeWorkflooDocument(id, body, sandbox, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Envía las respuestas del nodo FORM actual de la ejecución. El body es un objeto {campoId: valor} con los campos del formulario.
+     * @summary Enviar el formulario de un paso
+     * @param {string} id Id de la ejecución
+     * @param {object} body Campos del formulario: {campoId: valor}
+     * @param {boolean} [sandbox] Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    public executeWorkflooForm(id: string, body: object, sandbox?: boolean, options?: RawAxiosRequestConfig) {
+        return WorkflooApiFp(this.configuration).executeWorkflooForm(id, body, sandbox, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
      * Devuelve el historial completo de una ejecución: todos sus nodos con request/response, variables, documentos y decisiones.
      * @summary Detalle de una ejecución
      * @param {string} id Id de la ejecución
@@ -818,6 +1594,20 @@ export class WorkflooApi extends BaseAPI {
      */
     public getWorkfloo(id: string, sandbox?: boolean, options?: RawAxiosRequestConfig) {
         return WorkflooApiFp(this.configuration).getWorkfloo(id, sandbox, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Devuelve, en base64, un archivo producido/subido en un nodo de la ejecución, identificado por nodeId + name.
+     * @summary Descargar un archivo de un nodo
+     * @param {string} id Id de la ejecución
+     * @param {string} nodeId Id del nodo que contiene el archivo
+     * @param {string} name Nombre del archivo
+     * @param {boolean} [sandbox] Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    public getWorkflooFile(id: string, nodeId: string, name: string, sandbox?: boolean, options?: RawAxiosRequestConfig) {
+        return WorkflooApiFp(this.configuration).getWorkflooFile(id, nodeId, name, sandbox, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -863,6 +1653,71 @@ export class WorkflooApi extends BaseAPI {
      */
     public listWorkfloosV2(page?: number, itemsPerPage?: number, status?: string, from?: string, to?: string, format?: ListWorkfloosV2FormatEnum, sandbox?: boolean, options?: RawAxiosRequestConfig) {
         return WorkflooApiFp(this.configuration).listWorkfloosV2(page, itemsPerPage, status, from, to, format, sandbox, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Reenvía el NIP y devuelve el estado del flujo NIP. El body es opcional (teléfono al que reenviar).
+     * @summary Reenviar el NIP
+     * @param {string} id Id de la ejecución
+     * @param {boolean} [sandbox] Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+     * @param {ControllerWorkflooModelNipResendRequest} [controllerWorkflooModelNipResendRequest] Teléfono al que reenviar (opcional)
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    public resendWorkflooNip(id: string, sandbox?: boolean, controllerWorkflooModelNipResendRequest?: ControllerWorkflooModelNipResendRequest, options?: RawAxiosRequestConfig) {
+        return WorkflooApiFp(this.configuration).resendWorkflooNip(id, sandbox, controllerWorkflooModelNipResendRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Aplica la decisión del revisor sobre un nodo VALIDATION en estado REVIEW: aprobar o rechazar. En un rechazo, reviews indica los campos a corregir con su mensaje.
+     * @summary Revisar un paso de validación
+     * @param {string} id Id de la ejecución
+     * @param {ControllerWorkflooModelReviewRequest} controllerWorkflooModelReviewRequest Decisión del revisor
+     * @param {boolean} [sandbox] Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    public reviewWorkflooValidation(id: string, controllerWorkflooModelReviewRequest: ControllerWorkflooModelReviewRequest, sandbox?: boolean, options?: RawAxiosRequestConfig) {
+        return WorkflooApiFp(this.configuration).reviewWorkflooValidation(id, controllerWorkflooModelReviewRequest, sandbox, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Envía el NIP (código de un solo uso) del nodo NIP actual. El body es opcional; si se incluye teléfono, countryCode y phoneNumber van juntos.
+     * @summary Enviar el NIP
+     * @param {string} id Id de la ejecución
+     * @param {boolean} [sandbox] Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+     * @param {ControllerWorkflooModelNipSendRequest} [controllerWorkflooModelNipSendRequest] Teléfono al que enviar el NIP (opcional)
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    public sendWorkflooNip(id: string, sandbox?: boolean, controllerWorkflooModelNipSendRequest?: ControllerWorkflooModelNipSendRequest, options?: RawAxiosRequestConfig) {
+        return WorkflooApiFp(this.configuration).sendWorkflooNip(id, sandbox, controllerWorkflooModelNipSendRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Reenvía los campos corregidos por el prospecto cuando un nodo VALIDATION está en estado CORRECTION. El body es un objeto {campoId: valor}, igual que el formulario.
+     * @summary Enviar la corrección de un paso de validación
+     * @param {string} id Id de la ejecución
+     * @param {object} body Campos corregidos: {campoId: valor}
+     * @param {boolean} [sandbox] Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    public submitWorkflooCorrection(id: string, body: object, sandbox?: boolean, options?: RawAxiosRequestConfig) {
+        return WorkflooApiFp(this.configuration).submitWorkflooCorrection(id, body, sandbox, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Valida el NIP capturado por el usuario y devuelve la fase resultante del flujo NIP.
+     * @summary Validar el NIP
+     * @param {string} id Id de la ejecución
+     * @param {ControllerWorkflooModelNipValidateRequest} controllerWorkflooModelNipValidateRequest El NIP a validar
+     * @param {boolean} [sandbox] Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    public validateWorkflooNip(id: string, controllerWorkflooModelNipValidateRequest: ControllerWorkflooModelNipValidateRequest, sandbox?: boolean, options?: RawAxiosRequestConfig) {
+        return WorkflooApiFp(this.configuration).validateWorkflooNip(id, controllerWorkflooModelNipValidateRequest, sandbox, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

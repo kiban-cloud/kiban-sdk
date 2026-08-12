@@ -31,7 +31,8 @@ class ControllerWorkflooModelValidationStatus(BaseModel):
     fields: Optional[List[ControllerWorkflooModelValidationField]] = None
     instruction: Optional[StrictStr] = None
     reviewer_note: Optional[StrictStr] = Field(default=None, alias="reviewerNote")
-    __properties: ClassVar[List[str]] = ["fields", "instruction", "reviewerNote"]
+    state: Optional[StrictStr] = None
+    __properties: ClassVar[List[str]] = ["fields", "instruction", "reviewerNote", "state"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -93,7 +94,8 @@ class ControllerWorkflooModelValidationStatus(BaseModel):
         _obj = cls.model_validate({
             "fields": [ControllerWorkflooModelValidationField.from_dict(_item) for _item in obj["fields"]] if obj.get("fields") is not None else None,
             "instruction": obj.get("instruction"),
-            "reviewerNote": obj.get("reviewerNote")
+            "reviewerNote": obj.get("reviewerNote"),
+            "state": obj.get("state")
         })
         return _obj
 

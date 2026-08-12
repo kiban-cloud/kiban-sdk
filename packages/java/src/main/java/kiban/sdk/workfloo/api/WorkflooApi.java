@@ -29,6 +29,13 @@ import java.io.IOException;
 
 import kiban.sdk.workfloo.model.ControllerWorkflooModelExecute;
 import kiban.sdk.workfloo.model.ControllerWorkflooModelExecuteResponse;
+import kiban.sdk.workfloo.model.ControllerWorkflooModelFileResponse;
+import kiban.sdk.workfloo.model.ControllerWorkflooModelNipResendRequest;
+import kiban.sdk.workfloo.model.ControllerWorkflooModelNipResendStatus;
+import kiban.sdk.workfloo.model.ControllerWorkflooModelNipSendRequest;
+import kiban.sdk.workfloo.model.ControllerWorkflooModelNipValidateRequest;
+import kiban.sdk.workfloo.model.ControllerWorkflooModelNipValidateResponse;
+import kiban.sdk.workfloo.model.ControllerWorkflooModelReviewRequest;
 import kiban.sdk.workfloo.model.ControllerWorkflooModelWorkfloo;
 import kiban.sdk.workfloo.model.ControllerWorkflooModelWorkflooPage;
 import kiban.sdk.workfloo.model.ControllerWorkflooModelWorkflooResume;
@@ -241,6 +248,342 @@ public class WorkflooApi {
         return localVarCall;
     }
     /**
+     * Build call for executeWorkflooDocument
+     * @param id Id de la ejecución (required)
+     * @param body Documentos: {documentoId: base64} (required)
+     * @param sandbox Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Documentos aceptados; la ejecución avanza </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Errores de validación por documento (formato/tamaño) o de conectores validadores </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> API key ausente o inválida </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> Sin acceso a ese paso </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> La ejecución no existe </td><td>  -  </td></tr>
+        <tr><td> 409 </td><td> Conflicto de estado </td><td>  -  </td></tr>
+        <tr><td> 500 </td><td> Error interno </td><td>  -  </td></tr>
+        <tr><td> 503 </td><td> Servicio dependiente no disponible </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call executeWorkflooDocumentCall(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull Object body, @javax.annotation.Nullable Boolean sandbox, final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] {  };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
+        Object localVarPostBody = body;
+
+        // create path and map variables
+        String localVarPath = "/api/v1/workfloo/{id}/document"
+            .replace("{" + "id" + "}", localVarApiClient.escapeString(id.toString()));
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        if (sandbox != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("sandbox", sandbox));
+        }
+
+        final String[] localVarAccepts = {
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+            "application/json"
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        if (localVarContentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarContentType);
+        }
+
+        String[] localVarAuthNames = new String[] { "ApiKeyAuth" };
+        return localVarApiClient.buildCall(basePath, localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call executeWorkflooDocumentValidateBeforeCall(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull Object body, @javax.annotation.Nullable Boolean sandbox, final ApiCallback _callback) throws ApiException {
+        // verify the required parameter 'id' is set
+        if (id == null) {
+            throw new ApiException("Missing the required parameter 'id' when calling executeWorkflooDocument(Async)");
+        }
+
+        // verify the required parameter 'body' is set
+        if (body == null) {
+            throw new ApiException("Missing the required parameter 'body' when calling executeWorkflooDocument(Async)");
+        }
+
+        return executeWorkflooDocumentCall(id, body, sandbox, _callback);
+
+    }
+
+    /**
+     * Enviar los documentos de un paso
+     * Envía los documentos del nodo DOCUMENT actual. El body es un objeto {documentoId: base64} (los de tipo \&quot;set\&quot; van como arreglo de objetos).
+     * @param id Id de la ejecución (required)
+     * @param body Documentos: {documentoId: base64} (required)
+     * @param sandbox Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Documentos aceptados; la ejecución avanza </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Errores de validación por documento (formato/tamaño) o de conectores validadores </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> API key ausente o inválida </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> Sin acceso a ese paso </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> La ejecución no existe </td><td>  -  </td></tr>
+        <tr><td> 409 </td><td> Conflicto de estado </td><td>  -  </td></tr>
+        <tr><td> 500 </td><td> Error interno </td><td>  -  </td></tr>
+        <tr><td> 503 </td><td> Servicio dependiente no disponible </td><td>  -  </td></tr>
+     </table>
+     */
+    public void executeWorkflooDocument(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull Object body, @javax.annotation.Nullable Boolean sandbox) throws ApiException {
+        executeWorkflooDocumentWithHttpInfo(id, body, sandbox);
+    }
+
+    /**
+     * Enviar los documentos de un paso
+     * Envía los documentos del nodo DOCUMENT actual. El body es un objeto {documentoId: base64} (los de tipo \&quot;set\&quot; van como arreglo de objetos).
+     * @param id Id de la ejecución (required)
+     * @param body Documentos: {documentoId: base64} (required)
+     * @param sandbox Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+     * @return ApiResponse&lt;Void&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Documentos aceptados; la ejecución avanza </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Errores de validación por documento (formato/tamaño) o de conectores validadores </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> API key ausente o inválida </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> Sin acceso a ese paso </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> La ejecución no existe </td><td>  -  </td></tr>
+        <tr><td> 409 </td><td> Conflicto de estado </td><td>  -  </td></tr>
+        <tr><td> 500 </td><td> Error interno </td><td>  -  </td></tr>
+        <tr><td> 503 </td><td> Servicio dependiente no disponible </td><td>  -  </td></tr>
+     </table>
+     */
+    public ApiResponse<Void> executeWorkflooDocumentWithHttpInfo(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull Object body, @javax.annotation.Nullable Boolean sandbox) throws ApiException {
+        okhttp3.Call localVarCall = executeWorkflooDocumentValidateBeforeCall(id, body, sandbox, null);
+        return localVarApiClient.execute(localVarCall);
+    }
+
+    /**
+     * Enviar los documentos de un paso (asynchronously)
+     * Envía los documentos del nodo DOCUMENT actual. El body es un objeto {documentoId: base64} (los de tipo \&quot;set\&quot; van como arreglo de objetos).
+     * @param id Id de la ejecución (required)
+     * @param body Documentos: {documentoId: base64} (required)
+     * @param sandbox Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Documentos aceptados; la ejecución avanza </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Errores de validación por documento (formato/tamaño) o de conectores validadores </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> API key ausente o inválida </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> Sin acceso a ese paso </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> La ejecución no existe </td><td>  -  </td></tr>
+        <tr><td> 409 </td><td> Conflicto de estado </td><td>  -  </td></tr>
+        <tr><td> 500 </td><td> Error interno </td><td>  -  </td></tr>
+        <tr><td> 503 </td><td> Servicio dependiente no disponible </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call executeWorkflooDocumentAsync(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull Object body, @javax.annotation.Nullable Boolean sandbox, final ApiCallback<Void> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = executeWorkflooDocumentValidateBeforeCall(id, body, sandbox, _callback);
+        localVarApiClient.executeAsync(localVarCall, _callback);
+        return localVarCall;
+    }
+    /**
+     * Build call for executeWorkflooForm
+     * @param id Id de la ejecución (required)
+     * @param body Campos del formulario: {campoId: valor} (required)
+     * @param sandbox Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Formulario aceptado; la ejecución avanza </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Errores de validación por campo o de conectores validadores </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> API key ausente o inválida </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> Sin acceso a ese paso </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> La ejecución no existe </td><td>  -  </td></tr>
+        <tr><td> 409 </td><td> Conflicto de estado </td><td>  -  </td></tr>
+        <tr><td> 500 </td><td> Error interno </td><td>  -  </td></tr>
+        <tr><td> 503 </td><td> Servicio dependiente no disponible </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call executeWorkflooFormCall(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull Object body, @javax.annotation.Nullable Boolean sandbox, final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] {  };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
+        Object localVarPostBody = body;
+
+        // create path and map variables
+        String localVarPath = "/api/v1/workfloo/{id}/form"
+            .replace("{" + "id" + "}", localVarApiClient.escapeString(id.toString()));
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        if (sandbox != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("sandbox", sandbox));
+        }
+
+        final String[] localVarAccepts = {
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+            "application/json"
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        if (localVarContentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarContentType);
+        }
+
+        String[] localVarAuthNames = new String[] { "ApiKeyAuth" };
+        return localVarApiClient.buildCall(basePath, localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call executeWorkflooFormValidateBeforeCall(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull Object body, @javax.annotation.Nullable Boolean sandbox, final ApiCallback _callback) throws ApiException {
+        // verify the required parameter 'id' is set
+        if (id == null) {
+            throw new ApiException("Missing the required parameter 'id' when calling executeWorkflooForm(Async)");
+        }
+
+        // verify the required parameter 'body' is set
+        if (body == null) {
+            throw new ApiException("Missing the required parameter 'body' when calling executeWorkflooForm(Async)");
+        }
+
+        return executeWorkflooFormCall(id, body, sandbox, _callback);
+
+    }
+
+    /**
+     * Enviar el formulario de un paso
+     * Envía las respuestas del nodo FORM actual de la ejecución. El body es un objeto {campoId: valor} con los campos del formulario.
+     * @param id Id de la ejecución (required)
+     * @param body Campos del formulario: {campoId: valor} (required)
+     * @param sandbox Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Formulario aceptado; la ejecución avanza </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Errores de validación por campo o de conectores validadores </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> API key ausente o inválida </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> Sin acceso a ese paso </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> La ejecución no existe </td><td>  -  </td></tr>
+        <tr><td> 409 </td><td> Conflicto de estado </td><td>  -  </td></tr>
+        <tr><td> 500 </td><td> Error interno </td><td>  -  </td></tr>
+        <tr><td> 503 </td><td> Servicio dependiente no disponible </td><td>  -  </td></tr>
+     </table>
+     */
+    public void executeWorkflooForm(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull Object body, @javax.annotation.Nullable Boolean sandbox) throws ApiException {
+        executeWorkflooFormWithHttpInfo(id, body, sandbox);
+    }
+
+    /**
+     * Enviar el formulario de un paso
+     * Envía las respuestas del nodo FORM actual de la ejecución. El body es un objeto {campoId: valor} con los campos del formulario.
+     * @param id Id de la ejecución (required)
+     * @param body Campos del formulario: {campoId: valor} (required)
+     * @param sandbox Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+     * @return ApiResponse&lt;Void&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Formulario aceptado; la ejecución avanza </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Errores de validación por campo o de conectores validadores </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> API key ausente o inválida </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> Sin acceso a ese paso </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> La ejecución no existe </td><td>  -  </td></tr>
+        <tr><td> 409 </td><td> Conflicto de estado </td><td>  -  </td></tr>
+        <tr><td> 500 </td><td> Error interno </td><td>  -  </td></tr>
+        <tr><td> 503 </td><td> Servicio dependiente no disponible </td><td>  -  </td></tr>
+     </table>
+     */
+    public ApiResponse<Void> executeWorkflooFormWithHttpInfo(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull Object body, @javax.annotation.Nullable Boolean sandbox) throws ApiException {
+        okhttp3.Call localVarCall = executeWorkflooFormValidateBeforeCall(id, body, sandbox, null);
+        return localVarApiClient.execute(localVarCall);
+    }
+
+    /**
+     * Enviar el formulario de un paso (asynchronously)
+     * Envía las respuestas del nodo FORM actual de la ejecución. El body es un objeto {campoId: valor} con los campos del formulario.
+     * @param id Id de la ejecución (required)
+     * @param body Campos del formulario: {campoId: valor} (required)
+     * @param sandbox Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Formulario aceptado; la ejecución avanza </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Errores de validación por campo o de conectores validadores </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> API key ausente o inválida </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> Sin acceso a ese paso </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> La ejecución no existe </td><td>  -  </td></tr>
+        <tr><td> 409 </td><td> Conflicto de estado </td><td>  -  </td></tr>
+        <tr><td> 500 </td><td> Error interno </td><td>  -  </td></tr>
+        <tr><td> 503 </td><td> Servicio dependiente no disponible </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call executeWorkflooFormAsync(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull Object body, @javax.annotation.Nullable Boolean sandbox, final ApiCallback<Void> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = executeWorkflooFormValidateBeforeCall(id, body, sandbox, _callback);
+        localVarApiClient.executeAsync(localVarCall, _callback);
+        return localVarCall;
+    }
+    /**
      * Build call for getWorkfloo
      * @param id Id de la ejecución (required)
      * @param sandbox Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
@@ -400,6 +743,191 @@ public class WorkflooApi {
 
         okhttp3.Call localVarCall = getWorkflooValidateBeforeCall(id, sandbox, _callback);
         Type localVarReturnType = new TypeToken<ControllerWorkflooModelWorkflooResume>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+    /**
+     * Build call for getWorkflooFile
+     * @param id Id de la ejecución (required)
+     * @param nodeId Id del nodo que contiene el archivo (required)
+     * @param name Nombre del archivo (required)
+     * @param sandbox Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Archivo en base64 </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Parámetros ausentes o mal formados </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> API key ausente o inválida </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> Sin acceso a esa ejecución </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> La ejecución, el nodo o el archivo no existe </td><td>  -  </td></tr>
+        <tr><td> 500 </td><td> Error interno </td><td>  -  </td></tr>
+        <tr><td> 503 </td><td> Servicio dependiente no disponible </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call getWorkflooFileCall(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull String nodeId, @javax.annotation.Nonnull String name, @javax.annotation.Nullable Boolean sandbox, final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] {  };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
+        Object localVarPostBody = null;
+
+        // create path and map variables
+        String localVarPath = "/api/v1/workfloo/{id}/file"
+            .replace("{" + "id" + "}", localVarApiClient.escapeString(id.toString()));
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        if (nodeId != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("nodeId", nodeId));
+        }
+
+        if (name != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("name", name));
+        }
+
+        if (sandbox != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("sandbox", sandbox));
+        }
+
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        if (localVarContentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarContentType);
+        }
+
+        String[] localVarAuthNames = new String[] { "ApiKeyAuth" };
+        return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call getWorkflooFileValidateBeforeCall(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull String nodeId, @javax.annotation.Nonnull String name, @javax.annotation.Nullable Boolean sandbox, final ApiCallback _callback) throws ApiException {
+        // verify the required parameter 'id' is set
+        if (id == null) {
+            throw new ApiException("Missing the required parameter 'id' when calling getWorkflooFile(Async)");
+        }
+
+        // verify the required parameter 'nodeId' is set
+        if (nodeId == null) {
+            throw new ApiException("Missing the required parameter 'nodeId' when calling getWorkflooFile(Async)");
+        }
+
+        // verify the required parameter 'name' is set
+        if (name == null) {
+            throw new ApiException("Missing the required parameter 'name' when calling getWorkflooFile(Async)");
+        }
+
+        return getWorkflooFileCall(id, nodeId, name, sandbox, _callback);
+
+    }
+
+    /**
+     * Descargar un archivo de un nodo
+     * Devuelve, en base64, un archivo producido/subido en un nodo de la ejecución, identificado por nodeId + name.
+     * @param id Id de la ejecución (required)
+     * @param nodeId Id del nodo que contiene el archivo (required)
+     * @param name Nombre del archivo (required)
+     * @param sandbox Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+     * @return ControllerWorkflooModelFileResponse
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Archivo en base64 </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Parámetros ausentes o mal formados </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> API key ausente o inválida </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> Sin acceso a esa ejecución </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> La ejecución, el nodo o el archivo no existe </td><td>  -  </td></tr>
+        <tr><td> 500 </td><td> Error interno </td><td>  -  </td></tr>
+        <tr><td> 503 </td><td> Servicio dependiente no disponible </td><td>  -  </td></tr>
+     </table>
+     */
+    public ControllerWorkflooModelFileResponse getWorkflooFile(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull String nodeId, @javax.annotation.Nonnull String name, @javax.annotation.Nullable Boolean sandbox) throws ApiException {
+        ApiResponse<ControllerWorkflooModelFileResponse> localVarResp = getWorkflooFileWithHttpInfo(id, nodeId, name, sandbox);
+        return localVarResp.getData();
+    }
+
+    /**
+     * Descargar un archivo de un nodo
+     * Devuelve, en base64, un archivo producido/subido en un nodo de la ejecución, identificado por nodeId + name.
+     * @param id Id de la ejecución (required)
+     * @param nodeId Id del nodo que contiene el archivo (required)
+     * @param name Nombre del archivo (required)
+     * @param sandbox Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+     * @return ApiResponse&lt;ControllerWorkflooModelFileResponse&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Archivo en base64 </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Parámetros ausentes o mal formados </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> API key ausente o inválida </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> Sin acceso a esa ejecución </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> La ejecución, el nodo o el archivo no existe </td><td>  -  </td></tr>
+        <tr><td> 500 </td><td> Error interno </td><td>  -  </td></tr>
+        <tr><td> 503 </td><td> Servicio dependiente no disponible </td><td>  -  </td></tr>
+     </table>
+     */
+    public ApiResponse<ControllerWorkflooModelFileResponse> getWorkflooFileWithHttpInfo(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull String nodeId, @javax.annotation.Nonnull String name, @javax.annotation.Nullable Boolean sandbox) throws ApiException {
+        okhttp3.Call localVarCall = getWorkflooFileValidateBeforeCall(id, nodeId, name, sandbox, null);
+        Type localVarReturnType = new TypeToken<ControllerWorkflooModelFileResponse>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     * Descargar un archivo de un nodo (asynchronously)
+     * Devuelve, en base64, un archivo producido/subido en un nodo de la ejecución, identificado por nodeId + name.
+     * @param id Id de la ejecución (required)
+     * @param nodeId Id del nodo que contiene el archivo (required)
+     * @param name Nombre del archivo (required)
+     * @param sandbox Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Archivo en base64 </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Parámetros ausentes o mal formados </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> API key ausente o inválida </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> Sin acceso a esa ejecución </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> La ejecución, el nodo o el archivo no existe </td><td>  -  </td></tr>
+        <tr><td> 500 </td><td> Error interno </td><td>  -  </td></tr>
+        <tr><td> 503 </td><td> Servicio dependiente no disponible </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call getWorkflooFileAsync(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull String nodeId, @javax.annotation.Nonnull String name, @javax.annotation.Nullable Boolean sandbox, final ApiCallback<ControllerWorkflooModelFileResponse> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = getWorkflooFileValidateBeforeCall(id, nodeId, name, sandbox, _callback);
+        Type localVarReturnType = new TypeToken<ControllerWorkflooModelFileResponse>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }
@@ -960,6 +1488,834 @@ public class WorkflooApi {
 
         okhttp3.Call localVarCall = listWorkfloosV2ValidateBeforeCall(page, itemsPerPage, status, from, to, format, sandbox, _callback);
         Type localVarReturnType = new TypeToken<List<ControllerWorkflooModelWorkfloo>>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+    /**
+     * Build call for resendWorkflooNip
+     * @param id Id de la ejecución (required)
+     * @param sandbox Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+     * @param controllerWorkflooModelNipResendRequest Teléfono al que reenviar (opcional) (optional)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Estado del NIP tras reenviar </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Teléfono/country code inválidos o error de negocio </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> API key ausente o inválida </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> Sin acceso a esa ejecución </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> La ejecución no existe </td><td>  -  </td></tr>
+        <tr><td> 500 </td><td> Error interno </td><td>  -  </td></tr>
+        <tr><td> 503 </td><td> Servicio dependiente no disponible </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call resendWorkflooNipCall(@javax.annotation.Nonnull String id, @javax.annotation.Nullable Boolean sandbox, @javax.annotation.Nullable ControllerWorkflooModelNipResendRequest controllerWorkflooModelNipResendRequest, final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] {  };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
+        Object localVarPostBody = controllerWorkflooModelNipResendRequest;
+
+        // create path and map variables
+        String localVarPath = "/api/v1/workfloo/{id}/nip/resend"
+            .replace("{" + "id" + "}", localVarApiClient.escapeString(id.toString()));
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        if (sandbox != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("sandbox", sandbox));
+        }
+
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+            "application/json"
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        if (localVarContentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarContentType);
+        }
+
+        String[] localVarAuthNames = new String[] { "ApiKeyAuth" };
+        return localVarApiClient.buildCall(basePath, localVarPath, "PATCH", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call resendWorkflooNipValidateBeforeCall(@javax.annotation.Nonnull String id, @javax.annotation.Nullable Boolean sandbox, @javax.annotation.Nullable ControllerWorkflooModelNipResendRequest controllerWorkflooModelNipResendRequest, final ApiCallback _callback) throws ApiException {
+        // verify the required parameter 'id' is set
+        if (id == null) {
+            throw new ApiException("Missing the required parameter 'id' when calling resendWorkflooNip(Async)");
+        }
+
+        return resendWorkflooNipCall(id, sandbox, controllerWorkflooModelNipResendRequest, _callback);
+
+    }
+
+    /**
+     * Reenviar el NIP
+     * Reenvía el NIP y devuelve el estado del flujo NIP. El body es opcional (teléfono al que reenviar).
+     * @param id Id de la ejecución (required)
+     * @param sandbox Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+     * @param controllerWorkflooModelNipResendRequest Teléfono al que reenviar (opcional) (optional)
+     * @return ControllerWorkflooModelNipResendStatus
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Estado del NIP tras reenviar </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Teléfono/country code inválidos o error de negocio </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> API key ausente o inválida </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> Sin acceso a esa ejecución </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> La ejecución no existe </td><td>  -  </td></tr>
+        <tr><td> 500 </td><td> Error interno </td><td>  -  </td></tr>
+        <tr><td> 503 </td><td> Servicio dependiente no disponible </td><td>  -  </td></tr>
+     </table>
+     */
+    public ControllerWorkflooModelNipResendStatus resendWorkflooNip(@javax.annotation.Nonnull String id, @javax.annotation.Nullable Boolean sandbox, @javax.annotation.Nullable ControllerWorkflooModelNipResendRequest controllerWorkflooModelNipResendRequest) throws ApiException {
+        ApiResponse<ControllerWorkflooModelNipResendStatus> localVarResp = resendWorkflooNipWithHttpInfo(id, sandbox, controllerWorkflooModelNipResendRequest);
+        return localVarResp.getData();
+    }
+
+    /**
+     * Reenviar el NIP
+     * Reenvía el NIP y devuelve el estado del flujo NIP. El body es opcional (teléfono al que reenviar).
+     * @param id Id de la ejecución (required)
+     * @param sandbox Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+     * @param controllerWorkflooModelNipResendRequest Teléfono al que reenviar (opcional) (optional)
+     * @return ApiResponse&lt;ControllerWorkflooModelNipResendStatus&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Estado del NIP tras reenviar </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Teléfono/country code inválidos o error de negocio </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> API key ausente o inválida </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> Sin acceso a esa ejecución </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> La ejecución no existe </td><td>  -  </td></tr>
+        <tr><td> 500 </td><td> Error interno </td><td>  -  </td></tr>
+        <tr><td> 503 </td><td> Servicio dependiente no disponible </td><td>  -  </td></tr>
+     </table>
+     */
+    public ApiResponse<ControllerWorkflooModelNipResendStatus> resendWorkflooNipWithHttpInfo(@javax.annotation.Nonnull String id, @javax.annotation.Nullable Boolean sandbox, @javax.annotation.Nullable ControllerWorkflooModelNipResendRequest controllerWorkflooModelNipResendRequest) throws ApiException {
+        okhttp3.Call localVarCall = resendWorkflooNipValidateBeforeCall(id, sandbox, controllerWorkflooModelNipResendRequest, null);
+        Type localVarReturnType = new TypeToken<ControllerWorkflooModelNipResendStatus>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     * Reenviar el NIP (asynchronously)
+     * Reenvía el NIP y devuelve el estado del flujo NIP. El body es opcional (teléfono al que reenviar).
+     * @param id Id de la ejecución (required)
+     * @param sandbox Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+     * @param controllerWorkflooModelNipResendRequest Teléfono al que reenviar (opcional) (optional)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Estado del NIP tras reenviar </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Teléfono/country code inválidos o error de negocio </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> API key ausente o inválida </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> Sin acceso a esa ejecución </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> La ejecución no existe </td><td>  -  </td></tr>
+        <tr><td> 500 </td><td> Error interno </td><td>  -  </td></tr>
+        <tr><td> 503 </td><td> Servicio dependiente no disponible </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call resendWorkflooNipAsync(@javax.annotation.Nonnull String id, @javax.annotation.Nullable Boolean sandbox, @javax.annotation.Nullable ControllerWorkflooModelNipResendRequest controllerWorkflooModelNipResendRequest, final ApiCallback<ControllerWorkflooModelNipResendStatus> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = resendWorkflooNipValidateBeforeCall(id, sandbox, controllerWorkflooModelNipResendRequest, _callback);
+        Type localVarReturnType = new TypeToken<ControllerWorkflooModelNipResendStatus>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+    /**
+     * Build call for reviewWorkflooValidation
+     * @param id Id de la ejecución (required)
+     * @param controllerWorkflooModelReviewRequest Decisión del revisor (required)
+     * @param sandbox Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Decisión aplicada; la ejecución avanza o pasa a corrección </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Body inválido </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> API key ausente o inválida </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> Sin acceso a ese paso de revisión </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> La ejecución no existe </td><td>  -  </td></tr>
+        <tr><td> 409 </td><td> El paso no está en estado revisable </td><td>  -  </td></tr>
+        <tr><td> 500 </td><td> Error interno </td><td>  -  </td></tr>
+        <tr><td> 503 </td><td> Servicio dependiente no disponible </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call reviewWorkflooValidationCall(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull ControllerWorkflooModelReviewRequest controllerWorkflooModelReviewRequest, @javax.annotation.Nullable Boolean sandbox, final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] {  };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
+        Object localVarPostBody = controllerWorkflooModelReviewRequest;
+
+        // create path and map variables
+        String localVarPath = "/api/v1/workfloo/{id}/review"
+            .replace("{" + "id" + "}", localVarApiClient.escapeString(id.toString()));
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        if (sandbox != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("sandbox", sandbox));
+        }
+
+        final String[] localVarAccepts = {
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+            "application/json"
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        if (localVarContentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarContentType);
+        }
+
+        String[] localVarAuthNames = new String[] { "ApiKeyAuth" };
+        return localVarApiClient.buildCall(basePath, localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call reviewWorkflooValidationValidateBeforeCall(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull ControllerWorkflooModelReviewRequest controllerWorkflooModelReviewRequest, @javax.annotation.Nullable Boolean sandbox, final ApiCallback _callback) throws ApiException {
+        // verify the required parameter 'id' is set
+        if (id == null) {
+            throw new ApiException("Missing the required parameter 'id' when calling reviewWorkflooValidation(Async)");
+        }
+
+        // verify the required parameter 'controllerWorkflooModelReviewRequest' is set
+        if (controllerWorkflooModelReviewRequest == null) {
+            throw new ApiException("Missing the required parameter 'controllerWorkflooModelReviewRequest' when calling reviewWorkflooValidation(Async)");
+        }
+
+        return reviewWorkflooValidationCall(id, controllerWorkflooModelReviewRequest, sandbox, _callback);
+
+    }
+
+    /**
+     * Revisar un paso de validación
+     * Aplica la decisión del revisor sobre un nodo VALIDATION en estado REVIEW: aprobar o rechazar. En un rechazo, reviews indica los campos a corregir con su mensaje.
+     * @param id Id de la ejecución (required)
+     * @param controllerWorkflooModelReviewRequest Decisión del revisor (required)
+     * @param sandbox Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Decisión aplicada; la ejecución avanza o pasa a corrección </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Body inválido </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> API key ausente o inválida </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> Sin acceso a ese paso de revisión </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> La ejecución no existe </td><td>  -  </td></tr>
+        <tr><td> 409 </td><td> El paso no está en estado revisable </td><td>  -  </td></tr>
+        <tr><td> 500 </td><td> Error interno </td><td>  -  </td></tr>
+        <tr><td> 503 </td><td> Servicio dependiente no disponible </td><td>  -  </td></tr>
+     </table>
+     */
+    public void reviewWorkflooValidation(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull ControllerWorkflooModelReviewRequest controllerWorkflooModelReviewRequest, @javax.annotation.Nullable Boolean sandbox) throws ApiException {
+        reviewWorkflooValidationWithHttpInfo(id, controllerWorkflooModelReviewRequest, sandbox);
+    }
+
+    /**
+     * Revisar un paso de validación
+     * Aplica la decisión del revisor sobre un nodo VALIDATION en estado REVIEW: aprobar o rechazar. En un rechazo, reviews indica los campos a corregir con su mensaje.
+     * @param id Id de la ejecución (required)
+     * @param controllerWorkflooModelReviewRequest Decisión del revisor (required)
+     * @param sandbox Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+     * @return ApiResponse&lt;Void&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Decisión aplicada; la ejecución avanza o pasa a corrección </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Body inválido </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> API key ausente o inválida </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> Sin acceso a ese paso de revisión </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> La ejecución no existe </td><td>  -  </td></tr>
+        <tr><td> 409 </td><td> El paso no está en estado revisable </td><td>  -  </td></tr>
+        <tr><td> 500 </td><td> Error interno </td><td>  -  </td></tr>
+        <tr><td> 503 </td><td> Servicio dependiente no disponible </td><td>  -  </td></tr>
+     </table>
+     */
+    public ApiResponse<Void> reviewWorkflooValidationWithHttpInfo(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull ControllerWorkflooModelReviewRequest controllerWorkflooModelReviewRequest, @javax.annotation.Nullable Boolean sandbox) throws ApiException {
+        okhttp3.Call localVarCall = reviewWorkflooValidationValidateBeforeCall(id, controllerWorkflooModelReviewRequest, sandbox, null);
+        return localVarApiClient.execute(localVarCall);
+    }
+
+    /**
+     * Revisar un paso de validación (asynchronously)
+     * Aplica la decisión del revisor sobre un nodo VALIDATION en estado REVIEW: aprobar o rechazar. En un rechazo, reviews indica los campos a corregir con su mensaje.
+     * @param id Id de la ejecución (required)
+     * @param controllerWorkflooModelReviewRequest Decisión del revisor (required)
+     * @param sandbox Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Decisión aplicada; la ejecución avanza o pasa a corrección </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Body inválido </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> API key ausente o inválida </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> Sin acceso a ese paso de revisión </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> La ejecución no existe </td><td>  -  </td></tr>
+        <tr><td> 409 </td><td> El paso no está en estado revisable </td><td>  -  </td></tr>
+        <tr><td> 500 </td><td> Error interno </td><td>  -  </td></tr>
+        <tr><td> 503 </td><td> Servicio dependiente no disponible </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call reviewWorkflooValidationAsync(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull ControllerWorkflooModelReviewRequest controllerWorkflooModelReviewRequest, @javax.annotation.Nullable Boolean sandbox, final ApiCallback<Void> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = reviewWorkflooValidationValidateBeforeCall(id, controllerWorkflooModelReviewRequest, sandbox, _callback);
+        localVarApiClient.executeAsync(localVarCall, _callback);
+        return localVarCall;
+    }
+    /**
+     * Build call for sendWorkflooNip
+     * @param id Id de la ejecución (required)
+     * @param sandbox Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+     * @param controllerWorkflooModelNipSendRequest Teléfono al que enviar el NIP (opcional) (optional)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> NIP enviado </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Teléfono/country code inválidos o error de negocio </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> API key ausente o inválida </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> Sin acceso a esa ejecución </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> La ejecución no existe </td><td>  -  </td></tr>
+        <tr><td> 500 </td><td> Error interno </td><td>  -  </td></tr>
+        <tr><td> 503 </td><td> Servicio dependiente no disponible </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call sendWorkflooNipCall(@javax.annotation.Nonnull String id, @javax.annotation.Nullable Boolean sandbox, @javax.annotation.Nullable ControllerWorkflooModelNipSendRequest controllerWorkflooModelNipSendRequest, final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] {  };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
+        Object localVarPostBody = controllerWorkflooModelNipSendRequest;
+
+        // create path and map variables
+        String localVarPath = "/api/v1/workfloo/{id}/nip/send"
+            .replace("{" + "id" + "}", localVarApiClient.escapeString(id.toString()));
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        if (sandbox != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("sandbox", sandbox));
+        }
+
+        final String[] localVarAccepts = {
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+            "application/json"
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        if (localVarContentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarContentType);
+        }
+
+        String[] localVarAuthNames = new String[] { "ApiKeyAuth" };
+        return localVarApiClient.buildCall(basePath, localVarPath, "PATCH", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call sendWorkflooNipValidateBeforeCall(@javax.annotation.Nonnull String id, @javax.annotation.Nullable Boolean sandbox, @javax.annotation.Nullable ControllerWorkflooModelNipSendRequest controllerWorkflooModelNipSendRequest, final ApiCallback _callback) throws ApiException {
+        // verify the required parameter 'id' is set
+        if (id == null) {
+            throw new ApiException("Missing the required parameter 'id' when calling sendWorkflooNip(Async)");
+        }
+
+        return sendWorkflooNipCall(id, sandbox, controllerWorkflooModelNipSendRequest, _callback);
+
+    }
+
+    /**
+     * Enviar el NIP
+     * Envía el NIP (código de un solo uso) del nodo NIP actual. El body es opcional; si se incluye teléfono, countryCode y phoneNumber van juntos.
+     * @param id Id de la ejecución (required)
+     * @param sandbox Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+     * @param controllerWorkflooModelNipSendRequest Teléfono al que enviar el NIP (opcional) (optional)
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> NIP enviado </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Teléfono/country code inválidos o error de negocio </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> API key ausente o inválida </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> Sin acceso a esa ejecución </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> La ejecución no existe </td><td>  -  </td></tr>
+        <tr><td> 500 </td><td> Error interno </td><td>  -  </td></tr>
+        <tr><td> 503 </td><td> Servicio dependiente no disponible </td><td>  -  </td></tr>
+     </table>
+     */
+    public void sendWorkflooNip(@javax.annotation.Nonnull String id, @javax.annotation.Nullable Boolean sandbox, @javax.annotation.Nullable ControllerWorkflooModelNipSendRequest controllerWorkflooModelNipSendRequest) throws ApiException {
+        sendWorkflooNipWithHttpInfo(id, sandbox, controllerWorkflooModelNipSendRequest);
+    }
+
+    /**
+     * Enviar el NIP
+     * Envía el NIP (código de un solo uso) del nodo NIP actual. El body es opcional; si se incluye teléfono, countryCode y phoneNumber van juntos.
+     * @param id Id de la ejecución (required)
+     * @param sandbox Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+     * @param controllerWorkflooModelNipSendRequest Teléfono al que enviar el NIP (opcional) (optional)
+     * @return ApiResponse&lt;Void&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> NIP enviado </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Teléfono/country code inválidos o error de negocio </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> API key ausente o inválida </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> Sin acceso a esa ejecución </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> La ejecución no existe </td><td>  -  </td></tr>
+        <tr><td> 500 </td><td> Error interno </td><td>  -  </td></tr>
+        <tr><td> 503 </td><td> Servicio dependiente no disponible </td><td>  -  </td></tr>
+     </table>
+     */
+    public ApiResponse<Void> sendWorkflooNipWithHttpInfo(@javax.annotation.Nonnull String id, @javax.annotation.Nullable Boolean sandbox, @javax.annotation.Nullable ControllerWorkflooModelNipSendRequest controllerWorkflooModelNipSendRequest) throws ApiException {
+        okhttp3.Call localVarCall = sendWorkflooNipValidateBeforeCall(id, sandbox, controllerWorkflooModelNipSendRequest, null);
+        return localVarApiClient.execute(localVarCall);
+    }
+
+    /**
+     * Enviar el NIP (asynchronously)
+     * Envía el NIP (código de un solo uso) del nodo NIP actual. El body es opcional; si se incluye teléfono, countryCode y phoneNumber van juntos.
+     * @param id Id de la ejecución (required)
+     * @param sandbox Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+     * @param controllerWorkflooModelNipSendRequest Teléfono al que enviar el NIP (opcional) (optional)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> NIP enviado </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Teléfono/country code inválidos o error de negocio </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> API key ausente o inválida </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> Sin acceso a esa ejecución </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> La ejecución no existe </td><td>  -  </td></tr>
+        <tr><td> 500 </td><td> Error interno </td><td>  -  </td></tr>
+        <tr><td> 503 </td><td> Servicio dependiente no disponible </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call sendWorkflooNipAsync(@javax.annotation.Nonnull String id, @javax.annotation.Nullable Boolean sandbox, @javax.annotation.Nullable ControllerWorkflooModelNipSendRequest controllerWorkflooModelNipSendRequest, final ApiCallback<Void> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = sendWorkflooNipValidateBeforeCall(id, sandbox, controllerWorkflooModelNipSendRequest, _callback);
+        localVarApiClient.executeAsync(localVarCall, _callback);
+        return localVarCall;
+    }
+    /**
+     * Build call for submitWorkflooCorrection
+     * @param id Id de la ejecución (required)
+     * @param body Campos corregidos: {campoId: valor} (required)
+     * @param sandbox Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Corrección aceptada; la ejecución vuelve a revisión o avanza </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Errores de validación por campo </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> API key ausente o inválida </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> Sin acceso a ese paso </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> La ejecución no existe </td><td>  -  </td></tr>
+        <tr><td> 409 </td><td> El paso no está en estado de corrección </td><td>  -  </td></tr>
+        <tr><td> 500 </td><td> Error interno </td><td>  -  </td></tr>
+        <tr><td> 503 </td><td> Servicio dependiente no disponible </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call submitWorkflooCorrectionCall(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull Object body, @javax.annotation.Nullable Boolean sandbox, final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] {  };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
+        Object localVarPostBody = body;
+
+        // create path and map variables
+        String localVarPath = "/api/v1/workfloo/{id}/correction"
+            .replace("{" + "id" + "}", localVarApiClient.escapeString(id.toString()));
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        if (sandbox != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("sandbox", sandbox));
+        }
+
+        final String[] localVarAccepts = {
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+            "application/json"
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        if (localVarContentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarContentType);
+        }
+
+        String[] localVarAuthNames = new String[] { "ApiKeyAuth" };
+        return localVarApiClient.buildCall(basePath, localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call submitWorkflooCorrectionValidateBeforeCall(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull Object body, @javax.annotation.Nullable Boolean sandbox, final ApiCallback _callback) throws ApiException {
+        // verify the required parameter 'id' is set
+        if (id == null) {
+            throw new ApiException("Missing the required parameter 'id' when calling submitWorkflooCorrection(Async)");
+        }
+
+        // verify the required parameter 'body' is set
+        if (body == null) {
+            throw new ApiException("Missing the required parameter 'body' when calling submitWorkflooCorrection(Async)");
+        }
+
+        return submitWorkflooCorrectionCall(id, body, sandbox, _callback);
+
+    }
+
+    /**
+     * Enviar la corrección de un paso de validación
+     * Reenvía los campos corregidos por el prospecto cuando un nodo VALIDATION está en estado CORRECTION. El body es un objeto {campoId: valor}, igual que el formulario.
+     * @param id Id de la ejecución (required)
+     * @param body Campos corregidos: {campoId: valor} (required)
+     * @param sandbox Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Corrección aceptada; la ejecución vuelve a revisión o avanza </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Errores de validación por campo </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> API key ausente o inválida </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> Sin acceso a ese paso </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> La ejecución no existe </td><td>  -  </td></tr>
+        <tr><td> 409 </td><td> El paso no está en estado de corrección </td><td>  -  </td></tr>
+        <tr><td> 500 </td><td> Error interno </td><td>  -  </td></tr>
+        <tr><td> 503 </td><td> Servicio dependiente no disponible </td><td>  -  </td></tr>
+     </table>
+     */
+    public void submitWorkflooCorrection(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull Object body, @javax.annotation.Nullable Boolean sandbox) throws ApiException {
+        submitWorkflooCorrectionWithHttpInfo(id, body, sandbox);
+    }
+
+    /**
+     * Enviar la corrección de un paso de validación
+     * Reenvía los campos corregidos por el prospecto cuando un nodo VALIDATION está en estado CORRECTION. El body es un objeto {campoId: valor}, igual que el formulario.
+     * @param id Id de la ejecución (required)
+     * @param body Campos corregidos: {campoId: valor} (required)
+     * @param sandbox Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+     * @return ApiResponse&lt;Void&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Corrección aceptada; la ejecución vuelve a revisión o avanza </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Errores de validación por campo </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> API key ausente o inválida </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> Sin acceso a ese paso </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> La ejecución no existe </td><td>  -  </td></tr>
+        <tr><td> 409 </td><td> El paso no está en estado de corrección </td><td>  -  </td></tr>
+        <tr><td> 500 </td><td> Error interno </td><td>  -  </td></tr>
+        <tr><td> 503 </td><td> Servicio dependiente no disponible </td><td>  -  </td></tr>
+     </table>
+     */
+    public ApiResponse<Void> submitWorkflooCorrectionWithHttpInfo(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull Object body, @javax.annotation.Nullable Boolean sandbox) throws ApiException {
+        okhttp3.Call localVarCall = submitWorkflooCorrectionValidateBeforeCall(id, body, sandbox, null);
+        return localVarApiClient.execute(localVarCall);
+    }
+
+    /**
+     * Enviar la corrección de un paso de validación (asynchronously)
+     * Reenvía los campos corregidos por el prospecto cuando un nodo VALIDATION está en estado CORRECTION. El body es un objeto {campoId: valor}, igual que el formulario.
+     * @param id Id de la ejecución (required)
+     * @param body Campos corregidos: {campoId: valor} (required)
+     * @param sandbox Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Corrección aceptada; la ejecución vuelve a revisión o avanza </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Errores de validación por campo </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> API key ausente o inválida </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> Sin acceso a ese paso </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> La ejecución no existe </td><td>  -  </td></tr>
+        <tr><td> 409 </td><td> El paso no está en estado de corrección </td><td>  -  </td></tr>
+        <tr><td> 500 </td><td> Error interno </td><td>  -  </td></tr>
+        <tr><td> 503 </td><td> Servicio dependiente no disponible </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call submitWorkflooCorrectionAsync(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull Object body, @javax.annotation.Nullable Boolean sandbox, final ApiCallback<Void> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = submitWorkflooCorrectionValidateBeforeCall(id, body, sandbox, _callback);
+        localVarApiClient.executeAsync(localVarCall, _callback);
+        return localVarCall;
+    }
+    /**
+     * Build call for validateWorkflooNip
+     * @param id Id de la ejecución (required)
+     * @param controllerWorkflooModelNipValidateRequest El NIP a validar (required)
+     * @param sandbox Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Fase resultante </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> NIP ausente o incorrecto </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> API key ausente o inválida </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> NIP rechazado / sin acceso </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> La ejecución no existe </td><td>  -  </td></tr>
+        <tr><td> 500 </td><td> Error interno </td><td>  -  </td></tr>
+        <tr><td> 503 </td><td> Servicio dependiente no disponible </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call validateWorkflooNipCall(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull ControllerWorkflooModelNipValidateRequest controllerWorkflooModelNipValidateRequest, @javax.annotation.Nullable Boolean sandbox, final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] {  };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
+        Object localVarPostBody = controllerWorkflooModelNipValidateRequest;
+
+        // create path and map variables
+        String localVarPath = "/api/v1/workfloo/{id}/nip/validate"
+            .replace("{" + "id" + "}", localVarApiClient.escapeString(id.toString()));
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        if (sandbox != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("sandbox", sandbox));
+        }
+
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+            "application/json"
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        if (localVarContentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarContentType);
+        }
+
+        String[] localVarAuthNames = new String[] { "ApiKeyAuth" };
+        return localVarApiClient.buildCall(basePath, localVarPath, "PATCH", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call validateWorkflooNipValidateBeforeCall(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull ControllerWorkflooModelNipValidateRequest controllerWorkflooModelNipValidateRequest, @javax.annotation.Nullable Boolean sandbox, final ApiCallback _callback) throws ApiException {
+        // verify the required parameter 'id' is set
+        if (id == null) {
+            throw new ApiException("Missing the required parameter 'id' when calling validateWorkflooNip(Async)");
+        }
+
+        // verify the required parameter 'controllerWorkflooModelNipValidateRequest' is set
+        if (controllerWorkflooModelNipValidateRequest == null) {
+            throw new ApiException("Missing the required parameter 'controllerWorkflooModelNipValidateRequest' when calling validateWorkflooNip(Async)");
+        }
+
+        return validateWorkflooNipCall(id, controllerWorkflooModelNipValidateRequest, sandbox, _callback);
+
+    }
+
+    /**
+     * Validar el NIP
+     * Valida el NIP capturado por el usuario y devuelve la fase resultante del flujo NIP.
+     * @param id Id de la ejecución (required)
+     * @param controllerWorkflooModelNipValidateRequest El NIP a validar (required)
+     * @param sandbox Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+     * @return ControllerWorkflooModelNipValidateResponse
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Fase resultante </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> NIP ausente o incorrecto </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> API key ausente o inválida </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> NIP rechazado / sin acceso </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> La ejecución no existe </td><td>  -  </td></tr>
+        <tr><td> 500 </td><td> Error interno </td><td>  -  </td></tr>
+        <tr><td> 503 </td><td> Servicio dependiente no disponible </td><td>  -  </td></tr>
+     </table>
+     */
+    public ControllerWorkflooModelNipValidateResponse validateWorkflooNip(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull ControllerWorkflooModelNipValidateRequest controllerWorkflooModelNipValidateRequest, @javax.annotation.Nullable Boolean sandbox) throws ApiException {
+        ApiResponse<ControllerWorkflooModelNipValidateResponse> localVarResp = validateWorkflooNipWithHttpInfo(id, controllerWorkflooModelNipValidateRequest, sandbox);
+        return localVarResp.getData();
+    }
+
+    /**
+     * Validar el NIP
+     * Valida el NIP capturado por el usuario y devuelve la fase resultante del flujo NIP.
+     * @param id Id de la ejecución (required)
+     * @param controllerWorkflooModelNipValidateRequest El NIP a validar (required)
+     * @param sandbox Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+     * @return ApiResponse&lt;ControllerWorkflooModelNipValidateResponse&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Fase resultante </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> NIP ausente o incorrecto </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> API key ausente o inválida </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> NIP rechazado / sin acceso </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> La ejecución no existe </td><td>  -  </td></tr>
+        <tr><td> 500 </td><td> Error interno </td><td>  -  </td></tr>
+        <tr><td> 503 </td><td> Servicio dependiente no disponible </td><td>  -  </td></tr>
+     </table>
+     */
+    public ApiResponse<ControllerWorkflooModelNipValidateResponse> validateWorkflooNipWithHttpInfo(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull ControllerWorkflooModelNipValidateRequest controllerWorkflooModelNipValidateRequest, @javax.annotation.Nullable Boolean sandbox) throws ApiException {
+        okhttp3.Call localVarCall = validateWorkflooNipValidateBeforeCall(id, controllerWorkflooModelNipValidateRequest, sandbox, null);
+        Type localVarReturnType = new TypeToken<ControllerWorkflooModelNipValidateResponse>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     * Validar el NIP (asynchronously)
+     * Valida el NIP capturado por el usuario y devuelve la fase resultante del flujo NIP.
+     * @param id Id de la ejecución (required)
+     * @param controllerWorkflooModelNipValidateRequest El NIP a validar (required)
+     * @param sandbox Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Fase resultante </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> NIP ausente o incorrecto </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> API key ausente o inválida </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> NIP rechazado / sin acceso </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> La ejecución no existe </td><td>  -  </td></tr>
+        <tr><td> 500 </td><td> Error interno </td><td>  -  </td></tr>
+        <tr><td> 503 </td><td> Servicio dependiente no disponible </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call validateWorkflooNipAsync(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull ControllerWorkflooModelNipValidateRequest controllerWorkflooModelNipValidateRequest, @javax.annotation.Nullable Boolean sandbox, final ApiCallback<ControllerWorkflooModelNipValidateResponse> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = validateWorkflooNipValidateBeforeCall(id, controllerWorkflooModelNipValidateRequest, sandbox, _callback);
+        Type localVarReturnType = new TypeToken<ControllerWorkflooModelNipValidateResponse>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }

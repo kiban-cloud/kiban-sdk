@@ -51,7 +51,7 @@ import kiban.sdk.workfloo.JSON;
 /**
  * ControllerWorkflooModelWorkflooPage
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-07-23T16:41:40.675919-06:00[America/Mexico_City]", comments = "Generator version: 7.24.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-08-10T16:42:49.836741-06:00[America/Mexico_City]", comments = "Generator version: 7.24.0")
 public class ControllerWorkflooModelWorkflooPage {
   public static final String SERIALIZED_NAME_CURRENT_PAGE = "currentPage";
   @SerializedName(SERIALIZED_NAME_CURRENT_PAGE)

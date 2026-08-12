@@ -1,23 +1,21 @@
 # kiban-sdk
 
-SDKs oficiales de la **API pública de Kiban Cloud**. Piloto: módulo **workfloo**
+SDKs oficiales de la **API pública de kiban cloud**. Módulo **workfloo**
 (ejecutar un workfloo, consultar estatus, consultar historial/detalle).
 
-La única fuente de verdad es la especificación OpenAPI en
-[`specs/workfloo.openapi.yaml`](specs/workfloo.openapi.yaml), que se **genera**
-desde las anotaciones swaggo de `workfloo-backend`. Los SDKs se **generan** desde
-ese spec: no se editan a mano.
+La fuente es OpenAPI en
+[`specs/workfloo.openapi.yaml`](specs/workfloo.openapi.yaml).
 
 ## Estructura
 
 ```
-specs/                     spec OpenAPI 3 (generado desde workfloo-backend)
+specs/                     spec OpenAPI 3
 openapi-generator/         un config.<lang>.yaml por lenguaje
 scripts/
   gen-spec.sh              regenera el spec desde workfloo-backend
   gen-sdks.sh              genera los 5 SDKs desde el spec
   postprocess-spec.mjs     reaplica ajustes que el generador no infiere
-packages/                  SDKs generados (se commitean, no se editan)
+packages/                  SDKs generados
   node/ go/ java/ python/ csharp/
 ```
 
@@ -37,14 +35,13 @@ packages/                  SDKs generados (se commitean, no se editan)
 ## Autenticación
 
 Todos los endpoints usan el header **`x-api-key`**. El SDK recibe la key por
-configuración del cliente; **nunca** se hardcodea. Ambientes: producción en
+configuración del cliente. Ambientes: producción en
 `https://workfloo.kiban.com` y sandbox en `https://sandbox.workfloo.kiban.com`
-(seleccionables como *server* del cliente generado).
 
 ## Requisitos
 
 - **Node** (para el tooling): `npm install`
-- **Go** + [`swag`](https://github.com/swaggo/swag) (sólo para `gen-spec`):
+- **Go** + [`swag`](https://github.com/swaggo/swag):
   `go install github.com/swaggo/swag/cmd/swag@latest`
 - **Java** (sólo para `gen-sdks`; openapi-generator es una herramienta JVM)
 
@@ -53,22 +50,23 @@ configuración del cliente; **nunca** se hardcodea. Ambientes: producción en
 ```bash
 npm install
 
-# 1) Regenerar el spec desde workfloo-backend (repo hermano ../workfloo-backend,
-#    o define WORKFLOO_BACKEND=/ruta/al/backend)
 npm run gen:spec
 
-# 2) Generar los 5 SDKs (o un subconjunto: ./scripts/gen-sdks.sh node python)
+# Generar los 5 SDKs (o un subconjunto: ./scripts/gen-sdks.sh node python)
 npm run gen:sdks
 ```
 
 ## Smoke test
 
-Prueba el flujo real **ejecutar → estatus → historial** contra **sandbox**. La
-API key se lee del entorno; nunca se escribe en el código ni se commitea.
+Prueba el flujo **ejecutar → estatus → historial**. Este SDK usa **siempre
+producción** (`https://workfloo.kiban.com`; ver
+[`config/environments.json`](config/environments.json)). Por defecto corre en
+**modo real** (`sandbox=false`); forzá modo sandbox por corrida con
+`KIBAN_SANDBOX=true` (no consume saldo; `scenarioId` requerido si hay nodos LINK).
 
 ```bash
-export KIBAN_API_KEY=...                  # API key de sandbox
-export KIBAN_WORKFLOO_DEFINITION_ID=...   # una definición válida en sandbox
+cp .env.local.example .env.local     # rellena tus valores
+set -a; source .env.local; set +a    # carga las variables
 
 # Python
 pip install pydantic urllib3 python-dateutil
@@ -78,6 +76,38 @@ python3 scripts/smoke_test.py
 cd packages/node && npm install && npx tsc && cd -
 node scripts/smoke-test.mjs
 ```
+
+Variables (ver [`.env.local.example`](.env.local.example)):
+`KIBAN_API_KEY_PROD` (o el genérico `KIBAN_API_KEY`),
+`KIBAN_WORKFLOO_DEFINITION_ID`, `KIBAN_SCENARIO_ID` (si corrés en modo sandbox y
+hay nodos LINK), `KIBAN_SANDBOX` (opcional; por defecto `false` = real).
+
+### Go / Java / C#
+
+Los smoke tests de los lenguajes compilados viven en `smoke/{go,java,csharp}` y
+**no repiten** la lógica de resolución: consumen el ambiente ya resuelto por
+`scripts/resolve-env.sh`, que exporta `KIBAN_HOST`, `KIBAN_SANDBOX` y
+`KIBAN_API_KEY`.
+
+```bash
+set -a; source .env.local; set +a   # tus secretos
+source scripts/resolve-env.sh        # exporta KIBAN_HOST/KIBAN_SANDBOX/KIBAN_API_KEY
+                                     # (o: KIBAN_SANDBOX=true source scripts/resolve-env.sh)
+
+# Go
+( cd smoke/go && go mod tidy && go run . )
+
+# Java (instala el SDK en el repo local una vez)
+( cd packages/java && mvn -q install -DskipTests )
+( cd smoke/java && mvn -q compile exec:java )
+
+# C#
+( cd smoke/csharp && dotnet run )
+```
+
+Java y dotnet son *keg-only* en macOS; exportá primero:
+`export JAVA_HOME=/opt/homebrew/opt/openjdk@21 DOTNET_ROOT=/opt/homebrew/opt/dotnet/libexec`
+y agregá `$JAVA_HOME/bin` y `/opt/homebrew/opt/dotnet/bin` al `PATH`.
 
 ## Publicar
 

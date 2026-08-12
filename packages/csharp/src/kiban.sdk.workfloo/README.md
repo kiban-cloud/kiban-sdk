@@ -11,7 +11,7 @@ outputDir: out
 
 # https://openapi-generator.tech/docs/generators/csharp
 additionalProperties:
-  packageGuid: '{AEF6312E-7395-4DDB-B5CE-61B5A4C82B12}'
+  packageGuid: '{E61DB8A6-58BB-439E-AE1E-7CCD2137EDB6}'
 
 # https://openapi-generator.tech/docs/integrations/#github-integration
 # gitHost:
@@ -54,9 +54,9 @@ namespace YourProject
         public static async Task Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
-            var api = host.Services.GetRequiredService<IWorkflooApi>();
-            IExecuteWorkflooApiResponse apiResponse = await api.ExecuteWorkflooAsync("todo");
-            ControllerWorkflooModelExecuteResponse? model = apiResponse.Ok();
+            var api = host.Services.GetRequiredService<IPoolApi>();
+            IExecutePoolApiResponse apiResponse = await api.ExecutePoolAsync("todo");
+            ControllerPoolModelExecuteResponse? model = apiResponse.Ok();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) => Host.CreateDefaultBuilder(args)

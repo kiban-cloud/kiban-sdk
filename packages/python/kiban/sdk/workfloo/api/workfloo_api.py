@@ -16,10 +16,17 @@ from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
 from pydantic import Field, StrictBool, StrictInt, StrictStr, field_validator
-from typing import List, Optional
+from typing import Any, Dict, List, Optional
 from typing_extensions import Annotated
 from kiban.sdk.workfloo.models.controller_workfloo_model_execute import ControllerWorkflooModelExecute
 from kiban.sdk.workfloo.models.controller_workfloo_model_execute_response import ControllerWorkflooModelExecuteResponse
+from kiban.sdk.workfloo.models.controller_workfloo_model_file_response import ControllerWorkflooModelFileResponse
+from kiban.sdk.workfloo.models.controller_workfloo_model_nip_resend_request import ControllerWorkflooModelNipResendRequest
+from kiban.sdk.workfloo.models.controller_workfloo_model_nip_resend_status import ControllerWorkflooModelNipResendStatus
+from kiban.sdk.workfloo.models.controller_workfloo_model_nip_send_request import ControllerWorkflooModelNipSendRequest
+from kiban.sdk.workfloo.models.controller_workfloo_model_nip_validate_request import ControllerWorkflooModelNipValidateRequest
+from kiban.sdk.workfloo.models.controller_workfloo_model_nip_validate_response import ControllerWorkflooModelNipValidateResponse
+from kiban.sdk.workfloo.models.controller_workfloo_model_review_request import ControllerWorkflooModelReviewRequest
 from kiban.sdk.workfloo.models.controller_workfloo_model_workfloo import ControllerWorkflooModelWorkfloo
 from kiban.sdk.workfloo.models.controller_workfloo_model_workfloo_page import ControllerWorkflooModelWorkflooPage
 from kiban.sdk.workfloo.models.controller_workfloo_model_workfloo_resume import ControllerWorkflooModelWorkflooResume
@@ -356,6 +363,646 @@ class WorkflooApi:
 
 
     @validate_call
+    def execute_workfloo_document(
+        self,
+        id: Annotated[StrictStr, Field(description="Id de la ejecución")],
+        body: Annotated[Dict[str, Any], Field(description="Documentos: {documentoId: base64}")],
+        sandbox: Annotated[Optional[StrictBool], Field(description="Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Enviar los documentos de un paso
+
+        Envía los documentos del nodo DOCUMENT actual. El body es un objeto {documentoId: base64} (los de tipo \"set\" van como arreglo de objetos).
+
+        :param id: Id de la ejecución (required)
+        :type id: str
+        :param body: Documentos: {documentoId: base64} (required)
+        :type body: object
+        :param sandbox: Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+        :type sandbox: bool
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._execute_workfloo_document_serialize(
+            id=id,
+            body=body,
+            sandbox=sandbox,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+            '400': None,
+            '401': None,
+            '403': None,
+            '404': None,
+            '409': None,
+            '500': None,
+            '503': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def execute_workfloo_document_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="Id de la ejecución")],
+        body: Annotated[Dict[str, Any], Field(description="Documentos: {documentoId: base64}")],
+        sandbox: Annotated[Optional[StrictBool], Field(description="Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Enviar los documentos de un paso
+
+        Envía los documentos del nodo DOCUMENT actual. El body es un objeto {documentoId: base64} (los de tipo \"set\" van como arreglo de objetos).
+
+        :param id: Id de la ejecución (required)
+        :type id: str
+        :param body: Documentos: {documentoId: base64} (required)
+        :type body: object
+        :param sandbox: Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+        :type sandbox: bool
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._execute_workfloo_document_serialize(
+            id=id,
+            body=body,
+            sandbox=sandbox,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+            '400': None,
+            '401': None,
+            '403': None,
+            '404': None,
+            '409': None,
+            '500': None,
+            '503': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def execute_workfloo_document_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="Id de la ejecución")],
+        body: Annotated[Dict[str, Any], Field(description="Documentos: {documentoId: base64}")],
+        sandbox: Annotated[Optional[StrictBool], Field(description="Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Enviar los documentos de un paso
+
+        Envía los documentos del nodo DOCUMENT actual. El body es un objeto {documentoId: base64} (los de tipo \"set\" van como arreglo de objetos).
+
+        :param id: Id de la ejecución (required)
+        :type id: str
+        :param body: Documentos: {documentoId: base64} (required)
+        :type body: object
+        :param sandbox: Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+        :type sandbox: bool
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._execute_workfloo_document_serialize(
+            id=id,
+            body=body,
+            sandbox=sandbox,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+            '400': None,
+            '401': None,
+            '403': None,
+            '404': None,
+            '409': None,
+            '500': None,
+            '503': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _execute_workfloo_document_serialize(
+        self,
+        id,
+        body,
+        sandbox,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        if sandbox is not None:
+            
+            _query_params.append(('sandbox', sandbox))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if body is not None:
+            _body_params = body
+
+
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'ApiKeyAuth'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/api/v1/workfloo/{id}/document',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def execute_workfloo_form(
+        self,
+        id: Annotated[StrictStr, Field(description="Id de la ejecución")],
+        body: Annotated[Dict[str, Any], Field(description="Campos del formulario: {campoId: valor}")],
+        sandbox: Annotated[Optional[StrictBool], Field(description="Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Enviar el formulario de un paso
+
+        Envía las respuestas del nodo FORM actual de la ejecución. El body es un objeto {campoId: valor} con los campos del formulario.
+
+        :param id: Id de la ejecución (required)
+        :type id: str
+        :param body: Campos del formulario: {campoId: valor} (required)
+        :type body: object
+        :param sandbox: Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+        :type sandbox: bool
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._execute_workfloo_form_serialize(
+            id=id,
+            body=body,
+            sandbox=sandbox,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+            '400': None,
+            '401': None,
+            '403': None,
+            '404': None,
+            '409': None,
+            '500': None,
+            '503': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def execute_workfloo_form_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="Id de la ejecución")],
+        body: Annotated[Dict[str, Any], Field(description="Campos del formulario: {campoId: valor}")],
+        sandbox: Annotated[Optional[StrictBool], Field(description="Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Enviar el formulario de un paso
+
+        Envía las respuestas del nodo FORM actual de la ejecución. El body es un objeto {campoId: valor} con los campos del formulario.
+
+        :param id: Id de la ejecución (required)
+        :type id: str
+        :param body: Campos del formulario: {campoId: valor} (required)
+        :type body: object
+        :param sandbox: Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+        :type sandbox: bool
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._execute_workfloo_form_serialize(
+            id=id,
+            body=body,
+            sandbox=sandbox,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+            '400': None,
+            '401': None,
+            '403': None,
+            '404': None,
+            '409': None,
+            '500': None,
+            '503': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def execute_workfloo_form_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="Id de la ejecución")],
+        body: Annotated[Dict[str, Any], Field(description="Campos del formulario: {campoId: valor}")],
+        sandbox: Annotated[Optional[StrictBool], Field(description="Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Enviar el formulario de un paso
+
+        Envía las respuestas del nodo FORM actual de la ejecución. El body es un objeto {campoId: valor} con los campos del formulario.
+
+        :param id: Id de la ejecución (required)
+        :type id: str
+        :param body: Campos del formulario: {campoId: valor} (required)
+        :type body: object
+        :param sandbox: Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+        :type sandbox: bool
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._execute_workfloo_form_serialize(
+            id=id,
+            body=body,
+            sandbox=sandbox,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+            '400': None,
+            '401': None,
+            '403': None,
+            '404': None,
+            '409': None,
+            '500': None,
+            '503': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _execute_workfloo_form_serialize(
+        self,
+        id,
+        body,
+        sandbox,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        if sandbox is not None:
+            
+            _query_params.append(('sandbox', sandbox))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if body is not None:
+            _body_params = body
+
+
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'ApiKeyAuth'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/api/v1/workfloo/{id}/form',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def get_workfloo(
         self,
         id: Annotated[StrictStr, Field(description="Id de la ejecución")],
@@ -639,6 +1286,336 @@ class WorkflooApi:
         return self.api_client.param_serialize(
             method='GET',
             resource_path='/api/v1/workfloo/{id}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_workfloo_file(
+        self,
+        id: Annotated[StrictStr, Field(description="Id de la ejecución")],
+        node_id: Annotated[StrictStr, Field(description="Id del nodo que contiene el archivo")],
+        name: Annotated[StrictStr, Field(description="Nombre del archivo")],
+        sandbox: Annotated[Optional[StrictBool], Field(description="Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ControllerWorkflooModelFileResponse:
+        """Descargar un archivo de un nodo
+
+        Devuelve, en base64, un archivo producido/subido en un nodo de la ejecución, identificado por nodeId + name.
+
+        :param id: Id de la ejecución (required)
+        :type id: str
+        :param node_id: Id del nodo que contiene el archivo (required)
+        :type node_id: str
+        :param name: Nombre del archivo (required)
+        :type name: str
+        :param sandbox: Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+        :type sandbox: bool
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_workfloo_file_serialize(
+            id=id,
+            node_id=node_id,
+            name=name,
+            sandbox=sandbox,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ControllerWorkflooModelFileResponse",
+            '400': None,
+            '401': None,
+            '403': None,
+            '404': None,
+            '500': None,
+            '503': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_workfloo_file_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="Id de la ejecución")],
+        node_id: Annotated[StrictStr, Field(description="Id del nodo que contiene el archivo")],
+        name: Annotated[StrictStr, Field(description="Nombre del archivo")],
+        sandbox: Annotated[Optional[StrictBool], Field(description="Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[ControllerWorkflooModelFileResponse]:
+        """Descargar un archivo de un nodo
+
+        Devuelve, en base64, un archivo producido/subido en un nodo de la ejecución, identificado por nodeId + name.
+
+        :param id: Id de la ejecución (required)
+        :type id: str
+        :param node_id: Id del nodo que contiene el archivo (required)
+        :type node_id: str
+        :param name: Nombre del archivo (required)
+        :type name: str
+        :param sandbox: Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+        :type sandbox: bool
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_workfloo_file_serialize(
+            id=id,
+            node_id=node_id,
+            name=name,
+            sandbox=sandbox,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ControllerWorkflooModelFileResponse",
+            '400': None,
+            '401': None,
+            '403': None,
+            '404': None,
+            '500': None,
+            '503': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_workfloo_file_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="Id de la ejecución")],
+        node_id: Annotated[StrictStr, Field(description="Id del nodo que contiene el archivo")],
+        name: Annotated[StrictStr, Field(description="Nombre del archivo")],
+        sandbox: Annotated[Optional[StrictBool], Field(description="Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Descargar un archivo de un nodo
+
+        Devuelve, en base64, un archivo producido/subido en un nodo de la ejecución, identificado por nodeId + name.
+
+        :param id: Id de la ejecución (required)
+        :type id: str
+        :param node_id: Id del nodo que contiene el archivo (required)
+        :type node_id: str
+        :param name: Nombre del archivo (required)
+        :type name: str
+        :param sandbox: Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+        :type sandbox: bool
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_workfloo_file_serialize(
+            id=id,
+            node_id=node_id,
+            name=name,
+            sandbox=sandbox,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ControllerWorkflooModelFileResponse",
+            '400': None,
+            '401': None,
+            '403': None,
+            '404': None,
+            '500': None,
+            '503': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_workfloo_file_serialize(
+        self,
+        id,
+        node_id,
+        name,
+        sandbox,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        if node_id is not None:
+            
+            _query_params.append(('nodeId', node_id))
+            
+        if name is not None:
+            
+            _query_params.append(('name', name))
+            
+        if sandbox is not None:
+            
+            _query_params.append(('sandbox', sandbox))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'ApiKeyAuth'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/api/v1/workfloo/{id}/file',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -1688,6 +2665,1611 @@ class WorkflooApi:
         return self.api_client.param_serialize(
             method='GET',
             resource_path='/api/v2/workfloo',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def resend_workfloo_nip(
+        self,
+        id: Annotated[StrictStr, Field(description="Id de la ejecución")],
+        sandbox: Annotated[Optional[StrictBool], Field(description="Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito")] = None,
+        controller_workfloo_model_nip_resend_request: Annotated[Optional[ControllerWorkflooModelNipResendRequest], Field(description="Teléfono al que reenviar (opcional)")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ControllerWorkflooModelNipResendStatus:
+        """Reenviar el NIP
+
+        Reenvía el NIP y devuelve el estado del flujo NIP. El body es opcional (teléfono al que reenviar).
+
+        :param id: Id de la ejecución (required)
+        :type id: str
+        :param sandbox: Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+        :type sandbox: bool
+        :param controller_workfloo_model_nip_resend_request: Teléfono al que reenviar (opcional)
+        :type controller_workfloo_model_nip_resend_request: ControllerWorkflooModelNipResendRequest
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._resend_workfloo_nip_serialize(
+            id=id,
+            sandbox=sandbox,
+            controller_workfloo_model_nip_resend_request=controller_workfloo_model_nip_resend_request,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ControllerWorkflooModelNipResendStatus",
+            '400': None,
+            '401': None,
+            '403': None,
+            '404': None,
+            '500': None,
+            '503': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def resend_workfloo_nip_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="Id de la ejecución")],
+        sandbox: Annotated[Optional[StrictBool], Field(description="Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito")] = None,
+        controller_workfloo_model_nip_resend_request: Annotated[Optional[ControllerWorkflooModelNipResendRequest], Field(description="Teléfono al que reenviar (opcional)")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[ControllerWorkflooModelNipResendStatus]:
+        """Reenviar el NIP
+
+        Reenvía el NIP y devuelve el estado del flujo NIP. El body es opcional (teléfono al que reenviar).
+
+        :param id: Id de la ejecución (required)
+        :type id: str
+        :param sandbox: Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+        :type sandbox: bool
+        :param controller_workfloo_model_nip_resend_request: Teléfono al que reenviar (opcional)
+        :type controller_workfloo_model_nip_resend_request: ControllerWorkflooModelNipResendRequest
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._resend_workfloo_nip_serialize(
+            id=id,
+            sandbox=sandbox,
+            controller_workfloo_model_nip_resend_request=controller_workfloo_model_nip_resend_request,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ControllerWorkflooModelNipResendStatus",
+            '400': None,
+            '401': None,
+            '403': None,
+            '404': None,
+            '500': None,
+            '503': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def resend_workfloo_nip_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="Id de la ejecución")],
+        sandbox: Annotated[Optional[StrictBool], Field(description="Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito")] = None,
+        controller_workfloo_model_nip_resend_request: Annotated[Optional[ControllerWorkflooModelNipResendRequest], Field(description="Teléfono al que reenviar (opcional)")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Reenviar el NIP
+
+        Reenvía el NIP y devuelve el estado del flujo NIP. El body es opcional (teléfono al que reenviar).
+
+        :param id: Id de la ejecución (required)
+        :type id: str
+        :param sandbox: Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+        :type sandbox: bool
+        :param controller_workfloo_model_nip_resend_request: Teléfono al que reenviar (opcional)
+        :type controller_workfloo_model_nip_resend_request: ControllerWorkflooModelNipResendRequest
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._resend_workfloo_nip_serialize(
+            id=id,
+            sandbox=sandbox,
+            controller_workfloo_model_nip_resend_request=controller_workfloo_model_nip_resend_request,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ControllerWorkflooModelNipResendStatus",
+            '400': None,
+            '401': None,
+            '403': None,
+            '404': None,
+            '500': None,
+            '503': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _resend_workfloo_nip_serialize(
+        self,
+        id,
+        sandbox,
+        controller_workfloo_model_nip_resend_request,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        if sandbox is not None:
+            
+            _query_params.append(('sandbox', sandbox))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if controller_workfloo_model_nip_resend_request is not None:
+            _body_params = controller_workfloo_model_nip_resend_request
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'ApiKeyAuth'
+        ]
+
+        return self.api_client.param_serialize(
+            method='PATCH',
+            resource_path='/api/v1/workfloo/{id}/nip/resend',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def review_workfloo_validation(
+        self,
+        id: Annotated[StrictStr, Field(description="Id de la ejecución")],
+        controller_workfloo_model_review_request: Annotated[ControllerWorkflooModelReviewRequest, Field(description="Decisión del revisor")],
+        sandbox: Annotated[Optional[StrictBool], Field(description="Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Revisar un paso de validación
+
+        Aplica la decisión del revisor sobre un nodo VALIDATION en estado REVIEW: aprobar o rechazar. En un rechazo, reviews indica los campos a corregir con su mensaje.
+
+        :param id: Id de la ejecución (required)
+        :type id: str
+        :param controller_workfloo_model_review_request: Decisión del revisor (required)
+        :type controller_workfloo_model_review_request: ControllerWorkflooModelReviewRequest
+        :param sandbox: Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+        :type sandbox: bool
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._review_workfloo_validation_serialize(
+            id=id,
+            controller_workfloo_model_review_request=controller_workfloo_model_review_request,
+            sandbox=sandbox,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+            '400': None,
+            '401': None,
+            '403': None,
+            '404': None,
+            '409': None,
+            '500': None,
+            '503': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def review_workfloo_validation_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="Id de la ejecución")],
+        controller_workfloo_model_review_request: Annotated[ControllerWorkflooModelReviewRequest, Field(description="Decisión del revisor")],
+        sandbox: Annotated[Optional[StrictBool], Field(description="Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Revisar un paso de validación
+
+        Aplica la decisión del revisor sobre un nodo VALIDATION en estado REVIEW: aprobar o rechazar. En un rechazo, reviews indica los campos a corregir con su mensaje.
+
+        :param id: Id de la ejecución (required)
+        :type id: str
+        :param controller_workfloo_model_review_request: Decisión del revisor (required)
+        :type controller_workfloo_model_review_request: ControllerWorkflooModelReviewRequest
+        :param sandbox: Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+        :type sandbox: bool
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._review_workfloo_validation_serialize(
+            id=id,
+            controller_workfloo_model_review_request=controller_workfloo_model_review_request,
+            sandbox=sandbox,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+            '400': None,
+            '401': None,
+            '403': None,
+            '404': None,
+            '409': None,
+            '500': None,
+            '503': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def review_workfloo_validation_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="Id de la ejecución")],
+        controller_workfloo_model_review_request: Annotated[ControllerWorkflooModelReviewRequest, Field(description="Decisión del revisor")],
+        sandbox: Annotated[Optional[StrictBool], Field(description="Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Revisar un paso de validación
+
+        Aplica la decisión del revisor sobre un nodo VALIDATION en estado REVIEW: aprobar o rechazar. En un rechazo, reviews indica los campos a corregir con su mensaje.
+
+        :param id: Id de la ejecución (required)
+        :type id: str
+        :param controller_workfloo_model_review_request: Decisión del revisor (required)
+        :type controller_workfloo_model_review_request: ControllerWorkflooModelReviewRequest
+        :param sandbox: Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+        :type sandbox: bool
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._review_workfloo_validation_serialize(
+            id=id,
+            controller_workfloo_model_review_request=controller_workfloo_model_review_request,
+            sandbox=sandbox,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+            '400': None,
+            '401': None,
+            '403': None,
+            '404': None,
+            '409': None,
+            '500': None,
+            '503': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _review_workfloo_validation_serialize(
+        self,
+        id,
+        controller_workfloo_model_review_request,
+        sandbox,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        if sandbox is not None:
+            
+            _query_params.append(('sandbox', sandbox))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if controller_workfloo_model_review_request is not None:
+            _body_params = controller_workfloo_model_review_request
+
+
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'ApiKeyAuth'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/api/v1/workfloo/{id}/review',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def send_workfloo_nip(
+        self,
+        id: Annotated[StrictStr, Field(description="Id de la ejecución")],
+        sandbox: Annotated[Optional[StrictBool], Field(description="Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito")] = None,
+        controller_workfloo_model_nip_send_request: Annotated[Optional[ControllerWorkflooModelNipSendRequest], Field(description="Teléfono al que enviar el NIP (opcional)")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Enviar el NIP
+
+        Envía el NIP (código de un solo uso) del nodo NIP actual. El body es opcional; si se incluye teléfono, countryCode y phoneNumber van juntos.
+
+        :param id: Id de la ejecución (required)
+        :type id: str
+        :param sandbox: Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+        :type sandbox: bool
+        :param controller_workfloo_model_nip_send_request: Teléfono al que enviar el NIP (opcional)
+        :type controller_workfloo_model_nip_send_request: ControllerWorkflooModelNipSendRequest
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._send_workfloo_nip_serialize(
+            id=id,
+            sandbox=sandbox,
+            controller_workfloo_model_nip_send_request=controller_workfloo_model_nip_send_request,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+            '400': None,
+            '401': None,
+            '403': None,
+            '404': None,
+            '500': None,
+            '503': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def send_workfloo_nip_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="Id de la ejecución")],
+        sandbox: Annotated[Optional[StrictBool], Field(description="Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito")] = None,
+        controller_workfloo_model_nip_send_request: Annotated[Optional[ControllerWorkflooModelNipSendRequest], Field(description="Teléfono al que enviar el NIP (opcional)")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Enviar el NIP
+
+        Envía el NIP (código de un solo uso) del nodo NIP actual. El body es opcional; si se incluye teléfono, countryCode y phoneNumber van juntos.
+
+        :param id: Id de la ejecución (required)
+        :type id: str
+        :param sandbox: Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+        :type sandbox: bool
+        :param controller_workfloo_model_nip_send_request: Teléfono al que enviar el NIP (opcional)
+        :type controller_workfloo_model_nip_send_request: ControllerWorkflooModelNipSendRequest
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._send_workfloo_nip_serialize(
+            id=id,
+            sandbox=sandbox,
+            controller_workfloo_model_nip_send_request=controller_workfloo_model_nip_send_request,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+            '400': None,
+            '401': None,
+            '403': None,
+            '404': None,
+            '500': None,
+            '503': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def send_workfloo_nip_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="Id de la ejecución")],
+        sandbox: Annotated[Optional[StrictBool], Field(description="Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito")] = None,
+        controller_workfloo_model_nip_send_request: Annotated[Optional[ControllerWorkflooModelNipSendRequest], Field(description="Teléfono al que enviar el NIP (opcional)")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Enviar el NIP
+
+        Envía el NIP (código de un solo uso) del nodo NIP actual. El body es opcional; si se incluye teléfono, countryCode y phoneNumber van juntos.
+
+        :param id: Id de la ejecución (required)
+        :type id: str
+        :param sandbox: Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+        :type sandbox: bool
+        :param controller_workfloo_model_nip_send_request: Teléfono al que enviar el NIP (opcional)
+        :type controller_workfloo_model_nip_send_request: ControllerWorkflooModelNipSendRequest
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._send_workfloo_nip_serialize(
+            id=id,
+            sandbox=sandbox,
+            controller_workfloo_model_nip_send_request=controller_workfloo_model_nip_send_request,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+            '400': None,
+            '401': None,
+            '403': None,
+            '404': None,
+            '500': None,
+            '503': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _send_workfloo_nip_serialize(
+        self,
+        id,
+        sandbox,
+        controller_workfloo_model_nip_send_request,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        if sandbox is not None:
+            
+            _query_params.append(('sandbox', sandbox))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if controller_workfloo_model_nip_send_request is not None:
+            _body_params = controller_workfloo_model_nip_send_request
+
+
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'ApiKeyAuth'
+        ]
+
+        return self.api_client.param_serialize(
+            method='PATCH',
+            resource_path='/api/v1/workfloo/{id}/nip/send',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def submit_workfloo_correction(
+        self,
+        id: Annotated[StrictStr, Field(description="Id de la ejecución")],
+        body: Annotated[Dict[str, Any], Field(description="Campos corregidos: {campoId: valor}")],
+        sandbox: Annotated[Optional[StrictBool], Field(description="Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Enviar la corrección de un paso de validación
+
+        Reenvía los campos corregidos por el prospecto cuando un nodo VALIDATION está en estado CORRECTION. El body es un objeto {campoId: valor}, igual que el formulario.
+
+        :param id: Id de la ejecución (required)
+        :type id: str
+        :param body: Campos corregidos: {campoId: valor} (required)
+        :type body: object
+        :param sandbox: Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+        :type sandbox: bool
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._submit_workfloo_correction_serialize(
+            id=id,
+            body=body,
+            sandbox=sandbox,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+            '400': None,
+            '401': None,
+            '403': None,
+            '404': None,
+            '409': None,
+            '500': None,
+            '503': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def submit_workfloo_correction_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="Id de la ejecución")],
+        body: Annotated[Dict[str, Any], Field(description="Campos corregidos: {campoId: valor}")],
+        sandbox: Annotated[Optional[StrictBool], Field(description="Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Enviar la corrección de un paso de validación
+
+        Reenvía los campos corregidos por el prospecto cuando un nodo VALIDATION está en estado CORRECTION. El body es un objeto {campoId: valor}, igual que el formulario.
+
+        :param id: Id de la ejecución (required)
+        :type id: str
+        :param body: Campos corregidos: {campoId: valor} (required)
+        :type body: object
+        :param sandbox: Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+        :type sandbox: bool
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._submit_workfloo_correction_serialize(
+            id=id,
+            body=body,
+            sandbox=sandbox,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+            '400': None,
+            '401': None,
+            '403': None,
+            '404': None,
+            '409': None,
+            '500': None,
+            '503': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def submit_workfloo_correction_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="Id de la ejecución")],
+        body: Annotated[Dict[str, Any], Field(description="Campos corregidos: {campoId: valor}")],
+        sandbox: Annotated[Optional[StrictBool], Field(description="Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Enviar la corrección de un paso de validación
+
+        Reenvía los campos corregidos por el prospecto cuando un nodo VALIDATION está en estado CORRECTION. El body es un objeto {campoId: valor}, igual que el formulario.
+
+        :param id: Id de la ejecución (required)
+        :type id: str
+        :param body: Campos corregidos: {campoId: valor} (required)
+        :type body: object
+        :param sandbox: Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+        :type sandbox: bool
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._submit_workfloo_correction_serialize(
+            id=id,
+            body=body,
+            sandbox=sandbox,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+            '400': None,
+            '401': None,
+            '403': None,
+            '404': None,
+            '409': None,
+            '500': None,
+            '503': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _submit_workfloo_correction_serialize(
+        self,
+        id,
+        body,
+        sandbox,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        if sandbox is not None:
+            
+            _query_params.append(('sandbox', sandbox))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if body is not None:
+            _body_params = body
+
+
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'ApiKeyAuth'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/api/v1/workfloo/{id}/correction',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def validate_workfloo_nip(
+        self,
+        id: Annotated[StrictStr, Field(description="Id de la ejecución")],
+        controller_workfloo_model_nip_validate_request: Annotated[ControllerWorkflooModelNipValidateRequest, Field(description="El NIP a validar")],
+        sandbox: Annotated[Optional[StrictBool], Field(description="Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ControllerWorkflooModelNipValidateResponse:
+        """Validar el NIP
+
+        Valida el NIP capturado por el usuario y devuelve la fase resultante del flujo NIP.
+
+        :param id: Id de la ejecución (required)
+        :type id: str
+        :param controller_workfloo_model_nip_validate_request: El NIP a validar (required)
+        :type controller_workfloo_model_nip_validate_request: ControllerWorkflooModelNipValidateRequest
+        :param sandbox: Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+        :type sandbox: bool
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._validate_workfloo_nip_serialize(
+            id=id,
+            controller_workfloo_model_nip_validate_request=controller_workfloo_model_nip_validate_request,
+            sandbox=sandbox,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ControllerWorkflooModelNipValidateResponse",
+            '400': None,
+            '401': None,
+            '403': None,
+            '404': None,
+            '500': None,
+            '503': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def validate_workfloo_nip_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="Id de la ejecución")],
+        controller_workfloo_model_nip_validate_request: Annotated[ControllerWorkflooModelNipValidateRequest, Field(description="El NIP a validar")],
+        sandbox: Annotated[Optional[StrictBool], Field(description="Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[ControllerWorkflooModelNipValidateResponse]:
+        """Validar el NIP
+
+        Valida el NIP capturado por el usuario y devuelve la fase resultante del flujo NIP.
+
+        :param id: Id de la ejecución (required)
+        :type id: str
+        :param controller_workfloo_model_nip_validate_request: El NIP a validar (required)
+        :type controller_workfloo_model_nip_validate_request: ControllerWorkflooModelNipValidateRequest
+        :param sandbox: Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+        :type sandbox: bool
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._validate_workfloo_nip_serialize(
+            id=id,
+            controller_workfloo_model_nip_validate_request=controller_workfloo_model_nip_validate_request,
+            sandbox=sandbox,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ControllerWorkflooModelNipValidateResponse",
+            '400': None,
+            '401': None,
+            '403': None,
+            '404': None,
+            '500': None,
+            '503': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def validate_workfloo_nip_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="Id de la ejecución")],
+        controller_workfloo_model_nip_validate_request: Annotated[ControllerWorkflooModelNipValidateRequest, Field(description="El NIP a validar")],
+        sandbox: Annotated[Optional[StrictBool], Field(description="Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Validar el NIP
+
+        Valida el NIP capturado por el usuario y devuelve la fase resultante del flujo NIP.
+
+        :param id: Id de la ejecución (required)
+        :type id: str
+        :param controller_workfloo_model_nip_validate_request: El NIP a validar (required)
+        :type controller_workfloo_model_nip_validate_request: ControllerWorkflooModelNipValidateRequest
+        :param sandbox: Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+        :type sandbox: bool
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._validate_workfloo_nip_serialize(
+            id=id,
+            controller_workfloo_model_nip_validate_request=controller_workfloo_model_nip_validate_request,
+            sandbox=sandbox,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ControllerWorkflooModelNipValidateResponse",
+            '400': None,
+            '401': None,
+            '403': None,
+            '404': None,
+            '500': None,
+            '503': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _validate_workfloo_nip_serialize(
+        self,
+        id,
+        controller_workfloo_model_nip_validate_request,
+        sandbox,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        if sandbox is not None:
+            
+            _query_params.append(('sandbox', sandbox))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if controller_workfloo_model_nip_validate_request is not None:
+            _body_params = controller_workfloo_model_nip_validate_request
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'ApiKeyAuth'
+        ]
+
+        return self.api_client.param_serialize(
+            method='PATCH',
+            resource_path='/api/v1/workfloo/{id}/nip/validate',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

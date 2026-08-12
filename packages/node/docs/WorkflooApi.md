@@ -5,10 +5,18 @@ All URIs are relative to *https://workfloo.kiban.com*
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
 |[**executeWorkfloo**](#executeworkfloo) | **POST** /api/v1/workfloo | Ejecutar un workfloo|
+|[**executeWorkflooDocument**](#executeworkfloodocument) | **POST** /api/v1/workfloo/{id}/document | Enviar los documentos de un paso|
+|[**executeWorkflooForm**](#executeworkflooform) | **POST** /api/v1/workfloo/{id}/form | Enviar el formulario de un paso|
 |[**getWorkfloo**](#getworkfloo) | **GET** /api/v1/workfloo/{id} | Detalle de una ejecución|
+|[**getWorkflooFile**](#getworkfloofile) | **GET** /api/v1/workfloo/{id}/file | Descargar un archivo de un nodo|
 |[**getWorkflooStatus**](#getworkfloostatus) | **GET** /api/v1/workfloo/status/{id} | Estatus de una ejecución|
 |[**listWorkfloos**](#listworkfloos) | **GET** /api/v1/workfloo | Historial de ejecuciones (v1)|
 |[**listWorkfloosV2**](#listworkfloosv2) | **GET** /api/v2/workfloo | Historial de ejecuciones (v2)|
+|[**resendWorkflooNip**](#resendworkfloonip) | **PATCH** /api/v1/workfloo/{id}/nip/resend | Reenviar el NIP|
+|[**reviewWorkflooValidation**](#reviewworkfloovalidation) | **POST** /api/v1/workfloo/{id}/review | Revisar un paso de validación|
+|[**sendWorkflooNip**](#sendworkfloonip) | **PATCH** /api/v1/workfloo/{id}/nip/send | Enviar el NIP|
+|[**submitWorkflooCorrection**](#submitworkfloocorrection) | **POST** /api/v1/workfloo/{id}/correction | Enviar la corrección de un paso de validación|
+|[**validateWorkflooNip**](#validateworkfloonip) | **PATCH** /api/v1/workfloo/{id}/nip/validate | Validar el NIP|
 
 # **executeWorkfloo**
 > ControllerWorkflooModelExecuteResponse executeWorkfloo(controllerWorkflooModelExecute)
@@ -72,6 +80,134 @@ const { status, data } = await apiInstance.executeWorkfloo(
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **executeWorkflooDocument**
+> executeWorkflooDocument(body)
+
+Envía los documentos del nodo DOCUMENT actual. El body es un objeto {documentoId: base64} (los de tipo \"set\" van como arreglo de objetos).
+
+### Example
+
+```typescript
+import {
+    WorkflooApi,
+    Configuration
+} from 'kiban.sdk.workfloo';
+
+const configuration = new Configuration();
+const apiInstance = new WorkflooApi(configuration);
+
+let id: string; //Id de la ejecución (default to undefined)
+let body: object; //Documentos: {documentoId: base64}
+let sandbox: boolean; //Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional) (default to undefined)
+
+const { status, data } = await apiInstance.executeWorkflooDocument(
+    id,
+    body,
+    sandbox
+);
+```
+
+### Parameters
+
+|Name | Type | Description  | Notes|
+|------------- | ------------- | ------------- | -------------|
+| **body** | **object**| Documentos: {documentoId: base64} | |
+| **id** | [**string**] | Id de la ejecución | defaults to undefined|
+| **sandbox** | [**boolean**] | Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito | (optional) defaults to undefined|
+
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | Documentos aceptados; la ejecución avanza |  -  |
+|**400** | Errores de validación por documento (formato/tamaño) o de conectores validadores |  -  |
+|**401** | API key ausente o inválida |  -  |
+|**403** | Sin acceso a ese paso |  -  |
+|**404** | La ejecución no existe |  -  |
+|**409** | Conflicto de estado |  -  |
+|**500** | Error interno |  -  |
+|**503** | Servicio dependiente no disponible |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **executeWorkflooForm**
+> executeWorkflooForm(body)
+
+Envía las respuestas del nodo FORM actual de la ejecución. El body es un objeto {campoId: valor} con los campos del formulario.
+
+### Example
+
+```typescript
+import {
+    WorkflooApi,
+    Configuration
+} from 'kiban.sdk.workfloo';
+
+const configuration = new Configuration();
+const apiInstance = new WorkflooApi(configuration);
+
+let id: string; //Id de la ejecución (default to undefined)
+let body: object; //Campos del formulario: {campoId: valor}
+let sandbox: boolean; //Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional) (default to undefined)
+
+const { status, data } = await apiInstance.executeWorkflooForm(
+    id,
+    body,
+    sandbox
+);
+```
+
+### Parameters
+
+|Name | Type | Description  | Notes|
+|------------- | ------------- | ------------- | -------------|
+| **body** | **object**| Campos del formulario: {campoId: valor} | |
+| **id** | [**string**] | Id de la ejecución | defaults to undefined|
+| **sandbox** | [**boolean**] | Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito | (optional) defaults to undefined|
+
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | Formulario aceptado; la ejecución avanza |  -  |
+|**400** | Errores de validación por campo o de conectores validadores |  -  |
+|**401** | API key ausente o inválida |  -  |
+|**403** | Sin acceso a ese paso |  -  |
+|**404** | La ejecución no existe |  -  |
+|**409** | Conflicto de estado |  -  |
+|**500** | Error interno |  -  |
+|**503** | Servicio dependiente no disponible |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **getWorkfloo**
 > ControllerWorkflooModelWorkflooResume getWorkfloo()
 
@@ -128,6 +264,72 @@ const { status, data } = await apiInstance.getWorkfloo(
 |**403** | La API key no tiene acceso a esa ejecución |  -  |
 |**404** | La ejecución no existe |  -  |
 |**409** | Conflicto al mapear la ejecución |  -  |
+|**500** | Error interno |  -  |
+|**503** | Servicio dependiente no disponible |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **getWorkflooFile**
+> ControllerWorkflooModelFileResponse getWorkflooFile()
+
+Devuelve, en base64, un archivo producido/subido en un nodo de la ejecución, identificado por nodeId + name.
+
+### Example
+
+```typescript
+import {
+    WorkflooApi,
+    Configuration
+} from 'kiban.sdk.workfloo';
+
+const configuration = new Configuration();
+const apiInstance = new WorkflooApi(configuration);
+
+let id: string; //Id de la ejecución (default to undefined)
+let nodeId: string; //Id del nodo que contiene el archivo (default to undefined)
+let name: string; //Nombre del archivo (default to undefined)
+let sandbox: boolean; //Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional) (default to undefined)
+
+const { status, data } = await apiInstance.getWorkflooFile(
+    id,
+    nodeId,
+    name,
+    sandbox
+);
+```
+
+### Parameters
+
+|Name | Type | Description  | Notes|
+|------------- | ------------- | ------------- | -------------|
+| **id** | [**string**] | Id de la ejecución | defaults to undefined|
+| **nodeId** | [**string**] | Id del nodo que contiene el archivo | defaults to undefined|
+| **name** | [**string**] | Nombre del archivo | defaults to undefined|
+| **sandbox** | [**boolean**] | Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito | (optional) defaults to undefined|
+
+
+### Return type
+
+**ControllerWorkflooModelFileResponse**
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | Archivo en base64 |  -  |
+|**400** | Parámetros ausentes o mal formados |  -  |
+|**401** | API key ausente o inválida |  -  |
+|**403** | Sin acceso a esa ejecución |  -  |
+|**404** | La ejecución, el nodo o el archivo no existe |  -  |
 |**500** | Error interno |  -  |
 |**503** | Servicio dependiente no disponible |  -  |
 
@@ -336,6 +538,327 @@ const { status, data } = await apiInstance.listWorkfloosV2(
 |**401** | API key ausente o inválida |  -  |
 |**403** | La API key no tiene acceso al listado |  -  |
 |**409** | Conflicto al mapear los resultados |  -  |
+|**500** | Error interno |  -  |
+|**503** | Servicio dependiente no disponible |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **resendWorkflooNip**
+> ControllerWorkflooModelNipResendStatus resendWorkflooNip()
+
+Reenvía el NIP y devuelve el estado del flujo NIP. El body es opcional (teléfono al que reenviar).
+
+### Example
+
+```typescript
+import {
+    WorkflooApi,
+    Configuration,
+    ControllerWorkflooModelNipResendRequest
+} from 'kiban.sdk.workfloo';
+
+const configuration = new Configuration();
+const apiInstance = new WorkflooApi(configuration);
+
+let id: string; //Id de la ejecución (default to undefined)
+let sandbox: boolean; //Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional) (default to undefined)
+let controllerWorkflooModelNipResendRequest: ControllerWorkflooModelNipResendRequest; //Teléfono al que reenviar (opcional) (optional)
+
+const { status, data } = await apiInstance.resendWorkflooNip(
+    id,
+    sandbox,
+    controllerWorkflooModelNipResendRequest
+);
+```
+
+### Parameters
+
+|Name | Type | Description  | Notes|
+|------------- | ------------- | ------------- | -------------|
+| **controllerWorkflooModelNipResendRequest** | **ControllerWorkflooModelNipResendRequest**| Teléfono al que reenviar (opcional) | |
+| **id** | [**string**] | Id de la ejecución | defaults to undefined|
+| **sandbox** | [**boolean**] | Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito | (optional) defaults to undefined|
+
+
+### Return type
+
+**ControllerWorkflooModelNipResendStatus**
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | Estado del NIP tras reenviar |  -  |
+|**400** | Teléfono/country code inválidos o error de negocio |  -  |
+|**401** | API key ausente o inválida |  -  |
+|**403** | Sin acceso a esa ejecución |  -  |
+|**404** | La ejecución no existe |  -  |
+|**500** | Error interno |  -  |
+|**503** | Servicio dependiente no disponible |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **reviewWorkflooValidation**
+> reviewWorkflooValidation(controllerWorkflooModelReviewRequest)
+
+Aplica la decisión del revisor sobre un nodo VALIDATION en estado REVIEW: aprobar o rechazar. En un rechazo, reviews indica los campos a corregir con su mensaje.
+
+### Example
+
+```typescript
+import {
+    WorkflooApi,
+    Configuration,
+    ControllerWorkflooModelReviewRequest
+} from 'kiban.sdk.workfloo';
+
+const configuration = new Configuration();
+const apiInstance = new WorkflooApi(configuration);
+
+let id: string; //Id de la ejecución (default to undefined)
+let controllerWorkflooModelReviewRequest: ControllerWorkflooModelReviewRequest; //Decisión del revisor
+let sandbox: boolean; //Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional) (default to undefined)
+
+const { status, data } = await apiInstance.reviewWorkflooValidation(
+    id,
+    controllerWorkflooModelReviewRequest,
+    sandbox
+);
+```
+
+### Parameters
+
+|Name | Type | Description  | Notes|
+|------------- | ------------- | ------------- | -------------|
+| **controllerWorkflooModelReviewRequest** | **ControllerWorkflooModelReviewRequest**| Decisión del revisor | |
+| **id** | [**string**] | Id de la ejecución | defaults to undefined|
+| **sandbox** | [**boolean**] | Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito | (optional) defaults to undefined|
+
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | Decisión aplicada; la ejecución avanza o pasa a corrección |  -  |
+|**400** | Body inválido |  -  |
+|**401** | API key ausente o inválida |  -  |
+|**403** | Sin acceso a ese paso de revisión |  -  |
+|**404** | La ejecución no existe |  -  |
+|**409** | El paso no está en estado revisable |  -  |
+|**500** | Error interno |  -  |
+|**503** | Servicio dependiente no disponible |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **sendWorkflooNip**
+> sendWorkflooNip()
+
+Envía el NIP (código de un solo uso) del nodo NIP actual. El body es opcional; si se incluye teléfono, countryCode y phoneNumber van juntos.
+
+### Example
+
+```typescript
+import {
+    WorkflooApi,
+    Configuration,
+    ControllerWorkflooModelNipSendRequest
+} from 'kiban.sdk.workfloo';
+
+const configuration = new Configuration();
+const apiInstance = new WorkflooApi(configuration);
+
+let id: string; //Id de la ejecución (default to undefined)
+let sandbox: boolean; //Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional) (default to undefined)
+let controllerWorkflooModelNipSendRequest: ControllerWorkflooModelNipSendRequest; //Teléfono al que enviar el NIP (opcional) (optional)
+
+const { status, data } = await apiInstance.sendWorkflooNip(
+    id,
+    sandbox,
+    controllerWorkflooModelNipSendRequest
+);
+```
+
+### Parameters
+
+|Name | Type | Description  | Notes|
+|------------- | ------------- | ------------- | -------------|
+| **controllerWorkflooModelNipSendRequest** | **ControllerWorkflooModelNipSendRequest**| Teléfono al que enviar el NIP (opcional) | |
+| **id** | [**string**] | Id de la ejecución | defaults to undefined|
+| **sandbox** | [**boolean**] | Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito | (optional) defaults to undefined|
+
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | NIP enviado |  -  |
+|**400** | Teléfono/country code inválidos o error de negocio |  -  |
+|**401** | API key ausente o inválida |  -  |
+|**403** | Sin acceso a esa ejecución |  -  |
+|**404** | La ejecución no existe |  -  |
+|**500** | Error interno |  -  |
+|**503** | Servicio dependiente no disponible |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **submitWorkflooCorrection**
+> submitWorkflooCorrection(body)
+
+Reenvía los campos corregidos por el prospecto cuando un nodo VALIDATION está en estado CORRECTION. El body es un objeto {campoId: valor}, igual que el formulario.
+
+### Example
+
+```typescript
+import {
+    WorkflooApi,
+    Configuration
+} from 'kiban.sdk.workfloo';
+
+const configuration = new Configuration();
+const apiInstance = new WorkflooApi(configuration);
+
+let id: string; //Id de la ejecución (default to undefined)
+let body: object; //Campos corregidos: {campoId: valor}
+let sandbox: boolean; //Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional) (default to undefined)
+
+const { status, data } = await apiInstance.submitWorkflooCorrection(
+    id,
+    body,
+    sandbox
+);
+```
+
+### Parameters
+
+|Name | Type | Description  | Notes|
+|------------- | ------------- | ------------- | -------------|
+| **body** | **object**| Campos corregidos: {campoId: valor} | |
+| **id** | [**string**] | Id de la ejecución | defaults to undefined|
+| **sandbox** | [**boolean**] | Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito | (optional) defaults to undefined|
+
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | Corrección aceptada; la ejecución vuelve a revisión o avanza |  -  |
+|**400** | Errores de validación por campo |  -  |
+|**401** | API key ausente o inválida |  -  |
+|**403** | Sin acceso a ese paso |  -  |
+|**404** | La ejecución no existe |  -  |
+|**409** | El paso no está en estado de corrección |  -  |
+|**500** | Error interno |  -  |
+|**503** | Servicio dependiente no disponible |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **validateWorkflooNip**
+> ControllerWorkflooModelNipValidateResponse validateWorkflooNip(controllerWorkflooModelNipValidateRequest)
+
+Valida el NIP capturado por el usuario y devuelve la fase resultante del flujo NIP.
+
+### Example
+
+```typescript
+import {
+    WorkflooApi,
+    Configuration,
+    ControllerWorkflooModelNipValidateRequest
+} from 'kiban.sdk.workfloo';
+
+const configuration = new Configuration();
+const apiInstance = new WorkflooApi(configuration);
+
+let id: string; //Id de la ejecución (default to undefined)
+let controllerWorkflooModelNipValidateRequest: ControllerWorkflooModelNipValidateRequest; //El NIP a validar
+let sandbox: boolean; //Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional) (default to undefined)
+
+const { status, data } = await apiInstance.validateWorkflooNip(
+    id,
+    controllerWorkflooModelNipValidateRequest,
+    sandbox
+);
+```
+
+### Parameters
+
+|Name | Type | Description  | Notes|
+|------------- | ------------- | ------------- | -------------|
+| **controllerWorkflooModelNipValidateRequest** | **ControllerWorkflooModelNipValidateRequest**| El NIP a validar | |
+| **id** | [**string**] | Id de la ejecución | defaults to undefined|
+| **sandbox** | [**boolean**] | Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito | (optional) defaults to undefined|
+
+
+### Return type
+
+**ControllerWorkflooModelNipValidateResponse**
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | Fase resultante |  -  |
+|**400** | NIP ausente o incorrecto |  -  |
+|**401** | API key ausente o inválida |  -  |
+|**403** | NIP rechazado / sin acceso |  -  |
+|**404** | La ejecución no existe |  -  |
 |**500** | Error interno |  -  |
 |**503** | Servicio dependiente no disponible |  -  |
 

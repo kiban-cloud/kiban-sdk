@@ -49,6 +49,8 @@ type APIClient struct {
 
 	// API Services
 
+	PoolAPI *PoolAPIService
+
 	WorkflooAPI *WorkflooAPIService
 }
 
@@ -68,6 +70,7 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.common.client = c
 
 	// API Services
+	c.PoolAPI = (*PoolAPIService)(&c.common)
 	c.WorkflooAPI = (*WorkflooAPIService)(&c.common)
 
 	return c

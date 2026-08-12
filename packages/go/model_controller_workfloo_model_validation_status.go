@@ -22,6 +22,7 @@ type ControllerWorkflooModelValidationStatus struct {
 	Fields []ControllerWorkflooModelValidationField `json:"fields,omitempty"`
 	Instruction *string `json:"instruction,omitempty"`
 	ReviewerNote *string `json:"reviewerNote,omitempty"`
+	State *string `json:"state,omitempty"`
 }
 
 // NewControllerWorkflooModelValidationStatus instantiates a new ControllerWorkflooModelValidationStatus object
@@ -137,6 +138,38 @@ func (o *ControllerWorkflooModelValidationStatus) SetReviewerNote(v string) {
 	o.ReviewerNote = &v
 }
 
+// GetState returns the State field value if set, zero value otherwise.
+func (o *ControllerWorkflooModelValidationStatus) GetState() string {
+	if o == nil || IsNil(o.State) {
+		var ret string
+		return ret
+	}
+	return *o.State
+}
+
+// GetStateOk returns a tuple with the State field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ControllerWorkflooModelValidationStatus) GetStateOk() (*string, bool) {
+	if o == nil || IsNil(o.State) {
+		return nil, false
+	}
+	return o.State, true
+}
+
+// HasState returns a boolean if a field has been set.
+func (o *ControllerWorkflooModelValidationStatus) HasState() bool {
+	if o != nil && !IsNil(o.State) {
+		return true
+	}
+
+	return false
+}
+
+// SetState gets a reference to the given string and assigns it to the State field.
+func (o *ControllerWorkflooModelValidationStatus) SetState(v string) {
+	o.State = &v
+}
+
 func (o ControllerWorkflooModelValidationStatus) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -155,6 +188,9 @@ func (o ControllerWorkflooModelValidationStatus) ToMap() (map[string]interface{}
 	}
 	if !IsNil(o.ReviewerNote) {
 		toSerialize["reviewerNote"] = o.ReviewerNote
+	}
+	if !IsNil(o.State) {
+		toSerialize["state"] = o.State
 	}
 	return toSerialize, nil
 }

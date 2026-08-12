@@ -2,7 +2,7 @@
 
 Workfloo API
 - API version: 1.0
-  - Build date: 2026-07-23T16:41:40.675919-06:00[America/Mexico_City]
+  - Build date: 2026-08-10T16:42:49.836741-06:00[America/Mexico_City]
   - Generator version: 7.24.0
 
 API pública de Workfloo: ejecuta un workfloo, consulta su estatus y revisa el historial/detalle de ejecuciones.
@@ -91,7 +91,7 @@ import kiban.sdk.workfloo.ApiException;
 import kiban.sdk.workfloo.Configuration;
 import kiban.sdk.workfloo.auth.*;
 import kiban.sdk.workfloo.model.*;
-import kiban.sdk.workfloo.api.WorkflooApi;
+import kiban.sdk.workfloo.api.PoolApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -104,14 +104,14 @@ public class Example {
     // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
     //ApiKeyAuth.setApiKeyPrefix("Token");
 
-    WorkflooApi apiInstance = new WorkflooApi(defaultClient);
-    ControllerWorkflooModelExecute controllerWorkflooModelExecute = new ControllerWorkflooModelExecute(); // ControllerWorkflooModelExecute | Definición a ejecutar y datos iniciales
+    PoolApi apiInstance = new PoolApi(defaultClient);
+    ControllerPoolModelExecute controllerPoolModelExecute = new ControllerPoolModelExecute(); // ControllerPoolModelExecute | Definición del pool y escenarios
     Boolean sandbox = true; // Boolean | Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
     try {
-      ControllerWorkflooModelExecuteResponse result = apiInstance.executeWorkfloo(controllerWorkflooModelExecute, sandbox);
+      ControllerPoolModelExecuteResponse result = apiInstance.executePool(controllerPoolModelExecute, sandbox);
       System.out.println(result);
     } catch (ApiException e) {
-      System.err.println("Exception when calling WorkflooApi#executeWorkfloo");
+      System.err.println("Exception when calling PoolApi#executePool");
       System.err.println("Status code: " + e.getCode());
       System.err.println("Reason: " + e.getResponseBody());
       System.err.println("Response headers: " + e.getResponseHeaders());
@@ -128,15 +128,26 @@ All URIs are relative to *https://workfloo.kiban.com*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*PoolApi* | [**executePool**](docs/PoolApi.md#executePool) | **POST** /api/v1/pool | Ejecutar un pool
 *WorkflooApi* | [**executeWorkfloo**](docs/WorkflooApi.md#executeWorkfloo) | **POST** /api/v1/workfloo | Ejecutar un workfloo
+*WorkflooApi* | [**executeWorkflooDocument**](docs/WorkflooApi.md#executeWorkflooDocument) | **POST** /api/v1/workfloo/{id}/document | Enviar los documentos de un paso
+*WorkflooApi* | [**executeWorkflooForm**](docs/WorkflooApi.md#executeWorkflooForm) | **POST** /api/v1/workfloo/{id}/form | Enviar el formulario de un paso
 *WorkflooApi* | [**getWorkfloo**](docs/WorkflooApi.md#getWorkfloo) | **GET** /api/v1/workfloo/{id} | Detalle de una ejecución
+*WorkflooApi* | [**getWorkflooFile**](docs/WorkflooApi.md#getWorkflooFile) | **GET** /api/v1/workfloo/{id}/file | Descargar un archivo de un nodo
 *WorkflooApi* | [**getWorkflooStatus**](docs/WorkflooApi.md#getWorkflooStatus) | **GET** /api/v1/workfloo/status/{id} | Estatus de una ejecución
 *WorkflooApi* | [**listWorkfloos**](docs/WorkflooApi.md#listWorkfloos) | **GET** /api/v1/workfloo | Historial de ejecuciones (v1)
 *WorkflooApi* | [**listWorkfloosV2**](docs/WorkflooApi.md#listWorkfloosV2) | **GET** /api/v2/workfloo | Historial de ejecuciones (v2)
+*WorkflooApi* | [**resendWorkflooNip**](docs/WorkflooApi.md#resendWorkflooNip) | **PATCH** /api/v1/workfloo/{id}/nip/resend | Reenviar el NIP
+*WorkflooApi* | [**reviewWorkflooValidation**](docs/WorkflooApi.md#reviewWorkflooValidation) | **POST** /api/v1/workfloo/{id}/review | Revisar un paso de validación
+*WorkflooApi* | [**sendWorkflooNip**](docs/WorkflooApi.md#sendWorkflooNip) | **PATCH** /api/v1/workfloo/{id}/nip/send | Enviar el NIP
+*WorkflooApi* | [**submitWorkflooCorrection**](docs/WorkflooApi.md#submitWorkflooCorrection) | **POST** /api/v1/workfloo/{id}/correction | Enviar la corrección de un paso de validación
+*WorkflooApi* | [**validateWorkflooNip**](docs/WorkflooApi.md#validateWorkflooNip) | **PATCH** /api/v1/workfloo/{id}/nip/validate | Validar el NIP
 
 
 ## Documentation for Models
 
+ - [ControllerPoolModelExecute](docs/ControllerPoolModelExecute.md)
+ - [ControllerPoolModelExecuteResponse](docs/ControllerPoolModelExecuteResponse.md)
  - [ControllerWorkflooDefinitionModelAutoFilledBy](docs/ControllerWorkflooDefinitionModelAutoFilledBy.md)
  - [ControllerWorkflooDefinitionModelDocument](docs/ControllerWorkflooDefinitionModelDocument.md)
  - [ControllerWorkflooDefinitionModelField](docs/ControllerWorkflooDefinitionModelField.md)
@@ -161,6 +172,7 @@ Class | Method | HTTP request | Description
  - [ControllerWorkflooModelExecute](docs/ControllerWorkflooModelExecute.md)
  - [ControllerWorkflooModelExecuteResponse](docs/ControllerWorkflooModelExecuteResponse.md)
  - [ControllerWorkflooModelFile](docs/ControllerWorkflooModelFile.md)
+ - [ControllerWorkflooModelFileResponse](docs/ControllerWorkflooModelFileResponse.md)
  - [ControllerWorkflooModelForm](docs/ControllerWorkflooModelForm.md)
  - [ControllerWorkflooModelFormField](docs/ControllerWorkflooModelFormField.md)
  - [ControllerWorkflooModelFormResume](docs/ControllerWorkflooModelFormResume.md)
@@ -168,11 +180,18 @@ Class | Method | HTTP request | Description
  - [ControllerWorkflooModelLink](docs/ControllerWorkflooModelLink.md)
  - [ControllerWorkflooModelLinkNipStatus](docs/ControllerWorkflooModelLinkNipStatus.md)
  - [ControllerWorkflooModelLinkResume](docs/ControllerWorkflooModelLinkResume.md)
+ - [ControllerWorkflooModelNipResendRequest](docs/ControllerWorkflooModelNipResendRequest.md)
+ - [ControllerWorkflooModelNipResendStatus](docs/ControllerWorkflooModelNipResendStatus.md)
+ - [ControllerWorkflooModelNipSendRequest](docs/ControllerWorkflooModelNipSendRequest.md)
+ - [ControllerWorkflooModelNipValidateRequest](docs/ControllerWorkflooModelNipValidateRequest.md)
+ - [ControllerWorkflooModelNipValidateResponse](docs/ControllerWorkflooModelNipValidateResponse.md)
  - [ControllerWorkflooModelNode](docs/ControllerWorkflooModelNode.md)
  - [ControllerWorkflooModelNodeDetail](docs/ControllerWorkflooModelNodeDetail.md)
  - [ControllerWorkflooModelNodeResume](docs/ControllerWorkflooModelNodeResume.md)
  - [ControllerWorkflooModelPdf](docs/ControllerWorkflooModelPdf.md)
  - [ControllerWorkflooModelRemainingTime](docs/ControllerWorkflooModelRemainingTime.md)
+ - [ControllerWorkflooModelReviewFieldRequest](docs/ControllerWorkflooModelReviewFieldRequest.md)
+ - [ControllerWorkflooModelReviewRequest](docs/ControllerWorkflooModelReviewRequest.md)
  - [ControllerWorkflooModelReviewResume](docs/ControllerWorkflooModelReviewResume.md)
  - [ControllerWorkflooModelRules](docs/ControllerWorkflooModelRules.md)
  - [ControllerWorkflooModelRuleset](docs/ControllerWorkflooModelRuleset.md)

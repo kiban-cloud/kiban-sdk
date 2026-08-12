@@ -36,12 +36,14 @@ namespace kiban.sdk.workfloo.Model
         /// <param name="fields">fields</param>
         /// <param name="instruction">instruction</param>
         /// <param name="reviewerNote">reviewerNote</param>
+        /// <param name="state">state</param>
         [JsonConstructor]
-        public ControllerWorkflooModelValidationStatus(Option<List<ControllerWorkflooModelValidationField>?> fields = default, Option<string?> instruction = default, Option<string?> reviewerNote = default)
+        public ControllerWorkflooModelValidationStatus(Option<List<ControllerWorkflooModelValidationField>?> fields = default, Option<string?> instruction = default, Option<string?> reviewerNote = default, Option<string?> state = default)
         {
             FieldsOption = fields;
             InstructionOption = instruction;
             ReviewerNoteOption = reviewerNote;
+            StateOption = state;
             OnCreated();
         }
 
@@ -87,6 +89,19 @@ namespace kiban.sdk.workfloo.Model
         public string? ReviewerNote { get { return this.ReviewerNoteOption.Value; } set { this.ReviewerNoteOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of State
+        /// </summary>
+        [JsonIgnore]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<string?> StateOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets State
+        /// </summary>
+        [JsonPropertyName("state")]
+        public string? State { get { return this.StateOption.Value; } set { this.StateOption = new(value); } }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -97,6 +112,7 @@ namespace kiban.sdk.workfloo.Model
             sb.Append("  Fields: ").Append(Fields).Append("\n");
             sb.Append("  Instruction: ").Append(Instruction).Append("\n");
             sb.Append("  ReviewerNote: ").Append(ReviewerNote).Append("\n");
+            sb.Append("  State: ").Append(State).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -147,6 +163,7 @@ namespace kiban.sdk.workfloo.Model
             Option<List<ControllerWorkflooModelValidationField>?> fields = default;
             Option<string?> instruction = default;
             Option<string?> reviewerNote = default;
+            Option<string?> state = default;
 
             while (utf8JsonReader.Read())
             {
@@ -172,6 +189,9 @@ namespace kiban.sdk.workfloo.Model
                         case "reviewerNote":
                             reviewerNote = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
+                        case "state":
+                            state = new Option<string?>(utf8JsonReader.GetString()!);
+                            break;
                         default:
                             break;
                     }
@@ -187,7 +207,10 @@ namespace kiban.sdk.workfloo.Model
             if (reviewerNote.IsSet && reviewerNote.Value == null)
                 throw new ArgumentNullException(nameof(reviewerNote), "Property is not nullable for class ControllerWorkflooModelValidationStatus.");
 
-            return new ControllerWorkflooModelValidationStatus(fields, instruction, reviewerNote);
+            if (state.IsSet && state.Value == null)
+                throw new ArgumentNullException(nameof(state), "Property is not nullable for class ControllerWorkflooModelValidationStatus.");
+
+            return new ControllerWorkflooModelValidationStatus(fields, instruction, reviewerNote, state);
         }
 
         /// <summary>
@@ -223,6 +246,9 @@ namespace kiban.sdk.workfloo.Model
             if (controllerWorkflooModelValidationStatus.ReviewerNoteOption.IsSet && controllerWorkflooModelValidationStatus.ReviewerNote == null)
                 throw new ArgumentNullException(nameof(controllerWorkflooModelValidationStatus.ReviewerNote), "Property is required for class ControllerWorkflooModelValidationStatus.");
 
+            if (controllerWorkflooModelValidationStatus.StateOption.IsSet && controllerWorkflooModelValidationStatus.State == null)
+                throw new ArgumentNullException(nameof(controllerWorkflooModelValidationStatus.State), "Property is required for class ControllerWorkflooModelValidationStatus.");
+
             if (controllerWorkflooModelValidationStatus.FieldsOption.IsSet)
             {
                 writer.WritePropertyName("fields");
@@ -233,6 +259,9 @@ namespace kiban.sdk.workfloo.Model
 
             if (controllerWorkflooModelValidationStatus.ReviewerNoteOption.IsSet)
                 writer.WriteString("reviewerNote", controllerWorkflooModelValidationStatus.ReviewerNote);
+
+            if (controllerWorkflooModelValidationStatus.StateOption.IsSet)
+                writer.WriteString("state", controllerWorkflooModelValidationStatus.State);
         }
     }
 }

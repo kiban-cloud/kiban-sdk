@@ -2,7 +2,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 VisualStudioVersion = 12.0.0.0
 MinimumVisualStudioVersion = 10.0.0.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "kiban.sdk.workfloo", "src\kiban.sdk.workfloo\kiban.sdk.workfloo.csproj", "{AEF6312E-7395-4DDB-B5CE-61B5A4C82B12}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "kiban.sdk.workfloo", "src\kiban.sdk.workfloo\kiban.sdk.workfloo.csproj", "{E61DB8A6-58BB-439E-AE1E-7CCD2137EDB6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "kiban.sdk.workfloo.Test", "src\kiban.sdk.workfloo.Test\kiban.sdk.workfloo.Test.csproj", "{19F1DEBC-DE5E-4517-8062-F000CD499087}"
 EndProject
@@ -12,10 +12,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{AEF6312E-7395-4DDB-B5CE-61B5A4C82B12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AEF6312E-7395-4DDB-B5CE-61B5A4C82B12}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AEF6312E-7395-4DDB-B5CE-61B5A4C82B12}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AEF6312E-7395-4DDB-B5CE-61B5A4C82B12}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E61DB8A6-58BB-439E-AE1E-7CCD2137EDB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E61DB8A6-58BB-439E-AE1E-7CCD2137EDB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E61DB8A6-58BB-439E-AE1E-7CCD2137EDB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E61DB8A6-58BB-439E-AE1E-7CCD2137EDB6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{19F1DEBC-DE5E-4517-8062-F000CD499087}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{19F1DEBC-DE5E-4517-8062-F000CD499087}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{19F1DEBC-DE5E-4517-8062-F000CD499087}.Release|Any CPU.ActiveCfg = Release|Any CPU

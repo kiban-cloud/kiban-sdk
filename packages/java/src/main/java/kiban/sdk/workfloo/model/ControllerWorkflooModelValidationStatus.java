@@ -51,7 +51,7 @@ import kiban.sdk.workfloo.JSON;
 /**
  * ControllerWorkflooModelValidationStatus
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-07-23T16:41:40.675919-06:00[America/Mexico_City]", comments = "Generator version: 7.24.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-08-10T16:42:49.836741-06:00[America/Mexico_City]", comments = "Generator version: 7.24.0")
 public class ControllerWorkflooModelValidationStatus {
   public static final String SERIALIZED_NAME_FIELDS = "fields";
   @SerializedName(SERIALIZED_NAME_FIELDS)
@@ -67,6 +67,11 @@ public class ControllerWorkflooModelValidationStatus {
   @SerializedName(SERIALIZED_NAME_REVIEWER_NOTE)
   @javax.annotation.Nullable
   private String reviewerNote;
+
+  public static final String SERIALIZED_NAME_STATE = "state";
+  @SerializedName(SERIALIZED_NAME_STATE)
+  @javax.annotation.Nullable
+  private String state;
 
   public ControllerWorkflooModelValidationStatus() {
   }
@@ -136,6 +141,25 @@ public class ControllerWorkflooModelValidationStatus {
   }
 
 
+  public ControllerWorkflooModelValidationStatus state(@javax.annotation.Nullable String state) {
+    this.state = state;
+    return this;
+  }
+
+  /**
+   * Get state
+   * @return state
+   */
+  @javax.annotation.Nullable
+  public String getState() {
+    return state;
+  }
+
+  public void setState(@javax.annotation.Nullable String state) {
+    this.state = state;
+  }
+
+
 
   @Override
   public boolean equals(Object o) {
@@ -148,12 +172,13 @@ public class ControllerWorkflooModelValidationStatus {
     ControllerWorkflooModelValidationStatus controllerWorkflooModelValidationStatus = (ControllerWorkflooModelValidationStatus) o;
     return Objects.equals(this.fields, controllerWorkflooModelValidationStatus.fields) &&
         Objects.equals(this.instruction, controllerWorkflooModelValidationStatus.instruction) &&
-        Objects.equals(this.reviewerNote, controllerWorkflooModelValidationStatus.reviewerNote);
+        Objects.equals(this.reviewerNote, controllerWorkflooModelValidationStatus.reviewerNote) &&
+        Objects.equals(this.state, controllerWorkflooModelValidationStatus.state);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(fields, instruction, reviewerNote);
+    return Objects.hash(fields, instruction, reviewerNote, state);
   }
 
   @Override
@@ -163,6 +188,7 @@ public class ControllerWorkflooModelValidationStatus {
     sb.append("    fields: ").append(toIndentedString(fields)).append("\n");
     sb.append("    instruction: ").append(toIndentedString(instruction)).append("\n");
     sb.append("    reviewerNote: ").append(toIndentedString(reviewerNote)).append("\n");
+    sb.append("    state: ").append(toIndentedString(state)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -181,7 +207,7 @@ public class ControllerWorkflooModelValidationStatus {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("fields", "instruction", "reviewerNote"));
+    openapiFields = new HashSet<String>(Arrays.asList("fields", "instruction", "reviewerNote", "state"));
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>(0);
@@ -227,6 +253,9 @@ public class ControllerWorkflooModelValidationStatus {
       }
       if ((jsonObj.get("reviewerNote") != null && !jsonObj.get("reviewerNote").isJsonNull()) && !jsonObj.get("reviewerNote").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `reviewerNote` to be a primitive type in the JSON string but got `%s`", jsonObj.get("reviewerNote").toString()));
+      }
+      if ((jsonObj.get("state") != null && !jsonObj.get("state").isJsonNull()) && !jsonObj.get("state").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `state` to be a primitive type in the JSON string but got `%s`", jsonObj.get("state").toString()));
       }
   }
 

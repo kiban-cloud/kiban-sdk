@@ -96,6 +96,8 @@ public class JSON {
         gsonBuilder.registerTypeAdapter(OffsetDateTime.class, offsetDateTimeTypeAdapter);
         gsonBuilder.registerTypeAdapter(LocalDate.class, localDateTypeAdapter);
         gsonBuilder.registerTypeAdapter(byte[].class, byteArrayAdapter);
+        gsonBuilder.registerTypeAdapterFactory(new kiban.sdk.workfloo.model.ControllerPoolModelExecute.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new kiban.sdk.workfloo.model.ControllerPoolModelExecuteResponse.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new kiban.sdk.workfloo.model.ControllerWorkflooDefinitionModelAutoFilledBy.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new kiban.sdk.workfloo.model.ControllerWorkflooDefinitionModelDocument.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new kiban.sdk.workfloo.model.ControllerWorkflooDefinitionModelField.CustomTypeAdapterFactory());
@@ -120,6 +122,7 @@ public class JSON {
         gsonBuilder.registerTypeAdapterFactory(new kiban.sdk.workfloo.model.ControllerWorkflooModelExecute.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new kiban.sdk.workfloo.model.ControllerWorkflooModelExecuteResponse.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new kiban.sdk.workfloo.model.ControllerWorkflooModelFile.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new kiban.sdk.workfloo.model.ControllerWorkflooModelFileResponse.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new kiban.sdk.workfloo.model.ControllerWorkflooModelForm.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new kiban.sdk.workfloo.model.ControllerWorkflooModelFormField.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new kiban.sdk.workfloo.model.ControllerWorkflooModelFormResume.CustomTypeAdapterFactory());
@@ -127,11 +130,18 @@ public class JSON {
         gsonBuilder.registerTypeAdapterFactory(new kiban.sdk.workfloo.model.ControllerWorkflooModelLink.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new kiban.sdk.workfloo.model.ControllerWorkflooModelLinkNipStatus.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new kiban.sdk.workfloo.model.ControllerWorkflooModelLinkResume.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new kiban.sdk.workfloo.model.ControllerWorkflooModelNipResendRequest.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new kiban.sdk.workfloo.model.ControllerWorkflooModelNipResendStatus.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new kiban.sdk.workfloo.model.ControllerWorkflooModelNipSendRequest.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new kiban.sdk.workfloo.model.ControllerWorkflooModelNipValidateRequest.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new kiban.sdk.workfloo.model.ControllerWorkflooModelNipValidateResponse.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new kiban.sdk.workfloo.model.ControllerWorkflooModelNode.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new kiban.sdk.workfloo.model.ControllerWorkflooModelNodeDetail.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new kiban.sdk.workfloo.model.ControllerWorkflooModelNodeResume.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new kiban.sdk.workfloo.model.ControllerWorkflooModelPdf.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new kiban.sdk.workfloo.model.ControllerWorkflooModelRemainingTime.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new kiban.sdk.workfloo.model.ControllerWorkflooModelReviewFieldRequest.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new kiban.sdk.workfloo.model.ControllerWorkflooModelReviewRequest.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new kiban.sdk.workfloo.model.ControllerWorkflooModelReviewResume.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new kiban.sdk.workfloo.model.ControllerWorkflooModelRules.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new kiban.sdk.workfloo.model.ControllerWorkflooModelRuleset.CustomTypeAdapterFactory());

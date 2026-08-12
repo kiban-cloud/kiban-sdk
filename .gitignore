@@ -4,6 +4,11 @@ node_modules/
 .DS_Store
 openapitools.json
 
+# Secretos locales — NUNCA se commitean. El .example sí (no tiene valores).
+.env
+.env.local
+.env.*.local
+
 # packages/** SÍ se commitea (100% generado). NO se ignora a propósito.
 # Pero los artefactos de compilación de cada SDK no son fuente: fuera.
 packages/java/target/
@@ -12,4 +17,10 @@ packages/csharp/**/obj/
 packages/node/dist/
 packages/python/**/__pycache__/
 packages/python/**/*.egg-info/
+
+# Artefactos de build de los smoke tests (el código fuente sí se commitea)
+smoke/go/kiban-sdk-smoke
+smoke/java/target/
+smoke/csharp/bin/
+smoke/csharp/obj/
 
