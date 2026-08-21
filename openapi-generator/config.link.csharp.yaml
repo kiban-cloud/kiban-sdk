@@ -1,0 +1,4 @@
+# openapi-generator · C# (generator: csharp) — Link
+packageName: kiban.sdk.link
+packageVersion: 0.1.0
+targetFramework: net8.0

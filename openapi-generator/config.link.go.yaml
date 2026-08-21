@@ -1,0 +1,8 @@
+# openapi-generator · Go (generator: go) — Link
+# Go NO admite puntos en el nombre de paquete: el paquete importable es "link";
+# la identidad kiban.sdk.link vive en el path del módulo (gitUserId/gitRepoId).
+packageName: link
+packageVersion: 0.1.0
+gitUserId: kiban-cloud
+gitRepoId: kiban-sdk
+isGoSubmodule: true

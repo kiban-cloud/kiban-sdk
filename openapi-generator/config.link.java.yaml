@@ -1,0 +1,7 @@
+# openapi-generator · Java (generator: java) — Link
+groupId: kiban.sdk
+artifactId: link
+artifactVersion: 0.1.0
+invokerPackage: kiban.sdk.link
+apiPackage: kiban.sdk.link.api
+modelPackage: kiban.sdk.link.model
