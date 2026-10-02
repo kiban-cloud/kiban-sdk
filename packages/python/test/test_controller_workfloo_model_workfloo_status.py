@@ -35,6 +35,8 @@ class TestControllerWorkflooModelWorkflooStatus(unittest.TestCase):
         model = ControllerWorkflooModelWorkflooStatus()
         if include_optional:
             return ControllerWorkflooModelWorkflooStatus(
+                cancelled_at = '',
+                cancelled_by = '',
                 current_node_id = '',
                 current_node_name = '',
                 current_node_type = '',
@@ -65,7 +67,8 @@ class TestControllerWorkflooModelWorkflooStatus(unittest.TestCase):
                                     ], 
                                 required = [
                                     ''
-                                    ], ), )
+                                    ], ), 
+                            source_pdf_node_id = '', )
                         ], ),
                 form = kiban.sdk.workfloo.models.controller_workfloo_definition_model/form.controller_workfloo_definition_model.Form(
                     form_field_section = [
@@ -138,6 +141,9 @@ class TestControllerWorkflooModelWorkflooStatus(unittest.TestCase):
                     phase = '', 
                     phone_number = '', 
                     privacy_notice = '', 
+                    send_error = kiban.sdk.workfloo.models.controller_workfloo_model/nip_send_error_status.controller_workfloo_model.NipSendErrorStatus(
+                        code = '', 
+                        recoverable = True, ), 
                     terms = '', 
                     widget = null, ),
                 name = '',
@@ -158,7 +164,14 @@ class TestControllerWorkflooModelWorkflooStatus(unittest.TestCase):
                             value = null, )
                         ], 
                     instruction = '', 
-                    reviewer_note = '', )
+                    reviewer_note = '', 
+                    state = '', ),
+                verification = kiban.sdk.workfloo.models.controller_workfloo_model/verification_status.controller_workfloo_model.VerificationStatus(
+                    channel = '', 
+                    masked_destination = '', 
+                    remaining_retries = 56, 
+                    validation_id = '', 
+                    validation_type = '', )
             )
         else:
             return ControllerWorkflooModelWorkflooStatus(

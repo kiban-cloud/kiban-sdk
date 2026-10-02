@@ -20,6 +20,7 @@ import json
 from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from kiban.sdk.workfloo.models.controller_workfloo_model_event import ControllerWorkflooModelEvent
+from kiban.sdk.workfloo.models.controller_workfloo_model_nip_send_error_status import ControllerWorkflooModelNipSendErrorStatus
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
@@ -38,9 +39,10 @@ class ControllerWorkflooModelLinkNipStatus(BaseModel):
     phase: Optional[StrictStr] = None
     phone_number: Optional[StrictStr] = Field(default=None, alias="phoneNumber")
     privacy_notice: Optional[StrictStr] = Field(default=None, alias="privacyNotice")
+    send_error: Optional[ControllerWorkflooModelNipSendErrorStatus] = Field(default=None, alias="sendError")
     terms: Optional[StrictStr] = None
     widget: Optional[Any] = None
-    __properties: ClassVar[List[str]] = ["companyName", "countryCode", "email", "events", "key", "keyTypeNode", "nipType", "phase", "phoneNumber", "privacyNotice", "terms", "widget"]
+    __properties: ClassVar[List[str]] = ["companyName", "countryCode", "email", "events", "key", "keyTypeNode", "nipType", "phase", "phoneNumber", "privacyNotice", "sendError", "terms", "widget"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -88,6 +90,9 @@ class ControllerWorkflooModelLinkNipStatus(BaseModel):
                 if _item_events:
                     _items.append(_item_events.to_dict())
             _dict['events'] = _items
+        # override the default output from pydantic by calling `to_dict()` of send_error
+        if self.send_error:
+            _dict['sendError'] = self.send_error.to_dict()
         # set to None if widget (nullable) is None
         # and model_fields_set contains the field
         if self.widget is None and "widget" in self.model_fields_set:
@@ -115,6 +120,7 @@ class ControllerWorkflooModelLinkNipStatus(BaseModel):
             "phase": obj.get("phase"),
             "phoneNumber": obj.get("phoneNumber"),
             "privacyNotice": obj.get("privacyNotice"),
+            "sendError": ControllerWorkflooModelNipSendErrorStatus.from_dict(obj["sendError"]) if obj.get("sendError") is not None else None,
             "terms": obj.get("terms"),
             "widget": obj.get("widget")
         })

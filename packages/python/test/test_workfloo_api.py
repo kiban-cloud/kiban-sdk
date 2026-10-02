@@ -33,10 +33,38 @@ class TestWorkflooApi(unittest.TestCase):
         """
         pass
 
+    def test_execute_workfloo_document(self) -> None:
+        """Test case for execute_workfloo_document
+
+        Enviar los documentos de un paso
+        """
+        pass
+
+    def test_execute_workfloo_form(self) -> None:
+        """Test case for execute_workfloo_form
+
+        Enviar el formulario de un paso
+        """
+        pass
+
+    def test_fallback_workfloo_otp(self) -> None:
+        """Test case for fallback_workfloo_otp
+
+        Reenviar el código de verificación (OTP)
+        """
+        pass
+
     def test_get_workfloo(self) -> None:
         """Test case for get_workfloo
 
         Detalle de una ejecución
+        """
+        pass
+
+    def test_get_workfloo_file(self) -> None:
+        """Test case for get_workfloo_file
+
+        Descargar un archivo de un nodo
         """
         pass
 
@@ -58,6 +86,48 @@ class TestWorkflooApi(unittest.TestCase):
         """Test case for list_workfloos_v2
 
         Historial de ejecuciones (v2)
+        """
+        pass
+
+    def test_resend_workfloo_nip(self) -> None:
+        """Test case for resend_workfloo_nip
+
+        Reenviar el NIP
+        """
+        pass
+
+    def test_review_workfloo_validation(self) -> None:
+        """Test case for review_workfloo_validation
+
+        Revisar un paso de validación
+        """
+        pass
+
+    def test_send_workfloo_nip(self) -> None:
+        """Test case for send_workfloo_nip
+
+        Enviar el NIP
+        """
+        pass
+
+    def test_submit_workfloo_correction(self) -> None:
+        """Test case for submit_workfloo_correction
+
+        Enviar la corrección de un paso de validación
+        """
+        pass
+
+    def test_validate_workfloo_nip(self) -> None:
+        """Test case for validate_workfloo_nip
+
+        Validar el NIP
+        """
+        pass
+
+    def test_validate_workfloo_otp(self) -> None:
+        """Test case for validate_workfloo_otp
+
+        Validar el código de verificación (OTP)
         """
         pass
 

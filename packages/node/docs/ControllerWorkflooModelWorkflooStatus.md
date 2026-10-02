@@ -5,6 +5,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**cancelledAt** | **string** |  | [optional] [default to undefined]
+**cancelledBy** | **string** | Rastro de la cancelación manual, ausente en cualquier otro desenlace. Mismas dos reglas que en WorkflooResume: sólo la cancelación desde la consola los llena, y la fecha es un puntero para que omitempty funcione. | [optional] [default to undefined]
 **currentNodeId** | **string** |  | [optional] [default to undefined]
 **currentNodeName** | **string** |  | [optional] [default to undefined]
 **currentNodeType** | **string** |  | [optional] [default to undefined]
@@ -16,6 +18,7 @@ Name | Type | Description | Notes
 **status** | **string** |  | [optional] [default to undefined]
 **timer** | [**ControllerWorkflooModelTimer**](ControllerWorkflooModelTimer.md) |  | [optional] [default to undefined]
 **validation** | [**ControllerWorkflooModelValidationStatus**](ControllerWorkflooModelValidationStatus.md) |  | [optional] [default to undefined]
+**verification** | [**ControllerWorkflooModelVerificationStatus**](ControllerWorkflooModelVerificationStatus.md) | Verification aparece SÓLO cuando la ejecución está esperando que alguien teclee un código. Su ausencia es lo que le dice al integrador que no hay nada pendiente de ese lado. | [optional] [default to undefined]
 
 ## Example
 
@@ -23,6 +26,8 @@ Name | Type | Description | Notes
 import { ControllerWorkflooModelWorkflooStatus } from 'kiban.sdk.workfloo';
 
 const instance: ControllerWorkflooModelWorkflooStatus = {
+    cancelledAt,
+    cancelledBy,
     currentNodeId,
     currentNodeName,
     currentNodeType,
@@ -34,6 +39,7 @@ const instance: ControllerWorkflooModelWorkflooStatus = {
     status,
     timer,
     validation,
+    verification,
 };
 ```
 

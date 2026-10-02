@@ -26,6 +26,7 @@ import kiban.sdk.workfloo.model.ControllerWorkflooDefinitionModelForm;
 import kiban.sdk.workfloo.model.ControllerWorkflooModelLinkNipStatus;
 import kiban.sdk.workfloo.model.ControllerWorkflooModelTimer;
 import kiban.sdk.workfloo.model.ControllerWorkflooModelValidationStatus;
+import kiban.sdk.workfloo.model.ControllerWorkflooModelVerificationStatus;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -53,8 +54,18 @@ import kiban.sdk.workfloo.JSON;
 /**
  * ControllerWorkflooModelWorkflooStatus
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-08-10T16:42:49.836741-06:00[America/Mexico_City]", comments = "Generator version: 7.24.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-10-02T10:13:43.960045-06:00[America/Mexico_City]", comments = "Generator version: 7.24.0")
 public class ControllerWorkflooModelWorkflooStatus {
+  public static final String SERIALIZED_NAME_CANCELLED_AT = "cancelledAt";
+  @SerializedName(SERIALIZED_NAME_CANCELLED_AT)
+  @javax.annotation.Nullable
+  private String cancelledAt;
+
+  public static final String SERIALIZED_NAME_CANCELLED_BY = "cancelledBy";
+  @SerializedName(SERIALIZED_NAME_CANCELLED_BY)
+  @javax.annotation.Nullable
+  private String cancelledBy;
+
   public static final String SERIALIZED_NAME_CURRENT_NODE_ID = "currentNodeId";
   @SerializedName(SERIALIZED_NAME_CURRENT_NODE_ID)
   @javax.annotation.Nullable
@@ -110,8 +121,51 @@ public class ControllerWorkflooModelWorkflooStatus {
   @javax.annotation.Nullable
   private ControllerWorkflooModelValidationStatus validation;
 
+  public static final String SERIALIZED_NAME_VERIFICATION = "verification";
+  @SerializedName(SERIALIZED_NAME_VERIFICATION)
+  @javax.annotation.Nullable
+  private ControllerWorkflooModelVerificationStatus verification;
+
   public ControllerWorkflooModelWorkflooStatus() {
   }
+
+  public ControllerWorkflooModelWorkflooStatus cancelledAt(@javax.annotation.Nullable String cancelledAt) {
+    this.cancelledAt = cancelledAt;
+    return this;
+  }
+
+  /**
+   * Get cancelledAt
+   * @return cancelledAt
+   */
+  @javax.annotation.Nullable
+  public String getCancelledAt() {
+    return cancelledAt;
+  }
+
+  public void setCancelledAt(@javax.annotation.Nullable String cancelledAt) {
+    this.cancelledAt = cancelledAt;
+  }
+
+
+  public ControllerWorkflooModelWorkflooStatus cancelledBy(@javax.annotation.Nullable String cancelledBy) {
+    this.cancelledBy = cancelledBy;
+    return this;
+  }
+
+  /**
+   * Rastro de la cancelación manual, ausente en cualquier otro desenlace. Mismas dos reglas que en WorkflooResume: sólo la cancelación desde la consola los llena, y la fecha es un puntero para que omitempty funcione.
+   * @return cancelledBy
+   */
+  @javax.annotation.Nullable
+  public String getCancelledBy() {
+    return cancelledBy;
+  }
+
+  public void setCancelledBy(@javax.annotation.Nullable String cancelledBy) {
+    this.cancelledBy = cancelledBy;
+  }
+
 
   public ControllerWorkflooModelWorkflooStatus currentNodeId(@javax.annotation.Nullable String currentNodeId) {
     this.currentNodeId = currentNodeId;
@@ -322,6 +376,25 @@ public class ControllerWorkflooModelWorkflooStatus {
   }
 
 
+  public ControllerWorkflooModelWorkflooStatus verification(@javax.annotation.Nullable ControllerWorkflooModelVerificationStatus verification) {
+    this.verification = verification;
+    return this;
+  }
+
+  /**
+   * Verification aparece SÓLO cuando la ejecución está esperando que alguien teclee un código. Su ausencia es lo que le dice al integrador que no hay nada pendiente de ese lado.
+   * @return verification
+   */
+  @javax.annotation.Nullable
+  public ControllerWorkflooModelVerificationStatus getVerification() {
+    return verification;
+  }
+
+  public void setVerification(@javax.annotation.Nullable ControllerWorkflooModelVerificationStatus verification) {
+    this.verification = verification;
+  }
+
+
 
   @Override
   public boolean equals(Object o) {
@@ -332,7 +405,9 @@ public class ControllerWorkflooModelWorkflooStatus {
       return false;
     }
     ControllerWorkflooModelWorkflooStatus controllerWorkflooModelWorkflooStatus = (ControllerWorkflooModelWorkflooStatus) o;
-    return Objects.equals(this.currentNodeId, controllerWorkflooModelWorkflooStatus.currentNodeId) &&
+    return Objects.equals(this.cancelledAt, controllerWorkflooModelWorkflooStatus.cancelledAt) &&
+        Objects.equals(this.cancelledBy, controllerWorkflooModelWorkflooStatus.cancelledBy) &&
+        Objects.equals(this.currentNodeId, controllerWorkflooModelWorkflooStatus.currentNodeId) &&
         Objects.equals(this.currentNodeName, controllerWorkflooModelWorkflooStatus.currentNodeName) &&
         Objects.equals(this.currentNodeType, controllerWorkflooModelWorkflooStatus.currentNodeType) &&
         Objects.equals(this.document, controllerWorkflooModelWorkflooStatus.document) &&
@@ -342,18 +417,21 @@ public class ControllerWorkflooModelWorkflooStatus {
         Objects.equals(this.name, controllerWorkflooModelWorkflooStatus.name) &&
         Objects.equals(this.status, controllerWorkflooModelWorkflooStatus.status) &&
         Objects.equals(this.timer, controllerWorkflooModelWorkflooStatus.timer) &&
-        Objects.equals(this.validation, controllerWorkflooModelWorkflooStatus.validation);
+        Objects.equals(this.validation, controllerWorkflooModelWorkflooStatus.validation) &&
+        Objects.equals(this.verification, controllerWorkflooModelWorkflooStatus.verification);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(currentNodeId, currentNodeName, currentNodeType, document, form, id, link, name, status, timer, validation);
+    return Objects.hash(cancelledAt, cancelledBy, currentNodeId, currentNodeName, currentNodeType, document, form, id, link, name, status, timer, validation, verification);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ControllerWorkflooModelWorkflooStatus {\n");
+    sb.append("    cancelledAt: ").append(toIndentedString(cancelledAt)).append("\n");
+    sb.append("    cancelledBy: ").append(toIndentedString(cancelledBy)).append("\n");
     sb.append("    currentNodeId: ").append(toIndentedString(currentNodeId)).append("\n");
     sb.append("    currentNodeName: ").append(toIndentedString(currentNodeName)).append("\n");
     sb.append("    currentNodeType: ").append(toIndentedString(currentNodeType)).append("\n");
@@ -365,6 +443,7 @@ public class ControllerWorkflooModelWorkflooStatus {
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("    timer: ").append(toIndentedString(timer)).append("\n");
     sb.append("    validation: ").append(toIndentedString(validation)).append("\n");
+    sb.append("    verification: ").append(toIndentedString(verification)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -383,7 +462,7 @@ public class ControllerWorkflooModelWorkflooStatus {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("currentNodeId", "currentNodeName", "currentNodeType", "document", "form", "id", "link", "name", "status", "timer", "validation"));
+    openapiFields = new HashSet<String>(Arrays.asList("cancelledAt", "cancelledBy", "currentNodeId", "currentNodeName", "currentNodeType", "document", "form", "id", "link", "name", "status", "timer", "validation", "verification"));
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>(0);
@@ -410,6 +489,12 @@ public class ControllerWorkflooModelWorkflooStatus {
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
+      if ((jsonObj.get("cancelledAt") != null && !jsonObj.get("cancelledAt").isJsonNull()) && !jsonObj.get("cancelledAt").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `cancelledAt` to be a primitive type in the JSON string but got `%s`", jsonObj.get("cancelledAt").toString()));
+      }
+      if ((jsonObj.get("cancelledBy") != null && !jsonObj.get("cancelledBy").isJsonNull()) && !jsonObj.get("cancelledBy").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `cancelledBy` to be a primitive type in the JSON string but got `%s`", jsonObj.get("cancelledBy").toString()));
+      }
       if ((jsonObj.get("currentNodeId") != null && !jsonObj.get("currentNodeId").isJsonNull()) && !jsonObj.get("currentNodeId").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `currentNodeId` to be a primitive type in the JSON string but got `%s`", jsonObj.get("currentNodeId").toString()));
       }
@@ -447,6 +532,10 @@ public class ControllerWorkflooModelWorkflooStatus {
       // validate the optional field `validation`
       if (jsonObj.get("validation") != null && !jsonObj.get("validation").isJsonNull()) {
         ControllerWorkflooModelValidationStatus.validateJsonElement(jsonObj.get("validation"));
+      }
+      // validate the optional field `verification`
+      if (jsonObj.get("verification") != null && !jsonObj.get("verification").isJsonNull()) {
+        ControllerWorkflooModelVerificationStatus.validateJsonElement(jsonObj.get("verification"));
       }
   }
 

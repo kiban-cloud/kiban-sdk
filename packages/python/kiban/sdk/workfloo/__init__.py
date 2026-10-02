@@ -14,7 +14,7 @@
 """  # noqa: E501
 
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 
 # Define package exports
 __all__ = [
@@ -65,12 +65,14 @@ __all__ = [
     "ControllerWorkflooModelLinkResume",
     "ControllerWorkflooModelNipResendRequest",
     "ControllerWorkflooModelNipResendStatus",
+    "ControllerWorkflooModelNipSendErrorStatus",
     "ControllerWorkflooModelNipSendRequest",
     "ControllerWorkflooModelNipValidateRequest",
     "ControllerWorkflooModelNipValidateResponse",
     "ControllerWorkflooModelNode",
     "ControllerWorkflooModelNodeDetail",
     "ControllerWorkflooModelNodeResume",
+    "ControllerWorkflooModelOtpValidateRequest",
     "ControllerWorkflooModelPdf",
     "ControllerWorkflooModelRemainingTime",
     "ControllerWorkflooModelReviewFieldRequest",
@@ -84,6 +86,7 @@ __all__ = [
     "ControllerWorkflooModelValidationStatus",
     "ControllerWorkflooModelVariable",
     "ControllerWorkflooModelVariables",
+    "ControllerWorkflooModelVerificationStatus",
     "ControllerWorkflooModelWorkfloo",
     "ControllerWorkflooModelWorkflooPage",
     "ControllerWorkflooModelWorkflooResume",
@@ -142,12 +145,14 @@ from kiban.sdk.workfloo.models.controller_workfloo_model_link_nip_status import 
 from kiban.sdk.workfloo.models.controller_workfloo_model_link_resume import ControllerWorkflooModelLinkResume as ControllerWorkflooModelLinkResume
 from kiban.sdk.workfloo.models.controller_workfloo_model_nip_resend_request import ControllerWorkflooModelNipResendRequest as ControllerWorkflooModelNipResendRequest
 from kiban.sdk.workfloo.models.controller_workfloo_model_nip_resend_status import ControllerWorkflooModelNipResendStatus as ControllerWorkflooModelNipResendStatus
+from kiban.sdk.workfloo.models.controller_workfloo_model_nip_send_error_status import ControllerWorkflooModelNipSendErrorStatus as ControllerWorkflooModelNipSendErrorStatus
 from kiban.sdk.workfloo.models.controller_workfloo_model_nip_send_request import ControllerWorkflooModelNipSendRequest as ControllerWorkflooModelNipSendRequest
 from kiban.sdk.workfloo.models.controller_workfloo_model_nip_validate_request import ControllerWorkflooModelNipValidateRequest as ControllerWorkflooModelNipValidateRequest
 from kiban.sdk.workfloo.models.controller_workfloo_model_nip_validate_response import ControllerWorkflooModelNipValidateResponse as ControllerWorkflooModelNipValidateResponse
 from kiban.sdk.workfloo.models.controller_workfloo_model_node import ControllerWorkflooModelNode as ControllerWorkflooModelNode
 from kiban.sdk.workfloo.models.controller_workfloo_model_node_detail import ControllerWorkflooModelNodeDetail as ControllerWorkflooModelNodeDetail
 from kiban.sdk.workfloo.models.controller_workfloo_model_node_resume import ControllerWorkflooModelNodeResume as ControllerWorkflooModelNodeResume
+from kiban.sdk.workfloo.models.controller_workfloo_model_otp_validate_request import ControllerWorkflooModelOtpValidateRequest as ControllerWorkflooModelOtpValidateRequest
 from kiban.sdk.workfloo.models.controller_workfloo_model_pdf import ControllerWorkflooModelPdf as ControllerWorkflooModelPdf
 from kiban.sdk.workfloo.models.controller_workfloo_model_remaining_time import ControllerWorkflooModelRemainingTime as ControllerWorkflooModelRemainingTime
 from kiban.sdk.workfloo.models.controller_workfloo_model_review_field_request import ControllerWorkflooModelReviewFieldRequest as ControllerWorkflooModelReviewFieldRequest
@@ -161,6 +166,7 @@ from kiban.sdk.workfloo.models.controller_workfloo_model_validation_resume impor
 from kiban.sdk.workfloo.models.controller_workfloo_model_validation_status import ControllerWorkflooModelValidationStatus as ControllerWorkflooModelValidationStatus
 from kiban.sdk.workfloo.models.controller_workfloo_model_variable import ControllerWorkflooModelVariable as ControllerWorkflooModelVariable
 from kiban.sdk.workfloo.models.controller_workfloo_model_variables import ControllerWorkflooModelVariables as ControllerWorkflooModelVariables
+from kiban.sdk.workfloo.models.controller_workfloo_model_verification_status import ControllerWorkflooModelVerificationStatus as ControllerWorkflooModelVerificationStatus
 from kiban.sdk.workfloo.models.controller_workfloo_model_workfloo import ControllerWorkflooModelWorkfloo as ControllerWorkflooModelWorkfloo
 from kiban.sdk.workfloo.models.controller_workfloo_model_workfloo_page import ControllerWorkflooModelWorkflooPage as ControllerWorkflooModelWorkflooPage
 from kiban.sdk.workfloo.models.controller_workfloo_model_workfloo_resume import ControllerWorkflooModelWorkflooResume as ControllerWorkflooModelWorkflooResume

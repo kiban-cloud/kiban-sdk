@@ -64,4 +64,12 @@ public class ControllerWorkflooModelValidationStatusTest {
         // TODO: test reviewerNote
     }
 
+    /**
+     * Test the property 'state'
+     */
+    @Test
+    public void stateTest() {
+        // TODO: test state
+    }
+
 }

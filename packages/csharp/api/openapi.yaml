@@ -619,6 +619,109 @@ paths:
       summary: Validar el NIP
       tags:
       - workfloo
+  /api/v1/workfloo/{id}/otp/fallback:
+    patch:
+      description: "Pide al proveedor una validación nueva (y un código nuevo) para\
+        \ el paso de verificación. Cada reenvío es una consulta facturada y el nú\
+        mero de reenvíos lo limita el nodo; al agotarlos responde 400/403 con `{\"\
+        error\"}`."
+      operationId: fallbackWorkflooOtp
+      parameters:
+      - description: Id de la ejecución
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: "Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde\
+          \ ya es implícito"
+        explode: true
+        in: query
+        name: sandbox
+        required: false
+        schema:
+          type: boolean
+        style: form
+      responses:
+        "200":
+          description: Código reenviado
+        "400":
+          description: Reenvíos agotados o error de negocio
+        "401":
+          description: API key ausente o inválida
+        "403":
+          description: "Sin código pendiente, sin reenvíos, sin acceso, o la ejecució\
+            n siguió ocupada procesando otro paso tras ~4.5 s de espera"
+        "404":
+          description: La ejecución no existe
+        "500":
+          description: Error interno (incluye otra petición tomando la ejecución en
+            el mismo instante; reintentar)
+        "503":
+          description: Servicio dependiente no disponible
+      security:
+      - ApiKeyAuth: []
+      summary: Reenviar el código de verificación (OTP)
+      tags:
+      - workfloo
+  /api/v1/workfloo/{id}/otp/validate:
+    patch:
+      description: "Envía al proveedor el código que tecleó la persona en el paso\
+        \ de verificación (ver `verification` en el estatus). Un código incorrecto\
+        \ con intentos restantes responde 400 con `{\"error\", \"remainingRetries\"\
+        }` y la ejecución sigue estacionada; al agotar los intentos responde 403,\
+        \ salvo que el nodo tenga rama de error, en cuyo caso el flujo continúa por\
+        \ ahí y responde 200."
+      operationId: validateWorkflooOtp
+      parameters:
+      - description: Id de la ejecución
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: "Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde\
+          \ ya es implícito"
+        explode: true
+        in: query
+        name: sandbox
+        required: false
+        schema:
+          type: boolean
+        style: form
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/controller_workfloo_model.OtpValidateRequest"
+        description: El código a validar
+        required: true
+      responses:
+        "200":
+          description: Código validado (o intentos agotados con rama de error)
+        "400":
+          description: Token ausente o código incorrecto (incluye remainingRetries)
+        "401":
+          description: API key ausente o inválida
+        "403":
+          description: "Sin código pendiente, intentos agotados, sin acceso, o la\
+            \ ejecución siguió ocupada procesando otro paso tras ~4.5 s de espera"
+        "404":
+          description: La ejecución no existe
+        "500":
+          description: Error interno (incluye otra petición tomando la ejecución en
+            el mismo instante; reintentar)
+        "503":
+          description: Servicio dependiente no disponible
+      security:
+      - ApiKeyAuth: []
+      summary: Validar el código de verificación (OTP)
+      tags:
+      - workfloo
   /api/v1/workfloo/{id}/review:
     post:
       description: "Aplica la decisión del revisor sobre un nodo VALIDATION en estado\
@@ -906,6 +1009,7 @@ components:
             required:
             - required
             - required
+          sourcePdfNodeId: sourcePdfNodeId
         - fileMetadata:
             formats:
             - formats
@@ -947,6 +1051,7 @@ components:
             required:
             - required
             - required
+          sourcePdfNodeId: sourcePdfNodeId
       properties:
         documentField:
           items:
@@ -1130,6 +1235,7 @@ components:
           required:
           - required
           - required
+        sourcePdfNodeId: sourcePdfNodeId
       properties:
         fileMetadata:
           $ref: "#/components/schemas/controller_workfloo_definition_model.FileMetadata"
@@ -1143,6 +1249,11 @@ components:
           type: boolean
         set:
           $ref: "#/components/schemas/controller_workfloo_definition_model.SetDataDocument"
+        sourcePdfNodeId:
+          description: |-
+            SourcePdfNodeId: id del nodo PDF que genera este archivo. Cuando viene,
+            el motor lo toma de ahí y no lo pide en el paso.
+          type: string
       type: object
     controller_workfloo_definition_model.FileDocumentSet:
       example:
@@ -1936,6 +2047,9 @@ components:
         phase: phase
         phoneNumber: phoneNumber
         privacyNotice: privacyNotice
+        sendError:
+          code: code
+          recoverable: true
         terms: terms
         widget: ""
       properties:
@@ -1961,6 +2075,8 @@ components:
           type: string
         privacyNotice:
           type: string
+        sendError:
+          $ref: "#/components/schemas/controller_workfloo_model.NipSendErrorStatus"
         terms:
           type: string
         widget: {}
@@ -2011,6 +2127,16 @@ components:
           type: string
         phoneNumber:
           type: string
+      type: object
+    controller_workfloo_model.NipSendErrorStatus:
+      example:
+        code: code
+        recoverable: true
+      properties:
+        code:
+          type: string
+        recoverable:
+          type: boolean
       type: object
     controller_workfloo_model.NipSendRequest:
       properties:
@@ -2328,6 +2454,13 @@ components:
             $ref: "#/components/schemas/controller_workfloo_model.Variable"
           type: array
       type: object
+    controller_workfloo_model.OtpValidateRequest:
+      properties:
+        token:
+          type: string
+      required:
+      - token
+      type: object
     controller_workfloo_model.Pdf:
       example:
         errorMessage: errorMessage
@@ -2512,6 +2645,19 @@ components:
         variables: variables
       properties:
         variables:
+          type: string
+      type: object
+    controller_workfloo_model.VerificationStatus:
+      properties:
+        channel:
+          type: string
+        maskedDestination:
+          type: string
+        remainingRetries:
+          type: integer
+        validationId:
+          type: string
+        validationType:
           type: string
       type: object
     controller_workfloo_model.Workfloo:
@@ -3012,6 +3158,8 @@ components:
       type: object
     controller_workfloo_model.WorkflooResume:
       example:
+        cancelledAt: cancelledAt
+        cancelledBy: cancelledBy
         created: created
         id: id
         idUnykoo: 0
@@ -3257,6 +3405,17 @@ components:
         sceneryName: sceneryName
         status: status
       properties:
+        cancelledAt:
+          type: string
+        cancelledBy:
+          description: |-
+            CancelledBy / CancelledAt sólo viajan si un usuario canceló la ejecución
+            a mano desde la consola. Una ABANDONED por expiración del sistema no los
+            trae, y son lo único que distingue un caso del otro (el status es el
+            mismo). CancelledAt es *time.Time porque el omitempty de encoding/json
+            NO omite un struct en cero: un time.Time plano emitiría siempre
+            "0001-01-01T00:00:00Z" (mismo patrón que NodeDetail.DateFound).
+          type: string
         created:
           type: string
         id:
@@ -3288,6 +3447,8 @@ components:
       type: object
     controller_workfloo_model.WorkflooStatus:
       example:
+        cancelledAt: cancelledAt
+        cancelledBy: cancelledBy
         currentNodeId: currentNodeId
         currentNodeName: currentNodeName
         currentNodeType: currentNodeType
@@ -3334,6 +3495,7 @@ components:
               required:
               - required
               - required
+            sourcePdfNodeId: sourcePdfNodeId
           - fileMetadata:
               formats:
               - formats
@@ -3375,6 +3537,7 @@ components:
               required:
               - required
               - required
+            sourcePdfNodeId: sourcePdfNodeId
         form:
           formFieldSection:
           - fields:
@@ -3611,6 +3774,9 @@ components:
           phase: phase
           phoneNumber: phoneNumber
           privacyNotice: privacyNotice
+          sendError:
+            code: code
+            recoverable: true
           terms: terms
           widget: ""
         name: name
@@ -3636,7 +3802,16 @@ components:
           instruction: instruction
           reviewerNote: reviewerNote
           state: state
+        verification: ""
       properties:
+        cancelledAt:
+          type: string
+        cancelledBy:
+          description: |-
+            Rastro de la cancelación manual, ausente en cualquier otro desenlace.
+            Mismas dos reglas que en WorkflooResume: sólo la cancelación desde la
+            consola los llena, y la fecha es un puntero para que omitempty funcione.
+          type: string
         currentNodeId:
           type: string
         currentNodeName:
@@ -3659,6 +3834,13 @@ components:
           $ref: "#/components/schemas/controller_workfloo_model.Timer"
         validation:
           $ref: "#/components/schemas/controller_workfloo_model.ValidationStatus"
+        verification:
+          allOf:
+          - $ref: "#/components/schemas/controller_workfloo_model.VerificationStatus"
+          description: |-
+            Verification aparece SÓLO cuando la ejecución está esperando que alguien
+            teclee un código. Su ausencia es lo que le dice al integrador que no hay
+            nada pendiente de ese lado.
       type: object
   securitySchemes:
     ApiKeyAuth:

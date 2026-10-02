@@ -87,4 +87,12 @@ public class ControllerWorkflooDefinitionModelFileDocumentTest {
         // TODO: test set
     }
 
+    /**
+     * Test the property 'sourcePdfNodeId'
+     */
+    @Test
+    public void sourcePdfNodeIdTest() {
+        // TODO: test sourcePdfNodeId
+    }
+
 }

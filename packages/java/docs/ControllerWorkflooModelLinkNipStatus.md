@@ -17,6 +17,7 @@
 |**phase** | **String** |  |  [optional] |
 |**phoneNumber** | **String** |  |  [optional] |
 |**privacyNotice** | **String** |  |  [optional] |
+|**sendError** | [**ControllerWorkflooModelNipSendErrorStatus**](ControllerWorkflooModelNipSendErrorStatus.md) |  |  [optional] |
 |**terms** | **String** |  |  [optional] |
 |**widget** | **Object** |  |  [optional] |
 

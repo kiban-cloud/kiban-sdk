@@ -79,5 +79,14 @@ namespace kiban.sdk.workfloo.Test.Model
         {
             // TODO unit test for the property 'ReviewerNote'
         }
+
+        /// <summary>
+        /// Test the property 'State'
+        /// </summary>
+        [Fact]
+        public void StateTest()
+        {
+            // TODO unit test for the property 'State'
+        }
     }
 }

@@ -72,6 +72,10 @@ export interface ControllerWorkflooDefinitionModelFileDocument {
     'predefined'?: boolean;
     'required'?: boolean;
     'set'?: ControllerWorkflooDefinitionModelSetDataDocument;
+    /**
+     * SourcePdfNodeId: id del nodo PDF que genera este archivo. Cuando viene, el motor lo toma de ahí y no lo pide en el paso.
+     */
+    'sourcePdfNodeId'?: string;
 }
 export interface ControllerWorkflooDefinitionModelFileDocumentSet {
     'fileMetadata'?: ControllerWorkflooDefinitionModelFileMetadata;
@@ -206,6 +210,7 @@ export interface ControllerWorkflooModelLinkNipStatus {
     'phase'?: string;
     'phoneNumber'?: string;
     'privacyNotice'?: string;
+    'sendError'?: ControllerWorkflooModelNipSendErrorStatus;
     'terms'?: string;
     'widget'?: any;
 }
@@ -224,6 +229,10 @@ export interface ControllerWorkflooModelNipResendStatus {
     'nipType'?: string;
     'phase'?: string;
     'phoneNumber'?: string;
+}
+export interface ControllerWorkflooModelNipSendErrorStatus {
+    'code'?: string;
+    'recoverable'?: boolean;
 }
 export interface ControllerWorkflooModelNipSendRequest {
     'countryCode'?: string;
@@ -286,6 +295,9 @@ export interface ControllerWorkflooModelNodeResume {
     'type'?: string;
     'validation'?: ControllerWorkflooModelValidationResume;
     'variables'?: Array<ControllerWorkflooModelVariable>;
+}
+export interface ControllerWorkflooModelOtpValidateRequest {
+    'token': string;
 }
 export interface ControllerWorkflooModelPdf {
     'errorMessage'?: string;
@@ -350,6 +362,13 @@ export interface ControllerWorkflooModelVariable {
 export interface ControllerWorkflooModelVariables {
     'variables'?: string;
 }
+export interface ControllerWorkflooModelVerificationStatus {
+    'channel'?: string;
+    'maskedDestination'?: string;
+    'remainingRetries'?: number;
+    'validationId'?: string;
+    'validationType'?: string;
+}
 export interface ControllerWorkflooModelWorkfloo {
     'companyName'?: string;
     'createdAt'?: string;
@@ -377,6 +396,11 @@ export interface ControllerWorkflooModelWorkflooPage {
     'items'?: Array<ControllerWorkflooModelWorkfloo>;
 }
 export interface ControllerWorkflooModelWorkflooResume {
+    'cancelledAt'?: string;
+    /**
+     * CancelledBy / CancelledAt sólo viajan si un usuario canceló la ejecución a mano desde la consola. Una ABANDONED por expiración del sistema no los trae, y son lo único que distingue un caso del otro (el status es el mismo). CancelledAt es *time.Time porque el omitempty de encoding/json NO omite un struct en cero: un time.Time plano emitiría siempre \"0001-01-01T00:00:00Z\" (mismo patrón que NodeDetail.DateFound).
+     */
+    'cancelledBy'?: string;
     'created'?: string;
     'id'?: string;
     'idUnykoo'?: number;
@@ -391,6 +415,11 @@ export interface ControllerWorkflooModelWorkflooResume {
     'status'?: string;
 }
 export interface ControllerWorkflooModelWorkflooStatus {
+    'cancelledAt'?: string;
+    /**
+     * Rastro de la cancelación manual, ausente en cualquier otro desenlace. Mismas dos reglas que en WorkflooResume: sólo la cancelación desde la consola los llena, y la fecha es un puntero para que omitempty funcione.
+     */
+    'cancelledBy'?: string;
     'currentNodeId'?: string;
     'currentNodeName'?: string;
     'currentNodeType'?: string;
@@ -402,6 +431,10 @@ export interface ControllerWorkflooModelWorkflooStatus {
     'status'?: string;
     'timer'?: ControllerWorkflooModelTimer;
     'validation'?: ControllerWorkflooModelValidationStatus;
+    /**
+     * Verification aparece SÓLO cuando la ejecución está esperando que alguien teclee un código. Su ausencia es lo que le dice al integrador que no hay nada pendiente de ese lado.
+     */
+    'verification'?: ControllerWorkflooModelVerificationStatus;
 }
 
 /**
@@ -651,6 +684,47 @@ export const WorkflooApiAxiosParamCreator = function (configuration?: Configurat
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
             localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Pide al proveedor una validación nueva (y un código nuevo) para el paso de verificación. Cada reenvío es una consulta facturada y el número de reenvíos lo limita el nodo; al agotarlos responde 400/403 con `{\"error\"}`.
+         * @summary Reenviar el código de verificación (OTP)
+         * @param {string} id Id de la ejecución
+         * @param {boolean} [sandbox] Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fallbackWorkflooOtp: async (id: string, sandbox?: boolean, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('fallbackWorkflooOtp', 'id', id)
+            const localVarPath = `/api/v1/workfloo/{id}/otp/fallback`
+                .replace('{id}', encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication ApiKeyAuth required
+            await setApiKeyToObject(localVarHeaderParameter, "x-api-key", configuration)
+
+            if (sandbox !== undefined) {
+                localVarQueryParameter['sandbox'] = sandbox;
+            }
+
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -1160,6 +1234,52 @@ export const WorkflooApiAxiosParamCreator = function (configuration?: Configurat
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * Envía al proveedor el código que tecleó la persona en el paso de verificación (ver `verification` en el estatus). Un código incorrecto con intentos restantes responde 400 con `{\"error\", \"remainingRetries\"}` y la ejecución sigue estacionada; al agotar los intentos responde 403, salvo que el nodo tenga rama de error, en cuyo caso el flujo continúa por ahí y responde 200.
+         * @summary Validar el código de verificación (OTP)
+         * @param {string} id Id de la ejecución
+         * @param {ControllerWorkflooModelOtpValidateRequest} controllerWorkflooModelOtpValidateRequest El código a validar
+         * @param {boolean} [sandbox] Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        validateWorkflooOtp: async (id: string, controllerWorkflooModelOtpValidateRequest: ControllerWorkflooModelOtpValidateRequest, sandbox?: boolean, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('validateWorkflooOtp', 'id', id)
+            // verify required parameter 'controllerWorkflooModelOtpValidateRequest' is not null or undefined
+            assertParamExists('validateWorkflooOtp', 'controllerWorkflooModelOtpValidateRequest', controllerWorkflooModelOtpValidateRequest)
+            const localVarPath = `/api/v1/workfloo/{id}/otp/validate`
+                .replace('{id}', encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication ApiKeyAuth required
+            await setApiKeyToObject(localVarHeaderParameter, "x-api-key", configuration)
+
+            if (sandbox !== undefined) {
+                localVarQueryParameter['sandbox'] = sandbox;
+            }
+
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(controllerWorkflooModelOtpValidateRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -1211,6 +1331,20 @@ export const WorkflooApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.executeWorkflooForm(id, body, sandbox, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['WorkflooApi.executeWorkflooForm']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Pide al proveedor una validación nueva (y un código nuevo) para el paso de verificación. Cada reenvío es una consulta facturada y el número de reenvíos lo limita el nodo; al agotarlos responde 400/403 con `{\"error\"}`.
+         * @summary Reenviar el código de verificación (OTP)
+         * @param {string} id Id de la ejecución
+         * @param {boolean} [sandbox] Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async fallbackWorkflooOtp(id: string, sandbox?: boolean, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.fallbackWorkflooOtp(id, sandbox, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['WorkflooApi.fallbackWorkflooOtp']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -1369,6 +1503,21 @@ export const WorkflooApiFp = function(configuration?: Configuration) {
             const localVarOperationServerBasePath = operationServerMap['WorkflooApi.validateWorkflooNip']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
+        /**
+         * Envía al proveedor el código que tecleó la persona en el paso de verificación (ver `verification` en el estatus). Un código incorrecto con intentos restantes responde 400 con `{\"error\", \"remainingRetries\"}` y la ejecución sigue estacionada; al agotar los intentos responde 403, salvo que el nodo tenga rama de error, en cuyo caso el flujo continúa por ahí y responde 200.
+         * @summary Validar el código de verificación (OTP)
+         * @param {string} id Id de la ejecución
+         * @param {ControllerWorkflooModelOtpValidateRequest} controllerWorkflooModelOtpValidateRequest El código a validar
+         * @param {boolean} [sandbox] Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async validateWorkflooOtp(id: string, controllerWorkflooModelOtpValidateRequest: ControllerWorkflooModelOtpValidateRequest, sandbox?: boolean, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.validateWorkflooOtp(id, controllerWorkflooModelOtpValidateRequest, sandbox, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['WorkflooApi.validateWorkflooOtp']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
     }
 };
 
@@ -1412,6 +1561,17 @@ export const WorkflooApiFactory = function (configuration?: Configuration, baseP
          */
         executeWorkflooForm(id: string, body: object, sandbox?: boolean, options?: RawAxiosRequestConfig): AxiosPromise<void> {
             return localVarFp.executeWorkflooForm(id, body, sandbox, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Pide al proveedor una validación nueva (y un código nuevo) para el paso de verificación. Cada reenvío es una consulta facturada y el número de reenvíos lo limita el nodo; al agotarlos responde 400/403 con `{\"error\"}`.
+         * @summary Reenviar el código de verificación (OTP)
+         * @param {string} id Id de la ejecución
+         * @param {boolean} [sandbox] Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fallbackWorkflooOtp(id: string, sandbox?: boolean, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.fallbackWorkflooOtp(id, sandbox, options).then((request) => request(axios, basePath));
         },
         /**
          * Devuelve el historial completo de una ejecución: todos sus nodos con request/response, variables, documentos y decisiones.
@@ -1539,6 +1699,18 @@ export const WorkflooApiFactory = function (configuration?: Configuration, baseP
         validateWorkflooNip(id: string, controllerWorkflooModelNipValidateRequest: ControllerWorkflooModelNipValidateRequest, sandbox?: boolean, options?: RawAxiosRequestConfig): AxiosPromise<ControllerWorkflooModelNipValidateResponse> {
             return localVarFp.validateWorkflooNip(id, controllerWorkflooModelNipValidateRequest, sandbox, options).then((request) => request(axios, basePath));
         },
+        /**
+         * Envía al proveedor el código que tecleó la persona en el paso de verificación (ver `verification` en el estatus). Un código incorrecto con intentos restantes responde 400 con `{\"error\", \"remainingRetries\"}` y la ejecución sigue estacionada; al agotar los intentos responde 403, salvo que el nodo tenga rama de error, en cuyo caso el flujo continúa por ahí y responde 200.
+         * @summary Validar el código de verificación (OTP)
+         * @param {string} id Id de la ejecución
+         * @param {ControllerWorkflooModelOtpValidateRequest} controllerWorkflooModelOtpValidateRequest El código a validar
+         * @param {boolean} [sandbox] Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        validateWorkflooOtp(id: string, controllerWorkflooModelOtpValidateRequest: ControllerWorkflooModelOtpValidateRequest, sandbox?: boolean, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.validateWorkflooOtp(id, controllerWorkflooModelOtpValidateRequest, sandbox, options).then((request) => request(axios, basePath));
+        },
     };
 };
 
@@ -1582,6 +1754,18 @@ export class WorkflooApi extends BaseAPI {
      */
     public executeWorkflooForm(id: string, body: object, sandbox?: boolean, options?: RawAxiosRequestConfig) {
         return WorkflooApiFp(this.configuration).executeWorkflooForm(id, body, sandbox, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Pide al proveedor una validación nueva (y un código nuevo) para el paso de verificación. Cada reenvío es una consulta facturada y el número de reenvíos lo limita el nodo; al agotarlos responde 400/403 con `{\"error\"}`.
+     * @summary Reenviar el código de verificación (OTP)
+     * @param {string} id Id de la ejecución
+     * @param {boolean} [sandbox] Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    public fallbackWorkflooOtp(id: string, sandbox?: boolean, options?: RawAxiosRequestConfig) {
+        return WorkflooApiFp(this.configuration).fallbackWorkflooOtp(id, sandbox, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1718,6 +1902,19 @@ export class WorkflooApi extends BaseAPI {
      */
     public validateWorkflooNip(id: string, controllerWorkflooModelNipValidateRequest: ControllerWorkflooModelNipValidateRequest, sandbox?: boolean, options?: RawAxiosRequestConfig) {
         return WorkflooApiFp(this.configuration).validateWorkflooNip(id, controllerWorkflooModelNipValidateRequest, sandbox, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Envía al proveedor el código que tecleó la persona en el paso de verificación (ver `verification` en el estatus). Un código incorrecto con intentos restantes responde 400 con `{\"error\", \"remainingRetries\"}` y la ejecución sigue estacionada; al agotar los intentos responde 403, salvo que el nodo tenga rama de error, en cuyo caso el flujo continúa por ahí y responde 200.
+     * @summary Validar el código de verificación (OTP)
+     * @param {string} id Id de la ejecución
+     * @param {ControllerWorkflooModelOtpValidateRequest} controllerWorkflooModelOtpValidateRequest El código a validar
+     * @param {boolean} [sandbox] Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    public validateWorkflooOtp(id: string, controllerWorkflooModelOtpValidateRequest: ControllerWorkflooModelOtpValidateRequest, sandbox?: boolean, options?: RawAxiosRequestConfig) {
+        return WorkflooApiFp(this.configuration).validateWorkflooOtp(id, controllerWorkflooModelOtpValidateRequest, sandbox, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

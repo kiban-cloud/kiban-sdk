@@ -3,4 +3,4 @@
 # projectName es el nombre de distribución en PyPI (guiones, no puntos).
 packageName: kiban.sdk.workfloo
 projectName: kiban-sdk-workfloo
-packageVersion: 0.1.0
+packageVersion: 0.2.0

@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import kiban.sdk.workfloo.model.ControllerWorkflooModelEvent;
+import kiban.sdk.workfloo.model.ControllerWorkflooModelNipSendErrorStatus;
 import org.openapitools.jackson.nullable.JsonNullable;
 
 import com.google.gson.Gson;
@@ -52,7 +53,7 @@ import kiban.sdk.workfloo.JSON;
 /**
  * ControllerWorkflooModelLinkNipStatus
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-08-10T16:42:49.836741-06:00[America/Mexico_City]", comments = "Generator version: 7.24.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-10-02T10:13:43.960045-06:00[America/Mexico_City]", comments = "Generator version: 7.24.0")
 public class ControllerWorkflooModelLinkNipStatus {
   public static final String SERIALIZED_NAME_COMPANY_NAME = "companyName";
   @SerializedName(SERIALIZED_NAME_COMPANY_NAME)
@@ -103,6 +104,11 @@ public class ControllerWorkflooModelLinkNipStatus {
   @SerializedName(SERIALIZED_NAME_PRIVACY_NOTICE)
   @javax.annotation.Nullable
   private String privacyNotice;
+
+  public static final String SERIALIZED_NAME_SEND_ERROR = "sendError";
+  @SerializedName(SERIALIZED_NAME_SEND_ERROR)
+  @javax.annotation.Nullable
+  private ControllerWorkflooModelNipSendErrorStatus sendError;
 
   public static final String SERIALIZED_NAME_TERMS = "terms";
   @SerializedName(SERIALIZED_NAME_TERMS)
@@ -315,6 +321,25 @@ public class ControllerWorkflooModelLinkNipStatus {
   }
 
 
+  public ControllerWorkflooModelLinkNipStatus sendError(@javax.annotation.Nullable ControllerWorkflooModelNipSendErrorStatus sendError) {
+    this.sendError = sendError;
+    return this;
+  }
+
+  /**
+   * Get sendError
+   * @return sendError
+   */
+  @javax.annotation.Nullable
+  public ControllerWorkflooModelNipSendErrorStatus getSendError() {
+    return sendError;
+  }
+
+  public void setSendError(@javax.annotation.Nullable ControllerWorkflooModelNipSendErrorStatus sendError) {
+    this.sendError = sendError;
+  }
+
+
   public ControllerWorkflooModelLinkNipStatus terms(@javax.annotation.Nullable String terms) {
     this.terms = terms;
     return this;
@@ -373,6 +398,7 @@ public class ControllerWorkflooModelLinkNipStatus {
         Objects.equals(this.phase, controllerWorkflooModelLinkNipStatus.phase) &&
         Objects.equals(this.phoneNumber, controllerWorkflooModelLinkNipStatus.phoneNumber) &&
         Objects.equals(this.privacyNotice, controllerWorkflooModelLinkNipStatus.privacyNotice) &&
+        Objects.equals(this.sendError, controllerWorkflooModelLinkNipStatus.sendError) &&
         Objects.equals(this.terms, controllerWorkflooModelLinkNipStatus.terms) &&
         Objects.equals(this.widget, controllerWorkflooModelLinkNipStatus.widget);
   }
@@ -383,7 +409,7 @@ public class ControllerWorkflooModelLinkNipStatus {
 
   @Override
   public int hashCode() {
-    return Objects.hash(companyName, countryCode, email, events, key, keyTypeNode, nipType, phase, phoneNumber, privacyNotice, terms, widget);
+    return Objects.hash(companyName, countryCode, email, events, key, keyTypeNode, nipType, phase, phoneNumber, privacyNotice, sendError, terms, widget);
   }
 
   private static <T> int hashCodeNullable(JsonNullable<T> a) {
@@ -407,6 +433,7 @@ public class ControllerWorkflooModelLinkNipStatus {
     sb.append("    phase: ").append(toIndentedString(phase)).append("\n");
     sb.append("    phoneNumber: ").append(toIndentedString(phoneNumber)).append("\n");
     sb.append("    privacyNotice: ").append(toIndentedString(privacyNotice)).append("\n");
+    sb.append("    sendError: ").append(toIndentedString(sendError)).append("\n");
     sb.append("    terms: ").append(toIndentedString(terms)).append("\n");
     sb.append("    widget: ").append(toIndentedString(widget)).append("\n");
     sb.append("}");
@@ -427,7 +454,7 @@ public class ControllerWorkflooModelLinkNipStatus {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("companyName", "countryCode", "email", "events", "key", "keyTypeNode", "nipType", "phase", "phoneNumber", "privacyNotice", "terms", "widget"));
+    openapiFields = new HashSet<String>(Arrays.asList("companyName", "countryCode", "email", "events", "key", "keyTypeNode", "nipType", "phase", "phoneNumber", "privacyNotice", "sendError", "terms", "widget"));
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>(0);
@@ -494,6 +521,10 @@ public class ControllerWorkflooModelLinkNipStatus {
       }
       if ((jsonObj.get("privacyNotice") != null && !jsonObj.get("privacyNotice").isJsonNull()) && !jsonObj.get("privacyNotice").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `privacyNotice` to be a primitive type in the JSON string but got `%s`", jsonObj.get("privacyNotice").toString()));
+      }
+      // validate the optional field `sendError`
+      if (jsonObj.get("sendError") != null && !jsonObj.get("sendError").isJsonNull()) {
+        ControllerWorkflooModelNipSendErrorStatus.validateJsonElement(jsonObj.get("sendError"));
       }
       if ((jsonObj.get("terms") != null && !jsonObj.get("terms").isJsonNull()) && !jsonObj.get("terms").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `terms` to be a primitive type in the JSON string but got `%s`", jsonObj.get("terms").toString()));

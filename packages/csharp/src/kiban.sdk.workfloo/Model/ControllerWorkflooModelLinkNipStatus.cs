@@ -43,10 +43,11 @@ namespace kiban.sdk.workfloo.Model
         /// <param name="phase">phase</param>
         /// <param name="phoneNumber">phoneNumber</param>
         /// <param name="privacyNotice">privacyNotice</param>
+        /// <param name="sendError">sendError</param>
         /// <param name="terms">terms</param>
         /// <param name="widget">widget</param>
         [JsonConstructor]
-        public ControllerWorkflooModelLinkNipStatus(Option<string?> companyName = default, Option<string?> countryCode = default, Option<string?> email = default, Option<List<ControllerWorkflooModelEvent>?> events = default, Option<string?> key = default, Option<string?> keyTypeNode = default, Option<string?> nipType = default, Option<string?> phase = default, Option<string?> phoneNumber = default, Option<string?> privacyNotice = default, Option<string?> terms = default, Option<Object?> widget = default)
+        public ControllerWorkflooModelLinkNipStatus(Option<string?> companyName = default, Option<string?> countryCode = default, Option<string?> email = default, Option<List<ControllerWorkflooModelEvent>?> events = default, Option<string?> key = default, Option<string?> keyTypeNode = default, Option<string?> nipType = default, Option<string?> phase = default, Option<string?> phoneNumber = default, Option<string?> privacyNotice = default, Option<ControllerWorkflooModelNipSendErrorStatus?> sendError = default, Option<string?> terms = default, Option<Object?> widget = default)
         {
             CompanyNameOption = companyName;
             CountryCodeOption = countryCode;
@@ -58,6 +59,7 @@ namespace kiban.sdk.workfloo.Model
             PhaseOption = phase;
             PhoneNumberOption = phoneNumber;
             PrivacyNoticeOption = privacyNotice;
+            SendErrorOption = sendError;
             TermsOption = terms;
             WidgetOption = widget;
             OnCreated();
@@ -196,6 +198,19 @@ namespace kiban.sdk.workfloo.Model
         public string? PrivacyNotice { get { return this.PrivacyNoticeOption.Value; } set { this.PrivacyNoticeOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of SendError
+        /// </summary>
+        [JsonIgnore]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<ControllerWorkflooModelNipSendErrorStatus?> SendErrorOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets SendError
+        /// </summary>
+        [JsonPropertyName("sendError")]
+        public ControllerWorkflooModelNipSendErrorStatus? SendError { get { return this.SendErrorOption.Value; } set { this.SendErrorOption = new(value); } }
+
+        /// <summary>
         /// Used to track the state of Terms
         /// </summary>
         [JsonIgnore]
@@ -239,6 +254,7 @@ namespace kiban.sdk.workfloo.Model
             sb.Append("  Phase: ").Append(Phase).Append("\n");
             sb.Append("  PhoneNumber: ").Append(PhoneNumber).Append("\n");
             sb.Append("  PrivacyNotice: ").Append(PrivacyNotice).Append("\n");
+            sb.Append("  SendError: ").Append(SendError).Append("\n");
             sb.Append("  Terms: ").Append(Terms).Append("\n");
             sb.Append("  Widget: ").Append(Widget).Append("\n");
             sb.Append("}\n");
@@ -298,6 +314,7 @@ namespace kiban.sdk.workfloo.Model
             Option<string?> phase = default;
             Option<string?> phoneNumber = default;
             Option<string?> privacyNotice = default;
+            Option<ControllerWorkflooModelNipSendErrorStatus?> sendError = default;
             Option<string?> terms = default;
             Option<Object?> widget = default;
 
@@ -346,6 +363,9 @@ namespace kiban.sdk.workfloo.Model
                         case "privacyNotice":
                             privacyNotice = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
+                        case "sendError":
+                            sendError = new Option<ControllerWorkflooModelNipSendErrorStatus?>(JsonSerializer.Deserialize<ControllerWorkflooModelNipSendErrorStatus>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            break;
                         case "terms":
                             terms = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
@@ -388,10 +408,13 @@ namespace kiban.sdk.workfloo.Model
             if (privacyNotice.IsSet && privacyNotice.Value == null)
                 throw new ArgumentNullException(nameof(privacyNotice), "Property is not nullable for class ControllerWorkflooModelLinkNipStatus.");
 
+            if (sendError.IsSet && sendError.Value == null)
+                throw new ArgumentNullException(nameof(sendError), "Property is not nullable for class ControllerWorkflooModelLinkNipStatus.");
+
             if (terms.IsSet && terms.Value == null)
                 throw new ArgumentNullException(nameof(terms), "Property is not nullable for class ControllerWorkflooModelLinkNipStatus.");
 
-            return new ControllerWorkflooModelLinkNipStatus(companyName, countryCode, email, events, key, keyTypeNode, nipType, phase, phoneNumber, privacyNotice, terms, widget);
+            return new ControllerWorkflooModelLinkNipStatus(companyName, countryCode, email, events, key, keyTypeNode, nipType, phase, phoneNumber, privacyNotice, sendError, terms, widget);
         }
 
         /// <summary>
@@ -448,6 +471,9 @@ namespace kiban.sdk.workfloo.Model
             if (controllerWorkflooModelLinkNipStatus.PrivacyNoticeOption.IsSet && controllerWorkflooModelLinkNipStatus.PrivacyNotice == null)
                 throw new ArgumentNullException(nameof(controllerWorkflooModelLinkNipStatus.PrivacyNotice), "Property is required for class ControllerWorkflooModelLinkNipStatus.");
 
+            if (controllerWorkflooModelLinkNipStatus.SendErrorOption.IsSet && controllerWorkflooModelLinkNipStatus.SendError == null)
+                throw new ArgumentNullException(nameof(controllerWorkflooModelLinkNipStatus.SendError), "Property is required for class ControllerWorkflooModelLinkNipStatus.");
+
             if (controllerWorkflooModelLinkNipStatus.TermsOption.IsSet && controllerWorkflooModelLinkNipStatus.Terms == null)
                 throw new ArgumentNullException(nameof(controllerWorkflooModelLinkNipStatus.Terms), "Property is required for class ControllerWorkflooModelLinkNipStatus.");
 
@@ -483,6 +509,11 @@ namespace kiban.sdk.workfloo.Model
             if (controllerWorkflooModelLinkNipStatus.PrivacyNoticeOption.IsSet)
                 writer.WriteString("privacyNotice", controllerWorkflooModelLinkNipStatus.PrivacyNotice);
 
+            if (controllerWorkflooModelLinkNipStatus.SendErrorOption.IsSet)
+            {
+                writer.WritePropertyName("sendError");
+                JsonSerializer.Serialize(writer, controllerWorkflooModelLinkNipStatus.SendError, jsonSerializerOptions);
+            }
             if (controllerWorkflooModelLinkNipStatus.TermsOption.IsSet)
                 writer.WriteString("terms", controllerWorkflooModelLinkNipStatus.Terms);
 

@@ -54,6 +54,24 @@ namespace kiban.sdk.workfloo.Test.Model
         }
 
         /// <summary>
+        /// Test the property 'CancelledAt'
+        /// </summary>
+        [Fact]
+        public void CancelledAtTest()
+        {
+            // TODO unit test for the property 'CancelledAt'
+        }
+
+        /// <summary>
+        /// Test the property 'CancelledBy'
+        /// </summary>
+        [Fact]
+        public void CancelledByTest()
+        {
+            // TODO unit test for the property 'CancelledBy'
+        }
+
+        /// <summary>
         /// Test the property 'CurrentNodeId'
         /// </summary>
         [Fact]
@@ -150,6 +168,15 @@ namespace kiban.sdk.workfloo.Test.Model
         public void ValidationTest()
         {
             // TODO unit test for the property 'Validation'
+        }
+
+        /// <summary>
+        /// Test the property 'Verification'
+        /// </summary>
+        [Fact]
+        public void VerificationTest()
+        {
+            // TODO unit test for the property 'Verification'
         }
     }
 }

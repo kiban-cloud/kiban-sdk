@@ -61,7 +61,8 @@ class TestControllerWorkflooDefinitionModelDocument(unittest.TestCase):
                                 ], 
                             required = [
                                 ''
-                                ], ), )
+                                ], ), 
+                        source_pdf_node_id = '', )
                     ]
             )
         else:

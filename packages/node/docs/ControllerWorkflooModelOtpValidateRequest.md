@@ -1,0 +1,20 @@
+# ControllerWorkflooModelOtpValidateRequest
+
+
+## Properties
+
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**token** | **string** |  | [default to undefined]
+
+## Example
+
+```typescript
+import { ControllerWorkflooModelOtpValidateRequest } from 'kiban.sdk.workfloo';
+
+const instance: ControllerWorkflooModelOtpValidateRequest = {
+    token,
+};
+```
+
+[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

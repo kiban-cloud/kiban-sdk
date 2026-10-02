@@ -41,6 +41,22 @@ public class ControllerWorkflooModelWorkflooResumeTest {
     }
 
     /**
+     * Test the property 'cancelledAt'
+     */
+    @Test
+    public void cancelledAtTest() {
+        // TODO: test cancelledAt
+    }
+
+    /**
+     * Test the property 'cancelledBy'
+     */
+    @Test
+    public void cancelledByTest() {
+        // TODO: test cancelledBy
+    }
+
+    /**
      * Test the property 'created'
      */
     @Test

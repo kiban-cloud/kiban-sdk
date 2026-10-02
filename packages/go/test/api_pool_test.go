@@ -14,7 +14,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"testing"
-	openapiclient "github.com/kiban-cloud/kiban-sdk/workfloo"
+	openapiclient "github.com/kiban-cloud/kiban-sdk/packages/go"
 )
 
 func Test_workfloo_PoolAPIService(t *testing.T) {

@@ -2,7 +2,7 @@
 
 Workfloo API
 - API version: 1.0
-  - Build date: 2026-08-10T16:42:49.836741-06:00[America/Mexico_City]
+  - Build date: 2026-10-02T10:13:43.960045-06:00[America/Mexico_City]
   - Generator version: 7.24.0
 
 API pública de Workfloo: ejecuta un workfloo, consulta su estatus y revisa el historial/detalle de ejecuciones.
@@ -46,7 +46,7 @@ Add this dependency to your project's POM:
 <dependency>
   <groupId>kiban.sdk</groupId>
   <artifactId>workfloo</artifactId>
-  <version>0.1.0</version>
+  <version>0.2.0</version>
   <scope>compile</scope>
 </dependency>
 ```
@@ -62,7 +62,7 @@ Add this dependency to your project's build file:
   }
 
   dependencies {
-     implementation "kiban.sdk:workfloo:0.1.0"
+     implementation "kiban.sdk:workfloo:0.2.0"
   }
 ```
 
@@ -76,7 +76,7 @@ mvn clean package
 
 Then manually install the following JARs:
 
-* `target/workfloo-0.1.0.jar`
+* `target/workfloo-0.2.0.jar`
 * `target/lib/*.jar`
 
 ## Getting Started
@@ -132,6 +132,7 @@ Class | Method | HTTP request | Description
 *WorkflooApi* | [**executeWorkfloo**](docs/WorkflooApi.md#executeWorkfloo) | **POST** /api/v1/workfloo | Ejecutar un workfloo
 *WorkflooApi* | [**executeWorkflooDocument**](docs/WorkflooApi.md#executeWorkflooDocument) | **POST** /api/v1/workfloo/{id}/document | Enviar los documentos de un paso
 *WorkflooApi* | [**executeWorkflooForm**](docs/WorkflooApi.md#executeWorkflooForm) | **POST** /api/v1/workfloo/{id}/form | Enviar el formulario de un paso
+*WorkflooApi* | [**fallbackWorkflooOtp**](docs/WorkflooApi.md#fallbackWorkflooOtp) | **PATCH** /api/v1/workfloo/{id}/otp/fallback | Reenviar el código de verificación (OTP)
 *WorkflooApi* | [**getWorkfloo**](docs/WorkflooApi.md#getWorkfloo) | **GET** /api/v1/workfloo/{id} | Detalle de una ejecución
 *WorkflooApi* | [**getWorkflooFile**](docs/WorkflooApi.md#getWorkflooFile) | **GET** /api/v1/workfloo/{id}/file | Descargar un archivo de un nodo
 *WorkflooApi* | [**getWorkflooStatus**](docs/WorkflooApi.md#getWorkflooStatus) | **GET** /api/v1/workfloo/status/{id} | Estatus de una ejecución
@@ -142,6 +143,7 @@ Class | Method | HTTP request | Description
 *WorkflooApi* | [**sendWorkflooNip**](docs/WorkflooApi.md#sendWorkflooNip) | **PATCH** /api/v1/workfloo/{id}/nip/send | Enviar el NIP
 *WorkflooApi* | [**submitWorkflooCorrection**](docs/WorkflooApi.md#submitWorkflooCorrection) | **POST** /api/v1/workfloo/{id}/correction | Enviar la corrección de un paso de validación
 *WorkflooApi* | [**validateWorkflooNip**](docs/WorkflooApi.md#validateWorkflooNip) | **PATCH** /api/v1/workfloo/{id}/nip/validate | Validar el NIP
+*WorkflooApi* | [**validateWorkflooOtp**](docs/WorkflooApi.md#validateWorkflooOtp) | **PATCH** /api/v1/workfloo/{id}/otp/validate | Validar el código de verificación (OTP)
 
 
 ## Documentation for Models
@@ -182,12 +184,14 @@ Class | Method | HTTP request | Description
  - [ControllerWorkflooModelLinkResume](docs/ControllerWorkflooModelLinkResume.md)
  - [ControllerWorkflooModelNipResendRequest](docs/ControllerWorkflooModelNipResendRequest.md)
  - [ControllerWorkflooModelNipResendStatus](docs/ControllerWorkflooModelNipResendStatus.md)
+ - [ControllerWorkflooModelNipSendErrorStatus](docs/ControllerWorkflooModelNipSendErrorStatus.md)
  - [ControllerWorkflooModelNipSendRequest](docs/ControllerWorkflooModelNipSendRequest.md)
  - [ControllerWorkflooModelNipValidateRequest](docs/ControllerWorkflooModelNipValidateRequest.md)
  - [ControllerWorkflooModelNipValidateResponse](docs/ControllerWorkflooModelNipValidateResponse.md)
  - [ControllerWorkflooModelNode](docs/ControllerWorkflooModelNode.md)
  - [ControllerWorkflooModelNodeDetail](docs/ControllerWorkflooModelNodeDetail.md)
  - [ControllerWorkflooModelNodeResume](docs/ControllerWorkflooModelNodeResume.md)
+ - [ControllerWorkflooModelOtpValidateRequest](docs/ControllerWorkflooModelOtpValidateRequest.md)
  - [ControllerWorkflooModelPdf](docs/ControllerWorkflooModelPdf.md)
  - [ControllerWorkflooModelRemainingTime](docs/ControllerWorkflooModelRemainingTime.md)
  - [ControllerWorkflooModelReviewFieldRequest](docs/ControllerWorkflooModelReviewFieldRequest.md)
@@ -201,6 +205,7 @@ Class | Method | HTTP request | Description
  - [ControllerWorkflooModelValidationStatus](docs/ControllerWorkflooModelValidationStatus.md)
  - [ControllerWorkflooModelVariable](docs/ControllerWorkflooModelVariable.md)
  - [ControllerWorkflooModelVariables](docs/ControllerWorkflooModelVariables.md)
+ - [ControllerWorkflooModelVerificationStatus](docs/ControllerWorkflooModelVerificationStatus.md)
  - [ControllerWorkflooModelWorkfloo](docs/ControllerWorkflooModelWorkfloo.md)
  - [ControllerWorkflooModelWorkflooPage](docs/ControllerWorkflooModelWorkflooPage.md)
  - [ControllerWorkflooModelWorkflooResume](docs/ControllerWorkflooModelWorkflooResume.md)

@@ -15,6 +15,7 @@ Name | Type | Description | Notes
 **phase** | **string** |  | [optional] [default to undefined]
 **phoneNumber** | **string** |  | [optional] [default to undefined]
 **privacyNotice** | **string** |  | [optional] [default to undefined]
+**sendError** | [**ControllerWorkflooModelNipSendErrorStatus**](ControllerWorkflooModelNipSendErrorStatus.md) |  | [optional] [default to undefined]
 **terms** | **string** |  | [optional] [default to undefined]
 **widget** | **any** |  | [optional] [default to undefined]
 
@@ -34,6 +35,7 @@ const instance: ControllerWorkflooModelLinkNipStatus = {
     phase,
     phoneNumber,
     privacyNotice,
+    sendError,
     terms,
     widget,
 };

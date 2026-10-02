@@ -118,6 +118,31 @@ namespace kiban.sdk.workfloo.Api
         Task<IExecuteWorkflooFormApiResponse?> ExecuteWorkflooFormOrDefaultAsync(string id, Object body, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
+        /// Reenviar el código de verificación (OTP)
+        /// </summary>
+        /// <remarks>
+        /// Pide al proveedor una validación nueva (y un código nuevo) para el paso de verificación. Cada reenvío es una consulta facturada y el número de reenvíos lo limita el nodo; al agotarlos responde 400/403 con &#x60;{\&quot;error\&quot;}&#x60;.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="id">Id de la ejecución</param>
+        /// <param name="sandbox">Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="IFallbackWorkflooOtpApiResponse"/>&gt;</returns>
+        Task<IFallbackWorkflooOtpApiResponse> FallbackWorkflooOtpAsync(string id, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Reenviar el código de verificación (OTP)
+        /// </summary>
+        /// <remarks>
+        /// Pide al proveedor una validación nueva (y un código nuevo) para el paso de verificación. Cada reenvío es una consulta facturada y el número de reenvíos lo limita el nodo; al agotarlos responde 400/403 con &#x60;{\&quot;error\&quot;}&#x60;.
+        /// </remarks>
+        /// <param name="id">Id de la ejecución</param>
+        /// <param name="sandbox">Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="IFallbackWorkflooOtpApiResponse"/>?&gt;</returns>
+        Task<IFallbackWorkflooOtpApiResponse?> FallbackWorkflooOtpOrDefaultAsync(string id, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default);
+
+        /// <summary>
         /// Detalle de una ejecución
         /// </summary>
         /// <remarks>
@@ -398,6 +423,33 @@ namespace kiban.sdk.workfloo.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IValidateWorkflooNipApiResponse"/>?&gt;</returns>
         Task<IValidateWorkflooNipApiResponse?> ValidateWorkflooNipOrDefaultAsync(string id, ControllerWorkflooModelNipValidateRequest controllerWorkflooModelNipValidateRequest, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Validar el código de verificación (OTP)
+        /// </summary>
+        /// <remarks>
+        /// Envía al proveedor el código que tecleó la persona en el paso de verificación (ver &#x60;verification&#x60; en el estatus). Un código incorrecto con intentos restantes responde 400 con &#x60;{\&quot;error\&quot;, \&quot;remainingRetries\&quot;}&#x60; y la ejecución sigue estacionada; al agotar los intentos responde 403, salvo que el nodo tenga rama de error, en cuyo caso el flujo continúa por ahí y responde 200.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="id">Id de la ejecución</param>
+        /// <param name="controllerWorkflooModelOtpValidateRequest">El código a validar</param>
+        /// <param name="sandbox">Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="IValidateWorkflooOtpApiResponse"/>&gt;</returns>
+        Task<IValidateWorkflooOtpApiResponse> ValidateWorkflooOtpAsync(string id, ControllerWorkflooModelOtpValidateRequest controllerWorkflooModelOtpValidateRequest, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Validar el código de verificación (OTP)
+        /// </summary>
+        /// <remarks>
+        /// Envía al proveedor el código que tecleó la persona en el paso de verificación (ver &#x60;verification&#x60; en el estatus). Un código incorrecto con intentos restantes responde 400 con &#x60;{\&quot;error\&quot;, \&quot;remainingRetries\&quot;}&#x60; y la ejecución sigue estacionada; al agotar los intentos responde 403, salvo que el nodo tenga rama de error, en cuyo caso el flujo continúa por ahí y responde 200.
+        /// </remarks>
+        /// <param name="id">Id de la ejecución</param>
+        /// <param name="controllerWorkflooModelOtpValidateRequest">El código a validar</param>
+        /// <param name="sandbox">Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="IValidateWorkflooOtpApiResponse"/>?&gt;</returns>
+        Task<IValidateWorkflooOtpApiResponse?> ValidateWorkflooOtpOrDefaultAsync(string id, ControllerWorkflooModelOtpValidateRequest controllerWorkflooModelOtpValidateRequest, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default);
     }
 
     /// <summary>
@@ -548,6 +600,54 @@ namespace kiban.sdk.workfloo.Api
         /// </summary>
         /// <returns></returns>
         bool IsConflict { get; }
+
+        /// <summary>
+        /// Returns true if the response is 500 InternalServerError
+        /// </summary>
+        /// <returns></returns>
+        bool IsInternalServerError { get; }
+
+        /// <summary>
+        /// Returns true if the response is 503 ServiceUnavailable
+        /// </summary>
+        /// <returns></returns>
+        bool IsServiceUnavailable { get; }
+    }
+
+    /// <summary>
+    /// The <see cref="IFallbackWorkflooOtpApiResponse"/>
+    /// </summary>
+    public interface IFallbackWorkflooOtpApiResponse : kiban.sdk.workfloo.Client.IApiResponse
+    {
+        /// <summary>
+        /// Returns true if the response is 200 Ok
+        /// </summary>
+        /// <returns></returns>
+        bool IsOk { get; }
+
+        /// <summary>
+        /// Returns true if the response is 400 BadRequest
+        /// </summary>
+        /// <returns></returns>
+        bool IsBadRequest { get; }
+
+        /// <summary>
+        /// Returns true if the response is 401 Unauthorized
+        /// </summary>
+        /// <returns></returns>
+        bool IsUnauthorized { get; }
+
+        /// <summary>
+        /// Returns true if the response is 403 Forbidden
+        /// </summary>
+        /// <returns></returns>
+        bool IsForbidden { get; }
+
+        /// <summary>
+        /// Returns true if the response is 404 NotFound
+        /// </summary>
+        /// <returns></returns>
+        bool IsNotFound { get; }
 
         /// <summary>
         /// Returns true if the response is 500 InternalServerError
@@ -1067,6 +1167,54 @@ namespace kiban.sdk.workfloo.Api
     }
 
     /// <summary>
+    /// The <see cref="IValidateWorkflooOtpApiResponse"/>
+    /// </summary>
+    public interface IValidateWorkflooOtpApiResponse : kiban.sdk.workfloo.Client.IApiResponse
+    {
+        /// <summary>
+        /// Returns true if the response is 200 Ok
+        /// </summary>
+        /// <returns></returns>
+        bool IsOk { get; }
+
+        /// <summary>
+        /// Returns true if the response is 400 BadRequest
+        /// </summary>
+        /// <returns></returns>
+        bool IsBadRequest { get; }
+
+        /// <summary>
+        /// Returns true if the response is 401 Unauthorized
+        /// </summary>
+        /// <returns></returns>
+        bool IsUnauthorized { get; }
+
+        /// <summary>
+        /// Returns true if the response is 403 Forbidden
+        /// </summary>
+        /// <returns></returns>
+        bool IsForbidden { get; }
+
+        /// <summary>
+        /// Returns true if the response is 404 NotFound
+        /// </summary>
+        /// <returns></returns>
+        bool IsNotFound { get; }
+
+        /// <summary>
+        /// Returns true if the response is 500 InternalServerError
+        /// </summary>
+        /// <returns></returns>
+        bool IsInternalServerError { get; }
+
+        /// <summary>
+        /// Returns true if the response is 503 ServiceUnavailable
+        /// </summary>
+        /// <returns></returns>
+        bool IsServiceUnavailable { get; }
+    }
+
+    /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
     public class WorkflooApiEvents
@@ -1129,6 +1277,26 @@ namespace kiban.sdk.workfloo.Api
         internal void ExecuteOnErrorExecuteWorkflooForm(Exception exception)
         {
             OnErrorExecuteWorkflooForm?.Invoke(this, new ExceptionEventArgs(exception));
+        }
+
+        /// <summary>
+        /// The event raised after the server response
+        /// </summary>
+        public event EventHandler<ApiResponseEventArgs>? OnFallbackWorkflooOtp;
+
+        /// <summary>
+        /// The event raised after an error querying the server
+        /// </summary>
+        public event EventHandler<ExceptionEventArgs>? OnErrorFallbackWorkflooOtp;
+
+        internal void ExecuteOnFallbackWorkflooOtp(WorkflooApi.FallbackWorkflooOtpApiResponse apiResponse)
+        {
+            OnFallbackWorkflooOtp?.Invoke(this, new ApiResponseEventArgs(apiResponse));
+        }
+
+        internal void ExecuteOnErrorFallbackWorkflooOtp(Exception exception)
+        {
+            OnErrorFallbackWorkflooOtp?.Invoke(this, new ExceptionEventArgs(exception));
         }
 
         /// <summary>
@@ -1329,6 +1497,26 @@ namespace kiban.sdk.workfloo.Api
         internal void ExecuteOnErrorValidateWorkflooNip(Exception exception)
         {
             OnErrorValidateWorkflooNip?.Invoke(this, new ExceptionEventArgs(exception));
+        }
+
+        /// <summary>
+        /// The event raised after the server response
+        /// </summary>
+        public event EventHandler<ApiResponseEventArgs>? OnValidateWorkflooOtp;
+
+        /// <summary>
+        /// The event raised after an error querying the server
+        /// </summary>
+        public event EventHandler<ExceptionEventArgs>? OnErrorValidateWorkflooOtp;
+
+        internal void ExecuteOnValidateWorkflooOtp(WorkflooApi.ValidateWorkflooOtpApiResponse apiResponse)
+        {
+            OnValidateWorkflooOtp?.Invoke(this, new ApiResponseEventArgs(apiResponse));
+        }
+
+        internal void ExecuteOnErrorValidateWorkflooOtp(Exception exception)
+        {
+            OnErrorValidateWorkflooOtp?.Invoke(this, new ExceptionEventArgs(exception));
         }
     }
 
@@ -2240,6 +2428,264 @@ namespace kiban.sdk.workfloo.Api
             /// </summary>
             /// <returns></returns>
             public bool IsConflict => 409 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 500 InternalServerError
+            /// </summary>
+            /// <returns></returns>
+            public bool IsInternalServerError => 500 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 503 ServiceUnavailable
+            /// </summary>
+            /// <returns></returns>
+            public bool IsServiceUnavailable => 503 == (int)StatusCode;
+
+            private void OnDeserializationErrorDefaultImplementation(Exception exception, HttpStatusCode httpStatusCode)
+            {
+                bool suppressDefaultLog = false;
+                OnDeserializationError(ref suppressDefaultLog, exception, httpStatusCode);
+                if (!suppressDefaultLog)
+                    Logger.LogError(RestLogEvents.ApiDeserializationFailed, exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
+            }
+
+            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+        }
+
+        partial void FormatFallbackWorkflooOtp(ref string id, ref Option<bool> sandbox);
+
+        /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        private void ValidateFallbackWorkflooOtp(string id)
+        {
+            if (id == null)
+                throw new ArgumentNullException(nameof(id));
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="id"></param>
+        /// <param name="sandbox"></param>
+        private void AfterFallbackWorkflooOtpDefaultImplementation(IFallbackWorkflooOtpApiResponse apiResponseLocalVar, string id, Option<bool> sandbox)
+        {
+            bool suppressDefaultLog = false;
+            AfterFallbackWorkflooOtp(ref suppressDefaultLog, apiResponseLocalVar, id, sandbox);
+            if (!suppressDefaultLog)
+                Logger.LogInformation(RestLogEvents.ApiRequestCompleted, "{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="suppressDefaultLog"></param>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="id"></param>
+        /// <param name="sandbox"></param>
+        partial void AfterFallbackWorkflooOtp(ref bool suppressDefaultLog, IFallbackWorkflooOtpApiResponse apiResponseLocalVar, string id, Option<bool> sandbox);
+
+        /// <summary>
+        /// Logs exceptions that occur while retrieving the server response
+        /// </summary>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
+        /// <param name="id"></param>
+        /// <param name="sandbox"></param>
+        private void OnErrorFallbackWorkflooOtpDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string id, Option<bool> sandbox)
+        {
+            bool suppressDefaultLogLocalVar = false;
+            OnErrorFallbackWorkflooOtp(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, id, sandbox);
+            if (!suppressDefaultLogLocalVar)
+                Logger.LogError(RestLogEvents.ApiRequestFailed, exceptionLocalVar, "An error occurred while sending the request to the server.");
+        }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
+        /// <param name="id"></param>
+        /// <param name="sandbox"></param>
+        partial void OnErrorFallbackWorkflooOtp(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string id, Option<bool> sandbox);
+
+        /// <summary>
+        /// Reenviar el código de verificación (OTP) Pide al proveedor una validación nueva (y un código nuevo) para el paso de verificación. Cada reenvío es una consulta facturada y el número de reenvíos lo limita el nodo; al agotarlos responde 400/403 con &#x60;{\&quot;error\&quot;}&#x60;.
+        /// </summary>
+        /// <param name="id">Id de la ejecución</param>
+        /// <param name="sandbox">Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="IFallbackWorkflooOtpApiResponse"/>&gt;</returns>
+        public async Task<IFallbackWorkflooOtpApiResponse?> FallbackWorkflooOtpOrDefaultAsync(string id, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                return await FallbackWorkflooOtpAsync(id, sandbox, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Reenviar el código de verificación (OTP) Pide al proveedor una validación nueva (y un código nuevo) para el paso de verificación. Cada reenvío es una consulta facturada y el número de reenvíos lo limita el nodo; al agotarlos responde 400/403 con &#x60;{\&quot;error\&quot;}&#x60;.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="id">Id de la ejecución</param>
+        /// <param name="sandbox">Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="IFallbackWorkflooOtpApiResponse"/>&gt;</returns>
+        public async Task<IFallbackWorkflooOtpApiResponse> FallbackWorkflooOtpAsync(string id, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default)
+        {
+            UriBuilder uriBuilderLocalVar = new UriBuilder();
+
+            try
+            {
+                ValidateFallbackWorkflooOtp(id);
+
+                FormatFallbackWorkflooOtp(ref id, ref sandbox);
+
+                using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
+                {
+                    uriBuilderLocalVar.Host = HttpClient.BaseAddress!.Host;
+                    uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
+                    uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
+                    uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
+                        ? "/api/v1/workfloo/{id}/otp/fallback"
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/api/v1/workfloo/{id}/otp/fallback");
+                    uriBuilderLocalVar.Path = uriBuilderLocalVar.Path.Replace("%7Bid%7D", Uri.EscapeDataString(id.ToString()));
+
+                    System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
+
+                    if (sandbox.IsSet)
+                        parseQueryStringLocalVar["sandbox"] = ClientUtils.ParameterToString(sandbox.Value);
+
+                    uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
+
+                    List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
+                    ApiKeyToken apiKeyTokenLocalVar1 = (ApiKeyToken) await ApiKeyProvider.GetAsync("x-api-key", cancellationToken).ConfigureAwait(false);
+                    tokenBaseLocalVars.Add(apiKeyTokenLocalVar1);
+                    apiKeyTokenLocalVar1.UseInHeader(httpRequestMessageLocalVar);
+
+                    httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
+
+                    httpRequestMessageLocalVar.Method = HttpMethod.Patch;
+
+                    DateTime requestedAtLocalVar = DateTime.UtcNow;
+
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
+                    {
+                        FallbackWorkflooOtpApiResponse apiResponseLocalVar;
+
+                        switch ((int)httpResponseMessageLocalVar.StatusCode) {
+                            default: {
+                                string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                                apiResponseLocalVar = new(Logger, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/api/v1/workfloo/{id}/otp/fallback", requestedAtLocalVar, _jsonSerializerOptions);
+
+                                break;
+                            }
+                        }
+
+                        AfterFallbackWorkflooOtpDefaultImplementation(apiResponseLocalVar, id, sandbox);
+
+                        Events.ExecuteOnFallbackWorkflooOtp(apiResponseLocalVar);
+
+                        if (apiResponseLocalVar.StatusCode == (HttpStatusCode) 429)
+                            foreach(TokenBase tokenBaseLocalVar in tokenBaseLocalVars)
+                                tokenBaseLocalVar.BeginRateLimit();
+
+                        return apiResponseLocalVar;
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                OnErrorFallbackWorkflooOtpDefaultImplementation(e, "/api/v1/workfloo/{id}/otp/fallback", uriBuilderLocalVar.Path, id, sandbox);
+                Events.ExecuteOnErrorFallbackWorkflooOtp(e);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// The <see cref="FallbackWorkflooOtpApiResponse"/>
+        /// </summary>
+        public partial class FallbackWorkflooOtpApiResponse : kiban.sdk.workfloo.Client.ApiResponse, IFallbackWorkflooOtpApiResponse
+        {
+            /// <summary>
+            /// The logger
+            /// </summary>
+            public ILogger<WorkflooApi> Logger { get; }
+
+            /// <summary>
+            /// The <see cref="FallbackWorkflooOtpApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="rawContent"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public FallbackWorkflooOtpApiResponse(ILogger<WorkflooApi> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            /// <summary>
+            /// The <see cref="FallbackWorkflooOtpApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="contentStream"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public FallbackWorkflooOtpApiResponse(ILogger<WorkflooApi> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, System.IO.Stream contentStream, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, contentStream, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOk => 200 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 400 BadRequest
+            /// </summary>
+            /// <returns></returns>
+            public bool IsBadRequest => 400 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 401 Unauthorized
+            /// </summary>
+            /// <returns></returns>
+            public bool IsUnauthorized => 401 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 403 Forbidden
+            /// </summary>
+            /// <returns></returns>
+            public bool IsForbidden => 403 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 404 NotFound
+            /// </summary>
+            /// <returns></returns>
+            public bool IsNotFound => 404 == (int)StatusCode;
 
             /// <summary>
             /// Returns true if the response is 500 InternalServerError
@@ -5354,6 +5800,287 @@ namespace kiban.sdk.workfloo.Api
 
                 return result != null;
             }
+
+            /// <summary>
+            /// Returns true if the response is 400 BadRequest
+            /// </summary>
+            /// <returns></returns>
+            public bool IsBadRequest => 400 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 401 Unauthorized
+            /// </summary>
+            /// <returns></returns>
+            public bool IsUnauthorized => 401 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 403 Forbidden
+            /// </summary>
+            /// <returns></returns>
+            public bool IsForbidden => 403 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 404 NotFound
+            /// </summary>
+            /// <returns></returns>
+            public bool IsNotFound => 404 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 500 InternalServerError
+            /// </summary>
+            /// <returns></returns>
+            public bool IsInternalServerError => 500 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 503 ServiceUnavailable
+            /// </summary>
+            /// <returns></returns>
+            public bool IsServiceUnavailable => 503 == (int)StatusCode;
+
+            private void OnDeserializationErrorDefaultImplementation(Exception exception, HttpStatusCode httpStatusCode)
+            {
+                bool suppressDefaultLog = false;
+                OnDeserializationError(ref suppressDefaultLog, exception, httpStatusCode);
+                if (!suppressDefaultLog)
+                    Logger.LogError(RestLogEvents.ApiDeserializationFailed, exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
+            }
+
+            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+        }
+
+        partial void FormatValidateWorkflooOtp(ref string id, ControllerWorkflooModelOtpValidateRequest controllerWorkflooModelOtpValidateRequest, ref Option<bool> sandbox);
+
+        /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="controllerWorkflooModelOtpValidateRequest"></param>
+        /// <returns></returns>
+        private void ValidateValidateWorkflooOtp(string id, ControllerWorkflooModelOtpValidateRequest controllerWorkflooModelOtpValidateRequest)
+        {
+            if (id == null)
+                throw new ArgumentNullException(nameof(id));
+
+            if (controllerWorkflooModelOtpValidateRequest == null)
+                throw new ArgumentNullException(nameof(controllerWorkflooModelOtpValidateRequest));
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="id"></param>
+        /// <param name="controllerWorkflooModelOtpValidateRequest"></param>
+        /// <param name="sandbox"></param>
+        private void AfterValidateWorkflooOtpDefaultImplementation(IValidateWorkflooOtpApiResponse apiResponseLocalVar, string id, ControllerWorkflooModelOtpValidateRequest controllerWorkflooModelOtpValidateRequest, Option<bool> sandbox)
+        {
+            bool suppressDefaultLog = false;
+            AfterValidateWorkflooOtp(ref suppressDefaultLog, apiResponseLocalVar, id, controllerWorkflooModelOtpValidateRequest, sandbox);
+            if (!suppressDefaultLog)
+                Logger.LogInformation(RestLogEvents.ApiRequestCompleted, "{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="suppressDefaultLog"></param>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="id"></param>
+        /// <param name="controllerWorkflooModelOtpValidateRequest"></param>
+        /// <param name="sandbox"></param>
+        partial void AfterValidateWorkflooOtp(ref bool suppressDefaultLog, IValidateWorkflooOtpApiResponse apiResponseLocalVar, string id, ControllerWorkflooModelOtpValidateRequest controllerWorkflooModelOtpValidateRequest, Option<bool> sandbox);
+
+        /// <summary>
+        /// Logs exceptions that occur while retrieving the server response
+        /// </summary>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
+        /// <param name="id"></param>
+        /// <param name="controllerWorkflooModelOtpValidateRequest"></param>
+        /// <param name="sandbox"></param>
+        private void OnErrorValidateWorkflooOtpDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string id, ControllerWorkflooModelOtpValidateRequest controllerWorkflooModelOtpValidateRequest, Option<bool> sandbox)
+        {
+            bool suppressDefaultLogLocalVar = false;
+            OnErrorValidateWorkflooOtp(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, id, controllerWorkflooModelOtpValidateRequest, sandbox);
+            if (!suppressDefaultLogLocalVar)
+                Logger.LogError(RestLogEvents.ApiRequestFailed, exceptionLocalVar, "An error occurred while sending the request to the server.");
+        }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
+        /// <param name="id"></param>
+        /// <param name="controllerWorkflooModelOtpValidateRequest"></param>
+        /// <param name="sandbox"></param>
+        partial void OnErrorValidateWorkflooOtp(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string id, ControllerWorkflooModelOtpValidateRequest controllerWorkflooModelOtpValidateRequest, Option<bool> sandbox);
+
+        /// <summary>
+        /// Validar el código de verificación (OTP) Envía al proveedor el código que tecleó la persona en el paso de verificación (ver &#x60;verification&#x60; en el estatus). Un código incorrecto con intentos restantes responde 400 con &#x60;{\&quot;error\&quot;, \&quot;remainingRetries\&quot;}&#x60; y la ejecución sigue estacionada; al agotar los intentos responde 403, salvo que el nodo tenga rama de error, en cuyo caso el flujo continúa por ahí y responde 200.
+        /// </summary>
+        /// <param name="id">Id de la ejecución</param>
+        /// <param name="controllerWorkflooModelOtpValidateRequest">El código a validar</param>
+        /// <param name="sandbox">Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="IValidateWorkflooOtpApiResponse"/>&gt;</returns>
+        public async Task<IValidateWorkflooOtpApiResponse?> ValidateWorkflooOtpOrDefaultAsync(string id, ControllerWorkflooModelOtpValidateRequest controllerWorkflooModelOtpValidateRequest, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                return await ValidateWorkflooOtpAsync(id, controllerWorkflooModelOtpValidateRequest, sandbox, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Validar el código de verificación (OTP) Envía al proveedor el código que tecleó la persona en el paso de verificación (ver &#x60;verification&#x60; en el estatus). Un código incorrecto con intentos restantes responde 400 con &#x60;{\&quot;error\&quot;, \&quot;remainingRetries\&quot;}&#x60; y la ejecución sigue estacionada; al agotar los intentos responde 403, salvo que el nodo tenga rama de error, en cuyo caso el flujo continúa por ahí y responde 200.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="id">Id de la ejecución</param>
+        /// <param name="controllerWorkflooModelOtpValidateRequest">El código a validar</param>
+        /// <param name="sandbox">Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="IValidateWorkflooOtpApiResponse"/>&gt;</returns>
+        public async Task<IValidateWorkflooOtpApiResponse> ValidateWorkflooOtpAsync(string id, ControllerWorkflooModelOtpValidateRequest controllerWorkflooModelOtpValidateRequest, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default)
+        {
+            UriBuilder uriBuilderLocalVar = new UriBuilder();
+
+            try
+            {
+                ValidateValidateWorkflooOtp(id, controllerWorkflooModelOtpValidateRequest);
+
+                FormatValidateWorkflooOtp(ref id, controllerWorkflooModelOtpValidateRequest, ref sandbox);
+
+                using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
+                {
+                    uriBuilderLocalVar.Host = HttpClient.BaseAddress!.Host;
+                    uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
+                    uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
+                    uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
+                        ? "/api/v1/workfloo/{id}/otp/validate"
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/api/v1/workfloo/{id}/otp/validate");
+                    uriBuilderLocalVar.Path = uriBuilderLocalVar.Path.Replace("%7Bid%7D", Uri.EscapeDataString(id.ToString()));
+
+                    System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
+
+                    if (sandbox.IsSet)
+                        parseQueryStringLocalVar["sandbox"] = ClientUtils.ParameterToString(sandbox.Value);
+
+                    uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
+
+                    httpRequestMessageLocalVar.Content = (controllerWorkflooModelOtpValidateRequest as object) is kiban.sdk.workfloo.Client.FileParameter fileParameterLocalVar
+                        ? httpRequestMessageLocalVar.Content = new StreamContent(fileParameterLocalVar.Content)
+                        : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(controllerWorkflooModelOtpValidateRequest, _jsonSerializerOptions));
+
+                    List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
+                    ApiKeyToken apiKeyTokenLocalVar1 = (ApiKeyToken) await ApiKeyProvider.GetAsync("x-api-key", cancellationToken).ConfigureAwait(false);
+                    tokenBaseLocalVars.Add(apiKeyTokenLocalVar1);
+                    apiKeyTokenLocalVar1.UseInHeader(httpRequestMessageLocalVar);
+
+                    httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
+
+                    string[] contentTypes = new string[] {
+                        "application/json"
+                    };
+
+                    string? contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
+
+                    if (contentTypeLocalVar != null && httpRequestMessageLocalVar.Content != null)
+                        httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
+
+                    httpRequestMessageLocalVar.Method = HttpMethod.Patch;
+
+                    DateTime requestedAtLocalVar = DateTime.UtcNow;
+
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
+                    {
+                        ValidateWorkflooOtpApiResponse apiResponseLocalVar;
+
+                        switch ((int)httpResponseMessageLocalVar.StatusCode) {
+                            default: {
+                                string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                                apiResponseLocalVar = new(Logger, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/api/v1/workfloo/{id}/otp/validate", requestedAtLocalVar, _jsonSerializerOptions);
+
+                                break;
+                            }
+                        }
+
+                        AfterValidateWorkflooOtpDefaultImplementation(apiResponseLocalVar, id, controllerWorkflooModelOtpValidateRequest, sandbox);
+
+                        Events.ExecuteOnValidateWorkflooOtp(apiResponseLocalVar);
+
+                        if (apiResponseLocalVar.StatusCode == (HttpStatusCode) 429)
+                            foreach(TokenBase tokenBaseLocalVar in tokenBaseLocalVars)
+                                tokenBaseLocalVar.BeginRateLimit();
+
+                        return apiResponseLocalVar;
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                OnErrorValidateWorkflooOtpDefaultImplementation(e, "/api/v1/workfloo/{id}/otp/validate", uriBuilderLocalVar.Path, id, controllerWorkflooModelOtpValidateRequest, sandbox);
+                Events.ExecuteOnErrorValidateWorkflooOtp(e);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// The <see cref="ValidateWorkflooOtpApiResponse"/>
+        /// </summary>
+        public partial class ValidateWorkflooOtpApiResponse : kiban.sdk.workfloo.Client.ApiResponse, IValidateWorkflooOtpApiResponse
+        {
+            /// <summary>
+            /// The logger
+            /// </summary>
+            public ILogger<WorkflooApi> Logger { get; }
+
+            /// <summary>
+            /// The <see cref="ValidateWorkflooOtpApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="rawContent"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public ValidateWorkflooOtpApiResponse(ILogger<WorkflooApi> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            /// <summary>
+            /// The <see cref="ValidateWorkflooOtpApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="contentStream"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public ValidateWorkflooOtpApiResponse(ILogger<WorkflooApi> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, System.IO.Stream contentStream, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, contentStream, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOk => 200 == (int)StatusCode;
 
             /// <summary>
             /// Returns true if the response is 400 BadRequest

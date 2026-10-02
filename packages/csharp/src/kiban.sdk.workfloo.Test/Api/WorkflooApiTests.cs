@@ -64,6 +64,41 @@ namespace kiban.sdk.workfloo.Test.Api
         }
 
         /// <summary>
+        /// Test ExecuteWorkflooDocument
+        /// </summary>
+        [Fact (Skip = "not implemented")]
+        public async Task ExecuteWorkflooDocumentAsyncTest()
+        {
+            string id = default!;
+            Object body = default!;
+            Client.Option<bool> sandbox = default!;
+            await _instance.ExecuteWorkflooDocumentAsync(id, body, sandbox);
+        }
+
+        /// <summary>
+        /// Test ExecuteWorkflooForm
+        /// </summary>
+        [Fact (Skip = "not implemented")]
+        public async Task ExecuteWorkflooFormAsyncTest()
+        {
+            string id = default!;
+            Object body = default!;
+            Client.Option<bool> sandbox = default!;
+            await _instance.ExecuteWorkflooFormAsync(id, body, sandbox);
+        }
+
+        /// <summary>
+        /// Test FallbackWorkflooOtp
+        /// </summary>
+        [Fact (Skip = "not implemented")]
+        public async Task FallbackWorkflooOtpAsyncTest()
+        {
+            string id = default!;
+            Client.Option<bool> sandbox = default!;
+            await _instance.FallbackWorkflooOtpAsync(id, sandbox);
+        }
+
+        /// <summary>
         /// Test GetWorkfloo
         /// </summary>
         [Fact (Skip = "not implemented")]
@@ -74,6 +109,21 @@ namespace kiban.sdk.workfloo.Test.Api
             var response = await _instance.GetWorkflooAsync(id, sandbox);
             var model = response.Ok();
             Assert.IsType<ControllerWorkflooModelWorkflooResume>(model);
+        }
+
+        /// <summary>
+        /// Test GetWorkflooFile
+        /// </summary>
+        [Fact (Skip = "not implemented")]
+        public async Task GetWorkflooFileAsyncTest()
+        {
+            string id = default!;
+            string nodeId = default!;
+            string name = default!;
+            Client.Option<bool> sandbox = default!;
+            var response = await _instance.GetWorkflooFileAsync(id, nodeId, name, sandbox);
+            var model = response.Ok();
+            Assert.IsType<ControllerWorkflooModelFileResponse>(model);
         }
 
         /// <summary>
@@ -122,6 +172,82 @@ namespace kiban.sdk.workfloo.Test.Api
             var response = await _instance.ListWorkfloosV2Async(page, itemsPerPage, status, from, to, format, sandbox);
             var model = response.Ok();
             Assert.IsType<List<ControllerWorkflooModelWorkfloo>>(model);
+        }
+
+        /// <summary>
+        /// Test ResendWorkflooNip
+        /// </summary>
+        [Fact (Skip = "not implemented")]
+        public async Task ResendWorkflooNipAsyncTest()
+        {
+            string id = default!;
+            Client.Option<bool> sandbox = default!;
+            Client.Option<ControllerWorkflooModelNipResendRequest> controllerWorkflooModelNipResendRequest = default!;
+            var response = await _instance.ResendWorkflooNipAsync(id, sandbox, controllerWorkflooModelNipResendRequest);
+            var model = response.Ok();
+            Assert.IsType<ControllerWorkflooModelNipResendStatus>(model);
+        }
+
+        /// <summary>
+        /// Test ReviewWorkflooValidation
+        /// </summary>
+        [Fact (Skip = "not implemented")]
+        public async Task ReviewWorkflooValidationAsyncTest()
+        {
+            string id = default!;
+            ControllerWorkflooModelReviewRequest controllerWorkflooModelReviewRequest = default!;
+            Client.Option<bool> sandbox = default!;
+            await _instance.ReviewWorkflooValidationAsync(id, controllerWorkflooModelReviewRequest, sandbox);
+        }
+
+        /// <summary>
+        /// Test SendWorkflooNip
+        /// </summary>
+        [Fact (Skip = "not implemented")]
+        public async Task SendWorkflooNipAsyncTest()
+        {
+            string id = default!;
+            Client.Option<bool> sandbox = default!;
+            Client.Option<ControllerWorkflooModelNipSendRequest> controllerWorkflooModelNipSendRequest = default!;
+            await _instance.SendWorkflooNipAsync(id, sandbox, controllerWorkflooModelNipSendRequest);
+        }
+
+        /// <summary>
+        /// Test SubmitWorkflooCorrection
+        /// </summary>
+        [Fact (Skip = "not implemented")]
+        public async Task SubmitWorkflooCorrectionAsyncTest()
+        {
+            string id = default!;
+            Object body = default!;
+            Client.Option<bool> sandbox = default!;
+            await _instance.SubmitWorkflooCorrectionAsync(id, body, sandbox);
+        }
+
+        /// <summary>
+        /// Test ValidateWorkflooNip
+        /// </summary>
+        [Fact (Skip = "not implemented")]
+        public async Task ValidateWorkflooNipAsyncTest()
+        {
+            string id = default!;
+            ControllerWorkflooModelNipValidateRequest controllerWorkflooModelNipValidateRequest = default!;
+            Client.Option<bool> sandbox = default!;
+            var response = await _instance.ValidateWorkflooNipAsync(id, controllerWorkflooModelNipValidateRequest, sandbox);
+            var model = response.Ok();
+            Assert.IsType<ControllerWorkflooModelNipValidateResponse>(model);
+        }
+
+        /// <summary>
+        /// Test ValidateWorkflooOtp
+        /// </summary>
+        [Fact (Skip = "not implemented")]
+        public async Task ValidateWorkflooOtpAsyncTest()
+        {
+            string id = default!;
+            ControllerWorkflooModelOtpValidateRequest controllerWorkflooModelOtpValidateRequest = default!;
+            Client.Option<bool> sandbox = default!;
+            await _instance.ValidateWorkflooOtpAsync(id, controllerWorkflooModelOtpValidateRequest, sandbox);
         }
     }
 }

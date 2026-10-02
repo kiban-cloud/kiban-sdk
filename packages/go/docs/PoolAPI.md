@@ -25,7 +25,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/kiban-cloud/kiban-sdk/workfloo"
+	openapiclient "github.com/kiban-cloud/kiban-sdk/packages/go"
 )
 
 func main() {

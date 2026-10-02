@@ -51,8 +51,18 @@ import kiban.sdk.workfloo.JSON;
 /**
  * ControllerWorkflooModelWorkflooResume
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-08-10T16:42:49.836741-06:00[America/Mexico_City]", comments = "Generator version: 7.24.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-10-02T10:13:43.960045-06:00[America/Mexico_City]", comments = "Generator version: 7.24.0")
 public class ControllerWorkflooModelWorkflooResume {
+  public static final String SERIALIZED_NAME_CANCELLED_AT = "cancelledAt";
+  @SerializedName(SERIALIZED_NAME_CANCELLED_AT)
+  @javax.annotation.Nullable
+  private String cancelledAt;
+
+  public static final String SERIALIZED_NAME_CANCELLED_BY = "cancelledBy";
+  @SerializedName(SERIALIZED_NAME_CANCELLED_BY)
+  @javax.annotation.Nullable
+  private String cancelledBy;
+
   public static final String SERIALIZED_NAME_CREATED = "created";
   @SerializedName(SERIALIZED_NAME_CREATED)
   @javax.annotation.Nullable
@@ -115,6 +125,44 @@ public class ControllerWorkflooModelWorkflooResume {
 
   public ControllerWorkflooModelWorkflooResume() {
   }
+
+  public ControllerWorkflooModelWorkflooResume cancelledAt(@javax.annotation.Nullable String cancelledAt) {
+    this.cancelledAt = cancelledAt;
+    return this;
+  }
+
+  /**
+   * Get cancelledAt
+   * @return cancelledAt
+   */
+  @javax.annotation.Nullable
+  public String getCancelledAt() {
+    return cancelledAt;
+  }
+
+  public void setCancelledAt(@javax.annotation.Nullable String cancelledAt) {
+    this.cancelledAt = cancelledAt;
+  }
+
+
+  public ControllerWorkflooModelWorkflooResume cancelledBy(@javax.annotation.Nullable String cancelledBy) {
+    this.cancelledBy = cancelledBy;
+    return this;
+  }
+
+  /**
+   * CancelledBy / CancelledAt sólo viajan si un usuario canceló la ejecución a mano desde la consola. Una ABANDONED por expiración del sistema no los trae, y son lo único que distingue un caso del otro (el status es el mismo). CancelledAt es *time.Time porque el omitempty de encoding/json NO omite un struct en cero: un time.Time plano emitiría siempre \&quot;0001-01-01T00:00:00Z\&quot; (mismo patrón que NodeDetail.DateFound).
+   * @return cancelledBy
+   */
+  @javax.annotation.Nullable
+  public String getCancelledBy() {
+    return cancelledBy;
+  }
+
+  public void setCancelledBy(@javax.annotation.Nullable String cancelledBy) {
+    this.cancelledBy = cancelledBy;
+  }
+
 
   public ControllerWorkflooModelWorkflooResume created(@javax.annotation.Nullable String created) {
     this.created = created;
@@ -370,7 +418,9 @@ public class ControllerWorkflooModelWorkflooResume {
       return false;
     }
     ControllerWorkflooModelWorkflooResume controllerWorkflooModelWorkflooResume = (ControllerWorkflooModelWorkflooResume) o;
-    return Objects.equals(this.created, controllerWorkflooModelWorkflooResume.created) &&
+    return Objects.equals(this.cancelledAt, controllerWorkflooModelWorkflooResume.cancelledAt) &&
+        Objects.equals(this.cancelledBy, controllerWorkflooModelWorkflooResume.cancelledBy) &&
+        Objects.equals(this.created, controllerWorkflooModelWorkflooResume.created) &&
         Objects.equals(this.id, controllerWorkflooModelWorkflooResume.id) &&
         Objects.equals(this.idUnykoo, controllerWorkflooModelWorkflooResume.idUnykoo) &&
         Objects.equals(this.ipOrigin, controllerWorkflooModelWorkflooResume.ipOrigin) &&
@@ -386,13 +436,15 @@ public class ControllerWorkflooModelWorkflooResume {
 
   @Override
   public int hashCode() {
-    return Objects.hash(created, id, idUnykoo, ipOrigin, labels, modified, name, nodes, origin, sceneryId, sceneryName, status);
+    return Objects.hash(cancelledAt, cancelledBy, created, id, idUnykoo, ipOrigin, labels, modified, name, nodes, origin, sceneryId, sceneryName, status);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ControllerWorkflooModelWorkflooResume {\n");
+    sb.append("    cancelledAt: ").append(toIndentedString(cancelledAt)).append("\n");
+    sb.append("    cancelledBy: ").append(toIndentedString(cancelledBy)).append("\n");
     sb.append("    created: ").append(toIndentedString(created)).append("\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    idUnykoo: ").append(toIndentedString(idUnykoo)).append("\n");
@@ -423,7 +475,7 @@ public class ControllerWorkflooModelWorkflooResume {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("created", "id", "idUnykoo", "ipOrigin", "labels", "modified", "name", "nodes", "origin", "sceneryId", "sceneryName", "status"));
+    openapiFields = new HashSet<String>(Arrays.asList("cancelledAt", "cancelledBy", "created", "id", "idUnykoo", "ipOrigin", "labels", "modified", "name", "nodes", "origin", "sceneryId", "sceneryName", "status"));
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>(0);
@@ -450,6 +502,12 @@ public class ControllerWorkflooModelWorkflooResume {
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
+      if ((jsonObj.get("cancelledAt") != null && !jsonObj.get("cancelledAt").isJsonNull()) && !jsonObj.get("cancelledAt").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `cancelledAt` to be a primitive type in the JSON string but got `%s`", jsonObj.get("cancelledAt").toString()));
+      }
+      if ((jsonObj.get("cancelledBy") != null && !jsonObj.get("cancelledBy").isJsonNull()) && !jsonObj.get("cancelledBy").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `cancelledBy` to be a primitive type in the JSON string but got `%s`", jsonObj.get("cancelledBy").toString()));
+      }
       if ((jsonObj.get("created") != null && !jsonObj.get("created").isJsonNull()) && !jsonObj.get("created").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `created` to be a primitive type in the JSON string but got `%s`", jsonObj.get("created").toString()));
       }

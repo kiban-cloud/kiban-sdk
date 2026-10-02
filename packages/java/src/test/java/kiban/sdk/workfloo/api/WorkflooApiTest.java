@@ -16,6 +16,14 @@ package kiban.sdk.workfloo.api;
 import kiban.sdk.workfloo.ApiException;
 import kiban.sdk.workfloo.model.ControllerWorkflooModelExecute;
 import kiban.sdk.workfloo.model.ControllerWorkflooModelExecuteResponse;
+import kiban.sdk.workfloo.model.ControllerWorkflooModelFileResponse;
+import kiban.sdk.workfloo.model.ControllerWorkflooModelNipResendRequest;
+import kiban.sdk.workfloo.model.ControllerWorkflooModelNipResendStatus;
+import kiban.sdk.workfloo.model.ControllerWorkflooModelNipSendRequest;
+import kiban.sdk.workfloo.model.ControllerWorkflooModelNipValidateRequest;
+import kiban.sdk.workfloo.model.ControllerWorkflooModelNipValidateResponse;
+import kiban.sdk.workfloo.model.ControllerWorkflooModelOtpValidateRequest;
+import kiban.sdk.workfloo.model.ControllerWorkflooModelReviewRequest;
 import kiban.sdk.workfloo.model.ControllerWorkflooModelWorkfloo;
 import kiban.sdk.workfloo.model.ControllerWorkflooModelWorkflooPage;
 import kiban.sdk.workfloo.model.ControllerWorkflooModelWorkflooResume;
@@ -52,6 +60,53 @@ public class WorkflooApiTest {
     }
 
     /**
+     * Enviar los documentos de un paso
+     *
+     * Envía los documentos del nodo DOCUMENT actual. El body es un objeto {documentoId: base64} (los de tipo \&quot;set\&quot; van como arreglo de objetos).
+     *
+     * @throws ApiException if the Api call fails
+     */
+    @Test
+    public void executeWorkflooDocumentTest() throws ApiException {
+        String id = null;
+        Object body = null;
+        Boolean sandbox = null;
+        api.executeWorkflooDocument(id, body, sandbox);
+        // TODO: test validations
+    }
+
+    /**
+     * Enviar el formulario de un paso
+     *
+     * Envía las respuestas del nodo FORM actual de la ejecución. El body es un objeto {campoId: valor} con los campos del formulario.
+     *
+     * @throws ApiException if the Api call fails
+     */
+    @Test
+    public void executeWorkflooFormTest() throws ApiException {
+        String id = null;
+        Object body = null;
+        Boolean sandbox = null;
+        api.executeWorkflooForm(id, body, sandbox);
+        // TODO: test validations
+    }
+
+    /**
+     * Reenviar el código de verificación (OTP)
+     *
+     * Pide al proveedor una validación nueva (y un código nuevo) para el paso de verificación. Cada reenvío es una consulta facturada y el número de reenvíos lo limita el nodo; al agotarlos responde 400/403 con &#x60;{\&quot;error\&quot;}&#x60;.
+     *
+     * @throws ApiException if the Api call fails
+     */
+    @Test
+    public void fallbackWorkflooOtpTest() throws ApiException {
+        String id = null;
+        Boolean sandbox = null;
+        api.fallbackWorkflooOtp(id, sandbox);
+        // TODO: test validations
+    }
+
+    /**
      * Detalle de una ejecución
      *
      * Devuelve el historial completo de una ejecución: todos sus nodos con request/response, variables, documentos y decisiones.
@@ -63,6 +118,23 @@ public class WorkflooApiTest {
         String id = null;
         Boolean sandbox = null;
         ControllerWorkflooModelWorkflooResume response = api.getWorkfloo(id, sandbox);
+        // TODO: test validations
+    }
+
+    /**
+     * Descargar un archivo de un nodo
+     *
+     * Devuelve, en base64, un archivo producido/subido en un nodo de la ejecución, identificado por nodeId + name.
+     *
+     * @throws ApiException if the Api call fails
+     */
+    @Test
+    public void getWorkflooFileTest() throws ApiException {
+        String id = null;
+        String nodeId = null;
+        String name = null;
+        Boolean sandbox = null;
+        ControllerWorkflooModelFileResponse response = api.getWorkflooFile(id, nodeId, name, sandbox);
         // TODO: test validations
     }
 
@@ -117,6 +189,102 @@ public class WorkflooApiTest {
         String format = null;
         Boolean sandbox = null;
         List<ControllerWorkflooModelWorkfloo> response = api.listWorkfloosV2(page, itemsPerPage, status, from, to, format, sandbox);
+        // TODO: test validations
+    }
+
+    /**
+     * Reenviar el NIP
+     *
+     * Reenvía el NIP y devuelve el estado del flujo NIP. El body es opcional (teléfono al que reenviar).
+     *
+     * @throws ApiException if the Api call fails
+     */
+    @Test
+    public void resendWorkflooNipTest() throws ApiException {
+        String id = null;
+        Boolean sandbox = null;
+        ControllerWorkflooModelNipResendRequest controllerWorkflooModelNipResendRequest = null;
+        ControllerWorkflooModelNipResendStatus response = api.resendWorkflooNip(id, sandbox, controllerWorkflooModelNipResendRequest);
+        // TODO: test validations
+    }
+
+    /**
+     * Revisar un paso de validación
+     *
+     * Aplica la decisión del revisor sobre un nodo VALIDATION en estado REVIEW: aprobar o rechazar. En un rechazo, reviews indica los campos a corregir con su mensaje.
+     *
+     * @throws ApiException if the Api call fails
+     */
+    @Test
+    public void reviewWorkflooValidationTest() throws ApiException {
+        String id = null;
+        ControllerWorkflooModelReviewRequest controllerWorkflooModelReviewRequest = null;
+        Boolean sandbox = null;
+        api.reviewWorkflooValidation(id, controllerWorkflooModelReviewRequest, sandbox);
+        // TODO: test validations
+    }
+
+    /**
+     * Enviar el NIP
+     *
+     * Envía el NIP (código de un solo uso) del nodo NIP actual. El body es opcional; si se incluye teléfono, countryCode y phoneNumber van juntos.
+     *
+     * @throws ApiException if the Api call fails
+     */
+    @Test
+    public void sendWorkflooNipTest() throws ApiException {
+        String id = null;
+        Boolean sandbox = null;
+        ControllerWorkflooModelNipSendRequest controllerWorkflooModelNipSendRequest = null;
+        api.sendWorkflooNip(id, sandbox, controllerWorkflooModelNipSendRequest);
+        // TODO: test validations
+    }
+
+    /**
+     * Enviar la corrección de un paso de validación
+     *
+     * Reenvía los campos corregidos por el prospecto cuando un nodo VALIDATION está en estado CORRECTION. El body es un objeto {campoId: valor}, igual que el formulario.
+     *
+     * @throws ApiException if the Api call fails
+     */
+    @Test
+    public void submitWorkflooCorrectionTest() throws ApiException {
+        String id = null;
+        Object body = null;
+        Boolean sandbox = null;
+        api.submitWorkflooCorrection(id, body, sandbox);
+        // TODO: test validations
+    }
+
+    /**
+     * Validar el NIP
+     *
+     * Valida el NIP capturado por el usuario y devuelve la fase resultante del flujo NIP.
+     *
+     * @throws ApiException if the Api call fails
+     */
+    @Test
+    public void validateWorkflooNipTest() throws ApiException {
+        String id = null;
+        ControllerWorkflooModelNipValidateRequest controllerWorkflooModelNipValidateRequest = null;
+        Boolean sandbox = null;
+        ControllerWorkflooModelNipValidateResponse response = api.validateWorkflooNip(id, controllerWorkflooModelNipValidateRequest, sandbox);
+        // TODO: test validations
+    }
+
+    /**
+     * Validar el código de verificación (OTP)
+     *
+     * Envía al proveedor el código que tecleó la persona en el paso de verificación (ver &#x60;verification&#x60; en el estatus). Un código incorrecto con intentos restantes responde 400 con &#x60;{\&quot;error\&quot;, \&quot;remainingRetries\&quot;}&#x60; y la ejecución sigue estacionada; al agotar los intentos responde 403, salvo que el nodo tenga rama de error, en cuyo caso el flujo continúa por ahí y responde 200.
+     *
+     * @throws ApiException if the Api call fails
+     */
+    @Test
+    public void validateWorkflooOtpTest() throws ApiException {
+        String id = null;
+        ControllerWorkflooModelOtpValidateRequest controllerWorkflooModelOtpValidateRequest = null;
+        Boolean sandbox = null;
+        api.validateWorkflooOtp(id, controllerWorkflooModelOtpValidateRequest, sandbox);
         // TODO: test validations
     }
 

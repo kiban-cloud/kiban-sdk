@@ -11,6 +11,7 @@ Name | Type | Description | Notes
 **predefined** | **bool** |  | [optional] 
 **required** | **bool** |  | [optional] 
 **set** | [**ControllerWorkflooDefinitionModelSetDataDocument**](ControllerWorkflooDefinitionModelSetDataDocument.md) |  | [optional] 
+**source_pdf_node_id** | **str** | SourcePdfNodeId: id del nodo PDF que genera este archivo. Cuando viene, el motor lo toma de ahí y no lo pide en el paso. | [optional] 
 
 ## Example
 

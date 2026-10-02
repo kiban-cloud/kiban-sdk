@@ -1,5 +1,6 @@
 .gitignore
 .npmignore
+.openapi-generator-ignore
 README.md
 api.ts
 base.ts
@@ -41,12 +42,14 @@ docs/ControllerWorkflooModelLinkNipStatus.md
 docs/ControllerWorkflooModelLinkResume.md
 docs/ControllerWorkflooModelNipResendRequest.md
 docs/ControllerWorkflooModelNipResendStatus.md
+docs/ControllerWorkflooModelNipSendErrorStatus.md
 docs/ControllerWorkflooModelNipSendRequest.md
 docs/ControllerWorkflooModelNipValidateRequest.md
 docs/ControllerWorkflooModelNipValidateResponse.md
 docs/ControllerWorkflooModelNode.md
 docs/ControllerWorkflooModelNodeDetail.md
 docs/ControllerWorkflooModelNodeResume.md
+docs/ControllerWorkflooModelOtpValidateRequest.md
 docs/ControllerWorkflooModelPdf.md
 docs/ControllerWorkflooModelRemainingTime.md
 docs/ControllerWorkflooModelReviewFieldRequest.md
@@ -60,6 +63,7 @@ docs/ControllerWorkflooModelValidationResume.md
 docs/ControllerWorkflooModelValidationStatus.md
 docs/ControllerWorkflooModelVariable.md
 docs/ControllerWorkflooModelVariables.md
+docs/ControllerWorkflooModelVerificationStatus.md
 docs/ControllerWorkflooModelWorkfloo.md
 docs/ControllerWorkflooModelWorkflooPage.md
 docs/ControllerWorkflooModelWorkflooResume.md

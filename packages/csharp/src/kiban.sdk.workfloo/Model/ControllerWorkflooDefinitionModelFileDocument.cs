@@ -39,8 +39,9 @@ namespace kiban.sdk.workfloo.Model
         /// <param name="predefined">predefined</param>
         /// <param name="required">required</param>
         /// <param name="set">set</param>
+        /// <param name="sourcePdfNodeId">SourcePdfNodeId: id del nodo PDF que genera este archivo. Cuando viene, el motor lo toma de ahí y no lo pide en el paso.</param>
         [JsonConstructor]
-        public ControllerWorkflooDefinitionModelFileDocument(Option<ControllerWorkflooDefinitionModelFileMetadata?> fileMetadata = default, Option<string?> id = default, Option<string?> name = default, Option<bool?> predefined = default, Option<bool?> required = default, Option<ControllerWorkflooDefinitionModelSetDataDocument?> set = default)
+        public ControllerWorkflooDefinitionModelFileDocument(Option<ControllerWorkflooDefinitionModelFileMetadata?> fileMetadata = default, Option<string?> id = default, Option<string?> name = default, Option<bool?> predefined = default, Option<bool?> required = default, Option<ControllerWorkflooDefinitionModelSetDataDocument?> set = default, Option<string?> sourcePdfNodeId = default)
         {
             FileMetadataOption = fileMetadata;
             IdOption = id;
@@ -48,6 +49,7 @@ namespace kiban.sdk.workfloo.Model
             PredefinedOption = predefined;
             RequiredOption = required;
             SetOption = set;
+            SourcePdfNodeIdOption = sourcePdfNodeId;
             OnCreated();
         }
 
@@ -132,6 +134,20 @@ namespace kiban.sdk.workfloo.Model
         public ControllerWorkflooDefinitionModelSetDataDocument? Set { get { return this.SetOption.Value; } set { this.SetOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of SourcePdfNodeId
+        /// </summary>
+        [JsonIgnore]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<string?> SourcePdfNodeIdOption { get; private set; }
+
+        /// <summary>
+        /// SourcePdfNodeId: id del nodo PDF que genera este archivo. Cuando viene, el motor lo toma de ahí y no lo pide en el paso.
+        /// </summary>
+        /// <value>SourcePdfNodeId: id del nodo PDF que genera este archivo. Cuando viene, el motor lo toma de ahí y no lo pide en el paso.</value>
+        [JsonPropertyName("sourcePdfNodeId")]
+        public string? SourcePdfNodeId { get { return this.SourcePdfNodeIdOption.Value; } set { this.SourcePdfNodeIdOption = new(value); } }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -145,6 +161,7 @@ namespace kiban.sdk.workfloo.Model
             sb.Append("  Predefined: ").Append(Predefined).Append("\n");
             sb.Append("  Required: ").Append(Required).Append("\n");
             sb.Append("  Set: ").Append(Set).Append("\n");
+            sb.Append("  SourcePdfNodeId: ").Append(SourcePdfNodeId).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -198,6 +215,7 @@ namespace kiban.sdk.workfloo.Model
             Option<bool?> predefined = default;
             Option<bool?> required = default;
             Option<ControllerWorkflooDefinitionModelSetDataDocument?> set = default;
+            Option<string?> sourcePdfNodeId = default;
 
             while (utf8JsonReader.Read())
             {
@@ -232,6 +250,9 @@ namespace kiban.sdk.workfloo.Model
                         case "set":
                             set = new Option<ControllerWorkflooDefinitionModelSetDataDocument?>(JsonSerializer.Deserialize<ControllerWorkflooDefinitionModelSetDataDocument>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
+                        case "sourcePdfNodeId":
+                            sourcePdfNodeId = new Option<string?>(utf8JsonReader.GetString()!);
+                            break;
                         default:
                             break;
                     }
@@ -256,7 +277,10 @@ namespace kiban.sdk.workfloo.Model
             if (set.IsSet && set.Value == null)
                 throw new ArgumentNullException(nameof(set), "Property is not nullable for class ControllerWorkflooDefinitionModelFileDocument.");
 
-            return new ControllerWorkflooDefinitionModelFileDocument(fileMetadata, id, name, predefined, required, set);
+            if (sourcePdfNodeId.IsSet && sourcePdfNodeId.Value == null)
+                throw new ArgumentNullException(nameof(sourcePdfNodeId), "Property is not nullable for class ControllerWorkflooDefinitionModelFileDocument.");
+
+            return new ControllerWorkflooDefinitionModelFileDocument(fileMetadata, id, name, predefined, required, set, sourcePdfNodeId);
         }
 
         /// <summary>
@@ -295,6 +319,9 @@ namespace kiban.sdk.workfloo.Model
             if (controllerWorkflooDefinitionModelFileDocument.SetOption.IsSet && controllerWorkflooDefinitionModelFileDocument.Set == null)
                 throw new ArgumentNullException(nameof(controllerWorkflooDefinitionModelFileDocument.Set), "Property is required for class ControllerWorkflooDefinitionModelFileDocument.");
 
+            if (controllerWorkflooDefinitionModelFileDocument.SourcePdfNodeIdOption.IsSet && controllerWorkflooDefinitionModelFileDocument.SourcePdfNodeId == null)
+                throw new ArgumentNullException(nameof(controllerWorkflooDefinitionModelFileDocument.SourcePdfNodeId), "Property is required for class ControllerWorkflooDefinitionModelFileDocument.");
+
             if (controllerWorkflooDefinitionModelFileDocument.FileMetadataOption.IsSet)
             {
                 writer.WritePropertyName("fileMetadata");
@@ -317,6 +344,8 @@ namespace kiban.sdk.workfloo.Model
                 writer.WritePropertyName("set");
                 JsonSerializer.Serialize(writer, controllerWorkflooDefinitionModelFileDocument.Set, jsonSerializerOptions);
             }
+            if (controllerWorkflooDefinitionModelFileDocument.SourcePdfNodeIdOption.IsSet)
+                writer.WriteString("sourcePdfNodeId", controllerWorkflooDefinitionModelFileDocument.SourcePdfNodeId);
         }
     }
 }

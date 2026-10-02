@@ -24,6 +24,7 @@ from kiban.sdk.workfloo.models.controller_workfloo_definition_model_form import 
 from kiban.sdk.workfloo.models.controller_workfloo_model_link_nip_status import ControllerWorkflooModelLinkNipStatus
 from kiban.sdk.workfloo.models.controller_workfloo_model_timer import ControllerWorkflooModelTimer
 from kiban.sdk.workfloo.models.controller_workfloo_model_validation_status import ControllerWorkflooModelValidationStatus
+from kiban.sdk.workfloo.models.controller_workfloo_model_verification_status import ControllerWorkflooModelVerificationStatus
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
@@ -32,6 +33,8 @@ class ControllerWorkflooModelWorkflooStatus(BaseModel):
     """
     ControllerWorkflooModelWorkflooStatus
     """ # noqa: E501
+    cancelled_at: Optional[StrictStr] = Field(default=None, alias="cancelledAt")
+    cancelled_by: Optional[StrictStr] = Field(default=None, description="Rastro de la cancelación manual, ausente en cualquier otro desenlace. Mismas dos reglas que en WorkflooResume: sólo la cancelación desde la consola los llena, y la fecha es un puntero para que omitempty funcione.", alias="cancelledBy")
     current_node_id: Optional[StrictStr] = Field(default=None, alias="currentNodeId")
     current_node_name: Optional[StrictStr] = Field(default=None, alias="currentNodeName")
     current_node_type: Optional[StrictStr] = Field(default=None, alias="currentNodeType")
@@ -43,7 +46,8 @@ class ControllerWorkflooModelWorkflooStatus(BaseModel):
     status: Optional[StrictStr] = None
     timer: Optional[ControllerWorkflooModelTimer] = None
     validation: Optional[ControllerWorkflooModelValidationStatus] = None
-    __properties: ClassVar[List[str]] = ["currentNodeId", "currentNodeName", "currentNodeType", "document", "form", "id", "link", "name", "status", "timer", "validation"]
+    verification: Optional[ControllerWorkflooModelVerificationStatus] = Field(default=None, description="Verification aparece SÓLO cuando la ejecución está esperando que alguien teclee un código. Su ausencia es lo que le dice al integrador que no hay nada pendiente de ese lado.")
+    __properties: ClassVar[List[str]] = ["cancelledAt", "cancelledBy", "currentNodeId", "currentNodeName", "currentNodeType", "document", "form", "id", "link", "name", "status", "timer", "validation", "verification"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -99,6 +103,9 @@ class ControllerWorkflooModelWorkflooStatus(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of validation
         if self.validation:
             _dict['validation'] = self.validation.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of verification
+        if self.verification:
+            _dict['verification'] = self.verification.to_dict()
         return _dict
 
     @classmethod
@@ -111,6 +118,8 @@ class ControllerWorkflooModelWorkflooStatus(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "cancelledAt": obj.get("cancelledAt"),
+            "cancelledBy": obj.get("cancelledBy"),
             "currentNodeId": obj.get("currentNodeId"),
             "currentNodeName": obj.get("currentNodeName"),
             "currentNodeType": obj.get("currentNodeType"),
@@ -121,7 +130,8 @@ class ControllerWorkflooModelWorkflooStatus(BaseModel):
             "name": obj.get("name"),
             "status": obj.get("status"),
             "timer": ControllerWorkflooModelTimer.from_dict(obj["timer"]) if obj.get("timer") is not None else None,
-            "validation": ControllerWorkflooModelValidationStatus.from_dict(obj["validation"]) if obj.get("validation") is not None else None
+            "validation": ControllerWorkflooModelValidationStatus.from_dict(obj["validation"]) if obj.get("validation") is not None else None,
+            "verification": ControllerWorkflooModelVerificationStatus.from_dict(obj["verification"]) if obj.get("verification") is not None else None
         })
         return _obj
 

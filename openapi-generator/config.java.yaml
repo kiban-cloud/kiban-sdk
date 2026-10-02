@@ -2,7 +2,7 @@
 # El cliente recibe la API key (x-api-key) por configuración, nunca hardcodeada.
 groupId: kiban.sdk
 artifactId: workfloo
-artifactVersion: 0.1.0
+artifactVersion: 0.2.0
 invokerPackage: kiban.sdk.workfloo
 apiPackage: kiban.sdk.workfloo.api
 modelPackage: kiban.sdk.workfloo.model

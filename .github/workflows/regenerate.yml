@@ -1,0 +1,122 @@
+# Regenera el spec, los 5 SDKs y las docs, y abre (o actualiza) el PR.
+#
+# Corre cuando llega un push a la rama regenerate/workfloo. Ese push lo hace
+# workfloo-backend (.github/workflows/sdk-sync.yml): al cambiar su
+# docs/swagger.yaml en master, copia el archivo a specs/source/ de esta rama.
+# También corre si una persona empuja a la rama, por ejemplo para subir la
+# versión en openapi-generator/config.*.yaml: el commit regenerado sale ya con
+# la versión nueva.
+#
+# Este repo es PÚBLICO y no tiene credenciales hacia nada privado: no lee código
+# del backend, sólo el swagger que el backend decidió publicar. Todo lo hace con
+# su propio GITHUB_TOKEN. Los commits que hace ese token no vuelven a disparar
+# este workflow, así que no hay ciclo.
+#
+# Nadie edita packages/** a mano: si el PR trae algo raro, se corrige la
+# anotación swaggo en el backend, no el SDK generado. El PR NO sube la versión
+# solo: el bump de semver se decide al revisarlo (ver README → Publicar). Un bump
+# empujado a esta rama sobrevive a los syncs siguientes: el backend construye
+# encima de la rama existente, sin force-push.
+#
+# Requisito: Settings → Actions → General → "Allow GitHub Actions to create and
+# approve pull requests".
+name: regenerate
+
+on:
+  push:
+    branches: [regenerate/workfloo]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: regenerate-workfloo
+  cancel-in-progress: true
+
+env:
+  BRANCH: regenerate/workfloo
+
+jobs:
+  regenerate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.BRANCH }}
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: stable
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - run: npm ci
+
+      - name: Regenerar spec
+        run: bash scripts/gen-spec.sh
+
+      - name: Regenerar SDKs
+        run: bash scripts/gen-sdks.sh
+
+      - name: Regenerar docs
+        run: npm run docs
+
+      # Chequeo barato de que lo generado compila antes de abrir el PR. Java y
+      # C# se validan al revisar (ver README → Verificar).
+      - name: Compilar Node y Go
+        run: |
+          ( cd packages/node && npm install --no-audit --no-fund && npx tsc --noEmit -p . )
+          ( cd packages/go && go build ./... )
+
+      - name: Commit de lo regenerado
+        run: |
+          git add specs packages docs
+          if git diff --cached --quiet; then
+            echo "Nada que regenerar: el spec no cambió."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "chore(workfloo): regenerar spec, SDKs y docs"
+          git push origin "HEAD:${BRANCH}"
+
+      - name: Abrir el PR si no existe
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BASE: ${{ github.event.repository.default_branch }}
+        run: |
+          if [ "$(gh pr list --head "$BRANCH" --state open --json number --jq length)" != "0" ]; then
+            echo "El PR ya existe; quedó actualizado con este push."
+            exit 0
+          fi
+          git fetch --quiet origin "$BASE"
+          if git diff --quiet "origin/${BASE}" HEAD -- specs packages docs; then
+            echo "Sin diferencias contra ${BASE}: no hace falta PR."
+            exit 0
+          fi
+          gh pr create --base "$BASE" --head "$BRANCH" \
+            --title "chore(workfloo): regenerar spec y SDKs" \
+            --body "$(cat <<'BODY'
+          Regeneración automática a partir del `docs/swagger.yaml` de `kiban-cloud/workfloo-backend@master`
+          (copiado a `specs/source/workfloo.swagger.yaml`).
+
+          - [ ] Revisar el diff de `specs/workfloo.openapi.yaml` (es el contrato).
+          - [ ] Subir la versión en `openapi-generator/config.*.yaml` según semver
+                (campo/endpoint nuevo → minor; algo quitado o renombrado → major)
+                y empujar a esta rama: el workflow regenera con la versión nueva.
+          - [ ] Compilar Java y C# (README → Verificar).
+
+          `packages/**` es 100% generado: no se edita a mano.
+          BODY
+          )"

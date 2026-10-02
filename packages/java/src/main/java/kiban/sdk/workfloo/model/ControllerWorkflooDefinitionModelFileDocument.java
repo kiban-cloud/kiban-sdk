@@ -50,7 +50,7 @@ import kiban.sdk.workfloo.JSON;
 /**
  * ControllerWorkflooDefinitionModelFileDocument
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-08-10T16:42:49.836741-06:00[America/Mexico_City]", comments = "Generator version: 7.24.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-10-02T10:13:43.960045-06:00[America/Mexico_City]", comments = "Generator version: 7.24.0")
 public class ControllerWorkflooDefinitionModelFileDocument {
   public static final String SERIALIZED_NAME_FILE_METADATA = "fileMetadata";
   @SerializedName(SERIALIZED_NAME_FILE_METADATA)
@@ -81,6 +81,11 @@ public class ControllerWorkflooDefinitionModelFileDocument {
   @SerializedName(SERIALIZED_NAME_SET)
   @javax.annotation.Nullable
   private ControllerWorkflooDefinitionModelSetDataDocument set;
+
+  public static final String SERIALIZED_NAME_SOURCE_PDF_NODE_ID = "sourcePdfNodeId";
+  @SerializedName(SERIALIZED_NAME_SOURCE_PDF_NODE_ID)
+  @javax.annotation.Nullable
+  private String sourcePdfNodeId;
 
   public ControllerWorkflooDefinitionModelFileDocument() {
   }
@@ -199,6 +204,25 @@ public class ControllerWorkflooDefinitionModelFileDocument {
   }
 
 
+  public ControllerWorkflooDefinitionModelFileDocument sourcePdfNodeId(@javax.annotation.Nullable String sourcePdfNodeId) {
+    this.sourcePdfNodeId = sourcePdfNodeId;
+    return this;
+  }
+
+  /**
+   * SourcePdfNodeId: id del nodo PDF que genera este archivo. Cuando viene, el motor lo toma de ahí y no lo pide en el paso.
+   * @return sourcePdfNodeId
+   */
+  @javax.annotation.Nullable
+  public String getSourcePdfNodeId() {
+    return sourcePdfNodeId;
+  }
+
+  public void setSourcePdfNodeId(@javax.annotation.Nullable String sourcePdfNodeId) {
+    this.sourcePdfNodeId = sourcePdfNodeId;
+  }
+
+
 
   @Override
   public boolean equals(Object o) {
@@ -214,12 +238,13 @@ public class ControllerWorkflooDefinitionModelFileDocument {
         Objects.equals(this.name, controllerWorkflooDefinitionModelFileDocument.name) &&
         Objects.equals(this.predefined, controllerWorkflooDefinitionModelFileDocument.predefined) &&
         Objects.equals(this.required, controllerWorkflooDefinitionModelFileDocument.required) &&
-        Objects.equals(this.set, controllerWorkflooDefinitionModelFileDocument.set);
+        Objects.equals(this.set, controllerWorkflooDefinitionModelFileDocument.set) &&
+        Objects.equals(this.sourcePdfNodeId, controllerWorkflooDefinitionModelFileDocument.sourcePdfNodeId);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(fileMetadata, id, name, predefined, required, set);
+    return Objects.hash(fileMetadata, id, name, predefined, required, set, sourcePdfNodeId);
   }
 
   @Override
@@ -232,6 +257,7 @@ public class ControllerWorkflooDefinitionModelFileDocument {
     sb.append("    predefined: ").append(toIndentedString(predefined)).append("\n");
     sb.append("    required: ").append(toIndentedString(required)).append("\n");
     sb.append("    set: ").append(toIndentedString(set)).append("\n");
+    sb.append("    sourcePdfNodeId: ").append(toIndentedString(sourcePdfNodeId)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -250,7 +276,7 @@ public class ControllerWorkflooDefinitionModelFileDocument {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("fileMetadata", "id", "name", "predefined", "required", "set"));
+    openapiFields = new HashSet<String>(Arrays.asList("fileMetadata", "id", "name", "predefined", "required", "set", "sourcePdfNodeId"));
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>(0);
@@ -290,6 +316,9 @@ public class ControllerWorkflooDefinitionModelFileDocument {
       // validate the optional field `set`
       if (jsonObj.get("set") != null && !jsonObj.get("set").isJsonNull()) {
         ControllerWorkflooDefinitionModelSetDataDocument.validateJsonElement(jsonObj.get("set"));
+      }
+      if ((jsonObj.get("sourcePdfNodeId") != null && !jsonObj.get("sourcePdfNodeId").isJsonNull()) && !jsonObj.get("sourcePdfNodeId").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `sourcePdfNodeId` to be a primitive type in the JSON string but got `%s`", jsonObj.get("sourcePdfNodeId").toString()));
       }
   }
 

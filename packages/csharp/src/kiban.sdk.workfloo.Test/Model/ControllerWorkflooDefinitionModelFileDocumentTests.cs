@@ -106,5 +106,14 @@ namespace kiban.sdk.workfloo.Test.Model
         {
             // TODO unit test for the property 'Set'
         }
+
+        /// <summary>
+        /// Test the property 'SourcePdfNodeId'
+        /// </summary>
+        [Fact]
+        public void SourcePdfNodeIdTest()
+        {
+            // TODO unit test for the property 'SourcePdfNodeId'
+        }
     }
 }

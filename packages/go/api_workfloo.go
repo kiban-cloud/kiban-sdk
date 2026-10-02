@@ -414,6 +414,122 @@ func (a *WorkflooAPIService) ExecuteWorkflooFormExecute(r ApiExecuteWorkflooForm
 	return localVarHTTPResponse, nil
 }
 
+type ApiFallbackWorkflooOtpRequest struct {
+	ctx context.Context
+	ApiService *WorkflooAPIService
+	id string
+	sandbox *bool
+}
+
+// Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+func (r ApiFallbackWorkflooOtpRequest) Sandbox(sandbox bool) ApiFallbackWorkflooOtpRequest {
+	r.sandbox = &sandbox
+	return r
+}
+
+func (r ApiFallbackWorkflooOtpRequest) Execute() (*http.Response, error) {
+	return r.ApiService.FallbackWorkflooOtpExecute(r)
+}
+
+/*
+FallbackWorkflooOtp Reenviar el código de verificación (OTP)
+
+Pide al proveedor una validación nueva (y un código nuevo) para el paso de verificación. Cada reenvío es una consulta facturada y el número de reenvíos lo limita el nodo; al agotarlos responde 400/403 con `{"error"}`.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param id Id de la ejecución
+ @return ApiFallbackWorkflooOtpRequest
+*/
+func (a *WorkflooAPIService) FallbackWorkflooOtp(ctx context.Context, id string) ApiFallbackWorkflooOtpRequest {
+	return ApiFallbackWorkflooOtpRequest{
+		ApiService: a,
+		ctx: ctx,
+		id: id,
+	}
+}
+
+// Execute executes the request
+func (a *WorkflooAPIService) FallbackWorkflooOtpExecute(r ApiFallbackWorkflooOtpRequest) (*http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPatch
+		localVarPostBody     interface{}
+		formFiles            []formFile
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "WorkflooAPIService.FallbackWorkflooOtp")
+	if err != nil {
+		return nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/workfloo/{id}/otp/fallback"
+	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", url.PathEscape(parameterValueToString(r.id, "id")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	if r.sandbox != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "sandbox", r.sandbox, "form", "")
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiKeyAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["x-api-key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarHTTPResponse, newErr
+	}
+
+	return localVarHTTPResponse, nil
+}
+
 type ApiGetWorkflooRequest struct {
 	ctx context.Context
 	ApiService *WorkflooAPIService
@@ -1833,4 +1949,132 @@ func (a *WorkflooAPIService) ValidateWorkflooNipExecute(r ApiValidateWorkflooNip
 	}
 
 	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiValidateWorkflooOtpRequest struct {
+	ctx context.Context
+	ApiService *WorkflooAPIService
+	id string
+	controllerWorkflooModelOtpValidateRequest *ControllerWorkflooModelOtpValidateRequest
+	sandbox *bool
+}
+
+// El código a validar
+func (r ApiValidateWorkflooOtpRequest) ControllerWorkflooModelOtpValidateRequest(controllerWorkflooModelOtpValidateRequest ControllerWorkflooModelOtpValidateRequest) ApiValidateWorkflooOtpRequest {
+	r.controllerWorkflooModelOtpValidateRequest = &controllerWorkflooModelOtpValidateRequest
+	return r
+}
+
+// Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+func (r ApiValidateWorkflooOtpRequest) Sandbox(sandbox bool) ApiValidateWorkflooOtpRequest {
+	r.sandbox = &sandbox
+	return r
+}
+
+func (r ApiValidateWorkflooOtpRequest) Execute() (*http.Response, error) {
+	return r.ApiService.ValidateWorkflooOtpExecute(r)
+}
+
+/*
+ValidateWorkflooOtp Validar el código de verificación (OTP)
+
+Envía al proveedor el código que tecleó la persona en el paso de verificación (ver `verification` en el estatus). Un código incorrecto con intentos restantes responde 400 con `{"error", "remainingRetries"}` y la ejecución sigue estacionada; al agotar los intentos responde 403, salvo que el nodo tenga rama de error, en cuyo caso el flujo continúa por ahí y responde 200.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param id Id de la ejecución
+ @return ApiValidateWorkflooOtpRequest
+*/
+func (a *WorkflooAPIService) ValidateWorkflooOtp(ctx context.Context, id string) ApiValidateWorkflooOtpRequest {
+	return ApiValidateWorkflooOtpRequest{
+		ApiService: a,
+		ctx: ctx,
+		id: id,
+	}
+}
+
+// Execute executes the request
+func (a *WorkflooAPIService) ValidateWorkflooOtpExecute(r ApiValidateWorkflooOtpRequest) (*http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPatch
+		localVarPostBody     interface{}
+		formFiles            []formFile
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "WorkflooAPIService.ValidateWorkflooOtp")
+	if err != nil {
+		return nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/workfloo/{id}/otp/validate"
+	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", url.PathEscape(parameterValueToString(r.id, "id")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.controllerWorkflooModelOtpValidateRequest == nil {
+		return nil, reportError("controllerWorkflooModelOtpValidateRequest is required and must be specified")
+	}
+
+	if r.sandbox != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "sandbox", r.sandbox, "form", "")
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.controllerWorkflooModelOtpValidateRequest
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiKeyAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["x-api-key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarHTTPResponse, newErr
+	}
+
+	return localVarHTTPResponse, nil
 }

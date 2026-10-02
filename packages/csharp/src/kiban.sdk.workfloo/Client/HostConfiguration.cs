@@ -79,12 +79,14 @@ namespace kiban.sdk.workfloo.Client
             _jsonOptions.Converters.Add(new ControllerWorkflooModelLinkResumeJsonConverter());
             _jsonOptions.Converters.Add(new ControllerWorkflooModelNipResendRequestJsonConverter());
             _jsonOptions.Converters.Add(new ControllerWorkflooModelNipResendStatusJsonConverter());
+            _jsonOptions.Converters.Add(new ControllerWorkflooModelNipSendErrorStatusJsonConverter());
             _jsonOptions.Converters.Add(new ControllerWorkflooModelNipSendRequestJsonConverter());
             _jsonOptions.Converters.Add(new ControllerWorkflooModelNipValidateRequestJsonConverter());
             _jsonOptions.Converters.Add(new ControllerWorkflooModelNipValidateResponseJsonConverter());
             _jsonOptions.Converters.Add(new ControllerWorkflooModelNodeJsonConverter());
             _jsonOptions.Converters.Add(new ControllerWorkflooModelNodeDetailJsonConverter());
             _jsonOptions.Converters.Add(new ControllerWorkflooModelNodeResumeJsonConverter());
+            _jsonOptions.Converters.Add(new ControllerWorkflooModelOtpValidateRequestJsonConverter());
             _jsonOptions.Converters.Add(new ControllerWorkflooModelPdfJsonConverter());
             _jsonOptions.Converters.Add(new ControllerWorkflooModelRemainingTimeJsonConverter());
             _jsonOptions.Converters.Add(new ControllerWorkflooModelReviewFieldRequestJsonConverter());
@@ -98,6 +100,7 @@ namespace kiban.sdk.workfloo.Client
             _jsonOptions.Converters.Add(new ControllerWorkflooModelValidationStatusJsonConverter());
             _jsonOptions.Converters.Add(new ControllerWorkflooModelVariableJsonConverter());
             _jsonOptions.Converters.Add(new ControllerWorkflooModelVariablesJsonConverter());
+            _jsonOptions.Converters.Add(new ControllerWorkflooModelVerificationStatusJsonConverter());
             _jsonOptions.Converters.Add(new ControllerWorkflooModelWorkflooJsonConverter());
             _jsonOptions.Converters.Add(new ControllerWorkflooModelWorkflooPageJsonConverter());
             _jsonOptions.Converters.Add(new ControllerWorkflooModelWorkflooResumeJsonConverter());

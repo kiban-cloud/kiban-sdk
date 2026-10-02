@@ -44,7 +44,8 @@ class TestControllerWorkflooModelValidationStatus(unittest.TestCase):
                         value = null, )
                     ],
                 instruction = '',
-                reviewer_note = ''
+                reviewer_note = '',
+                state = ''
             )
         else:
             return ControllerWorkflooModelValidationStatus(

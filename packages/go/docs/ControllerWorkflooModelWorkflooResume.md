@@ -4,6 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**CancelledAt** | Pointer to **string** |  | [optional] 
+**CancelledBy** | Pointer to **string** | CancelledBy / CancelledAt sólo viajan si un usuario canceló la ejecución a mano desde la consola. Una ABANDONED por expiración del sistema no los trae, y son lo único que distingue un caso del otro (el status es el mismo). CancelledAt es *time.Time porque el omitempty de encoding/json NO omite un struct en cero: un time.Time plano emitiría siempre \&quot;0001-01-01T00:00:00Z\&quot; (mismo patrón que NodeDetail.DateFound). | [optional] 
 **Created** | Pointer to **string** |  | [optional] 
 **Id** | Pointer to **string** |  | [optional] 
 **IdUnykoo** | Pointer to **int32** |  | [optional] 
@@ -35,6 +37,56 @@ will change when the set of required properties is changed
 NewControllerWorkflooModelWorkflooResumeWithDefaults instantiates a new ControllerWorkflooModelWorkflooResume object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
+
+### GetCancelledAt
+
+`func (o *ControllerWorkflooModelWorkflooResume) GetCancelledAt() string`
+
+GetCancelledAt returns the CancelledAt field if non-nil, zero value otherwise.
+
+### GetCancelledAtOk
+
+`func (o *ControllerWorkflooModelWorkflooResume) GetCancelledAtOk() (*string, bool)`
+
+GetCancelledAtOk returns a tuple with the CancelledAt field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetCancelledAt
+
+`func (o *ControllerWorkflooModelWorkflooResume) SetCancelledAt(v string)`
+
+SetCancelledAt sets CancelledAt field to given value.
+
+### HasCancelledAt
+
+`func (o *ControllerWorkflooModelWorkflooResume) HasCancelledAt() bool`
+
+HasCancelledAt returns a boolean if a field has been set.
+
+### GetCancelledBy
+
+`func (o *ControllerWorkflooModelWorkflooResume) GetCancelledBy() string`
+
+GetCancelledBy returns the CancelledBy field if non-nil, zero value otherwise.
+
+### GetCancelledByOk
+
+`func (o *ControllerWorkflooModelWorkflooResume) GetCancelledByOk() (*string, bool)`
+
+GetCancelledByOk returns a tuple with the CancelledBy field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetCancelledBy
+
+`func (o *ControllerWorkflooModelWorkflooResume) SetCancelledBy(v string)`
+
+SetCancelledBy sets CancelledBy field to given value.
+
+### HasCancelledBy
+
+`func (o *ControllerWorkflooModelWorkflooResume) HasCancelledBy() bool`
+
+HasCancelledBy returns a boolean if a field has been set.
 
 ### GetCreated
 

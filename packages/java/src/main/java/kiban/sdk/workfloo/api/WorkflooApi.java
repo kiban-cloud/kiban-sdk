@@ -35,6 +35,7 @@ import kiban.sdk.workfloo.model.ControllerWorkflooModelNipResendStatus;
 import kiban.sdk.workfloo.model.ControllerWorkflooModelNipSendRequest;
 import kiban.sdk.workfloo.model.ControllerWorkflooModelNipValidateRequest;
 import kiban.sdk.workfloo.model.ControllerWorkflooModelNipValidateResponse;
+import kiban.sdk.workfloo.model.ControllerWorkflooModelOtpValidateRequest;
 import kiban.sdk.workfloo.model.ControllerWorkflooModelReviewRequest;
 import kiban.sdk.workfloo.model.ControllerWorkflooModelWorkfloo;
 import kiban.sdk.workfloo.model.ControllerWorkflooModelWorkflooPage;
@@ -580,6 +581,160 @@ public class WorkflooApi {
     public okhttp3.Call executeWorkflooFormAsync(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull Object body, @javax.annotation.Nullable Boolean sandbox, final ApiCallback<Void> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = executeWorkflooFormValidateBeforeCall(id, body, sandbox, _callback);
+        localVarApiClient.executeAsync(localVarCall, _callback);
+        return localVarCall;
+    }
+    /**
+     * Build call for fallbackWorkflooOtp
+     * @param id Id de la ejecución (required)
+     * @param sandbox Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Código reenviado </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Reenvíos agotados o error de negocio </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> API key ausente o inválida </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> Sin código pendiente, sin reenvíos, sin acceso, o la ejecución siguió ocupada procesando otro paso tras ~4.5 s de espera </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> La ejecución no existe </td><td>  -  </td></tr>
+        <tr><td> 500 </td><td> Error interno (incluye otra petición tomando la ejecución en el mismo instante; reintentar) </td><td>  -  </td></tr>
+        <tr><td> 503 </td><td> Servicio dependiente no disponible </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call fallbackWorkflooOtpCall(@javax.annotation.Nonnull String id, @javax.annotation.Nullable Boolean sandbox, final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] {  };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
+        Object localVarPostBody = null;
+
+        // create path and map variables
+        String localVarPath = "/api/v1/workfloo/{id}/otp/fallback"
+            .replace("{" + "id" + "}", localVarApiClient.escapeString(id.toString()));
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        if (sandbox != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("sandbox", sandbox));
+        }
+
+        final String[] localVarAccepts = {
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        if (localVarContentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarContentType);
+        }
+
+        String[] localVarAuthNames = new String[] { "ApiKeyAuth" };
+        return localVarApiClient.buildCall(basePath, localVarPath, "PATCH", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call fallbackWorkflooOtpValidateBeforeCall(@javax.annotation.Nonnull String id, @javax.annotation.Nullable Boolean sandbox, final ApiCallback _callback) throws ApiException {
+        // verify the required parameter 'id' is set
+        if (id == null) {
+            throw new ApiException("Missing the required parameter 'id' when calling fallbackWorkflooOtp(Async)");
+        }
+
+        return fallbackWorkflooOtpCall(id, sandbox, _callback);
+
+    }
+
+    /**
+     * Reenviar el código de verificación (OTP)
+     * Pide al proveedor una validación nueva (y un código nuevo) para el paso de verificación. Cada reenvío es una consulta facturada y el número de reenvíos lo limita el nodo; al agotarlos responde 400/403 con &#x60;{\&quot;error\&quot;}&#x60;.
+     * @param id Id de la ejecución (required)
+     * @param sandbox Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Código reenviado </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Reenvíos agotados o error de negocio </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> API key ausente o inválida </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> Sin código pendiente, sin reenvíos, sin acceso, o la ejecución siguió ocupada procesando otro paso tras ~4.5 s de espera </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> La ejecución no existe </td><td>  -  </td></tr>
+        <tr><td> 500 </td><td> Error interno (incluye otra petición tomando la ejecución en el mismo instante; reintentar) </td><td>  -  </td></tr>
+        <tr><td> 503 </td><td> Servicio dependiente no disponible </td><td>  -  </td></tr>
+     </table>
+     */
+    public void fallbackWorkflooOtp(@javax.annotation.Nonnull String id, @javax.annotation.Nullable Boolean sandbox) throws ApiException {
+        fallbackWorkflooOtpWithHttpInfo(id, sandbox);
+    }
+
+    /**
+     * Reenviar el código de verificación (OTP)
+     * Pide al proveedor una validación nueva (y un código nuevo) para el paso de verificación. Cada reenvío es una consulta facturada y el número de reenvíos lo limita el nodo; al agotarlos responde 400/403 con &#x60;{\&quot;error\&quot;}&#x60;.
+     * @param id Id de la ejecución (required)
+     * @param sandbox Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+     * @return ApiResponse&lt;Void&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Código reenviado </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Reenvíos agotados o error de negocio </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> API key ausente o inválida </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> Sin código pendiente, sin reenvíos, sin acceso, o la ejecución siguió ocupada procesando otro paso tras ~4.5 s de espera </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> La ejecución no existe </td><td>  -  </td></tr>
+        <tr><td> 500 </td><td> Error interno (incluye otra petición tomando la ejecución en el mismo instante; reintentar) </td><td>  -  </td></tr>
+        <tr><td> 503 </td><td> Servicio dependiente no disponible </td><td>  -  </td></tr>
+     </table>
+     */
+    public ApiResponse<Void> fallbackWorkflooOtpWithHttpInfo(@javax.annotation.Nonnull String id, @javax.annotation.Nullable Boolean sandbox) throws ApiException {
+        okhttp3.Call localVarCall = fallbackWorkflooOtpValidateBeforeCall(id, sandbox, null);
+        return localVarApiClient.execute(localVarCall);
+    }
+
+    /**
+     * Reenviar el código de verificación (OTP) (asynchronously)
+     * Pide al proveedor una validación nueva (y un código nuevo) para el paso de verificación. Cada reenvío es una consulta facturada y el número de reenvíos lo limita el nodo; al agotarlos responde 400/403 con &#x60;{\&quot;error\&quot;}&#x60;.
+     * @param id Id de la ejecución (required)
+     * @param sandbox Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Código reenviado </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Reenvíos agotados o error de negocio </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> API key ausente o inválida </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> Sin código pendiente, sin reenvíos, sin acceso, o la ejecución siguió ocupada procesando otro paso tras ~4.5 s de espera </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> La ejecución no existe </td><td>  -  </td></tr>
+        <tr><td> 500 </td><td> Error interno (incluye otra petición tomando la ejecución en el mismo instante; reintentar) </td><td>  -  </td></tr>
+        <tr><td> 503 </td><td> Servicio dependiente no disponible </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call fallbackWorkflooOtpAsync(@javax.annotation.Nonnull String id, @javax.annotation.Nullable Boolean sandbox, final ApiCallback<Void> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = fallbackWorkflooOtpValidateBeforeCall(id, sandbox, _callback);
         localVarApiClient.executeAsync(localVarCall, _callback);
         return localVarCall;
     }
@@ -2317,6 +2472,170 @@ public class WorkflooApi {
         okhttp3.Call localVarCall = validateWorkflooNipValidateBeforeCall(id, controllerWorkflooModelNipValidateRequest, sandbox, _callback);
         Type localVarReturnType = new TypeToken<ControllerWorkflooModelNipValidateResponse>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+    /**
+     * Build call for validateWorkflooOtp
+     * @param id Id de la ejecución (required)
+     * @param controllerWorkflooModelOtpValidateRequest El código a validar (required)
+     * @param sandbox Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Código validado (o intentos agotados con rama de error) </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Token ausente o código incorrecto (incluye remainingRetries) </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> API key ausente o inválida </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> Sin código pendiente, intentos agotados, sin acceso, o la ejecución siguió ocupada procesando otro paso tras ~4.5 s de espera </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> La ejecución no existe </td><td>  -  </td></tr>
+        <tr><td> 500 </td><td> Error interno (incluye otra petición tomando la ejecución en el mismo instante; reintentar) </td><td>  -  </td></tr>
+        <tr><td> 503 </td><td> Servicio dependiente no disponible </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call validateWorkflooOtpCall(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull ControllerWorkflooModelOtpValidateRequest controllerWorkflooModelOtpValidateRequest, @javax.annotation.Nullable Boolean sandbox, final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] {  };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
+        Object localVarPostBody = controllerWorkflooModelOtpValidateRequest;
+
+        // create path and map variables
+        String localVarPath = "/api/v1/workfloo/{id}/otp/validate"
+            .replace("{" + "id" + "}", localVarApiClient.escapeString(id.toString()));
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        if (sandbox != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("sandbox", sandbox));
+        }
+
+        final String[] localVarAccepts = {
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+            "application/json"
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        if (localVarContentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarContentType);
+        }
+
+        String[] localVarAuthNames = new String[] { "ApiKeyAuth" };
+        return localVarApiClient.buildCall(basePath, localVarPath, "PATCH", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call validateWorkflooOtpValidateBeforeCall(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull ControllerWorkflooModelOtpValidateRequest controllerWorkflooModelOtpValidateRequest, @javax.annotation.Nullable Boolean sandbox, final ApiCallback _callback) throws ApiException {
+        // verify the required parameter 'id' is set
+        if (id == null) {
+            throw new ApiException("Missing the required parameter 'id' when calling validateWorkflooOtp(Async)");
+        }
+
+        // verify the required parameter 'controllerWorkflooModelOtpValidateRequest' is set
+        if (controllerWorkflooModelOtpValidateRequest == null) {
+            throw new ApiException("Missing the required parameter 'controllerWorkflooModelOtpValidateRequest' when calling validateWorkflooOtp(Async)");
+        }
+
+        return validateWorkflooOtpCall(id, controllerWorkflooModelOtpValidateRequest, sandbox, _callback);
+
+    }
+
+    /**
+     * Validar el código de verificación (OTP)
+     * Envía al proveedor el código que tecleó la persona en el paso de verificación (ver &#x60;verification&#x60; en el estatus). Un código incorrecto con intentos restantes responde 400 con &#x60;{\&quot;error\&quot;, \&quot;remainingRetries\&quot;}&#x60; y la ejecución sigue estacionada; al agotar los intentos responde 403, salvo que el nodo tenga rama de error, en cuyo caso el flujo continúa por ahí y responde 200.
+     * @param id Id de la ejecución (required)
+     * @param controllerWorkflooModelOtpValidateRequest El código a validar (required)
+     * @param sandbox Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Código validado (o intentos agotados con rama de error) </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Token ausente o código incorrecto (incluye remainingRetries) </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> API key ausente o inválida </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> Sin código pendiente, intentos agotados, sin acceso, o la ejecución siguió ocupada procesando otro paso tras ~4.5 s de espera </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> La ejecución no existe </td><td>  -  </td></tr>
+        <tr><td> 500 </td><td> Error interno (incluye otra petición tomando la ejecución en el mismo instante; reintentar) </td><td>  -  </td></tr>
+        <tr><td> 503 </td><td> Servicio dependiente no disponible </td><td>  -  </td></tr>
+     </table>
+     */
+    public void validateWorkflooOtp(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull ControllerWorkflooModelOtpValidateRequest controllerWorkflooModelOtpValidateRequest, @javax.annotation.Nullable Boolean sandbox) throws ApiException {
+        validateWorkflooOtpWithHttpInfo(id, controllerWorkflooModelOtpValidateRequest, sandbox);
+    }
+
+    /**
+     * Validar el código de verificación (OTP)
+     * Envía al proveedor el código que tecleó la persona en el paso de verificación (ver &#x60;verification&#x60; en el estatus). Un código incorrecto con intentos restantes responde 400 con &#x60;{\&quot;error\&quot;, \&quot;remainingRetries\&quot;}&#x60; y la ejecución sigue estacionada; al agotar los intentos responde 403, salvo que el nodo tenga rama de error, en cuyo caso el flujo continúa por ahí y responde 200.
+     * @param id Id de la ejecución (required)
+     * @param controllerWorkflooModelOtpValidateRequest El código a validar (required)
+     * @param sandbox Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+     * @return ApiResponse&lt;Void&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Código validado (o intentos agotados con rama de error) </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Token ausente o código incorrecto (incluye remainingRetries) </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> API key ausente o inválida </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> Sin código pendiente, intentos agotados, sin acceso, o la ejecución siguió ocupada procesando otro paso tras ~4.5 s de espera </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> La ejecución no existe </td><td>  -  </td></tr>
+        <tr><td> 500 </td><td> Error interno (incluye otra petición tomando la ejecución en el mismo instante; reintentar) </td><td>  -  </td></tr>
+        <tr><td> 503 </td><td> Servicio dependiente no disponible </td><td>  -  </td></tr>
+     </table>
+     */
+    public ApiResponse<Void> validateWorkflooOtpWithHttpInfo(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull ControllerWorkflooModelOtpValidateRequest controllerWorkflooModelOtpValidateRequest, @javax.annotation.Nullable Boolean sandbox) throws ApiException {
+        okhttp3.Call localVarCall = validateWorkflooOtpValidateBeforeCall(id, controllerWorkflooModelOtpValidateRequest, sandbox, null);
+        return localVarApiClient.execute(localVarCall);
+    }
+
+    /**
+     * Validar el código de verificación (OTP) (asynchronously)
+     * Envía al proveedor el código que tecleó la persona en el paso de verificación (ver &#x60;verification&#x60; en el estatus). Un código incorrecto con intentos restantes responde 400 con &#x60;{\&quot;error\&quot;, \&quot;remainingRetries\&quot;}&#x60; y la ejecución sigue estacionada; al agotar los intentos responde 403, salvo que el nodo tenga rama de error, en cuyo caso el flujo continúa por ahí y responde 200.
+     * @param id Id de la ejecución (required)
+     * @param controllerWorkflooModelOtpValidateRequest El código a validar (required)
+     * @param sandbox Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Código validado (o intentos agotados con rama de error) </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Token ausente o código incorrecto (incluye remainingRetries) </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> API key ausente o inválida </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> Sin código pendiente, intentos agotados, sin acceso, o la ejecución siguió ocupada procesando otro paso tras ~4.5 s de espera </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> La ejecución no existe </td><td>  -  </td></tr>
+        <tr><td> 500 </td><td> Error interno (incluye otra petición tomando la ejecución en el mismo instante; reintentar) </td><td>  -  </td></tr>
+        <tr><td> 503 </td><td> Servicio dependiente no disponible </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call validateWorkflooOtpAsync(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull ControllerWorkflooModelOtpValidateRequest controllerWorkflooModelOtpValidateRequest, @javax.annotation.Nullable Boolean sandbox, final ApiCallback<Void> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = validateWorkflooOtpValidateBeforeCall(id, controllerWorkflooModelOtpValidateRequest, sandbox, _callback);
+        localVarApiClient.executeAsync(localVarCall, _callback);
         return localVarCall;
     }
 }

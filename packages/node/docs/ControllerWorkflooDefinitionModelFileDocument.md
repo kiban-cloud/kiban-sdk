@@ -11,6 +11,7 @@ Name | Type | Description | Notes
 **predefined** | **boolean** |  | [optional] [default to undefined]
 **required** | **boolean** |  | [optional] [default to undefined]
 **set** | [**ControllerWorkflooDefinitionModelSetDataDocument**](ControllerWorkflooDefinitionModelSetDataDocument.md) |  | [optional] [default to undefined]
+**sourcePdfNodeId** | **string** | SourcePdfNodeId: id del nodo PDF que genera este archivo. Cuando viene, el motor lo toma de ahí y no lo pide en el paso. | [optional] [default to undefined]
 
 ## Example
 
@@ -24,6 +25,7 @@ const instance: ControllerWorkflooDefinitionModelFileDocument = {
     predefined,
     required,
     set,
+    sourcePdfNodeId,
 };
 ```
 

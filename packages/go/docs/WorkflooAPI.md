@@ -7,6 +7,7 @@ Method | HTTP request | Description
 [**ExecuteWorkfloo**](WorkflooAPI.md#ExecuteWorkfloo) | **Post** /api/v1/workfloo | Ejecutar un workfloo
 [**ExecuteWorkflooDocument**](WorkflooAPI.md#ExecuteWorkflooDocument) | **Post** /api/v1/workfloo/{id}/document | Enviar los documentos de un paso
 [**ExecuteWorkflooForm**](WorkflooAPI.md#ExecuteWorkflooForm) | **Post** /api/v1/workfloo/{id}/form | Enviar el formulario de un paso
+[**FallbackWorkflooOtp**](WorkflooAPI.md#FallbackWorkflooOtp) | **Patch** /api/v1/workfloo/{id}/otp/fallback | Reenviar el código de verificación (OTP)
 [**GetWorkfloo**](WorkflooAPI.md#GetWorkfloo) | **Get** /api/v1/workfloo/{id} | Detalle de una ejecución
 [**GetWorkflooFile**](WorkflooAPI.md#GetWorkflooFile) | **Get** /api/v1/workfloo/{id}/file | Descargar un archivo de un nodo
 [**GetWorkflooStatus**](WorkflooAPI.md#GetWorkflooStatus) | **Get** /api/v1/workfloo/status/{id} | Estatus de una ejecución
@@ -17,6 +18,7 @@ Method | HTTP request | Description
 [**SendWorkflooNip**](WorkflooAPI.md#SendWorkflooNip) | **Patch** /api/v1/workfloo/{id}/nip/send | Enviar el NIP
 [**SubmitWorkflooCorrection**](WorkflooAPI.md#SubmitWorkflooCorrection) | **Post** /api/v1/workfloo/{id}/correction | Enviar la corrección de un paso de validación
 [**ValidateWorkflooNip**](WorkflooAPI.md#ValidateWorkflooNip) | **Patch** /api/v1/workfloo/{id}/nip/validate | Validar el NIP
+[**ValidateWorkflooOtp**](WorkflooAPI.md#ValidateWorkflooOtp) | **Patch** /api/v1/workfloo/{id}/otp/validate | Validar el código de verificación (OTP)
 
 
 
@@ -37,7 +39,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/kiban-cloud/kiban-sdk/workfloo"
+	openapiclient "github.com/kiban-cloud/kiban-sdk/packages/go"
 )
 
 func main() {
@@ -105,7 +107,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/kiban-cloud/kiban-sdk/workfloo"
+	openapiclient "github.com/kiban-cloud/kiban-sdk/packages/go"
 )
 
 func main() {
@@ -177,7 +179,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/kiban-cloud/kiban-sdk/workfloo"
+	openapiclient "github.com/kiban-cloud/kiban-sdk/packages/go"
 )
 
 func main() {
@@ -232,6 +234,76 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
+## FallbackWorkflooOtp
+
+> FallbackWorkflooOtp(ctx, id).Sandbox(sandbox).Execute()
+
+Reenviar el código de verificación (OTP)
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/kiban-cloud/kiban-sdk/packages/go"
+)
+
+func main() {
+	id := "id_example" // string | Id de la ejecución
+	sandbox := true // bool | Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	r, err := apiClient.WorkflooAPI.FallbackWorkflooOtp(context.Background(), id).Sandbox(sandbox).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `WorkflooAPI.FallbackWorkflooOtp``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**id** | **string** | Id de la ejecución | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiFallbackWorkflooOtpRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **sandbox** | **bool** | Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito | 
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
 ## GetWorkfloo
 
 > ControllerWorkflooModelWorkflooResume GetWorkfloo(ctx, id).Sandbox(sandbox).Execute()
@@ -249,7 +321,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/kiban-cloud/kiban-sdk/workfloo"
+	openapiclient "github.com/kiban-cloud/kiban-sdk/packages/go"
 )
 
 func main() {
@@ -321,7 +393,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/kiban-cloud/kiban-sdk/workfloo"
+	openapiclient "github.com/kiban-cloud/kiban-sdk/packages/go"
 )
 
 func main() {
@@ -397,7 +469,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/kiban-cloud/kiban-sdk/workfloo"
+	openapiclient "github.com/kiban-cloud/kiban-sdk/packages/go"
 )
 
 func main() {
@@ -469,7 +541,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/kiban-cloud/kiban-sdk/workfloo"
+	openapiclient "github.com/kiban-cloud/kiban-sdk/packages/go"
 )
 
 func main() {
@@ -545,7 +617,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/kiban-cloud/kiban-sdk/workfloo"
+	openapiclient "github.com/kiban-cloud/kiban-sdk/packages/go"
 )
 
 func main() {
@@ -623,7 +695,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/kiban-cloud/kiban-sdk/workfloo"
+	openapiclient "github.com/kiban-cloud/kiban-sdk/packages/go"
 )
 
 func main() {
@@ -697,7 +769,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/kiban-cloud/kiban-sdk/workfloo"
+	openapiclient "github.com/kiban-cloud/kiban-sdk/packages/go"
 )
 
 func main() {
@@ -769,7 +841,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/kiban-cloud/kiban-sdk/workfloo"
+	openapiclient "github.com/kiban-cloud/kiban-sdk/packages/go"
 )
 
 func main() {
@@ -841,7 +913,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/kiban-cloud/kiban-sdk/workfloo"
+	openapiclient "github.com/kiban-cloud/kiban-sdk/packages/go"
 )
 
 func main() {
@@ -913,7 +985,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/kiban-cloud/kiban-sdk/workfloo"
+	openapiclient "github.com/kiban-cloud/kiban-sdk/packages/go"
 )
 
 func main() {
@@ -964,6 +1036,78 @@ Name | Type | Description  | Notes
 
 - **Content-Type**: application/json
 - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## ValidateWorkflooOtp
+
+> ValidateWorkflooOtp(ctx, id).ControllerWorkflooModelOtpValidateRequest(controllerWorkflooModelOtpValidateRequest).Sandbox(sandbox).Execute()
+
+Validar el código de verificación (OTP)
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/kiban-cloud/kiban-sdk/packages/go"
+)
+
+func main() {
+	id := "id_example" // string | Id de la ejecución
+	controllerWorkflooModelOtpValidateRequest := *openapiclient.NewControllerWorkflooModelOtpValidateRequest("Token_example") // ControllerWorkflooModelOtpValidateRequest | El código a validar
+	sandbox := true // bool | Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	r, err := apiClient.WorkflooAPI.ValidateWorkflooOtp(context.Background(), id).ControllerWorkflooModelOtpValidateRequest(controllerWorkflooModelOtpValidateRequest).Sandbox(sandbox).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `WorkflooAPI.ValidateWorkflooOtp``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**id** | **string** | Id de la ejecución | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiValidateWorkflooOtpRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **controllerWorkflooModelOtpValidateRequest** | [**ControllerWorkflooModelOtpValidateRequest**](ControllerWorkflooModelOtpValidateRequest.md) | El código a validar | 
+ **sandbox** | **bool** | Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito | 
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)

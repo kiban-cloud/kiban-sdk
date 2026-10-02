@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import kiban.sdk.workfloo.model.ControllerWorkflooModelEvent;
+import kiban.sdk.workfloo.model.ControllerWorkflooModelNipSendErrorStatus;
 import org.openapitools.jackson.nullable.JsonNullable;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -119,6 +120,14 @@ public class ControllerWorkflooModelLinkNipStatusTest {
     @Test
     public void privacyNoticeTest() {
         // TODO: test privacyNotice
+    }
+
+    /**
+     * Test the property 'sendError'
+     */
+    @Test
+    public void sendErrorTest() {
+        // TODO: test sendError
     }
 
     /**

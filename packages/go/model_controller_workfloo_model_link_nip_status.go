@@ -29,6 +29,7 @@ type ControllerWorkflooModelLinkNipStatus struct {
 	Phase *string `json:"phase,omitempty"`
 	PhoneNumber *string `json:"phoneNumber,omitempty"`
 	PrivacyNotice *string `json:"privacyNotice,omitempty"`
+	SendError *ControllerWorkflooModelNipSendErrorStatus `json:"sendError,omitempty"`
 	Terms *string `json:"terms,omitempty"`
 	Widget interface{} `json:"widget,omitempty"`
 }
@@ -370,6 +371,38 @@ func (o *ControllerWorkflooModelLinkNipStatus) SetPrivacyNotice(v string) {
 	o.PrivacyNotice = &v
 }
 
+// GetSendError returns the SendError field value if set, zero value otherwise.
+func (o *ControllerWorkflooModelLinkNipStatus) GetSendError() ControllerWorkflooModelNipSendErrorStatus {
+	if o == nil || IsNil(o.SendError) {
+		var ret ControllerWorkflooModelNipSendErrorStatus
+		return ret
+	}
+	return *o.SendError
+}
+
+// GetSendErrorOk returns a tuple with the SendError field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ControllerWorkflooModelLinkNipStatus) GetSendErrorOk() (*ControllerWorkflooModelNipSendErrorStatus, bool) {
+	if o == nil || IsNil(o.SendError) {
+		return nil, false
+	}
+	return o.SendError, true
+}
+
+// HasSendError returns a boolean if a field has been set.
+func (o *ControllerWorkflooModelLinkNipStatus) HasSendError() bool {
+	if o != nil && !IsNil(o.SendError) {
+		return true
+	}
+
+	return false
+}
+
+// SetSendError gets a reference to the given ControllerWorkflooModelNipSendErrorStatus and assigns it to the SendError field.
+func (o *ControllerWorkflooModelLinkNipStatus) SetSendError(v ControllerWorkflooModelNipSendErrorStatus) {
+	o.SendError = &v
+}
+
 // GetTerms returns the Terms field value if set, zero value otherwise.
 func (o *ControllerWorkflooModelLinkNipStatus) GetTerms() string {
 	if o == nil || IsNil(o.Terms) {
@@ -474,6 +507,9 @@ func (o ControllerWorkflooModelLinkNipStatus) ToMap() (map[string]interface{}, e
 	}
 	if !IsNil(o.PrivacyNotice) {
 		toSerialize["privacyNotice"] = o.PrivacyNotice
+	}
+	if !IsNil(o.SendError) {
+		toSerialize["sendError"] = o.SendError
 	}
 	if !IsNil(o.Terms) {
 		toSerialize["terms"] = o.Terms

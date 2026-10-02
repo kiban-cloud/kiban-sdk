@@ -1,4 +1,4 @@
-## kiban.sdk.workfloo@0.1.0
+## kiban.sdk.workfloo@0.2.0
 
 This generator creates TypeScript/JavaScript client that utilizes [axios](https://github.com/axios/axios). The generated Node module can be used in the following environments:
 
@@ -36,7 +36,7 @@ navigate to the folder of your consuming project and run one of the following co
 _published:_
 
 ```
-npm install kiban.sdk.workfloo@0.1.0 --save
+npm install kiban.sdk.workfloo@0.2.0 --save
 ```
 
 _unPublished (not recommended):_
@@ -55,6 +55,7 @@ Class | Method | HTTP request | Description
 *WorkflooApi* | [**executeWorkfloo**](docs/WorkflooApi.md#executeworkfloo) | **POST** /api/v1/workfloo | Ejecutar un workfloo
 *WorkflooApi* | [**executeWorkflooDocument**](docs/WorkflooApi.md#executeworkfloodocument) | **POST** /api/v1/workfloo/{id}/document | Enviar los documentos de un paso
 *WorkflooApi* | [**executeWorkflooForm**](docs/WorkflooApi.md#executeworkflooform) | **POST** /api/v1/workfloo/{id}/form | Enviar el formulario de un paso
+*WorkflooApi* | [**fallbackWorkflooOtp**](docs/WorkflooApi.md#fallbackworkfloootp) | **PATCH** /api/v1/workfloo/{id}/otp/fallback | Reenviar el código de verificación (OTP)
 *WorkflooApi* | [**getWorkfloo**](docs/WorkflooApi.md#getworkfloo) | **GET** /api/v1/workfloo/{id} | Detalle de una ejecución
 *WorkflooApi* | [**getWorkflooFile**](docs/WorkflooApi.md#getworkfloofile) | **GET** /api/v1/workfloo/{id}/file | Descargar un archivo de un nodo
 *WorkflooApi* | [**getWorkflooStatus**](docs/WorkflooApi.md#getworkfloostatus) | **GET** /api/v1/workfloo/status/{id} | Estatus de una ejecución
@@ -65,6 +66,7 @@ Class | Method | HTTP request | Description
 *WorkflooApi* | [**sendWorkflooNip**](docs/WorkflooApi.md#sendworkfloonip) | **PATCH** /api/v1/workfloo/{id}/nip/send | Enviar el NIP
 *WorkflooApi* | [**submitWorkflooCorrection**](docs/WorkflooApi.md#submitworkfloocorrection) | **POST** /api/v1/workfloo/{id}/correction | Enviar la corrección de un paso de validación
 *WorkflooApi* | [**validateWorkflooNip**](docs/WorkflooApi.md#validateworkfloonip) | **PATCH** /api/v1/workfloo/{id}/nip/validate | Validar el NIP
+*WorkflooApi* | [**validateWorkflooOtp**](docs/WorkflooApi.md#validateworkfloootp) | **PATCH** /api/v1/workfloo/{id}/otp/validate | Validar el código de verificación (OTP)
 
 
 ### Documentation For Models
@@ -105,12 +107,14 @@ Class | Method | HTTP request | Description
  - [ControllerWorkflooModelLinkResume](docs/ControllerWorkflooModelLinkResume.md)
  - [ControllerWorkflooModelNipResendRequest](docs/ControllerWorkflooModelNipResendRequest.md)
  - [ControllerWorkflooModelNipResendStatus](docs/ControllerWorkflooModelNipResendStatus.md)
+ - [ControllerWorkflooModelNipSendErrorStatus](docs/ControllerWorkflooModelNipSendErrorStatus.md)
  - [ControllerWorkflooModelNipSendRequest](docs/ControllerWorkflooModelNipSendRequest.md)
  - [ControllerWorkflooModelNipValidateRequest](docs/ControllerWorkflooModelNipValidateRequest.md)
  - [ControllerWorkflooModelNipValidateResponse](docs/ControllerWorkflooModelNipValidateResponse.md)
  - [ControllerWorkflooModelNode](docs/ControllerWorkflooModelNode.md)
  - [ControllerWorkflooModelNodeDetail](docs/ControllerWorkflooModelNodeDetail.md)
  - [ControllerWorkflooModelNodeResume](docs/ControllerWorkflooModelNodeResume.md)
+ - [ControllerWorkflooModelOtpValidateRequest](docs/ControllerWorkflooModelOtpValidateRequest.md)
  - [ControllerWorkflooModelPdf](docs/ControllerWorkflooModelPdf.md)
  - [ControllerWorkflooModelRemainingTime](docs/ControllerWorkflooModelRemainingTime.md)
  - [ControllerWorkflooModelReviewFieldRequest](docs/ControllerWorkflooModelReviewFieldRequest.md)
@@ -124,6 +128,7 @@ Class | Method | HTTP request | Description
  - [ControllerWorkflooModelValidationStatus](docs/ControllerWorkflooModelValidationStatus.md)
  - [ControllerWorkflooModelVariable](docs/ControllerWorkflooModelVariable.md)
  - [ControllerWorkflooModelVariables](docs/ControllerWorkflooModelVariables.md)
+ - [ControllerWorkflooModelVerificationStatus](docs/ControllerWorkflooModelVerificationStatus.md)
  - [ControllerWorkflooModelWorkfloo](docs/ControllerWorkflooModelWorkfloo.md)
  - [ControllerWorkflooModelWorkflooPage](docs/ControllerWorkflooModelWorkflooPage.md)
  - [ControllerWorkflooModelWorkflooResume](docs/ControllerWorkflooModelWorkflooResume.md)

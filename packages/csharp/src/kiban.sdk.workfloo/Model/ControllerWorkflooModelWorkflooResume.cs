@@ -33,6 +33,8 @@ namespace kiban.sdk.workfloo.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="ControllerWorkflooModelWorkflooResume" /> class.
         /// </summary>
+        /// <param name="cancelledAt">cancelledAt</param>
+        /// <param name="cancelledBy">CancelledBy / CancelledAt sólo viajan si un usuario canceló la ejecución a mano desde la consola. Una ABANDONED por expiración del sistema no los trae, y son lo único que distingue un caso del otro (el status es el mismo). CancelledAt es *time.Time porque el omitempty de encoding/json NO omite un struct en cero: un time.Time plano emitiría siempre \&quot;0001-01-01T00:00:00Z\&quot; (mismo patrón que NodeDetail.DateFound).</param>
         /// <param name="created">created</param>
         /// <param name="id">id</param>
         /// <param name="idUnykoo">idUnykoo</param>
@@ -46,8 +48,10 @@ namespace kiban.sdk.workfloo.Model
         /// <param name="sceneryName">sceneryName</param>
         /// <param name="status">status</param>
         [JsonConstructor]
-        public ControllerWorkflooModelWorkflooResume(Option<string?> created = default, Option<string?> id = default, Option<int?> idUnykoo = default, Option<string?> ipOrigin = default, Option<List<string>?> labels = default, Option<string?> modified = default, Option<string?> name = default, Option<List<ControllerWorkflooModelNodeResume>?> nodes = default, Option<string?> origin = default, Option<string?> sceneryId = default, Option<string?> sceneryName = default, Option<string?> status = default)
+        public ControllerWorkflooModelWorkflooResume(Option<string?> cancelledAt = default, Option<string?> cancelledBy = default, Option<string?> created = default, Option<string?> id = default, Option<int?> idUnykoo = default, Option<string?> ipOrigin = default, Option<List<string>?> labels = default, Option<string?> modified = default, Option<string?> name = default, Option<List<ControllerWorkflooModelNodeResume>?> nodes = default, Option<string?> origin = default, Option<string?> sceneryId = default, Option<string?> sceneryName = default, Option<string?> status = default)
         {
+            CancelledAtOption = cancelledAt;
+            CancelledByOption = cancelledBy;
             CreatedOption = created;
             IdOption = id;
             IdUnykooOption = idUnykoo;
@@ -64,6 +68,33 @@ namespace kiban.sdk.workfloo.Model
         }
 
         partial void OnCreated();
+
+        /// <summary>
+        /// Used to track the state of CancelledAt
+        /// </summary>
+        [JsonIgnore]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<string?> CancelledAtOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets CancelledAt
+        /// </summary>
+        [JsonPropertyName("cancelledAt")]
+        public string? CancelledAt { get { return this.CancelledAtOption.Value; } set { this.CancelledAtOption = new(value); } }
+
+        /// <summary>
+        /// Used to track the state of CancelledBy
+        /// </summary>
+        [JsonIgnore]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<string?> CancelledByOption { get; private set; }
+
+        /// <summary>
+        /// CancelledBy / CancelledAt sólo viajan si un usuario canceló la ejecución a mano desde la consola. Una ABANDONED por expiración del sistema no los trae, y son lo único que distingue un caso del otro (el status es el mismo). CancelledAt es *time.Time porque el omitempty de encoding/json NO omite un struct en cero: un time.Time plano emitiría siempre \&quot;0001-01-01T00:00:00Z\&quot; (mismo patrón que NodeDetail.DateFound).
+        /// </summary>
+        /// <value>CancelledBy / CancelledAt sólo viajan si un usuario canceló la ejecución a mano desde la consola. Una ABANDONED por expiración del sistema no los trae, y son lo único que distingue un caso del otro (el status es el mismo). CancelledAt es *time.Time porque el omitempty de encoding/json NO omite un struct en cero: un time.Time plano emitiría siempre \&quot;0001-01-01T00:00:00Z\&quot; (mismo patrón que NodeDetail.DateFound).</value>
+        [JsonPropertyName("cancelledBy")]
+        public string? CancelledBy { get { return this.CancelledByOption.Value; } set { this.CancelledByOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Created
@@ -229,6 +260,8 @@ namespace kiban.sdk.workfloo.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class ControllerWorkflooModelWorkflooResume {\n");
+            sb.Append("  CancelledAt: ").Append(CancelledAt).Append("\n");
+            sb.Append("  CancelledBy: ").Append(CancelledBy).Append("\n");
             sb.Append("  Created: ").Append(Created).Append("\n");
             sb.Append("  Id: ").Append(Id).Append("\n");
             sb.Append("  IdUnykoo: ").Append(IdUnykoo).Append("\n");
@@ -288,6 +321,8 @@ namespace kiban.sdk.workfloo.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
+            Option<string?> cancelledAt = default;
+            Option<string?> cancelledBy = default;
             Option<string?> created = default;
             Option<string?> id = default;
             Option<int?> idUnykoo = default;
@@ -316,6 +351,12 @@ namespace kiban.sdk.workfloo.Model
 
                     switch (localVarJsonPropertyName)
                     {
+                        case "cancelledAt":
+                            cancelledAt = new Option<string?>(utf8JsonReader.GetString()!);
+                            break;
+                        case "cancelledBy":
+                            cancelledBy = new Option<string?>(utf8JsonReader.GetString()!);
+                            break;
                         case "created":
                             created = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
@@ -358,6 +399,12 @@ namespace kiban.sdk.workfloo.Model
                 }
             }
 
+            if (cancelledAt.IsSet && cancelledAt.Value == null)
+                throw new ArgumentNullException(nameof(cancelledAt), "Property is not nullable for class ControllerWorkflooModelWorkflooResume.");
+
+            if (cancelledBy.IsSet && cancelledBy.Value == null)
+                throw new ArgumentNullException(nameof(cancelledBy), "Property is not nullable for class ControllerWorkflooModelWorkflooResume.");
+
             if (created.IsSet && created.Value == null)
                 throw new ArgumentNullException(nameof(created), "Property is not nullable for class ControllerWorkflooModelWorkflooResume.");
 
@@ -394,7 +441,7 @@ namespace kiban.sdk.workfloo.Model
             if (status.IsSet && status.Value == null)
                 throw new ArgumentNullException(nameof(status), "Property is not nullable for class ControllerWorkflooModelWorkflooResume.");
 
-            return new ControllerWorkflooModelWorkflooResume(created, id, idUnykoo, ipOrigin, labels, modified, name, nodes, origin, sceneryId, sceneryName, status);
+            return new ControllerWorkflooModelWorkflooResume(cancelledAt, cancelledBy, created, id, idUnykoo, ipOrigin, labels, modified, name, nodes, origin, sceneryId, sceneryName, status);
         }
 
         /// <summary>
@@ -421,6 +468,12 @@ namespace kiban.sdk.workfloo.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, ControllerWorkflooModelWorkflooResume controllerWorkflooModelWorkflooResume, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (controllerWorkflooModelWorkflooResume.CancelledAtOption.IsSet && controllerWorkflooModelWorkflooResume.CancelledAt == null)
+                throw new ArgumentNullException(nameof(controllerWorkflooModelWorkflooResume.CancelledAt), "Property is required for class ControllerWorkflooModelWorkflooResume.");
+
+            if (controllerWorkflooModelWorkflooResume.CancelledByOption.IsSet && controllerWorkflooModelWorkflooResume.CancelledBy == null)
+                throw new ArgumentNullException(nameof(controllerWorkflooModelWorkflooResume.CancelledBy), "Property is required for class ControllerWorkflooModelWorkflooResume.");
+
             if (controllerWorkflooModelWorkflooResume.CreatedOption.IsSet && controllerWorkflooModelWorkflooResume.Created == null)
                 throw new ArgumentNullException(nameof(controllerWorkflooModelWorkflooResume.Created), "Property is required for class ControllerWorkflooModelWorkflooResume.");
 
@@ -453,6 +506,12 @@ namespace kiban.sdk.workfloo.Model
 
             if (controllerWorkflooModelWorkflooResume.StatusOption.IsSet && controllerWorkflooModelWorkflooResume.Status == null)
                 throw new ArgumentNullException(nameof(controllerWorkflooModelWorkflooResume.Status), "Property is required for class ControllerWorkflooModelWorkflooResume.");
+
+            if (controllerWorkflooModelWorkflooResume.CancelledAtOption.IsSet)
+                writer.WriteString("cancelledAt", controllerWorkflooModelWorkflooResume.CancelledAt);
+
+            if (controllerWorkflooModelWorkflooResume.CancelledByOption.IsSet)
+                writer.WriteString("cancelledBy", controllerWorkflooModelWorkflooResume.CancelledBy);
 
             if (controllerWorkflooModelWorkflooResume.CreatedOption.IsSet)
                 writer.WriteString("created", controllerWorkflooModelWorkflooResume.Created);

@@ -14,6 +14,7 @@ Name | Type | Description | Notes
 **Phase** | **string** |  | [optional] 
 **PhoneNumber** | **string** |  | [optional] 
 **PrivacyNotice** | **string** |  | [optional] 
+**SendError** | [**ControllerWorkflooModelNipSendErrorStatus**](ControllerWorkflooModelNipSendErrorStatus.md) |  | [optional] 
 **Terms** | **string** |  | [optional] 
 **Widget** | **Object** |  | [optional] 
 

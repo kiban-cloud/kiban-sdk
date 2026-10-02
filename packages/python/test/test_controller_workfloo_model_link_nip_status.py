@@ -50,6 +50,9 @@ class TestControllerWorkflooModelLinkNipStatus(unittest.TestCase):
                 phase = '',
                 phone_number = '',
                 privacy_notice = '',
+                send_error = kiban.sdk.workfloo.models.controller_workfloo_model/nip_send_error_status.controller_workfloo_model.NipSendErrorStatus(
+                    code = '', 
+                    recoverable = True, ),
                 terms = '',
                 widget = None
             )

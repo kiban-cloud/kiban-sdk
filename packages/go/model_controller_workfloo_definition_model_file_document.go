@@ -25,6 +25,8 @@ type ControllerWorkflooDefinitionModelFileDocument struct {
 	Predefined *bool `json:"predefined,omitempty"`
 	Required *bool `json:"required,omitempty"`
 	Set *ControllerWorkflooDefinitionModelSetDataDocument `json:"set,omitempty"`
+	// SourcePdfNodeId: id del nodo PDF que genera este archivo. Cuando viene, el motor lo toma de ahí y no lo pide en el paso.
+	SourcePdfNodeId *string `json:"sourcePdfNodeId,omitempty"`
 }
 
 // NewControllerWorkflooDefinitionModelFileDocument instantiates a new ControllerWorkflooDefinitionModelFileDocument object
@@ -236,6 +238,38 @@ func (o *ControllerWorkflooDefinitionModelFileDocument) SetSet(v ControllerWorkf
 	o.Set = &v
 }
 
+// GetSourcePdfNodeId returns the SourcePdfNodeId field value if set, zero value otherwise.
+func (o *ControllerWorkflooDefinitionModelFileDocument) GetSourcePdfNodeId() string {
+	if o == nil || IsNil(o.SourcePdfNodeId) {
+		var ret string
+		return ret
+	}
+	return *o.SourcePdfNodeId
+}
+
+// GetSourcePdfNodeIdOk returns a tuple with the SourcePdfNodeId field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ControllerWorkflooDefinitionModelFileDocument) GetSourcePdfNodeIdOk() (*string, bool) {
+	if o == nil || IsNil(o.SourcePdfNodeId) {
+		return nil, false
+	}
+	return o.SourcePdfNodeId, true
+}
+
+// HasSourcePdfNodeId returns a boolean if a field has been set.
+func (o *ControllerWorkflooDefinitionModelFileDocument) HasSourcePdfNodeId() bool {
+	if o != nil && !IsNil(o.SourcePdfNodeId) {
+		return true
+	}
+
+	return false
+}
+
+// SetSourcePdfNodeId gets a reference to the given string and assigns it to the SourcePdfNodeId field.
+func (o *ControllerWorkflooDefinitionModelFileDocument) SetSourcePdfNodeId(v string) {
+	o.SourcePdfNodeId = &v
+}
+
 func (o ControllerWorkflooDefinitionModelFileDocument) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -263,6 +297,9 @@ func (o ControllerWorkflooDefinitionModelFileDocument) ToMap() (map[string]inter
 	}
 	if !IsNil(o.Set) {
 		toSerialize["set"] = o.Set
+	}
+	if !IsNil(o.SourcePdfNodeId) {
+		toSerialize["sourcePdfNodeId"] = o.SourcePdfNodeId
 	}
 	return toSerialize, nil
 }

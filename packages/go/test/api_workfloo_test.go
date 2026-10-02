@@ -14,7 +14,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"testing"
-	openapiclient "github.com/kiban-cloud/kiban-sdk/workfloo"
+	openapiclient "github.com/kiban-cloud/kiban-sdk/packages/go"
 )
 
 func Test_workfloo_WorkflooAPIService(t *testing.T) {
@@ -34,6 +34,45 @@ func Test_workfloo_WorkflooAPIService(t *testing.T) {
 
 	})
 
+	t.Run("Test WorkflooAPIService ExecuteWorkflooDocument", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var id string
+
+		httpRes, err := apiClient.WorkflooAPI.ExecuteWorkflooDocument(context.Background(), id).Execute()
+
+		require.Nil(t, err)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test WorkflooAPIService ExecuteWorkflooForm", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var id string
+
+		httpRes, err := apiClient.WorkflooAPI.ExecuteWorkflooForm(context.Background(), id).Execute()
+
+		require.Nil(t, err)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test WorkflooAPIService FallbackWorkflooOtp", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var id string
+
+		httpRes, err := apiClient.WorkflooAPI.FallbackWorkflooOtp(context.Background(), id).Execute()
+
+		require.Nil(t, err)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
 	t.Run("Test WorkflooAPIService GetWorkfloo", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
@@ -41,6 +80,20 @@ func Test_workfloo_WorkflooAPIService(t *testing.T) {
 		var id string
 
 		resp, httpRes, err := apiClient.WorkflooAPI.GetWorkfloo(context.Background(), id).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test WorkflooAPIService GetWorkflooFile", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var id string
+
+		resp, httpRes, err := apiClient.WorkflooAPI.GetWorkflooFile(context.Background(), id).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -82,6 +135,86 @@ func Test_workfloo_WorkflooAPIService(t *testing.T) {
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test WorkflooAPIService ResendWorkflooNip", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var id string
+
+		resp, httpRes, err := apiClient.WorkflooAPI.ResendWorkflooNip(context.Background(), id).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test WorkflooAPIService ReviewWorkflooValidation", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var id string
+
+		httpRes, err := apiClient.WorkflooAPI.ReviewWorkflooValidation(context.Background(), id).Execute()
+
+		require.Nil(t, err)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test WorkflooAPIService SendWorkflooNip", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var id string
+
+		httpRes, err := apiClient.WorkflooAPI.SendWorkflooNip(context.Background(), id).Execute()
+
+		require.Nil(t, err)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test WorkflooAPIService SubmitWorkflooCorrection", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var id string
+
+		httpRes, err := apiClient.WorkflooAPI.SubmitWorkflooCorrection(context.Background(), id).Execute()
+
+		require.Nil(t, err)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test WorkflooAPIService ValidateWorkflooNip", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var id string
+
+		resp, httpRes, err := apiClient.WorkflooAPI.ValidateWorkflooNip(context.Background(), id).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test WorkflooAPIService ValidateWorkflooOtp", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var id string
+
+		httpRes, err := apiClient.WorkflooAPI.ValidateWorkflooOtp(context.Background(), id).Execute()
+
+		require.Nil(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
 	})

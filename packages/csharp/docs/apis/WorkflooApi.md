@@ -7,6 +7,7 @@ All URIs are relative to *https://workfloo.kiban.com*
 | [**ExecuteWorkfloo**](WorkflooApi.md#executeworkfloo) | **POST** /api/v1/workfloo | Ejecutar un workfloo |
 | [**ExecuteWorkflooDocument**](WorkflooApi.md#executeworkfloodocument) | **POST** /api/v1/workfloo/{id}/document | Enviar los documentos de un paso |
 | [**ExecuteWorkflooForm**](WorkflooApi.md#executeworkflooform) | **POST** /api/v1/workfloo/{id}/form | Enviar el formulario de un paso |
+| [**FallbackWorkflooOtp**](WorkflooApi.md#fallbackworkfloootp) | **PATCH** /api/v1/workfloo/{id}/otp/fallback | Reenviar el código de verificación (OTP) |
 | [**GetWorkfloo**](WorkflooApi.md#getworkfloo) | **GET** /api/v1/workfloo/{id} | Detalle de una ejecución |
 | [**GetWorkflooFile**](WorkflooApi.md#getworkfloofile) | **GET** /api/v1/workfloo/{id}/file | Descargar un archivo de un nodo |
 | [**GetWorkflooStatus**](WorkflooApi.md#getworkfloostatus) | **GET** /api/v1/workfloo/status/{id} | Estatus de una ejecución |
@@ -17,6 +18,7 @@ All URIs are relative to *https://workfloo.kiban.com*
 | [**SendWorkflooNip**](WorkflooApi.md#sendworkfloonip) | **PATCH** /api/v1/workfloo/{id}/nip/send | Enviar el NIP |
 | [**SubmitWorkflooCorrection**](WorkflooApi.md#submitworkfloocorrection) | **POST** /api/v1/workfloo/{id}/correction | Enviar la corrección de un paso de validación |
 | [**ValidateWorkflooNip**](WorkflooApi.md#validateworkfloonip) | **PATCH** /api/v1/workfloo/{id}/nip/validate | Validar el NIP |
+| [**ValidateWorkflooOtp**](WorkflooApi.md#validateworkfloootp) | **PATCH** /api/v1/workfloo/{id}/otp/validate | Validar el código de verificación (OTP) |
 
 <a id="executeworkfloo"></a>
 # **ExecuteWorkfloo**
@@ -148,6 +150,49 @@ void (empty response body)
 | **404** | La ejecución no existe |  -  |
 | **409** | Conflicto de estado |  -  |
 | **500** | Error interno |  -  |
+| **503** | Servicio dependiente no disponible |  -  |
+
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+
+<a id="fallbackworkfloootp"></a>
+# **FallbackWorkflooOtp**
+> void FallbackWorkflooOtp (string id, bool sandbox = null)
+
+Reenviar el código de verificación (OTP)
+
+Pide al proveedor una validación nueva (y un código nuevo) para el paso de verificación. Cada reenvío es una consulta facturada y el número de reenvíos lo limita el nodo; al agotarlos responde 400/403 con `{\"error\"}`.
+
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **id** | **string** | Id de la ejecución |  |
+| **sandbox** | **bool** | Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito | [optional]  |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Código reenviado |  -  |
+| **400** | Reenvíos agotados o error de negocio |  -  |
+| **401** | API key ausente o inválida |  -  |
+| **403** | Sin código pendiente, sin reenvíos, sin acceso, o la ejecución siguió ocupada procesando otro paso tras ~4.5 s de espera |  -  |
+| **404** | La ejecución no existe |  -  |
+| **500** | Error interno (incluye otra petición tomando la ejecución en el mismo instante; reintentar) |  -  |
 | **503** | Servicio dependiente no disponible |  -  |
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -598,6 +643,50 @@ Valida el NIP capturado por el usuario y devuelve la fase resultante del flujo N
 | **403** | NIP rechazado / sin acceso |  -  |
 | **404** | La ejecución no existe |  -  |
 | **500** | Error interno |  -  |
+| **503** | Servicio dependiente no disponible |  -  |
+
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+
+<a id="validateworkfloootp"></a>
+# **ValidateWorkflooOtp**
+> void ValidateWorkflooOtp (string id, ControllerWorkflooModelOtpValidateRequest controllerWorkflooModelOtpValidateRequest, bool sandbox = null)
+
+Validar el código de verificación (OTP)
+
+Envía al proveedor el código que tecleó la persona en el paso de verificación (ver `verification` en el estatus). Un código incorrecto con intentos restantes responde 400 con `{\"error\", \"remainingRetries\"}` y la ejecución sigue estacionada; al agotar los intentos responde 403, salvo que el nodo tenga rama de error, en cuyo caso el flujo continúa por ahí y responde 200.
+
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **id** | **string** | Id de la ejecución |  |
+| **controllerWorkflooModelOtpValidateRequest** | [**ControllerWorkflooModelOtpValidateRequest**](ControllerWorkflooModelOtpValidateRequest.md) | El código a validar |  |
+| **sandbox** | **bool** | Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito | [optional]  |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Código validado (o intentos agotados con rama de error) |  -  |
+| **400** | Token ausente o código incorrecto (incluye remainingRetries) |  -  |
+| **401** | API key ausente o inválida |  -  |
+| **403** | Sin código pendiente, intentos agotados, sin acceso, o la ejecución siguió ocupada procesando otro paso tras ~4.5 s de espera |  -  |
+| **404** | La ejecución no existe |  -  |
+| **500** | Error interno (incluye otra petición tomando la ejecución en el mismo instante; reintentar) |  -  |
 | **503** | Servicio dependiente no disponible |  -  |
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)

@@ -10,6 +10,7 @@ Name | Type | Description | Notes
 **Predefined** | Pointer to **bool** |  | [optional] 
 **Required** | Pointer to **bool** |  | [optional] 
 **Set** | Pointer to [**ControllerWorkflooDefinitionModelSetDataDocument**](ControllerWorkflooDefinitionModelSetDataDocument.md) |  | [optional] 
+**SourcePdfNodeId** | Pointer to **string** | SourcePdfNodeId: id del nodo PDF que genera este archivo. Cuando viene, el motor lo toma de ahí y no lo pide en el paso. | [optional] 
 
 ## Methods
 
@@ -179,6 +180,31 @@ SetSet sets Set field to given value.
 `func (o *ControllerWorkflooDefinitionModelFileDocument) HasSet() bool`
 
 HasSet returns a boolean if a field has been set.
+
+### GetSourcePdfNodeId
+
+`func (o *ControllerWorkflooDefinitionModelFileDocument) GetSourcePdfNodeId() string`
+
+GetSourcePdfNodeId returns the SourcePdfNodeId field if non-nil, zero value otherwise.
+
+### GetSourcePdfNodeIdOk
+
+`func (o *ControllerWorkflooDefinitionModelFileDocument) GetSourcePdfNodeIdOk() (*string, bool)`
+
+GetSourcePdfNodeIdOk returns a tuple with the SourcePdfNodeId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSourcePdfNodeId
+
+`func (o *ControllerWorkflooDefinitionModelFileDocument) SetSourcePdfNodeId(v string)`
+
+SetSourcePdfNodeId sets SourcePdfNodeId field to given value.
+
+### HasSourcePdfNodeId
+
+`func (o *ControllerWorkflooDefinitionModelFileDocument) HasSourcePdfNodeId() bool`
+
+HasSourcePdfNodeId returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

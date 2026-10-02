@@ -14,6 +14,7 @@ Name | Type | Description | Notes
 **Phase** | Pointer to **string** |  | [optional] 
 **PhoneNumber** | Pointer to **string** |  | [optional] 
 **PrivacyNotice** | Pointer to **string** |  | [optional] 
+**SendError** | Pointer to [**ControllerWorkflooModelNipSendErrorStatus**](ControllerWorkflooModelNipSendErrorStatus.md) |  | [optional] 
 **Terms** | Pointer to **string** |  | [optional] 
 **Widget** | Pointer to **interface{}** |  | [optional] 
 
@@ -285,6 +286,31 @@ SetPrivacyNotice sets PrivacyNotice field to given value.
 `func (o *ControllerWorkflooModelLinkNipStatus) HasPrivacyNotice() bool`
 
 HasPrivacyNotice returns a boolean if a field has been set.
+
+### GetSendError
+
+`func (o *ControllerWorkflooModelLinkNipStatus) GetSendError() ControllerWorkflooModelNipSendErrorStatus`
+
+GetSendError returns the SendError field if non-nil, zero value otherwise.
+
+### GetSendErrorOk
+
+`func (o *ControllerWorkflooModelLinkNipStatus) GetSendErrorOk() (*ControllerWorkflooModelNipSendErrorStatus, bool)`
+
+GetSendErrorOk returns a tuple with the SendError field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSendError
+
+`func (o *ControllerWorkflooModelLinkNipStatus) SetSendError(v ControllerWorkflooModelNipSendErrorStatus)`
+
+SetSendError sets SendError field to given value.
+
+### HasSendError
+
+`func (o *ControllerWorkflooModelLinkNipStatus) HasSendError() bool`
+
+HasSendError returns a boolean if a field has been set.
 
 ### GetTerms
 

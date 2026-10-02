@@ -7,6 +7,7 @@ Method | HTTP request | Description
 [**execute_workfloo**](WorkflooApi.md#execute_workfloo) | **POST** /api/v1/workfloo | Ejecutar un workfloo
 [**execute_workfloo_document**](WorkflooApi.md#execute_workfloo_document) | **POST** /api/v1/workfloo/{id}/document | Enviar los documentos de un paso
 [**execute_workfloo_form**](WorkflooApi.md#execute_workfloo_form) | **POST** /api/v1/workfloo/{id}/form | Enviar el formulario de un paso
+[**fallback_workfloo_otp**](WorkflooApi.md#fallback_workfloo_otp) | **PATCH** /api/v1/workfloo/{id}/otp/fallback | Reenviar el código de verificación (OTP)
 [**get_workfloo**](WorkflooApi.md#get_workfloo) | **GET** /api/v1/workfloo/{id} | Detalle de una ejecución
 [**get_workfloo_file**](WorkflooApi.md#get_workfloo_file) | **GET** /api/v1/workfloo/{id}/file | Descargar un archivo de un nodo
 [**get_workfloo_status**](WorkflooApi.md#get_workfloo_status) | **GET** /api/v1/workfloo/status/{id} | Estatus de una ejecución
@@ -17,6 +18,7 @@ Method | HTTP request | Description
 [**send_workfloo_nip**](WorkflooApi.md#send_workfloo_nip) | **PATCH** /api/v1/workfloo/{id}/nip/send | Enviar el NIP
 [**submit_workfloo_correction**](WorkflooApi.md#submit_workfloo_correction) | **POST** /api/v1/workfloo/{id}/correction | Enviar la corrección de un paso de validación
 [**validate_workfloo_nip**](WorkflooApi.md#validate_workfloo_nip) | **PATCH** /api/v1/workfloo/{id}/nip/validate | Validar el NIP
+[**validate_workfloo_otp**](WorkflooApi.md#validate_workfloo_otp) | **PATCH** /api/v1/workfloo/{id}/otp/validate | Validar el código de verificación (OTP)
 
 
 # **execute_workfloo**
@@ -278,6 +280,90 @@ void (empty response body)
 **404** | La ejecución no existe |  -  |
 **409** | Conflicto de estado |  -  |
 **500** | Error interno |  -  |
+**503** | Servicio dependiente no disponible |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **fallback_workfloo_otp**
+> fallback_workfloo_otp(id, sandbox=sandbox)
+
+Reenviar el código de verificación (OTP)
+
+Pide al proveedor una validación nueva (y un código nuevo) para el paso de verificación. Cada reenvío es una consulta facturada y el número de reenvíos lo limita el nodo; al agotarlos responde 400/403 con `{"error"}`.
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import kiban.sdk.workfloo
+from kiban.sdk.workfloo.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://workfloo.kiban.com
+# See configuration.py for a list of all supported configuration parameters.
+configuration = kiban.sdk.workfloo.Configuration(
+    host = "https://workfloo.kiban.com"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with kiban.sdk.workfloo.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = kiban.sdk.workfloo.WorkflooApi(api_client)
+    id = 'id_example' # str | Id de la ejecución
+    sandbox = True # bool | Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+
+    try:
+        # Reenviar el código de verificación (OTP)
+        api_instance.fallback_workfloo_otp(id, sandbox=sandbox)
+    except Exception as e:
+        print("Exception when calling WorkflooApi->fallback_workfloo_otp: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **str**| Id de la ejecución | 
+ **sandbox** | **bool**| Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito | [optional] 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Código reenviado |  -  |
+**400** | Reenvíos agotados o error de negocio |  -  |
+**401** | API key ausente o inválida |  -  |
+**403** | Sin código pendiente, sin reenvíos, sin acceso, o la ejecución siguió ocupada procesando otro paso tras ~4.5 s de espera |  -  |
+**404** | La ejecución no existe |  -  |
+**500** | Error interno (incluye otra petición tomando la ejecución en el mismo instante; reintentar) |  -  |
 **503** | Servicio dependiente no disponible |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -1183,6 +1269,93 @@ Name | Type | Description  | Notes
 **403** | NIP rechazado / sin acceso |  -  |
 **404** | La ejecución no existe |  -  |
 **500** | Error interno |  -  |
+**503** | Servicio dependiente no disponible |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **validate_workfloo_otp**
+> validate_workfloo_otp(id, controller_workfloo_model_otp_validate_request, sandbox=sandbox)
+
+Validar el código de verificación (OTP)
+
+Envía al proveedor el código que tecleó la persona en el paso de verificación (ver `verification` en el estatus). Un código incorrecto con intentos restantes responde 400 con `{"error", "remainingRetries"}` y la ejecución sigue estacionada; al agotar los intentos responde 403, salvo que el nodo tenga rama de error, en cuyo caso el flujo continúa por ahí y responde 200.
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import kiban.sdk.workfloo
+from kiban.sdk.workfloo.models.controller_workfloo_model_otp_validate_request import ControllerWorkflooModelOtpValidateRequest
+from kiban.sdk.workfloo.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://workfloo.kiban.com
+# See configuration.py for a list of all supported configuration parameters.
+configuration = kiban.sdk.workfloo.Configuration(
+    host = "https://workfloo.kiban.com"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with kiban.sdk.workfloo.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = kiban.sdk.workfloo.WorkflooApi(api_client)
+    id = 'id_example' # str | Id de la ejecución
+    controller_workfloo_model_otp_validate_request = kiban.sdk.workfloo.ControllerWorkflooModelOtpValidateRequest() # ControllerWorkflooModelOtpValidateRequest | El código a validar
+    sandbox = True # bool | Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+
+    try:
+        # Validar el código de verificación (OTP)
+        api_instance.validate_workfloo_otp(id, controller_workfloo_model_otp_validate_request, sandbox=sandbox)
+    except Exception as e:
+        print("Exception when calling WorkflooApi->validate_workfloo_otp: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **str**| Id de la ejecución | 
+ **controller_workfloo_model_otp_validate_request** | [**ControllerWorkflooModelOtpValidateRequest**](ControllerWorkflooModelOtpValidateRequest.md)| El código a validar | 
+ **sandbox** | **bool**| Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito | [optional] 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Código validado (o intentos agotados con rama de error) |  -  |
+**400** | Token ausente o código incorrecto (incluye remainingRetries) |  -  |
+**401** | API key ausente o inválida |  -  |
+**403** | Sin código pendiente, intentos agotados, sin acceso, o la ejecución siguió ocupada procesando otro paso tras ~4.5 s de espera |  -  |
+**404** | La ejecución no existe |  -  |
+**500** | Error interno (incluye otra petición tomando la ejecución en el mismo instante; reintentar) |  -  |
 **503** | Servicio dependiente no disponible |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

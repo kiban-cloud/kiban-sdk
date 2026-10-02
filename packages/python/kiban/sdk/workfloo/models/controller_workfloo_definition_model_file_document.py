@@ -35,7 +35,8 @@ class ControllerWorkflooDefinitionModelFileDocument(BaseModel):
     predefined: Optional[StrictBool] = None
     required: Optional[StrictBool] = None
     set: Optional[ControllerWorkflooDefinitionModelSetDataDocument] = None
-    __properties: ClassVar[List[str]] = ["fileMetadata", "id", "name", "predefined", "required", "set"]
+    source_pdf_node_id: Optional[StrictStr] = Field(default=None, description="SourcePdfNodeId: id del nodo PDF que genera este archivo. Cuando viene, el motor lo toma de ahí y no lo pide en el paso.", alias="sourcePdfNodeId")
+    __properties: ClassVar[List[str]] = ["fileMetadata", "id", "name", "predefined", "required", "set", "sourcePdfNodeId"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -99,7 +100,8 @@ class ControllerWorkflooDefinitionModelFileDocument(BaseModel):
             "name": obj.get("name"),
             "predefined": obj.get("predefined"),
             "required": obj.get("required"),
-            "set": ControllerWorkflooDefinitionModelSetDataDocument.from_dict(obj["set"]) if obj.get("set") is not None else None
+            "set": ControllerWorkflooDefinitionModelSetDataDocument.from_dict(obj["set"]) if obj.get("set") is not None else None,
+            "sourcePdfNodeId": obj.get("sourcePdfNodeId")
         })
         return _obj
 

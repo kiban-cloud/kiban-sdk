@@ -19,6 +19,9 @@ var _ MappedNullable = &ControllerWorkflooModelWorkflooStatus{}
 
 // ControllerWorkflooModelWorkflooStatus struct for ControllerWorkflooModelWorkflooStatus
 type ControllerWorkflooModelWorkflooStatus struct {
+	CancelledAt *string `json:"cancelledAt,omitempty"`
+	// Rastro de la cancelación manual, ausente en cualquier otro desenlace. Mismas dos reglas que en WorkflooResume: sólo la cancelación desde la consola los llena, y la fecha es un puntero para que omitempty funcione.
+	CancelledBy *string `json:"cancelledBy,omitempty"`
 	CurrentNodeId *string `json:"currentNodeId,omitempty"`
 	CurrentNodeName *string `json:"currentNodeName,omitempty"`
 	CurrentNodeType *string `json:"currentNodeType,omitempty"`
@@ -30,6 +33,8 @@ type ControllerWorkflooModelWorkflooStatus struct {
 	Status *string `json:"status,omitempty"`
 	Timer *ControllerWorkflooModelTimer `json:"timer,omitempty"`
 	Validation *ControllerWorkflooModelValidationStatus `json:"validation,omitempty"`
+	// Verification aparece SÓLO cuando la ejecución está esperando que alguien teclee un código. Su ausencia es lo que le dice al integrador que no hay nada pendiente de ese lado.
+	Verification *ControllerWorkflooModelVerificationStatus `json:"verification,omitempty"`
 }
 
 // NewControllerWorkflooModelWorkflooStatus instantiates a new ControllerWorkflooModelWorkflooStatus object
@@ -47,6 +52,70 @@ func NewControllerWorkflooModelWorkflooStatus() *ControllerWorkflooModelWorkfloo
 func NewControllerWorkflooModelWorkflooStatusWithDefaults() *ControllerWorkflooModelWorkflooStatus {
 	this := ControllerWorkflooModelWorkflooStatus{}
 	return &this
+}
+
+// GetCancelledAt returns the CancelledAt field value if set, zero value otherwise.
+func (o *ControllerWorkflooModelWorkflooStatus) GetCancelledAt() string {
+	if o == nil || IsNil(o.CancelledAt) {
+		var ret string
+		return ret
+	}
+	return *o.CancelledAt
+}
+
+// GetCancelledAtOk returns a tuple with the CancelledAt field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ControllerWorkflooModelWorkflooStatus) GetCancelledAtOk() (*string, bool) {
+	if o == nil || IsNil(o.CancelledAt) {
+		return nil, false
+	}
+	return o.CancelledAt, true
+}
+
+// HasCancelledAt returns a boolean if a field has been set.
+func (o *ControllerWorkflooModelWorkflooStatus) HasCancelledAt() bool {
+	if o != nil && !IsNil(o.CancelledAt) {
+		return true
+	}
+
+	return false
+}
+
+// SetCancelledAt gets a reference to the given string and assigns it to the CancelledAt field.
+func (o *ControllerWorkflooModelWorkflooStatus) SetCancelledAt(v string) {
+	o.CancelledAt = &v
+}
+
+// GetCancelledBy returns the CancelledBy field value if set, zero value otherwise.
+func (o *ControllerWorkflooModelWorkflooStatus) GetCancelledBy() string {
+	if o == nil || IsNil(o.CancelledBy) {
+		var ret string
+		return ret
+	}
+	return *o.CancelledBy
+}
+
+// GetCancelledByOk returns a tuple with the CancelledBy field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ControllerWorkflooModelWorkflooStatus) GetCancelledByOk() (*string, bool) {
+	if o == nil || IsNil(o.CancelledBy) {
+		return nil, false
+	}
+	return o.CancelledBy, true
+}
+
+// HasCancelledBy returns a boolean if a field has been set.
+func (o *ControllerWorkflooModelWorkflooStatus) HasCancelledBy() bool {
+	if o != nil && !IsNil(o.CancelledBy) {
+		return true
+	}
+
+	return false
+}
+
+// SetCancelledBy gets a reference to the given string and assigns it to the CancelledBy field.
+func (o *ControllerWorkflooModelWorkflooStatus) SetCancelledBy(v string) {
+	o.CancelledBy = &v
 }
 
 // GetCurrentNodeId returns the CurrentNodeId field value if set, zero value otherwise.
@@ -401,6 +470,38 @@ func (o *ControllerWorkflooModelWorkflooStatus) SetValidation(v ControllerWorkfl
 	o.Validation = &v
 }
 
+// GetVerification returns the Verification field value if set, zero value otherwise.
+func (o *ControllerWorkflooModelWorkflooStatus) GetVerification() ControllerWorkflooModelVerificationStatus {
+	if o == nil || IsNil(o.Verification) {
+		var ret ControllerWorkflooModelVerificationStatus
+		return ret
+	}
+	return *o.Verification
+}
+
+// GetVerificationOk returns a tuple with the Verification field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ControllerWorkflooModelWorkflooStatus) GetVerificationOk() (*ControllerWorkflooModelVerificationStatus, bool) {
+	if o == nil || IsNil(o.Verification) {
+		return nil, false
+	}
+	return o.Verification, true
+}
+
+// HasVerification returns a boolean if a field has been set.
+func (o *ControllerWorkflooModelWorkflooStatus) HasVerification() bool {
+	if o != nil && !IsNil(o.Verification) {
+		return true
+	}
+
+	return false
+}
+
+// SetVerification gets a reference to the given ControllerWorkflooModelVerificationStatus and assigns it to the Verification field.
+func (o *ControllerWorkflooModelWorkflooStatus) SetVerification(v ControllerWorkflooModelVerificationStatus) {
+	o.Verification = &v
+}
+
 func (o ControllerWorkflooModelWorkflooStatus) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -411,6 +512,12 @@ func (o ControllerWorkflooModelWorkflooStatus) MarshalJSON() ([]byte, error) {
 
 func (o ControllerWorkflooModelWorkflooStatus) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
+	if !IsNil(o.CancelledAt) {
+		toSerialize["cancelledAt"] = o.CancelledAt
+	}
+	if !IsNil(o.CancelledBy) {
+		toSerialize["cancelledBy"] = o.CancelledBy
+	}
 	if !IsNil(o.CurrentNodeId) {
 		toSerialize["currentNodeId"] = o.CurrentNodeId
 	}
@@ -443,6 +550,9 @@ func (o ControllerWorkflooModelWorkflooStatus) ToMap() (map[string]interface{}, 
 	}
 	if !IsNil(o.Validation) {
 		toSerialize["validation"] = o.Validation
+	}
+	if !IsNil(o.Verification) {
+		toSerialize["verification"] = o.Verification
 	}
 	return toSerialize, nil
 }

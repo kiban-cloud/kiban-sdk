@@ -33,6 +33,8 @@ namespace kiban.sdk.workfloo.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="ControllerWorkflooModelWorkflooStatus" /> class.
         /// </summary>
+        /// <param name="cancelledAt">cancelledAt</param>
+        /// <param name="cancelledBy">Rastro de la cancelación manual, ausente en cualquier otro desenlace. Mismas dos reglas que en WorkflooResume: sólo la cancelación desde la consola los llena, y la fecha es un puntero para que omitempty funcione.</param>
         /// <param name="currentNodeId">currentNodeId</param>
         /// <param name="currentNodeName">currentNodeName</param>
         /// <param name="currentNodeType">currentNodeType</param>
@@ -44,9 +46,12 @@ namespace kiban.sdk.workfloo.Model
         /// <param name="status">status</param>
         /// <param name="timer">timer</param>
         /// <param name="validation">validation</param>
+        /// <param name="verification">Verification aparece SÓLO cuando la ejecución está esperando que alguien teclee un código. Su ausencia es lo que le dice al integrador que no hay nada pendiente de ese lado.</param>
         [JsonConstructor]
-        public ControllerWorkflooModelWorkflooStatus(Option<string?> currentNodeId = default, Option<string?> currentNodeName = default, Option<string?> currentNodeType = default, Option<ControllerWorkflooDefinitionModelDocument?> document = default, Option<ControllerWorkflooDefinitionModelForm?> form = default, Option<string?> id = default, Option<ControllerWorkflooModelLinkNipStatus?> link = default, Option<string?> name = default, Option<string?> status = default, Option<ControllerWorkflooModelTimer?> timer = default, Option<ControllerWorkflooModelValidationStatus?> validation = default)
+        public ControllerWorkflooModelWorkflooStatus(Option<string?> cancelledAt = default, Option<string?> cancelledBy = default, Option<string?> currentNodeId = default, Option<string?> currentNodeName = default, Option<string?> currentNodeType = default, Option<ControllerWorkflooDefinitionModelDocument?> document = default, Option<ControllerWorkflooDefinitionModelForm?> form = default, Option<string?> id = default, Option<ControllerWorkflooModelLinkNipStatus?> link = default, Option<string?> name = default, Option<string?> status = default, Option<ControllerWorkflooModelTimer?> timer = default, Option<ControllerWorkflooModelValidationStatus?> validation = default, Option<ControllerWorkflooModelVerificationStatus?> verification = default)
         {
+            CancelledAtOption = cancelledAt;
+            CancelledByOption = cancelledBy;
             CurrentNodeIdOption = currentNodeId;
             CurrentNodeNameOption = currentNodeName;
             CurrentNodeTypeOption = currentNodeType;
@@ -58,10 +63,38 @@ namespace kiban.sdk.workfloo.Model
             StatusOption = status;
             TimerOption = timer;
             ValidationOption = validation;
+            VerificationOption = verification;
             OnCreated();
         }
 
         partial void OnCreated();
+
+        /// <summary>
+        /// Used to track the state of CancelledAt
+        /// </summary>
+        [JsonIgnore]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<string?> CancelledAtOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets CancelledAt
+        /// </summary>
+        [JsonPropertyName("cancelledAt")]
+        public string? CancelledAt { get { return this.CancelledAtOption.Value; } set { this.CancelledAtOption = new(value); } }
+
+        /// <summary>
+        /// Used to track the state of CancelledBy
+        /// </summary>
+        [JsonIgnore]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<string?> CancelledByOption { get; private set; }
+
+        /// <summary>
+        /// Rastro de la cancelación manual, ausente en cualquier otro desenlace. Mismas dos reglas que en WorkflooResume: sólo la cancelación desde la consola los llena, y la fecha es un puntero para que omitempty funcione.
+        /// </summary>
+        /// <value>Rastro de la cancelación manual, ausente en cualquier otro desenlace. Mismas dos reglas que en WorkflooResume: sólo la cancelación desde la consola los llena, y la fecha es un puntero para que omitempty funcione.</value>
+        [JsonPropertyName("cancelledBy")]
+        public string? CancelledBy { get { return this.CancelledByOption.Value; } set { this.CancelledByOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of CurrentNodeId
@@ -207,6 +240,20 @@ namespace kiban.sdk.workfloo.Model
         public ControllerWorkflooModelValidationStatus? Validation { get { return this.ValidationOption.Value; } set { this.ValidationOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of Verification
+        /// </summary>
+        [JsonIgnore]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<ControllerWorkflooModelVerificationStatus?> VerificationOption { get; private set; }
+
+        /// <summary>
+        /// Verification aparece SÓLO cuando la ejecución está esperando que alguien teclee un código. Su ausencia es lo que le dice al integrador que no hay nada pendiente de ese lado.
+        /// </summary>
+        /// <value>Verification aparece SÓLO cuando la ejecución está esperando que alguien teclee un código. Su ausencia es lo que le dice al integrador que no hay nada pendiente de ese lado.</value>
+        [JsonPropertyName("verification")]
+        public ControllerWorkflooModelVerificationStatus? Verification { get { return this.VerificationOption.Value; } set { this.VerificationOption = new(value); } }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -214,6 +261,8 @@ namespace kiban.sdk.workfloo.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class ControllerWorkflooModelWorkflooStatus {\n");
+            sb.Append("  CancelledAt: ").Append(CancelledAt).Append("\n");
+            sb.Append("  CancelledBy: ").Append(CancelledBy).Append("\n");
             sb.Append("  CurrentNodeId: ").Append(CurrentNodeId).Append("\n");
             sb.Append("  CurrentNodeName: ").Append(CurrentNodeName).Append("\n");
             sb.Append("  CurrentNodeType: ").Append(CurrentNodeType).Append("\n");
@@ -225,6 +274,7 @@ namespace kiban.sdk.workfloo.Model
             sb.Append("  Status: ").Append(Status).Append("\n");
             sb.Append("  Timer: ").Append(Timer).Append("\n");
             sb.Append("  Validation: ").Append(Validation).Append("\n");
+            sb.Append("  Verification: ").Append(Verification).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -272,6 +322,8 @@ namespace kiban.sdk.workfloo.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
+            Option<string?> cancelledAt = default;
+            Option<string?> cancelledBy = default;
             Option<string?> currentNodeId = default;
             Option<string?> currentNodeName = default;
             Option<string?> currentNodeType = default;
@@ -283,6 +335,7 @@ namespace kiban.sdk.workfloo.Model
             Option<string?> status = default;
             Option<ControllerWorkflooModelTimer?> timer = default;
             Option<ControllerWorkflooModelValidationStatus?> validation = default;
+            Option<ControllerWorkflooModelVerificationStatus?> verification = default;
 
             while (utf8JsonReader.Read())
             {
@@ -299,6 +352,12 @@ namespace kiban.sdk.workfloo.Model
 
                     switch (localVarJsonPropertyName)
                     {
+                        case "cancelledAt":
+                            cancelledAt = new Option<string?>(utf8JsonReader.GetString()!);
+                            break;
+                        case "cancelledBy":
+                            cancelledBy = new Option<string?>(utf8JsonReader.GetString()!);
+                            break;
                         case "currentNodeId":
                             currentNodeId = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
@@ -332,11 +391,20 @@ namespace kiban.sdk.workfloo.Model
                         case "validation":
                             validation = new Option<ControllerWorkflooModelValidationStatus?>(JsonSerializer.Deserialize<ControllerWorkflooModelValidationStatus>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
+                        case "verification":
+                            verification = new Option<ControllerWorkflooModelVerificationStatus?>(JsonSerializer.Deserialize<ControllerWorkflooModelVerificationStatus>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            break;
                         default:
                             break;
                     }
                 }
             }
+
+            if (cancelledAt.IsSet && cancelledAt.Value == null)
+                throw new ArgumentNullException(nameof(cancelledAt), "Property is not nullable for class ControllerWorkflooModelWorkflooStatus.");
+
+            if (cancelledBy.IsSet && cancelledBy.Value == null)
+                throw new ArgumentNullException(nameof(cancelledBy), "Property is not nullable for class ControllerWorkflooModelWorkflooStatus.");
 
             if (currentNodeId.IsSet && currentNodeId.Value == null)
                 throw new ArgumentNullException(nameof(currentNodeId), "Property is not nullable for class ControllerWorkflooModelWorkflooStatus.");
@@ -371,7 +439,10 @@ namespace kiban.sdk.workfloo.Model
             if (validation.IsSet && validation.Value == null)
                 throw new ArgumentNullException(nameof(validation), "Property is not nullable for class ControllerWorkflooModelWorkflooStatus.");
 
-            return new ControllerWorkflooModelWorkflooStatus(currentNodeId, currentNodeName, currentNodeType, document, form, id, link, name, status, timer, validation);
+            if (verification.IsSet && verification.Value == null)
+                throw new ArgumentNullException(nameof(verification), "Property is not nullable for class ControllerWorkflooModelWorkflooStatus.");
+
+            return new ControllerWorkflooModelWorkflooStatus(cancelledAt, cancelledBy, currentNodeId, currentNodeName, currentNodeType, document, form, id, link, name, status, timer, validation, verification);
         }
 
         /// <summary>
@@ -398,6 +469,12 @@ namespace kiban.sdk.workfloo.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, ControllerWorkflooModelWorkflooStatus controllerWorkflooModelWorkflooStatus, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (controllerWorkflooModelWorkflooStatus.CancelledAtOption.IsSet && controllerWorkflooModelWorkflooStatus.CancelledAt == null)
+                throw new ArgumentNullException(nameof(controllerWorkflooModelWorkflooStatus.CancelledAt), "Property is required for class ControllerWorkflooModelWorkflooStatus.");
+
+            if (controllerWorkflooModelWorkflooStatus.CancelledByOption.IsSet && controllerWorkflooModelWorkflooStatus.CancelledBy == null)
+                throw new ArgumentNullException(nameof(controllerWorkflooModelWorkflooStatus.CancelledBy), "Property is required for class ControllerWorkflooModelWorkflooStatus.");
+
             if (controllerWorkflooModelWorkflooStatus.CurrentNodeIdOption.IsSet && controllerWorkflooModelWorkflooStatus.CurrentNodeId == null)
                 throw new ArgumentNullException(nameof(controllerWorkflooModelWorkflooStatus.CurrentNodeId), "Property is required for class ControllerWorkflooModelWorkflooStatus.");
 
@@ -430,6 +507,15 @@ namespace kiban.sdk.workfloo.Model
 
             if (controllerWorkflooModelWorkflooStatus.ValidationOption.IsSet && controllerWorkflooModelWorkflooStatus.Validation == null)
                 throw new ArgumentNullException(nameof(controllerWorkflooModelWorkflooStatus.Validation), "Property is required for class ControllerWorkflooModelWorkflooStatus.");
+
+            if (controllerWorkflooModelWorkflooStatus.VerificationOption.IsSet && controllerWorkflooModelWorkflooStatus.Verification == null)
+                throw new ArgumentNullException(nameof(controllerWorkflooModelWorkflooStatus.Verification), "Property is required for class ControllerWorkflooModelWorkflooStatus.");
+
+            if (controllerWorkflooModelWorkflooStatus.CancelledAtOption.IsSet)
+                writer.WriteString("cancelledAt", controllerWorkflooModelWorkflooStatus.CancelledAt);
+
+            if (controllerWorkflooModelWorkflooStatus.CancelledByOption.IsSet)
+                writer.WriteString("cancelledBy", controllerWorkflooModelWorkflooStatus.CancelledBy);
 
             if (controllerWorkflooModelWorkflooStatus.CurrentNodeIdOption.IsSet)
                 writer.WriteString("currentNodeId", controllerWorkflooModelWorkflooStatus.CurrentNodeId);
@@ -473,6 +559,11 @@ namespace kiban.sdk.workfloo.Model
             {
                 writer.WritePropertyName("validation");
                 JsonSerializer.Serialize(writer, controllerWorkflooModelWorkflooStatus.Validation, jsonSerializerOptions);
+            }
+            if (controllerWorkflooModelWorkflooStatus.VerificationOption.IsSet)
+            {
+                writer.WritePropertyName("verification");
+                JsonSerializer.Serialize(writer, controllerWorkflooModelWorkflooStatus.Verification, jsonSerializerOptions);
             }
         }
     }

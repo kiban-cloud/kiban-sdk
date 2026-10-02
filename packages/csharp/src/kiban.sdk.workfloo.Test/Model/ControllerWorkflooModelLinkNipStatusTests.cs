@@ -144,6 +144,15 @@ namespace kiban.sdk.workfloo.Test.Model
         }
 
         /// <summary>
+        /// Test the property 'SendError'
+        /// </summary>
+        [Fact]
+        public void SendErrorTest()
+        {
+            // TODO unit test for the property 'SendError'
+        }
+
+        /// <summary>
         /// Test the property 'Terms'
         /// </summary>
         [Fact]

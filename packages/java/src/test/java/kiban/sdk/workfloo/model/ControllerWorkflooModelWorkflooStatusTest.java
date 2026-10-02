@@ -25,6 +25,7 @@ import kiban.sdk.workfloo.model.ControllerWorkflooDefinitionModelForm;
 import kiban.sdk.workfloo.model.ControllerWorkflooModelLinkNipStatus;
 import kiban.sdk.workfloo.model.ControllerWorkflooModelTimer;
 import kiban.sdk.workfloo.model.ControllerWorkflooModelValidationStatus;
+import kiban.sdk.workfloo.model.ControllerWorkflooModelVerificationStatus;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
@@ -40,6 +41,22 @@ public class ControllerWorkflooModelWorkflooStatusTest {
     @Test
     public void testControllerWorkflooModelWorkflooStatus() {
         // TODO: test ControllerWorkflooModelWorkflooStatus
+    }
+
+    /**
+     * Test the property 'cancelledAt'
+     */
+    @Test
+    public void cancelledAtTest() {
+        // TODO: test cancelledAt
+    }
+
+    /**
+     * Test the property 'cancelledBy'
+     */
+    @Test
+    public void cancelledByTest() {
+        // TODO: test cancelledBy
     }
 
     /**
@@ -128,6 +145,14 @@ public class ControllerWorkflooModelWorkflooStatusTest {
     @Test
     public void validationTest() {
         // TODO: test validation
+    }
+
+    /**
+     * Test the property 'verification'
+     */
+    @Test
+    public void verificationTest() {
+        // TODO: test verification
     }
 
 }

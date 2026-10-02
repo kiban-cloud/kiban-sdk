@@ -35,6 +35,8 @@ class TestControllerWorkflooModelWorkflooResume(unittest.TestCase):
         model = ControllerWorkflooModelWorkflooResume()
         if include_optional:
             return ControllerWorkflooModelWorkflooResume(
+                cancelled_at = '',
+                cancelled_by = '',
                 created = '',
                 id = '',
                 id_unykoo = 56,

@@ -19,6 +19,9 @@ var _ MappedNullable = &ControllerWorkflooModelWorkflooResume{}
 
 // ControllerWorkflooModelWorkflooResume struct for ControllerWorkflooModelWorkflooResume
 type ControllerWorkflooModelWorkflooResume struct {
+	CancelledAt *string `json:"cancelledAt,omitempty"`
+	// CancelledBy / CancelledAt sólo viajan si un usuario canceló la ejecución a mano desde la consola. Una ABANDONED por expiración del sistema no los trae, y son lo único que distingue un caso del otro (el status es el mismo). CancelledAt es *time.Time porque el omitempty de encoding/json NO omite un struct en cero: un time.Time plano emitiría siempre \"0001-01-01T00:00:00Z\" (mismo patrón que NodeDetail.DateFound).
+	CancelledBy *string `json:"cancelledBy,omitempty"`
 	Created *string `json:"created,omitempty"`
 	Id *string `json:"id,omitempty"`
 	IdUnykoo *int32 `json:"idUnykoo,omitempty"`
@@ -48,6 +51,70 @@ func NewControllerWorkflooModelWorkflooResume() *ControllerWorkflooModelWorkfloo
 func NewControllerWorkflooModelWorkflooResumeWithDefaults() *ControllerWorkflooModelWorkflooResume {
 	this := ControllerWorkflooModelWorkflooResume{}
 	return &this
+}
+
+// GetCancelledAt returns the CancelledAt field value if set, zero value otherwise.
+func (o *ControllerWorkflooModelWorkflooResume) GetCancelledAt() string {
+	if o == nil || IsNil(o.CancelledAt) {
+		var ret string
+		return ret
+	}
+	return *o.CancelledAt
+}
+
+// GetCancelledAtOk returns a tuple with the CancelledAt field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ControllerWorkflooModelWorkflooResume) GetCancelledAtOk() (*string, bool) {
+	if o == nil || IsNil(o.CancelledAt) {
+		return nil, false
+	}
+	return o.CancelledAt, true
+}
+
+// HasCancelledAt returns a boolean if a field has been set.
+func (o *ControllerWorkflooModelWorkflooResume) HasCancelledAt() bool {
+	if o != nil && !IsNil(o.CancelledAt) {
+		return true
+	}
+
+	return false
+}
+
+// SetCancelledAt gets a reference to the given string and assigns it to the CancelledAt field.
+func (o *ControllerWorkflooModelWorkflooResume) SetCancelledAt(v string) {
+	o.CancelledAt = &v
+}
+
+// GetCancelledBy returns the CancelledBy field value if set, zero value otherwise.
+func (o *ControllerWorkflooModelWorkflooResume) GetCancelledBy() string {
+	if o == nil || IsNil(o.CancelledBy) {
+		var ret string
+		return ret
+	}
+	return *o.CancelledBy
+}
+
+// GetCancelledByOk returns a tuple with the CancelledBy field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ControllerWorkflooModelWorkflooResume) GetCancelledByOk() (*string, bool) {
+	if o == nil || IsNil(o.CancelledBy) {
+		return nil, false
+	}
+	return o.CancelledBy, true
+}
+
+// HasCancelledBy returns a boolean if a field has been set.
+func (o *ControllerWorkflooModelWorkflooResume) HasCancelledBy() bool {
+	if o != nil && !IsNil(o.CancelledBy) {
+		return true
+	}
+
+	return false
+}
+
+// SetCancelledBy gets a reference to the given string and assigns it to the CancelledBy field.
+func (o *ControllerWorkflooModelWorkflooResume) SetCancelledBy(v string) {
+	o.CancelledBy = &v
 }
 
 // GetCreated returns the Created field value if set, zero value otherwise.
@@ -444,6 +511,12 @@ func (o ControllerWorkflooModelWorkflooResume) MarshalJSON() ([]byte, error) {
 
 func (o ControllerWorkflooModelWorkflooResume) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
+	if !IsNil(o.CancelledAt) {
+		toSerialize["cancelledAt"] = o.CancelledAt
+	}
+	if !IsNil(o.CancelledBy) {
+		toSerialize["cancelledBy"] = o.CancelledBy
+	}
 	if !IsNil(o.Created) {
 		toSerialize["created"] = o.Created
 	}

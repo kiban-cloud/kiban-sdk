@@ -4,6 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**CancelledAt** | Pointer to **string** |  | [optional] 
+**CancelledBy** | Pointer to **string** | Rastro de la cancelación manual, ausente en cualquier otro desenlace. Mismas dos reglas que en WorkflooResume: sólo la cancelación desde la consola los llena, y la fecha es un puntero para que omitempty funcione. | [optional] 
 **CurrentNodeId** | Pointer to **string** |  | [optional] 
 **CurrentNodeName** | Pointer to **string** |  | [optional] 
 **CurrentNodeType** | Pointer to **string** |  | [optional] 
@@ -15,6 +17,7 @@ Name | Type | Description | Notes
 **Status** | Pointer to **string** |  | [optional] 
 **Timer** | Pointer to [**ControllerWorkflooModelTimer**](ControllerWorkflooModelTimer.md) |  | [optional] 
 **Validation** | Pointer to [**ControllerWorkflooModelValidationStatus**](ControllerWorkflooModelValidationStatus.md) |  | [optional] 
+**Verification** | Pointer to [**ControllerWorkflooModelVerificationStatus**](ControllerWorkflooModelVerificationStatus.md) | Verification aparece SÓLO cuando la ejecución está esperando que alguien teclee un código. Su ausencia es lo que le dice al integrador que no hay nada pendiente de ese lado. | [optional] 
 
 ## Methods
 
@@ -34,6 +37,56 @@ will change when the set of required properties is changed
 NewControllerWorkflooModelWorkflooStatusWithDefaults instantiates a new ControllerWorkflooModelWorkflooStatus object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
+
+### GetCancelledAt
+
+`func (o *ControllerWorkflooModelWorkflooStatus) GetCancelledAt() string`
+
+GetCancelledAt returns the CancelledAt field if non-nil, zero value otherwise.
+
+### GetCancelledAtOk
+
+`func (o *ControllerWorkflooModelWorkflooStatus) GetCancelledAtOk() (*string, bool)`
+
+GetCancelledAtOk returns a tuple with the CancelledAt field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetCancelledAt
+
+`func (o *ControllerWorkflooModelWorkflooStatus) SetCancelledAt(v string)`
+
+SetCancelledAt sets CancelledAt field to given value.
+
+### HasCancelledAt
+
+`func (o *ControllerWorkflooModelWorkflooStatus) HasCancelledAt() bool`
+
+HasCancelledAt returns a boolean if a field has been set.
+
+### GetCancelledBy
+
+`func (o *ControllerWorkflooModelWorkflooStatus) GetCancelledBy() string`
+
+GetCancelledBy returns the CancelledBy field if non-nil, zero value otherwise.
+
+### GetCancelledByOk
+
+`func (o *ControllerWorkflooModelWorkflooStatus) GetCancelledByOk() (*string, bool)`
+
+GetCancelledByOk returns a tuple with the CancelledBy field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetCancelledBy
+
+`func (o *ControllerWorkflooModelWorkflooStatus) SetCancelledBy(v string)`
+
+SetCancelledBy sets CancelledBy field to given value.
+
+### HasCancelledBy
+
+`func (o *ControllerWorkflooModelWorkflooStatus) HasCancelledBy() bool`
+
+HasCancelledBy returns a boolean if a field has been set.
 
 ### GetCurrentNodeId
 
@@ -309,6 +362,31 @@ SetValidation sets Validation field to given value.
 `func (o *ControllerWorkflooModelWorkflooStatus) HasValidation() bool`
 
 HasValidation returns a boolean if a field has been set.
+
+### GetVerification
+
+`func (o *ControllerWorkflooModelWorkflooStatus) GetVerification() ControllerWorkflooModelVerificationStatus`
+
+GetVerification returns the Verification field if non-nil, zero value otherwise.
+
+### GetVerificationOk
+
+`func (o *ControllerWorkflooModelWorkflooStatus) GetVerificationOk() (*ControllerWorkflooModelVerificationStatus, bool)`
+
+GetVerificationOk returns a tuple with the Verification field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetVerification
+
+`func (o *ControllerWorkflooModelWorkflooStatus) SetVerification(v ControllerWorkflooModelVerificationStatus)`
+
+SetVerification sets Verification field to given value.
+
+### HasVerification
+
+`func (o *ControllerWorkflooModelWorkflooStatus) HasVerification() bool`
+
+HasVerification returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

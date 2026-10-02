@@ -28,6 +28,8 @@ class ControllerWorkflooModelWorkflooResume(BaseModel):
     """
     ControllerWorkflooModelWorkflooResume
     """ # noqa: E501
+    cancelled_at: Optional[StrictStr] = Field(default=None, alias="cancelledAt")
+    cancelled_by: Optional[StrictStr] = Field(default=None, description="CancelledBy / CancelledAt sólo viajan si un usuario canceló la ejecución a mano desde la consola. Una ABANDONED por expiración del sistema no los trae, y son lo único que distingue un caso del otro (el status es el mismo). CancelledAt es *time.Time porque el omitempty de encoding/json NO omite un struct en cero: un time.Time plano emitiría siempre \"0001-01-01T00:00:00Z\" (mismo patrón que NodeDetail.DateFound).", alias="cancelledBy")
     created: Optional[StrictStr] = None
     id: Optional[StrictStr] = None
     id_unykoo: Optional[StrictInt] = Field(default=None, alias="idUnykoo")
@@ -40,7 +42,7 @@ class ControllerWorkflooModelWorkflooResume(BaseModel):
     scenery_id: Optional[StrictStr] = Field(default=None, alias="sceneryId")
     scenery_name: Optional[StrictStr] = Field(default=None, alias="sceneryName")
     status: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["created", "id", "idUnykoo", "ipOrigin", "labels", "modified", "name", "nodes", "origin", "sceneryId", "sceneryName", "status"]
+    __properties: ClassVar[List[str]] = ["cancelledAt", "cancelledBy", "created", "id", "idUnykoo", "ipOrigin", "labels", "modified", "name", "nodes", "origin", "sceneryId", "sceneryName", "status"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -100,6 +102,8 @@ class ControllerWorkflooModelWorkflooResume(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "cancelledAt": obj.get("cancelledAt"),
+            "cancelledBy": obj.get("cancelledBy"),
             "created": obj.get("created"),
             "id": obj.get("id"),
             "idUnykoo": obj.get("idUnykoo"),

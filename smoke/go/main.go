@@ -18,7 +18,7 @@ import (
 	"strconv"
 	"time"
 
-	workfloo "github.com/kiban-cloud/kiban-sdk/workfloo"
+	workfloo "github.com/kiban-cloud/kiban-sdk/packages/go"
 )
 
 func main() {

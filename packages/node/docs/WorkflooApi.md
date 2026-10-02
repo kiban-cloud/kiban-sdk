@@ -7,6 +7,7 @@ All URIs are relative to *https://workfloo.kiban.com*
 |[**executeWorkfloo**](#executeworkfloo) | **POST** /api/v1/workfloo | Ejecutar un workfloo|
 |[**executeWorkflooDocument**](#executeworkfloodocument) | **POST** /api/v1/workfloo/{id}/document | Enviar los documentos de un paso|
 |[**executeWorkflooForm**](#executeworkflooform) | **POST** /api/v1/workfloo/{id}/form | Enviar el formulario de un paso|
+|[**fallbackWorkflooOtp**](#fallbackworkfloootp) | **PATCH** /api/v1/workfloo/{id}/otp/fallback | Reenviar el código de verificación (OTP)|
 |[**getWorkfloo**](#getworkfloo) | **GET** /api/v1/workfloo/{id} | Detalle de una ejecución|
 |[**getWorkflooFile**](#getworkfloofile) | **GET** /api/v1/workfloo/{id}/file | Descargar un archivo de un nodo|
 |[**getWorkflooStatus**](#getworkfloostatus) | **GET** /api/v1/workfloo/status/{id} | Estatus de una ejecución|
@@ -17,6 +18,7 @@ All URIs are relative to *https://workfloo.kiban.com*
 |[**sendWorkflooNip**](#sendworkfloonip) | **PATCH** /api/v1/workfloo/{id}/nip/send | Enviar el NIP|
 |[**submitWorkflooCorrection**](#submitworkfloocorrection) | **POST** /api/v1/workfloo/{id}/correction | Enviar la corrección de un paso de validación|
 |[**validateWorkflooNip**](#validateworkfloonip) | **PATCH** /api/v1/workfloo/{id}/nip/validate | Validar el NIP|
+|[**validateWorkflooOtp**](#validateworkfloootp) | **PATCH** /api/v1/workfloo/{id}/otp/validate | Validar el código de verificación (OTP)|
 
 # **executeWorkfloo**
 > ControllerWorkflooModelExecuteResponse executeWorkfloo(controllerWorkflooModelExecute)
@@ -204,6 +206,66 @@ void (empty response body)
 |**404** | La ejecución no existe |  -  |
 |**409** | Conflicto de estado |  -  |
 |**500** | Error interno |  -  |
+|**503** | Servicio dependiente no disponible |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **fallbackWorkflooOtp**
+> fallbackWorkflooOtp()
+
+Pide al proveedor una validación nueva (y un código nuevo) para el paso de verificación. Cada reenvío es una consulta facturada y el número de reenvíos lo limita el nodo; al agotarlos responde 400/403 con `{\"error\"}`.
+
+### Example
+
+```typescript
+import {
+    WorkflooApi,
+    Configuration
+} from 'kiban.sdk.workfloo';
+
+const configuration = new Configuration();
+const apiInstance = new WorkflooApi(configuration);
+
+let id: string; //Id de la ejecución (default to undefined)
+let sandbox: boolean; //Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional) (default to undefined)
+
+const { status, data } = await apiInstance.fallbackWorkflooOtp(
+    id,
+    sandbox
+);
+```
+
+### Parameters
+
+|Name | Type | Description  | Notes|
+|------------- | ------------- | ------------- | -------------|
+| **id** | [**string**] | Id de la ejecución | defaults to undefined|
+| **sandbox** | [**boolean**] | Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito | (optional) defaults to undefined|
+
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | Código reenviado |  -  |
+|**400** | Reenvíos agotados o error de negocio |  -  |
+|**401** | API key ausente o inválida |  -  |
+|**403** | Sin código pendiente, sin reenvíos, sin acceso, o la ejecución siguió ocupada procesando otro paso tras ~4.5 s de espera |  -  |
+|**404** | La ejecución no existe |  -  |
+|**500** | Error interno (incluye otra petición tomando la ejecución en el mismo instante; reintentar) |  -  |
 |**503** | Servicio dependiente no disponible |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -860,6 +922,70 @@ const { status, data } = await apiInstance.validateWorkflooNip(
 |**403** | NIP rechazado / sin acceso |  -  |
 |**404** | La ejecución no existe |  -  |
 |**500** | Error interno |  -  |
+|**503** | Servicio dependiente no disponible |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **validateWorkflooOtp**
+> validateWorkflooOtp(controllerWorkflooModelOtpValidateRequest)
+
+Envía al proveedor el código que tecleó la persona en el paso de verificación (ver `verification` en el estatus). Un código incorrecto con intentos restantes responde 400 con `{\"error\", \"remainingRetries\"}` y la ejecución sigue estacionada; al agotar los intentos responde 403, salvo que el nodo tenga rama de error, en cuyo caso el flujo continúa por ahí y responde 200.
+
+### Example
+
+```typescript
+import {
+    WorkflooApi,
+    Configuration,
+    ControllerWorkflooModelOtpValidateRequest
+} from 'kiban.sdk.workfloo';
+
+const configuration = new Configuration();
+const apiInstance = new WorkflooApi(configuration);
+
+let id: string; //Id de la ejecución (default to undefined)
+let controllerWorkflooModelOtpValidateRequest: ControllerWorkflooModelOtpValidateRequest; //El código a validar
+let sandbox: boolean; //Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional) (default to undefined)
+
+const { status, data } = await apiInstance.validateWorkflooOtp(
+    id,
+    controllerWorkflooModelOtpValidateRequest,
+    sandbox
+);
+```
+
+### Parameters
+
+|Name | Type | Description  | Notes|
+|------------- | ------------- | ------------- | -------------|
+| **controllerWorkflooModelOtpValidateRequest** | **ControllerWorkflooModelOtpValidateRequest**| El código a validar | |
+| **id** | [**string**] | Id de la ejecución | defaults to undefined|
+| **sandbox** | [**boolean**] | Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito | (optional) defaults to undefined|
+
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | Código validado (o intentos agotados con rama de error) |  -  |
+|**400** | Token ausente o código incorrecto (incluye remainingRetries) |  -  |
+|**401** | API key ausente o inválida |  -  |
+|**403** | Sin código pendiente, intentos agotados, sin acceso, o la ejecución siguió ocupada procesando otro paso tras ~4.5 s de espera |  -  |
+|**404** | La ejecución no existe |  -  |
+|**500** | Error interno (incluye otra petición tomando la ejecución en el mismo instante; reintentar) |  -  |
 |**503** | Servicio dependiente no disponible |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
