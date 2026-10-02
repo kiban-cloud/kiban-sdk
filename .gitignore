@@ -24,3 +24,9 @@ smoke/java/target/
 smoke/csharp/bin/
 smoke/csharp/obj/
 
+
+# Artefactos de build de los ejemplos (el código fuente sí se commitea)
+examples/java/target/
+examples/csharp/bin/
+examples/csharp/obj/
+examples/**/__pycache__/

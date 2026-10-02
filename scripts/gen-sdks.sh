@@ -67,6 +67,22 @@ for lang in $langs; do
     -g "$generator" \
     -o "$ROOT/packages/$outdir" \
     -c "$ROOT/openapi-generator/$config"
+
+  # README escrito a mano, si el lenguaje tiene uno: el que genera
+  # openapi-generator para algunos lenguajes es genérico o directamente
+  # incorrecto. La fuente vive fuera de packages/ para sobrevivir a la
+  # regeneración.
+  readme="$ROOT/openapi-generator/readmes/$lang.md"
+  if [ -f "$readme" ]; then
+    cp "$readme" "$ROOT/packages/$outdir/README.md"
+  fi
+  # C#: el README interno del proyecto trae instrucciones que no aplican
+  # (BearerToken, un namespace inexistente) y la ruta local del spec de quien
+  # generó. Se reemplaza por un puntero al README de verdad.
+  if [ "$lang" = "csharp" ]; then
+    printf '%s\n' "# kiban.sdk.workfloo" "" "Ver [README](../../README.md)." \
+      > "$ROOT/packages/$outdir/src/kiban.sdk.workfloo/README.md"
+  fi
 done
 
 echo "OK: SDKs generados"

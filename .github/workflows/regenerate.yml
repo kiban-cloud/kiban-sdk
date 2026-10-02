@@ -72,12 +72,15 @@ jobs:
       - name: Regenerar docs
         run: npm run docs
 
-      # Chequeo barato de que lo generado compila antes de abrir el PR. Java y
-      # C# se validan al revisar (ver README → Verificar).
-      - name: Compilar Node y Go
+      # Chequeo barato de que lo generado compila antes de abrir el PR, y de que
+      # los ejemplos siguen funcionando contra el SDK nuevo. Java y C# se
+      # validan al revisar (ver README → Verificar).
+      - name: Compilar Node y Go (SDK y ejemplos)
         run: |
           ( cd packages/node && npm install --no-audit --no-fund && npx tsc --noEmit -p . )
           ( cd packages/go && go build ./... )
+          node --check examples/node/flujo-completo.mjs
+          ( cd examples/go && go build ./... )
 
       - name: Commit de lo regenerado
         run: |

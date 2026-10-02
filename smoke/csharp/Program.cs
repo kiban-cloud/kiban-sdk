@@ -32,7 +32,9 @@ if (string.IsNullOrEmpty(hostUrl) || string.IsNullOrEmpty(apiKey) || string.IsNu
 IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureApi((context, options) =>
     {
-        options.AddTokens(new ApiKeyToken(apiKey!, ClientUtils.ApiKeyHeader.X_api_key));
+        // prefix: "" es obligatorio: el generador pone "Bearer " por defecto y la
+        // API espera la key sola en el header x-api-key.
+        options.AddTokens(new ApiKeyToken(apiKey!, ClientUtils.ApiKeyHeader.X_api_key, prefix: ""));
         options.AddApiHttpClients(builder =>
             builder.ConfigureHttpClient(c => c.BaseAddress = new Uri(hostUrl!)));
     })

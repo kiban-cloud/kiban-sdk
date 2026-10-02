@@ -12,12 +12,14 @@ La fuente es OpenAPI en
 specs/                     spec OpenAPI 3
   source/                  swagger 2.0 tal como lo publica workfloo-backend (entrada)
 openapi-generator/         un config.<lang>.yaml por lenguaje
+  readmes/                 READMEs escritos a mano que gen-sdks copia a packages/
 scripts/
   gen-spec.sh              specs/source → spec OpenAPI 3
   gen-sdks.sh              genera los 5 SDKs desde el spec
   postprocess-spec.mjs     reaplica ajustes que el generador no infiere
 packages/                  SDKs generados
   node/ go/ java/ python/ csharp/
+examples/                  flujo completo de un integrador, en los 5 lenguajes
 ```
 
 ## SDKs
@@ -132,7 +134,7 @@ IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureApi((ctx, options) =>
     {
         options.AddTokens(new ApiKeyToken(Environment.GetEnvironmentVariable("KIBAN_API_KEY")!,
-            ClientUtils.ApiKeyHeader.X_api_key));
+            ClientUtils.ApiKeyHeader.X_api_key, prefix: ""));
         options.AddApiHttpClients(b => b.ConfigureHttpClient(c =>
             c.BaseAddress = new Uri("https://workfloo.kiban.com")));
     })
@@ -143,6 +145,10 @@ var created = (await api.ExecuteWorkflooAsync(new ControllerWorkflooModelExecute
 var status = (await api.GetWorkflooStatusAsync(created!.Id)).Ok();
 var page = (await api.ListWorkfloosAsync(1, 20)).Ok();
 ```
+
+**Flujo completo:** [`examples/`](examples/) tiene, en los 5 lenguajes, el
+programa que ejecuta un workfloo y lo conduce hasta que termina, respondiendo
+cada paso (formulario, documentos, NIP, código de verificación y corrección).
 
 Las respuestas de error no traen un modelo tipado: el SDK expone el código HTTP
 (400/401/403/404/500/503) y el cuerpo crudo, que sólo viene cuando el backend
@@ -234,6 +240,16 @@ Después de regenerar, cada SDK tiene que compilar:
 ( cd packages/csharp && dotnet build )
 python3 -m venv /tmp/kiban-venv && /tmp/kiban-venv/bin/pip install ./packages/python \
   && /tmp/kiban-venv/bin/python -c "import kiban.sdk.workfloo"
+```
+
+Y los ejemplos tienen que seguir compilando contra el SDK nuevo:
+
+```bash
+node --check examples/node/flujo-completo.mjs
+/tmp/kiban-venv/bin/python -m py_compile examples/python/flujo_completo.py
+( cd examples/go && go build ./... )
+( cd examples/java && mvn -q compile )      # después del mvn install del SDK
+( cd examples/csharp && dotnet build )
 ```
 
 ## Publicar
