@@ -1,0 +1,16 @@
+{
+  "form": {
+    "first_name": "JUAN",
+    "last_name_1": "PEREZ",
+    "last_name_2": "LOPEZ",
+    "curp": "PELJ800101HDFRPN09",
+    "rfc_pf": "PELJ800101AB1",
+    "email": "juan.perez@example.com",
+    "country_code": "+52",
+    "phone_number": "5512345678"
+  },
+  "documents": {
+    "ine_front": "docs/ine-frente.jpg",
+    "ine_back": "docs/ine-reverso.jpg"
+  }
+}
