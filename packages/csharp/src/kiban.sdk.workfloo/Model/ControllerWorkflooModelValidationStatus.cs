@@ -181,7 +181,7 @@ namespace kiban.sdk.workfloo.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "fields":
-                            fields = new Option<List<ControllerWorkflooModelValidationField>?>(JsonSerializer.Deserialize<List<ControllerWorkflooModelValidationField>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            fields = new Option<List<ControllerWorkflooModelValidationField>?>(JsonSerializer.Deserialize<List<ControllerWorkflooModelValidationField>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "instruction":
                             instruction = new Option<string?>(utf8JsonReader.GetString()!);
@@ -197,9 +197,6 @@ namespace kiban.sdk.workfloo.Model
                     }
                 }
             }
-
-            if (fields.IsSet && fields.Value == null)
-                throw new ArgumentNullException(nameof(fields), "Property is not nullable for class ControllerWorkflooModelValidationStatus.");
 
             if (instruction.IsSet && instruction.Value == null)
                 throw new ArgumentNullException(nameof(instruction), "Property is not nullable for class ControllerWorkflooModelValidationStatus.");
@@ -237,9 +234,6 @@ namespace kiban.sdk.workfloo.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, ControllerWorkflooModelValidationStatus controllerWorkflooModelValidationStatus, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (controllerWorkflooModelValidationStatus.FieldsOption.IsSet && controllerWorkflooModelValidationStatus.Fields == null)
-                throw new ArgumentNullException(nameof(controllerWorkflooModelValidationStatus.Fields), "Property is required for class ControllerWorkflooModelValidationStatus.");
-
             if (controllerWorkflooModelValidationStatus.InstructionOption.IsSet && controllerWorkflooModelValidationStatus.Instruction == null)
                 throw new ArgumentNullException(nameof(controllerWorkflooModelValidationStatus.Instruction), "Property is required for class ControllerWorkflooModelValidationStatus.");
 
@@ -250,10 +244,13 @@ namespace kiban.sdk.workfloo.Model
                 throw new ArgumentNullException(nameof(controllerWorkflooModelValidationStatus.State), "Property is required for class ControllerWorkflooModelValidationStatus.");
 
             if (controllerWorkflooModelValidationStatus.FieldsOption.IsSet)
-            {
-                writer.WritePropertyName("fields");
-                JsonSerializer.Serialize(writer, controllerWorkflooModelValidationStatus.Fields, jsonSerializerOptions);
-            }
+                if (controllerWorkflooModelValidationStatus.FieldsOption.Value != null)
+                {
+                    writer.WritePropertyName("fields");
+                    JsonSerializer.Serialize(writer, controllerWorkflooModelValidationStatus.Fields, jsonSerializerOptions);
+                }
+                else
+                    writer.WriteNull("fields");
             if (controllerWorkflooModelValidationStatus.InstructionOption.IsSet)
                 writer.WriteString("instruction", controllerWorkflooModelValidationStatus.Instruction);
 

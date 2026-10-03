@@ -155,6 +155,7 @@ public class JSON {
         gsonBuilder.registerTypeAdapterFactory(new kiban.sdk.workfloo.model.ControllerWorkflooModelVariables.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new kiban.sdk.workfloo.model.ControllerWorkflooModelVerificationStatus.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new kiban.sdk.workfloo.model.ControllerWorkflooModelWorkfloo.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new kiban.sdk.workfloo.model.ControllerWorkflooModelWorkflooListItem.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new kiban.sdk.workfloo.model.ControllerWorkflooModelWorkflooPage.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new kiban.sdk.workfloo.model.ControllerWorkflooModelWorkflooResume.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new kiban.sdk.workfloo.model.ControllerWorkflooModelWorkflooStatus.CustomTypeAdapterFactory());

@@ -53,6 +53,16 @@ SetFormats sets Formats field to given value.
 
 HasFormats returns a boolean if a field has been set.
 
+### SetFormatsNil
+
+`func (o *ControllerWorkflooDefinitionModelFileMetadata) SetFormatsNil(b bool)`
+
+ SetFormatsNil sets the value for Formats to be an explicit nil
+
+### UnsetFormats
+`func (o *ControllerWorkflooDefinitionModelFileMetadata) UnsetFormats()`
+
+UnsetFormats ensures that no value is present for Formats, not even an explicit nil
 ### GetMax
 
 `func (o *ControllerWorkflooDefinitionModelFileMetadata) GetMax() int32`

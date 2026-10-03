@@ -105,6 +105,16 @@ SetDocument sets Document field to given value.
 
 HasDocument returns a boolean if a field has been set.
 
+### SetDocumentNil
+
+`func (o *ControllerWorkflooModelExecute) SetDocumentNil(b bool)`
+
+ SetDocumentNil sets the value for Document to be an explicit nil
+
+### UnsetDocument
+`func (o *ControllerWorkflooModelExecute) UnsetDocument()`
+
+UnsetDocument ensures that no value is present for Document, not even an explicit nil
 ### GetForm
 
 `func (o *ControllerWorkflooModelExecute) GetForm() map[string]interface{}`
@@ -130,6 +140,16 @@ SetForm sets Form field to given value.
 
 HasForm returns a boolean if a field has been set.
 
+### SetFormNil
+
+`func (o *ControllerWorkflooModelExecute) SetFormNil(b bool)`
+
+ SetFormNil sets the value for Form to be an explicit nil
+
+### UnsetForm
+`func (o *ControllerWorkflooModelExecute) UnsetForm()`
+
+UnsetForm ensures that no value is present for Form, not even an explicit nil
 ### GetIdWorkflooDefinition
 
 `func (o *ControllerWorkflooModelExecute) GetIdWorkflooDefinition() string`

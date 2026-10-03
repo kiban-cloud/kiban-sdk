@@ -93,6 +93,11 @@ class ControllerWorkflooModelLinkNipStatus(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of send_error
         if self.send_error:
             _dict['sendError'] = self.send_error.to_dict()
+        # set to None if events (nullable) is None
+        # and model_fields_set contains the field
+        if self.events is None and "events" in self.model_fields_set:
+            _dict['events'] = None
+
         # set to None if widget (nullable) is None
         # and model_fields_set contains the field
         if self.widget is None and "widget" in self.model_fields_set:

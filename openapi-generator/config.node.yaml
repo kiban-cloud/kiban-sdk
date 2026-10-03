@@ -7,6 +7,6 @@
 #
 # El cliente recibe la API key (x-api-key) por configuración, nunca hardcodeada.
 npmName: kiban.sdk.workfloo
-npmVersion: 0.2.0
+npmVersion: 0.3.0
 supportsES6: true
 withSeparateModelsAndApi: false

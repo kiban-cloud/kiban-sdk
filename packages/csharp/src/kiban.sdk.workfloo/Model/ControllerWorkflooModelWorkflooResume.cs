@@ -370,7 +370,7 @@ namespace kiban.sdk.workfloo.Model
                             ipOrigin = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "labels":
-                            labels = new Option<List<string>?>(JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            labels = new Option<List<string>?>(JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "modified":
                             modified = new Option<string?>(utf8JsonReader.GetString()!);
@@ -379,7 +379,7 @@ namespace kiban.sdk.workfloo.Model
                             name = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "nodes":
-                            nodes = new Option<List<ControllerWorkflooModelNodeResume>?>(JsonSerializer.Deserialize<List<ControllerWorkflooModelNodeResume>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            nodes = new Option<List<ControllerWorkflooModelNodeResume>?>(JsonSerializer.Deserialize<List<ControllerWorkflooModelNodeResume>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "origin":
                             origin = new Option<string?>(utf8JsonReader.GetString()!);
@@ -417,17 +417,11 @@ namespace kiban.sdk.workfloo.Model
             if (ipOrigin.IsSet && ipOrigin.Value == null)
                 throw new ArgumentNullException(nameof(ipOrigin), "Property is not nullable for class ControllerWorkflooModelWorkflooResume.");
 
-            if (labels.IsSet && labels.Value == null)
-                throw new ArgumentNullException(nameof(labels), "Property is not nullable for class ControllerWorkflooModelWorkflooResume.");
-
             if (modified.IsSet && modified.Value == null)
                 throw new ArgumentNullException(nameof(modified), "Property is not nullable for class ControllerWorkflooModelWorkflooResume.");
 
             if (name.IsSet && name.Value == null)
                 throw new ArgumentNullException(nameof(name), "Property is not nullable for class ControllerWorkflooModelWorkflooResume.");
-
-            if (nodes.IsSet && nodes.Value == null)
-                throw new ArgumentNullException(nameof(nodes), "Property is not nullable for class ControllerWorkflooModelWorkflooResume.");
 
             if (origin.IsSet && origin.Value == null)
                 throw new ArgumentNullException(nameof(origin), "Property is not nullable for class ControllerWorkflooModelWorkflooResume.");
@@ -483,17 +477,11 @@ namespace kiban.sdk.workfloo.Model
             if (controllerWorkflooModelWorkflooResume.IpOriginOption.IsSet && controllerWorkflooModelWorkflooResume.IpOrigin == null)
                 throw new ArgumentNullException(nameof(controllerWorkflooModelWorkflooResume.IpOrigin), "Property is required for class ControllerWorkflooModelWorkflooResume.");
 
-            if (controllerWorkflooModelWorkflooResume.LabelsOption.IsSet && controllerWorkflooModelWorkflooResume.Labels == null)
-                throw new ArgumentNullException(nameof(controllerWorkflooModelWorkflooResume.Labels), "Property is required for class ControllerWorkflooModelWorkflooResume.");
-
             if (controllerWorkflooModelWorkflooResume.ModifiedOption.IsSet && controllerWorkflooModelWorkflooResume.Modified == null)
                 throw new ArgumentNullException(nameof(controllerWorkflooModelWorkflooResume.Modified), "Property is required for class ControllerWorkflooModelWorkflooResume.");
 
             if (controllerWorkflooModelWorkflooResume.NameOption.IsSet && controllerWorkflooModelWorkflooResume.Name == null)
                 throw new ArgumentNullException(nameof(controllerWorkflooModelWorkflooResume.Name), "Property is required for class ControllerWorkflooModelWorkflooResume.");
-
-            if (controllerWorkflooModelWorkflooResume.NodesOption.IsSet && controllerWorkflooModelWorkflooResume.Nodes == null)
-                throw new ArgumentNullException(nameof(controllerWorkflooModelWorkflooResume.Nodes), "Property is required for class ControllerWorkflooModelWorkflooResume.");
 
             if (controllerWorkflooModelWorkflooResume.OriginOption.IsSet && controllerWorkflooModelWorkflooResume.Origin == null)
                 throw new ArgumentNullException(nameof(controllerWorkflooModelWorkflooResume.Origin), "Property is required for class ControllerWorkflooModelWorkflooResume.");
@@ -526,10 +514,13 @@ namespace kiban.sdk.workfloo.Model
                 writer.WriteString("ipOrigin", controllerWorkflooModelWorkflooResume.IpOrigin);
 
             if (controllerWorkflooModelWorkflooResume.LabelsOption.IsSet)
-            {
-                writer.WritePropertyName("labels");
-                JsonSerializer.Serialize(writer, controllerWorkflooModelWorkflooResume.Labels, jsonSerializerOptions);
-            }
+                if (controllerWorkflooModelWorkflooResume.LabelsOption.Value != null)
+                {
+                    writer.WritePropertyName("labels");
+                    JsonSerializer.Serialize(writer, controllerWorkflooModelWorkflooResume.Labels, jsonSerializerOptions);
+                }
+                else
+                    writer.WriteNull("labels");
             if (controllerWorkflooModelWorkflooResume.ModifiedOption.IsSet)
                 writer.WriteString("modified", controllerWorkflooModelWorkflooResume.Modified);
 
@@ -537,10 +528,13 @@ namespace kiban.sdk.workfloo.Model
                 writer.WriteString("name", controllerWorkflooModelWorkflooResume.Name);
 
             if (controllerWorkflooModelWorkflooResume.NodesOption.IsSet)
-            {
-                writer.WritePropertyName("nodes");
-                JsonSerializer.Serialize(writer, controllerWorkflooModelWorkflooResume.Nodes, jsonSerializerOptions);
-            }
+                if (controllerWorkflooModelWorkflooResume.NodesOption.Value != null)
+                {
+                    writer.WritePropertyName("nodes");
+                    JsonSerializer.Serialize(writer, controllerWorkflooModelWorkflooResume.Nodes, jsonSerializerOptions);
+                }
+                else
+                    writer.WriteNull("nodes");
             if (controllerWorkflooModelWorkflooResume.OriginOption.IsSet)
                 writer.WriteString("origin", controllerWorkflooModelWorkflooResume.Origin);
 

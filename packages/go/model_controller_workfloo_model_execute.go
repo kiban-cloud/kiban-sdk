@@ -113,9 +113,9 @@ func (o *ControllerWorkflooModelExecute) SetCallbackXApiKey(v string) {
 	o.CallbackXApiKey = &v
 }
 
-// GetDocument returns the Document field value if set, zero value otherwise.
+// GetDocument returns the Document field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ControllerWorkflooModelExecute) GetDocument() map[string]interface{} {
-	if o == nil || IsNil(o.Document) {
+	if o == nil {
 		var ret map[string]interface{}
 		return ret
 	}
@@ -124,6 +124,7 @@ func (o *ControllerWorkflooModelExecute) GetDocument() map[string]interface{} {
 
 // GetDocumentOk returns a tuple with the Document field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *ControllerWorkflooModelExecute) GetDocumentOk() (map[string]interface{}, bool) {
 	if o == nil || IsNil(o.Document) {
 		return map[string]interface{}{}, false
@@ -145,9 +146,9 @@ func (o *ControllerWorkflooModelExecute) SetDocument(v map[string]interface{}) {
 	o.Document = v
 }
 
-// GetForm returns the Form field value if set, zero value otherwise.
+// GetForm returns the Form field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ControllerWorkflooModelExecute) GetForm() map[string]interface{} {
-	if o == nil || IsNil(o.Form) {
+	if o == nil {
 		var ret map[string]interface{}
 		return ret
 	}
@@ -156,6 +157,7 @@ func (o *ControllerWorkflooModelExecute) GetForm() map[string]interface{} {
 
 // GetFormOk returns a tuple with the Form field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *ControllerWorkflooModelExecute) GetFormOk() (map[string]interface{}, bool) {
 	if o == nil || IsNil(o.Form) {
 		return map[string]interface{}{}, false
@@ -249,10 +251,10 @@ func (o ControllerWorkflooModelExecute) ToMap() (map[string]interface{}, error) 
 	if !IsNil(o.CallbackXApiKey) {
 		toSerialize["callbackXApiKey"] = o.CallbackXApiKey
 	}
-	if !IsNil(o.Document) {
+	if o.Document != nil {
 		toSerialize["document"] = o.Document
 	}
-	if !IsNil(o.Form) {
+	if o.Form != nil {
 		toSerialize["form"] = o.Form
 	}
 	toSerialize["idWorkflooDefinition"] = o.IdWorkflooDefinition

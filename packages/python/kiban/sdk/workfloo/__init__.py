@@ -14,7 +14,7 @@
 """  # noqa: E501
 
 
-__version__ = "0.2.0"
+__version__ = "0.3.0"
 
 # Define package exports
 __all__ = [
@@ -88,6 +88,7 @@ __all__ = [
     "ControllerWorkflooModelVariables",
     "ControllerWorkflooModelVerificationStatus",
     "ControllerWorkflooModelWorkfloo",
+    "ControllerWorkflooModelWorkflooListItem",
     "ControllerWorkflooModelWorkflooPage",
     "ControllerWorkflooModelWorkflooResume",
     "ControllerWorkflooModelWorkflooStatus",
@@ -168,6 +169,7 @@ from kiban.sdk.workfloo.models.controller_workfloo_model_variable import Control
 from kiban.sdk.workfloo.models.controller_workfloo_model_variables import ControllerWorkflooModelVariables as ControllerWorkflooModelVariables
 from kiban.sdk.workfloo.models.controller_workfloo_model_verification_status import ControllerWorkflooModelVerificationStatus as ControllerWorkflooModelVerificationStatus
 from kiban.sdk.workfloo.models.controller_workfloo_model_workfloo import ControllerWorkflooModelWorkfloo as ControllerWorkflooModelWorkfloo
+from kiban.sdk.workfloo.models.controller_workfloo_model_workfloo_list_item import ControllerWorkflooModelWorkflooListItem as ControllerWorkflooModelWorkflooListItem
 from kiban.sdk.workfloo.models.controller_workfloo_model_workfloo_page import ControllerWorkflooModelWorkflooPage as ControllerWorkflooModelWorkflooPage
 from kiban.sdk.workfloo.models.controller_workfloo_model_workfloo_resume import ControllerWorkflooModelWorkflooResume as ControllerWorkflooModelWorkflooResume
 from kiban.sdk.workfloo.models.controller_workfloo_model_workfloo_status import ControllerWorkflooModelWorkflooStatus as ControllerWorkflooModelWorkflooStatus

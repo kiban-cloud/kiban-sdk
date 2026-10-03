@@ -130,16 +130,13 @@ namespace kiban.sdk.workfloo.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "fields":
-                            fields = new Option<List<ControllerWorkflooModelFormField>?>(JsonSerializer.Deserialize<List<ControllerWorkflooModelFormField>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            fields = new Option<List<ControllerWorkflooModelFormField>?>(JsonSerializer.Deserialize<List<ControllerWorkflooModelFormField>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         default:
                             break;
                     }
                 }
             }
-
-            if (fields.IsSet && fields.Value == null)
-                throw new ArgumentNullException(nameof(fields), "Property is not nullable for class ControllerWorkflooModelForm.");
 
             return new ControllerWorkflooModelForm(fields);
         }
@@ -168,14 +165,14 @@ namespace kiban.sdk.workfloo.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, ControllerWorkflooModelForm controllerWorkflooModelForm, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (controllerWorkflooModelForm.FieldsOption.IsSet && controllerWorkflooModelForm.Fields == null)
-                throw new ArgumentNullException(nameof(controllerWorkflooModelForm.Fields), "Property is required for class ControllerWorkflooModelForm.");
-
             if (controllerWorkflooModelForm.FieldsOption.IsSet)
-            {
-                writer.WritePropertyName("fields");
-                JsonSerializer.Serialize(writer, controllerWorkflooModelForm.Fields, jsonSerializerOptions);
-            }
+                if (controllerWorkflooModelForm.FieldsOption.Value != null)
+                {
+                    writer.WritePropertyName("fields");
+                    JsonSerializer.Serialize(writer, controllerWorkflooModelForm.Fields, jsonSerializerOptions);
+                }
+                else
+                    writer.WriteNull("fields");
         }
     }
 }

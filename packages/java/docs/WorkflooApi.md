@@ -657,11 +657,11 @@ public class Example {
 
 <a id="listWorkfloosV2"></a>
 # **listWorkfloosV2**
-> List&lt;ControllerWorkflooModelWorkfloo&gt; listWorkfloosV2(page, itemsPerPage, status, from, to, format, sandbox)
+> List&lt;ControllerWorkflooModelWorkflooListItem&gt; listWorkfloosV2(page, itemsPerPage, from, to, origin, status, name, id, nodesFormSearchableByRfcPf, nodesFormSearchableByFirstName, nodesFormSearchableBySecondName, nodesFormSearchableByLastName1, nodesFormSearchableByLastName2, nodesFormSearchableByRfcPm, nodesFormSearchableByCompanyName, format, content, labels, sandbox)
 
 Historial de ejecuciones (v2)
 
-Igual que v1 pero devuelve el arreglo de ejecuciones directo, sin envoltorio. La paginación viaja en el header Link. Con format&#x3D;csv la respuesta es un archivo CSV en lugar de JSON. Cualquier query param adicional no listado aquí se interpreta como filtro de búsqueda sobre el listado (searchableBy).
+Devuelve el arreglo de ejecuciones directo, sin envoltorio. La paginación viaja en el header Link. content&#x3D;true agrega a cada elemento la ejecución completa, con todos sus nodos (la misma forma que getWorkfloo); por defecto es false y llega el resumen. format&#x3D;CSV devuelve un archivo CSV en lugar de JSON. Los SDKs tipan la respuesta como JSON: para el CSV hay que leer el cuerpo crudo de la respuesta. Cualquier query param adicional no listado aquí se interpreta como filtro de búsqueda sobre el listado (searchableBy).
 
 ### Example
 ```java
@@ -686,14 +686,26 @@ public class Example {
 
     WorkflooApi apiInstance = new WorkflooApi(defaultClient);
     Integer page = 56; // Integer | Número de página, empieza en 1
-    Integer itemsPerPage = 56; // Integer | Cantidad de resultados por página
-    String status = "status_example"; // String | Filtra por estado de la ejecución
-    String from = "from_example"; // String | Fecha inicial del rango (RFC3339)
-    String to = "to_example"; // String | Fecha final del rango (RFC3339)
-    String format = "json"; // String | Formato de la respuesta
+    Integer itemsPerPage = 56; // Integer | Cantidad de resultados por página, entre 1 y 10000
+    String from = "from_example"; // String | Fecha inicial del rango (ISO 8601)
+    String to = "to_example"; // String | Fecha final del rango (ISO 8601)
+    String origin = "origin_example"; // String | Origen de la ejecución: KIBAN_CLOUD, API o FRONT
+    String status = "status_example"; // String | Estado de la ejecución: SUCCESS, ERROR o PROGRESS
+    String name = "name_example"; // String | Nombre del workfloo (búsqueda parcial)
+    String id = "id_example"; // String | Id exacto de la ejecución
+    String nodesFormSearchableByRfcPf = "nodesFormSearchableByRfcPf_example"; // String | RFC de persona física (empieza con, sin distinguir mayúsculas)
+    String nodesFormSearchableByFirstName = "nodesFormSearchableByFirstName_example"; // String | Nombre (empieza con, sin distinguir mayúsculas)
+    String nodesFormSearchableBySecondName = "nodesFormSearchableBySecondName_example"; // String | Segundo nombre (empieza con, sin distinguir mayúsculas)
+    String nodesFormSearchableByLastName1 = "nodesFormSearchableByLastName1_example"; // String | Apellido paterno (empieza con, sin distinguir mayúsculas)
+    String nodesFormSearchableByLastName2 = "nodesFormSearchableByLastName2_example"; // String | Apellido materno (empieza con, sin distinguir mayúsculas)
+    String nodesFormSearchableByRfcPm = "nodesFormSearchableByRfcPm_example"; // String | RFC de persona moral (empieza con, sin distinguir mayúsculas)
+    String nodesFormSearchableByCompanyName = "nodesFormSearchableByCompanyName_example"; // String | Razón social (empieza con, sin distinguir mayúsculas)
+    String format = "JSON"; // String | Formato de la respuesta; por defecto JSON
+    Boolean content = true; // Boolean | Agrega la ejecución completa (todos sus nodos) a cada elemento; por defecto false
+    String labels = "labels_example"; // String | Etiquetas, separadas por punto y coma
     Boolean sandbox = true; // Boolean | Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
     try {
-      List<ControllerWorkflooModelWorkfloo> result = apiInstance.listWorkfloosV2(page, itemsPerPage, status, from, to, format, sandbox);
+      List<ControllerWorkflooModelWorkflooListItem> result = apiInstance.listWorkfloosV2(page, itemsPerPage, from, to, origin, status, name, id, nodesFormSearchableByRfcPf, nodesFormSearchableByFirstName, nodesFormSearchableBySecondName, nodesFormSearchableByLastName1, nodesFormSearchableByLastName2, nodesFormSearchableByRfcPm, nodesFormSearchableByCompanyName, format, content, labels, sandbox);
       System.out.println(result);
     } catch (ApiException e) {
       System.err.println("Exception when calling WorkflooApi#listWorkfloosV2");
@@ -711,16 +723,28 @@ public class Example {
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **page** | **Integer**| Número de página, empieza en 1 | [optional] |
-| **itemsPerPage** | **Integer**| Cantidad de resultados por página | [optional] |
-| **status** | **String**| Filtra por estado de la ejecución | [optional] |
-| **from** | **String**| Fecha inicial del rango (RFC3339) | [optional] |
-| **to** | **String**| Fecha final del rango (RFC3339) | [optional] |
-| **format** | **String**| Formato de la respuesta | [optional] [enum: json, csv] |
+| **itemsPerPage** | **Integer**| Cantidad de resultados por página, entre 1 y 10000 | [optional] |
+| **from** | **String**| Fecha inicial del rango (ISO 8601) | [optional] |
+| **to** | **String**| Fecha final del rango (ISO 8601) | [optional] |
+| **origin** | **String**| Origen de la ejecución: KIBAN_CLOUD, API o FRONT | [optional] |
+| **status** | **String**| Estado de la ejecución: SUCCESS, ERROR o PROGRESS | [optional] |
+| **name** | **String**| Nombre del workfloo (búsqueda parcial) | [optional] |
+| **id** | **String**| Id exacto de la ejecución | [optional] |
+| **nodesFormSearchableByRfcPf** | **String**| RFC de persona física (empieza con, sin distinguir mayúsculas) | [optional] |
+| **nodesFormSearchableByFirstName** | **String**| Nombre (empieza con, sin distinguir mayúsculas) | [optional] |
+| **nodesFormSearchableBySecondName** | **String**| Segundo nombre (empieza con, sin distinguir mayúsculas) | [optional] |
+| **nodesFormSearchableByLastName1** | **String**| Apellido paterno (empieza con, sin distinguir mayúsculas) | [optional] |
+| **nodesFormSearchableByLastName2** | **String**| Apellido materno (empieza con, sin distinguir mayúsculas) | [optional] |
+| **nodesFormSearchableByRfcPm** | **String**| RFC de persona moral (empieza con, sin distinguir mayúsculas) | [optional] |
+| **nodesFormSearchableByCompanyName** | **String**| Razón social (empieza con, sin distinguir mayúsculas) | [optional] |
+| **format** | **String**| Formato de la respuesta; por defecto JSON | [optional] [enum: JSON, CSV] |
+| **content** | **Boolean**| Agrega la ejecución completa (todos sus nodos) a cada elemento; por defecto false | [optional] |
+| **labels** | **String**| Etiquetas, separadas por punto y coma | [optional] |
 | **sandbox** | **Boolean**| Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito | [optional] |
 
 ### Return type
 
-[**List&lt;ControllerWorkflooModelWorkfloo&gt;**](ControllerWorkflooModelWorkfloo.md)
+[**List&lt;ControllerWorkflooModelWorkflooListItem&gt;**](ControllerWorkflooModelWorkflooListItem.md)
 
 ### Authorization
 

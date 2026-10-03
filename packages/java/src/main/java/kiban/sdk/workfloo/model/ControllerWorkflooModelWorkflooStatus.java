@@ -54,7 +54,7 @@ import kiban.sdk.workfloo.JSON;
 /**
  * ControllerWorkflooModelWorkflooStatus
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-10-02T10:13:43.960045-06:00[America/Mexico_City]", comments = "Generator version: 7.24.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0")
 public class ControllerWorkflooModelWorkflooStatus {
   public static final String SERIALIZED_NAME_CANCELLED_AT = "cancelledAt";
   @SerializedName(SERIALIZED_NAME_CANCELLED_AT)

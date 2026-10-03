@@ -733,12 +733,13 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_workfloos_v2**
-> List[ControllerWorkflooModelWorkfloo] list_workfloos_v2(page=page, items_per_page=items_per_page, status=status, var_from=var_from, to=to, format=format, sandbox=sandbox)
+> List[ControllerWorkflooModelWorkflooListItem] list_workfloos_v2(page=page, items_per_page=items_per_page, var_from=var_from, to=to, origin=origin, status=status, name=name, id=id, nodes_form_searchable_by_rfc_pf=nodes_form_searchable_by_rfc_pf, nodes_form_searchable_by_first_name=nodes_form_searchable_by_first_name, nodes_form_searchable_by_second_name=nodes_form_searchable_by_second_name, nodes_form_searchable_by_last_name_1=nodes_form_searchable_by_last_name_1, nodes_form_searchable_by_last_name_2=nodes_form_searchable_by_last_name_2, nodes_form_searchable_by_rfc_pm=nodes_form_searchable_by_rfc_pm, nodes_form_searchable_by_company_name=nodes_form_searchable_by_company_name, format=format, content=content, labels=labels, sandbox=sandbox)
 
 Historial de ejecuciones (v2)
 
-Igual que v1 pero devuelve el arreglo de ejecuciones directo, sin envoltorio. La paginación viaja en el header Link.
-Con format=csv la respuesta es un archivo CSV en lugar de JSON.
+Devuelve el arreglo de ejecuciones directo, sin envoltorio. La paginación viaja en el header Link.
+content=true agrega a cada elemento la ejecución completa, con todos sus nodos (la misma forma que getWorkfloo); por defecto es false y llega el resumen.
+format=CSV devuelve un archivo CSV en lugar de JSON. Los SDKs tipan la respuesta como JSON: para el CSV hay que leer el cuerpo crudo de la respuesta.
 Cualquier query param adicional no listado aquí se interpreta como filtro de búsqueda sobre el listado (searchableBy).
 
 ### Example
@@ -747,7 +748,7 @@ Cualquier query param adicional no listado aquí se interpreta como filtro de b�
 
 ```python
 import kiban.sdk.workfloo
-from kiban.sdk.workfloo.models.controller_workfloo_model_workfloo import ControllerWorkflooModelWorkfloo
+from kiban.sdk.workfloo.models.controller_workfloo_model_workfloo_list_item import ControllerWorkflooModelWorkflooListItem
 from kiban.sdk.workfloo.rest import ApiException
 from pprint import pprint
 
@@ -773,16 +774,28 @@ with kiban.sdk.workfloo.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = kiban.sdk.workfloo.WorkflooApi(api_client)
     page = 56 # int | Número de página, empieza en 1 (optional)
-    items_per_page = 56 # int | Cantidad de resultados por página (optional)
-    status = 'status_example' # str | Filtra por estado de la ejecución (optional)
-    var_from = 'var_from_example' # str | Fecha inicial del rango (RFC3339) (optional)
-    to = 'to_example' # str | Fecha final del rango (RFC3339) (optional)
-    format = 'format_example' # str | Formato de la respuesta (optional)
+    items_per_page = 56 # int | Cantidad de resultados por página, entre 1 y 10000 (optional)
+    var_from = 'var_from_example' # str | Fecha inicial del rango (ISO 8601) (optional)
+    to = 'to_example' # str | Fecha final del rango (ISO 8601) (optional)
+    origin = 'origin_example' # str | Origen de la ejecución: KIBAN_CLOUD, API o FRONT (optional)
+    status = 'status_example' # str | Estado de la ejecución: SUCCESS, ERROR o PROGRESS (optional)
+    name = 'name_example' # str | Nombre del workfloo (búsqueda parcial) (optional)
+    id = 'id_example' # str | Id exacto de la ejecución (optional)
+    nodes_form_searchable_by_rfc_pf = 'nodes_form_searchable_by_rfc_pf_example' # str | RFC de persona física (empieza con, sin distinguir mayúsculas) (optional)
+    nodes_form_searchable_by_first_name = 'nodes_form_searchable_by_first_name_example' # str | Nombre (empieza con, sin distinguir mayúsculas) (optional)
+    nodes_form_searchable_by_second_name = 'nodes_form_searchable_by_second_name_example' # str | Segundo nombre (empieza con, sin distinguir mayúsculas) (optional)
+    nodes_form_searchable_by_last_name_1 = 'nodes_form_searchable_by_last_name_1_example' # str | Apellido paterno (empieza con, sin distinguir mayúsculas) (optional)
+    nodes_form_searchable_by_last_name_2 = 'nodes_form_searchable_by_last_name_2_example' # str | Apellido materno (empieza con, sin distinguir mayúsculas) (optional)
+    nodes_form_searchable_by_rfc_pm = 'nodes_form_searchable_by_rfc_pm_example' # str | RFC de persona moral (empieza con, sin distinguir mayúsculas) (optional)
+    nodes_form_searchable_by_company_name = 'nodes_form_searchable_by_company_name_example' # str | Razón social (empieza con, sin distinguir mayúsculas) (optional)
+    format = 'format_example' # str | Formato de la respuesta; por defecto JSON (optional)
+    content = True # bool | Agrega la ejecución completa (todos sus nodos) a cada elemento; por defecto false (optional)
+    labels = 'labels_example' # str | Etiquetas, separadas por punto y coma (optional)
     sandbox = True # bool | Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
 
     try:
         # Historial de ejecuciones (v2)
-        api_response = api_instance.list_workfloos_v2(page=page, items_per_page=items_per_page, status=status, var_from=var_from, to=to, format=format, sandbox=sandbox)
+        api_response = api_instance.list_workfloos_v2(page=page, items_per_page=items_per_page, var_from=var_from, to=to, origin=origin, status=status, name=name, id=id, nodes_form_searchable_by_rfc_pf=nodes_form_searchable_by_rfc_pf, nodes_form_searchable_by_first_name=nodes_form_searchable_by_first_name, nodes_form_searchable_by_second_name=nodes_form_searchable_by_second_name, nodes_form_searchable_by_last_name_1=nodes_form_searchable_by_last_name_1, nodes_form_searchable_by_last_name_2=nodes_form_searchable_by_last_name_2, nodes_form_searchable_by_rfc_pm=nodes_form_searchable_by_rfc_pm, nodes_form_searchable_by_company_name=nodes_form_searchable_by_company_name, format=format, content=content, labels=labels, sandbox=sandbox)
         print("The response of WorkflooApi->list_workfloos_v2:\n")
         pprint(api_response)
     except Exception as e:
@@ -797,16 +810,28 @@ with kiban.sdk.workfloo.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **page** | **int**| Número de página, empieza en 1 | [optional] 
- **items_per_page** | **int**| Cantidad de resultados por página | [optional] 
- **status** | **str**| Filtra por estado de la ejecución | [optional] 
- **var_from** | **str**| Fecha inicial del rango (RFC3339) | [optional] 
- **to** | **str**| Fecha final del rango (RFC3339) | [optional] 
- **format** | **str**| Formato de la respuesta | [optional] 
+ **items_per_page** | **int**| Cantidad de resultados por página, entre 1 y 10000 | [optional] 
+ **var_from** | **str**| Fecha inicial del rango (ISO 8601) | [optional] 
+ **to** | **str**| Fecha final del rango (ISO 8601) | [optional] 
+ **origin** | **str**| Origen de la ejecución: KIBAN_CLOUD, API o FRONT | [optional] 
+ **status** | **str**| Estado de la ejecución: SUCCESS, ERROR o PROGRESS | [optional] 
+ **name** | **str**| Nombre del workfloo (búsqueda parcial) | [optional] 
+ **id** | **str**| Id exacto de la ejecución | [optional] 
+ **nodes_form_searchable_by_rfc_pf** | **str**| RFC de persona física (empieza con, sin distinguir mayúsculas) | [optional] 
+ **nodes_form_searchable_by_first_name** | **str**| Nombre (empieza con, sin distinguir mayúsculas) | [optional] 
+ **nodes_form_searchable_by_second_name** | **str**| Segundo nombre (empieza con, sin distinguir mayúsculas) | [optional] 
+ **nodes_form_searchable_by_last_name_1** | **str**| Apellido paterno (empieza con, sin distinguir mayúsculas) | [optional] 
+ **nodes_form_searchable_by_last_name_2** | **str**| Apellido materno (empieza con, sin distinguir mayúsculas) | [optional] 
+ **nodes_form_searchable_by_rfc_pm** | **str**| RFC de persona moral (empieza con, sin distinguir mayúsculas) | [optional] 
+ **nodes_form_searchable_by_company_name** | **str**| Razón social (empieza con, sin distinguir mayúsculas) | [optional] 
+ **format** | **str**| Formato de la respuesta; por defecto JSON | [optional] 
+ **content** | **bool**| Agrega la ejecución completa (todos sus nodos) a cada elemento; por defecto false | [optional] 
+ **labels** | **str**| Etiquetas, separadas por punto y coma | [optional] 
  **sandbox** | **bool**| Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito | [optional] 
 
 ### Return type
 
-[**List[ControllerWorkflooModelWorkfloo]**](ControllerWorkflooModelWorkfloo.md)
+[**List[ControllerWorkflooModelWorkflooListItem]**](ControllerWorkflooModelWorkflooListItem.md)
 
 ### Authorization
 

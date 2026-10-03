@@ -17,7 +17,7 @@ NIP, código de verificación, corrección) y revisar el historial.
 ## Instalación
 
 ```bash
-dotnet add package kiban.sdk.workfloo --version 0.2.0
+dotnet add package kiban.sdk.workfloo --version 0.3.0
 ```
 
 Mientras el paquete no esté publicado en NuGet, referencialo desde este repo:
@@ -125,7 +125,7 @@ await api.ListWorkfloosV2Async(page: new Option<int>(1), itemsPerPage: new Optio
 | `GetWorkflooStatusAsync` | `GET /api/v1/workfloo/status/{id}` | estatus y paso actual, con lo que ese paso pide |
 | `GetWorkflooAsync` | `GET /api/v1/workfloo/{id}` | detalle completo de la ejecución |
 | `ListWorkfloosAsync` | `GET /api/v1/workfloo` | historial paginado, envuelto en `currentPage/hasNextPage/items` |
-| `ListWorkfloosV2Async` | `GET /api/v2/workfloo` | historial como arreglo plano; paginación en el header `Link`; `format=csv` |
+| `ListWorkfloosV2Async` | `GET /api/v2/workfloo` | historial como arreglo plano; paginación en el header `Link`. Con `content: true` cada elemento trae la ejecución completa; con `format: "CSV"` llega un CSV (ver abajo) |
 | `ExecuteWorkflooFormAsync` | `POST /api/v1/workfloo/{id}/form` | responde un paso FORM: `{campoId: valor}` |
 | `ExecuteWorkflooDocumentAsync` | `POST /api/v1/workfloo/{id}/document` | responde un paso DOCUMENT: `{documentoId: base64}` |
 | `GetWorkflooFileAsync` | `GET /api/v1/workfloo/{id}/file` | descarga un archivo generado o subido |
@@ -141,6 +141,17 @@ await api.ListWorkfloosV2Async(page: new Option<int>(1), itemsPerPage: new Optio
 Parámetros y tipos de cada uno: [`docs/apis/WorkflooApi.md`](docs/apis/WorkflooApi.md),
 [`docs/apis/PoolApi.md`](docs/apis/PoolApi.md) y los modelos en
 [`docs/models/`](docs/models).
+
+## Historial en CSV
+
+`ListWorkfloosV2Async` está tipada como JSON. Con `format: "CSV"` la API devuelve
+`text/csv`, y `Ok()` intentaría leerlo como JSON. El texto está en `RawContent`:
+
+```csharp
+var r = await api.ListWorkfloosV2Async(page: new Option<int>(1), itemsPerPage: new Option<int>(100),
+    format: new Option<string>("CSV"));
+if (r.IsOk) File.WriteAllText("workfloos.csv", r.RawContent);
+```
 
 ## Conducir una ejecución
 

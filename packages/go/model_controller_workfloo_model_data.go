@@ -20,7 +20,7 @@ var _ MappedNullable = &ControllerWorkflooModelData{}
 // ControllerWorkflooModelData struct for ControllerWorkflooModelData
 type ControllerWorkflooModelData struct {
 	Fields []map[string]interface{} `json:"fields,omitempty"`
-	Section *map[string]string `json:"section,omitempty"`
+	Section map[string]string `json:"section,omitempty"`
 }
 
 // NewControllerWorkflooModelData instantiates a new ControllerWorkflooModelData object
@@ -40,9 +40,9 @@ func NewControllerWorkflooModelDataWithDefaults() *ControllerWorkflooModelData {
 	return &this
 }
 
-// GetFields returns the Fields field value if set, zero value otherwise.
+// GetFields returns the Fields field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ControllerWorkflooModelData) GetFields() []map[string]interface{} {
-	if o == nil || IsNil(o.Fields) {
+	if o == nil {
 		var ret []map[string]interface{}
 		return ret
 	}
@@ -51,6 +51,7 @@ func (o *ControllerWorkflooModelData) GetFields() []map[string]interface{} {
 
 // GetFieldsOk returns a tuple with the Fields field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *ControllerWorkflooModelData) GetFieldsOk() ([]map[string]interface{}, bool) {
 	if o == nil || IsNil(o.Fields) {
 		return nil, false
@@ -72,22 +73,23 @@ func (o *ControllerWorkflooModelData) SetFields(v []map[string]interface{}) {
 	o.Fields = v
 }
 
-// GetSection returns the Section field value if set, zero value otherwise.
+// GetSection returns the Section field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ControllerWorkflooModelData) GetSection() map[string]string {
-	if o == nil || IsNil(o.Section) {
+	if o == nil {
 		var ret map[string]string
 		return ret
 	}
-	return *o.Section
+	return o.Section
 }
 
 // GetSectionOk returns a tuple with the Section field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *ControllerWorkflooModelData) GetSectionOk() (*map[string]string, bool) {
 	if o == nil || IsNil(o.Section) {
 		return nil, false
 	}
-	return o.Section, true
+	return &o.Section, true
 }
 
 // HasSection returns a boolean if a field has been set.
@@ -101,7 +103,7 @@ func (o *ControllerWorkflooModelData) HasSection() bool {
 
 // SetSection gets a reference to the given map[string]string and assigns it to the Section field.
 func (o *ControllerWorkflooModelData) SetSection(v map[string]string) {
-	o.Section = &v
+	o.Section = v
 }
 
 func (o ControllerWorkflooModelData) MarshalJSON() ([]byte, error) {
@@ -114,10 +116,10 @@ func (o ControllerWorkflooModelData) MarshalJSON() ([]byte, error) {
 
 func (o ControllerWorkflooModelData) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !IsNil(o.Fields) {
+	if o.Fields != nil {
 		toSerialize["fields"] = o.Fields
 	}
-	if !IsNil(o.Section) {
+	if o.Section != nil {
 		toSerialize["section"] = o.Section
 	}
 	return toSerialize, nil

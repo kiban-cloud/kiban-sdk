@@ -41,9 +41,9 @@ func NewControllerWorkflooModelRulesetWithDefaults() *ControllerWorkflooModelRul
 	return &this
 }
 
-// GetDecision returns the Decision field value if set, zero value otherwise.
+// GetDecision returns the Decision field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ControllerWorkflooModelRuleset) GetDecision() []ControllerWorkflooModelRules {
-	if o == nil || IsNil(o.Decision) {
+	if o == nil {
 		var ret []ControllerWorkflooModelRules
 		return ret
 	}
@@ -52,6 +52,7 @@ func (o *ControllerWorkflooModelRuleset) GetDecision() []ControllerWorkflooModel
 
 // GetDecisionOk returns a tuple with the Decision field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *ControllerWorkflooModelRuleset) GetDecisionOk() ([]ControllerWorkflooModelRules, bool) {
 	if o == nil || IsNil(o.Decision) {
 		return nil, false
@@ -105,9 +106,9 @@ func (o *ControllerWorkflooModelRuleset) SetExit(v string) {
 	o.Exit = &v
 }
 
-// GetLabels returns the Labels field value if set, zero value otherwise.
+// GetLabels returns the Labels field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ControllerWorkflooModelRuleset) GetLabels() []string {
-	if o == nil || IsNil(o.Labels) {
+	if o == nil {
 		var ret []string
 		return ret
 	}
@@ -116,6 +117,7 @@ func (o *ControllerWorkflooModelRuleset) GetLabels() []string {
 
 // GetLabelsOk returns a tuple with the Labels field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *ControllerWorkflooModelRuleset) GetLabelsOk() ([]string, bool) {
 	if o == nil || IsNil(o.Labels) {
 		return nil, false
@@ -147,13 +149,13 @@ func (o ControllerWorkflooModelRuleset) MarshalJSON() ([]byte, error) {
 
 func (o ControllerWorkflooModelRuleset) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !IsNil(o.Decision) {
+	if o.Decision != nil {
 		toSerialize["decision"] = o.Decision
 	}
 	if !IsNil(o.Exit) {
 		toSerialize["exit"] = o.Exit
 	}
-	if !IsNil(o.Labels) {
+	if o.Labels != nil {
 		toSerialize["labels"] = o.Labels
 	}
 	return toSerialize, nil

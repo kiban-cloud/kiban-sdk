@@ -171,9 +171,9 @@ func (o *ControllerWorkflooModelValidationResume) SetReviewerNote(v string) {
 	o.ReviewerNote = &v
 }
 
-// GetReviews returns the Reviews field value if set, zero value otherwise.
+// GetReviews returns the Reviews field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ControllerWorkflooModelValidationResume) GetReviews() []ControllerWorkflooModelReviewResume {
-	if o == nil || IsNil(o.Reviews) {
+	if o == nil {
 		var ret []ControllerWorkflooModelReviewResume
 		return ret
 	}
@@ -182,6 +182,7 @@ func (o *ControllerWorkflooModelValidationResume) GetReviews() []ControllerWorkf
 
 // GetReviewsOk returns a tuple with the Reviews field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *ControllerWorkflooModelValidationResume) GetReviewsOk() ([]ControllerWorkflooModelReviewResume, bool) {
 	if o == nil || IsNil(o.Reviews) {
 		return nil, false
@@ -225,7 +226,7 @@ func (o ControllerWorkflooModelValidationResume) ToMap() (map[string]interface{}
 	if !IsNil(o.ReviewerNote) {
 		toSerialize["reviewerNote"] = o.ReviewerNote
 	}
-	if !IsNil(o.Reviews) {
+	if o.Reviews != nil {
 		toSerialize["reviews"] = o.Reviews
 	}
 	return toSerialize, nil

@@ -181,7 +181,7 @@ namespace kiban.sdk.workfloo.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "formats":
-                            formats = new Option<List<string>?>(JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            formats = new Option<List<string>?>(JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "max":
                             max = new Option<int?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (int?)null : utf8JsonReader.GetInt32());
@@ -197,9 +197,6 @@ namespace kiban.sdk.workfloo.Model
                     }
                 }
             }
-
-            if (formats.IsSet && formats.Value == null)
-                throw new ArgumentNullException(nameof(formats), "Property is not nullable for class ControllerWorkflooDefinitionModelFileMetadata.");
 
             if (max.IsSet && max.Value == null)
                 throw new ArgumentNullException(nameof(max), "Property is not nullable for class ControllerWorkflooDefinitionModelFileMetadata.");
@@ -237,14 +234,14 @@ namespace kiban.sdk.workfloo.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, ControllerWorkflooDefinitionModelFileMetadata controllerWorkflooDefinitionModelFileMetadata, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (controllerWorkflooDefinitionModelFileMetadata.FormatsOption.IsSet && controllerWorkflooDefinitionModelFileMetadata.Formats == null)
-                throw new ArgumentNullException(nameof(controllerWorkflooDefinitionModelFileMetadata.Formats), "Property is required for class ControllerWorkflooDefinitionModelFileMetadata.");
-
             if (controllerWorkflooDefinitionModelFileMetadata.FormatsOption.IsSet)
-            {
-                writer.WritePropertyName("formats");
-                JsonSerializer.Serialize(writer, controllerWorkflooDefinitionModelFileMetadata.Formats, jsonSerializerOptions);
-            }
+                if (controllerWorkflooDefinitionModelFileMetadata.FormatsOption.Value != null)
+                {
+                    writer.WritePropertyName("formats");
+                    JsonSerializer.Serialize(writer, controllerWorkflooDefinitionModelFileMetadata.Formats, jsonSerializerOptions);
+                }
+                else
+                    writer.WriteNull("formats");
             if (controllerWorkflooDefinitionModelFileMetadata.MaxOption.IsSet)
                 writer.WriteNumber("max", controllerWorkflooDefinitionModelFileMetadata.MaxOption.Value!.Value);
 

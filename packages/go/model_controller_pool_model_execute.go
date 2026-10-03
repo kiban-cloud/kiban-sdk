@@ -22,7 +22,7 @@ var _ MappedNullable = &ControllerPoolModelExecute{}
 // ControllerPoolModelExecute struct for ControllerPoolModelExecute
 type ControllerPoolModelExecute struct {
 	IdPoolDefinition string `json:"idPoolDefinition"`
-	Sceneries *map[string]string `json:"sceneries,omitempty"`
+	Sceneries map[string]string `json:"sceneries,omitempty"`
 }
 
 type _ControllerPoolModelExecute ControllerPoolModelExecute
@@ -69,22 +69,23 @@ func (o *ControllerPoolModelExecute) SetIdPoolDefinition(v string) {
 	o.IdPoolDefinition = v
 }
 
-// GetSceneries returns the Sceneries field value if set, zero value otherwise.
+// GetSceneries returns the Sceneries field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ControllerPoolModelExecute) GetSceneries() map[string]string {
-	if o == nil || IsNil(o.Sceneries) {
+	if o == nil {
 		var ret map[string]string
 		return ret
 	}
-	return *o.Sceneries
+	return o.Sceneries
 }
 
 // GetSceneriesOk returns a tuple with the Sceneries field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *ControllerPoolModelExecute) GetSceneriesOk() (*map[string]string, bool) {
 	if o == nil || IsNil(o.Sceneries) {
 		return nil, false
 	}
-	return o.Sceneries, true
+	return &o.Sceneries, true
 }
 
 // HasSceneries returns a boolean if a field has been set.
@@ -98,7 +99,7 @@ func (o *ControllerPoolModelExecute) HasSceneries() bool {
 
 // SetSceneries gets a reference to the given map[string]string and assigns it to the Sceneries field.
 func (o *ControllerPoolModelExecute) SetSceneries(v map[string]string) {
-	o.Sceneries = &v
+	o.Sceneries = v
 }
 
 func (o ControllerPoolModelExecute) MarshalJSON() ([]byte, error) {
@@ -112,7 +113,7 @@ func (o ControllerPoolModelExecute) MarshalJSON() ([]byte, error) {
 func (o ControllerPoolModelExecute) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["idPoolDefinition"] = o.IdPoolDefinition
-	if !IsNil(o.Sceneries) {
+	if o.Sceneries != nil {
 		toSerialize["sceneries"] = o.Sceneries
 	}
 	return toSerialize, nil

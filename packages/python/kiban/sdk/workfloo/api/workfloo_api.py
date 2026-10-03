@@ -28,7 +28,7 @@ from kiban.sdk.workfloo.models.controller_workfloo_model_nip_validate_request im
 from kiban.sdk.workfloo.models.controller_workfloo_model_nip_validate_response import ControllerWorkflooModelNipValidateResponse
 from kiban.sdk.workfloo.models.controller_workfloo_model_otp_validate_request import ControllerWorkflooModelOtpValidateRequest
 from kiban.sdk.workfloo.models.controller_workfloo_model_review_request import ControllerWorkflooModelReviewRequest
-from kiban.sdk.workfloo.models.controller_workfloo_model_workfloo import ControllerWorkflooModelWorkfloo
+from kiban.sdk.workfloo.models.controller_workfloo_model_workfloo_list_item import ControllerWorkflooModelWorkflooListItem
 from kiban.sdk.workfloo.models.controller_workfloo_model_workfloo_page import ControllerWorkflooModelWorkflooPage
 from kiban.sdk.workfloo.models.controller_workfloo_model_workfloo_resume import ControllerWorkflooModelWorkflooResume
 from kiban.sdk.workfloo.models.controller_workfloo_model_workfloo_status import ControllerWorkflooModelWorkflooStatus
@@ -2590,11 +2590,23 @@ class WorkflooApi:
     def list_workfloos_v2(
         self,
         page: Annotated[Optional[StrictInt], Field(description="Número de página, empieza en 1")] = None,
-        items_per_page: Annotated[Optional[StrictInt], Field(description="Cantidad de resultados por página")] = None,
-        status: Annotated[Optional[StrictStr], Field(description="Filtra por estado de la ejecución")] = None,
-        var_from: Annotated[Optional[StrictStr], Field(description="Fecha inicial del rango (RFC3339)")] = None,
-        to: Annotated[Optional[StrictStr], Field(description="Fecha final del rango (RFC3339)")] = None,
-        format: Annotated[Optional[StrictStr], Field(description="Formato de la respuesta")] = None,
+        items_per_page: Annotated[Optional[StrictInt], Field(description="Cantidad de resultados por página, entre 1 y 10000")] = None,
+        var_from: Annotated[Optional[StrictStr], Field(description="Fecha inicial del rango (ISO 8601)")] = None,
+        to: Annotated[Optional[StrictStr], Field(description="Fecha final del rango (ISO 8601)")] = None,
+        origin: Annotated[Optional[StrictStr], Field(description="Origen de la ejecución: KIBAN_CLOUD, API o FRONT")] = None,
+        status: Annotated[Optional[StrictStr], Field(description="Estado de la ejecución: SUCCESS, ERROR o PROGRESS")] = None,
+        name: Annotated[Optional[StrictStr], Field(description="Nombre del workfloo (búsqueda parcial)")] = None,
+        id: Annotated[Optional[StrictStr], Field(description="Id exacto de la ejecución")] = None,
+        nodes_form_searchable_by_rfc_pf: Annotated[Optional[StrictStr], Field(description="RFC de persona física (empieza con, sin distinguir mayúsculas)")] = None,
+        nodes_form_searchable_by_first_name: Annotated[Optional[StrictStr], Field(description="Nombre (empieza con, sin distinguir mayúsculas)")] = None,
+        nodes_form_searchable_by_second_name: Annotated[Optional[StrictStr], Field(description="Segundo nombre (empieza con, sin distinguir mayúsculas)")] = None,
+        nodes_form_searchable_by_last_name_1: Annotated[Optional[StrictStr], Field(description="Apellido paterno (empieza con, sin distinguir mayúsculas)")] = None,
+        nodes_form_searchable_by_last_name_2: Annotated[Optional[StrictStr], Field(description="Apellido materno (empieza con, sin distinguir mayúsculas)")] = None,
+        nodes_form_searchable_by_rfc_pm: Annotated[Optional[StrictStr], Field(description="RFC de persona moral (empieza con, sin distinguir mayúsculas)")] = None,
+        nodes_form_searchable_by_company_name: Annotated[Optional[StrictStr], Field(description="Razón social (empieza con, sin distinguir mayúsculas)")] = None,
+        format: Annotated[Optional[StrictStr], Field(description="Formato de la respuesta; por defecto JSON")] = None,
+        content: Annotated[Optional[StrictBool], Field(description="Agrega la ejecución completa (todos sus nodos) a cada elemento; por defecto false")] = None,
+        labels: Annotated[Optional[StrictStr], Field(description="Etiquetas, separadas por punto y coma")] = None,
         sandbox: Annotated[Optional[StrictBool], Field(description="Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito")] = None,
         _request_timeout: Union[
             None,
@@ -2608,23 +2620,47 @@ class WorkflooApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> List[ControllerWorkflooModelWorkfloo]:
+    ) -> List[ControllerWorkflooModelWorkflooListItem]:
         """Historial de ejecuciones (v2)
 
-        Igual que v1 pero devuelve el arreglo de ejecuciones directo, sin envoltorio. La paginación viaja en el header Link. Con format=csv la respuesta es un archivo CSV en lugar de JSON. Cualquier query param adicional no listado aquí se interpreta como filtro de búsqueda sobre el listado (searchableBy).
+        Devuelve el arreglo de ejecuciones directo, sin envoltorio. La paginación viaja en el header Link. content=true agrega a cada elemento la ejecución completa, con todos sus nodos (la misma forma que getWorkfloo); por defecto es false y llega el resumen. format=CSV devuelve un archivo CSV en lugar de JSON. Los SDKs tipan la respuesta como JSON: para el CSV hay que leer el cuerpo crudo de la respuesta. Cualquier query param adicional no listado aquí se interpreta como filtro de búsqueda sobre el listado (searchableBy).
 
         :param page: Número de página, empieza en 1
         :type page: int
-        :param items_per_page: Cantidad de resultados por página
+        :param items_per_page: Cantidad de resultados por página, entre 1 y 10000
         :type items_per_page: int
-        :param status: Filtra por estado de la ejecución
-        :type status: str
-        :param var_from: Fecha inicial del rango (RFC3339)
+        :param var_from: Fecha inicial del rango (ISO 8601)
         :type var_from: str
-        :param to: Fecha final del rango (RFC3339)
+        :param to: Fecha final del rango (ISO 8601)
         :type to: str
-        :param format: Formato de la respuesta
+        :param origin: Origen de la ejecución: KIBAN_CLOUD, API o FRONT
+        :type origin: str
+        :param status: Estado de la ejecución: SUCCESS, ERROR o PROGRESS
+        :type status: str
+        :param name: Nombre del workfloo (búsqueda parcial)
+        :type name: str
+        :param id: Id exacto de la ejecución
+        :type id: str
+        :param nodes_form_searchable_by_rfc_pf: RFC de persona física (empieza con, sin distinguir mayúsculas)
+        :type nodes_form_searchable_by_rfc_pf: str
+        :param nodes_form_searchable_by_first_name: Nombre (empieza con, sin distinguir mayúsculas)
+        :type nodes_form_searchable_by_first_name: str
+        :param nodes_form_searchable_by_second_name: Segundo nombre (empieza con, sin distinguir mayúsculas)
+        :type nodes_form_searchable_by_second_name: str
+        :param nodes_form_searchable_by_last_name_1: Apellido paterno (empieza con, sin distinguir mayúsculas)
+        :type nodes_form_searchable_by_last_name_1: str
+        :param nodes_form_searchable_by_last_name_2: Apellido materno (empieza con, sin distinguir mayúsculas)
+        :type nodes_form_searchable_by_last_name_2: str
+        :param nodes_form_searchable_by_rfc_pm: RFC de persona moral (empieza con, sin distinguir mayúsculas)
+        :type nodes_form_searchable_by_rfc_pm: str
+        :param nodes_form_searchable_by_company_name: Razón social (empieza con, sin distinguir mayúsculas)
+        :type nodes_form_searchable_by_company_name: str
+        :param format: Formato de la respuesta; por defecto JSON
         :type format: str
+        :param content: Agrega la ejecución completa (todos sus nodos) a cada elemento; por defecto false
+        :type content: bool
+        :param labels: Etiquetas, separadas por punto y coma
+        :type labels: str
         :param sandbox: Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
         :type sandbox: bool
         :param _request_timeout: timeout setting for this request. If one
@@ -2652,10 +2688,22 @@ class WorkflooApi:
         _param = self._list_workfloos_v2_serialize(
             page=page,
             items_per_page=items_per_page,
-            status=status,
             var_from=var_from,
             to=to,
+            origin=origin,
+            status=status,
+            name=name,
+            id=id,
+            nodes_form_searchable_by_rfc_pf=nodes_form_searchable_by_rfc_pf,
+            nodes_form_searchable_by_first_name=nodes_form_searchable_by_first_name,
+            nodes_form_searchable_by_second_name=nodes_form_searchable_by_second_name,
+            nodes_form_searchable_by_last_name_1=nodes_form_searchable_by_last_name_1,
+            nodes_form_searchable_by_last_name_2=nodes_form_searchable_by_last_name_2,
+            nodes_form_searchable_by_rfc_pm=nodes_form_searchable_by_rfc_pm,
+            nodes_form_searchable_by_company_name=nodes_form_searchable_by_company_name,
             format=format,
+            content=content,
+            labels=labels,
             sandbox=sandbox,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2664,7 +2712,7 @@ class WorkflooApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[ControllerWorkflooModelWorkfloo]",
+            '200': "List[ControllerWorkflooModelWorkflooListItem]",
             '400': None,
             '401': None,
             '403': None,
@@ -2687,11 +2735,23 @@ class WorkflooApi:
     def list_workfloos_v2_with_http_info(
         self,
         page: Annotated[Optional[StrictInt], Field(description="Número de página, empieza en 1")] = None,
-        items_per_page: Annotated[Optional[StrictInt], Field(description="Cantidad de resultados por página")] = None,
-        status: Annotated[Optional[StrictStr], Field(description="Filtra por estado de la ejecución")] = None,
-        var_from: Annotated[Optional[StrictStr], Field(description="Fecha inicial del rango (RFC3339)")] = None,
-        to: Annotated[Optional[StrictStr], Field(description="Fecha final del rango (RFC3339)")] = None,
-        format: Annotated[Optional[StrictStr], Field(description="Formato de la respuesta")] = None,
+        items_per_page: Annotated[Optional[StrictInt], Field(description="Cantidad de resultados por página, entre 1 y 10000")] = None,
+        var_from: Annotated[Optional[StrictStr], Field(description="Fecha inicial del rango (ISO 8601)")] = None,
+        to: Annotated[Optional[StrictStr], Field(description="Fecha final del rango (ISO 8601)")] = None,
+        origin: Annotated[Optional[StrictStr], Field(description="Origen de la ejecución: KIBAN_CLOUD, API o FRONT")] = None,
+        status: Annotated[Optional[StrictStr], Field(description="Estado de la ejecución: SUCCESS, ERROR o PROGRESS")] = None,
+        name: Annotated[Optional[StrictStr], Field(description="Nombre del workfloo (búsqueda parcial)")] = None,
+        id: Annotated[Optional[StrictStr], Field(description="Id exacto de la ejecución")] = None,
+        nodes_form_searchable_by_rfc_pf: Annotated[Optional[StrictStr], Field(description="RFC de persona física (empieza con, sin distinguir mayúsculas)")] = None,
+        nodes_form_searchable_by_first_name: Annotated[Optional[StrictStr], Field(description="Nombre (empieza con, sin distinguir mayúsculas)")] = None,
+        nodes_form_searchable_by_second_name: Annotated[Optional[StrictStr], Field(description="Segundo nombre (empieza con, sin distinguir mayúsculas)")] = None,
+        nodes_form_searchable_by_last_name_1: Annotated[Optional[StrictStr], Field(description="Apellido paterno (empieza con, sin distinguir mayúsculas)")] = None,
+        nodes_form_searchable_by_last_name_2: Annotated[Optional[StrictStr], Field(description="Apellido materno (empieza con, sin distinguir mayúsculas)")] = None,
+        nodes_form_searchable_by_rfc_pm: Annotated[Optional[StrictStr], Field(description="RFC de persona moral (empieza con, sin distinguir mayúsculas)")] = None,
+        nodes_form_searchable_by_company_name: Annotated[Optional[StrictStr], Field(description="Razón social (empieza con, sin distinguir mayúsculas)")] = None,
+        format: Annotated[Optional[StrictStr], Field(description="Formato de la respuesta; por defecto JSON")] = None,
+        content: Annotated[Optional[StrictBool], Field(description="Agrega la ejecución completa (todos sus nodos) a cada elemento; por defecto false")] = None,
+        labels: Annotated[Optional[StrictStr], Field(description="Etiquetas, separadas por punto y coma")] = None,
         sandbox: Annotated[Optional[StrictBool], Field(description="Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito")] = None,
         _request_timeout: Union[
             None,
@@ -2705,23 +2765,47 @@ class WorkflooApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[List[ControllerWorkflooModelWorkfloo]]:
+    ) -> ApiResponse[List[ControllerWorkflooModelWorkflooListItem]]:
         """Historial de ejecuciones (v2)
 
-        Igual que v1 pero devuelve el arreglo de ejecuciones directo, sin envoltorio. La paginación viaja en el header Link. Con format=csv la respuesta es un archivo CSV en lugar de JSON. Cualquier query param adicional no listado aquí se interpreta como filtro de búsqueda sobre el listado (searchableBy).
+        Devuelve el arreglo de ejecuciones directo, sin envoltorio. La paginación viaja en el header Link. content=true agrega a cada elemento la ejecución completa, con todos sus nodos (la misma forma que getWorkfloo); por defecto es false y llega el resumen. format=CSV devuelve un archivo CSV en lugar de JSON. Los SDKs tipan la respuesta como JSON: para el CSV hay que leer el cuerpo crudo de la respuesta. Cualquier query param adicional no listado aquí se interpreta como filtro de búsqueda sobre el listado (searchableBy).
 
         :param page: Número de página, empieza en 1
         :type page: int
-        :param items_per_page: Cantidad de resultados por página
+        :param items_per_page: Cantidad de resultados por página, entre 1 y 10000
         :type items_per_page: int
-        :param status: Filtra por estado de la ejecución
-        :type status: str
-        :param var_from: Fecha inicial del rango (RFC3339)
+        :param var_from: Fecha inicial del rango (ISO 8601)
         :type var_from: str
-        :param to: Fecha final del rango (RFC3339)
+        :param to: Fecha final del rango (ISO 8601)
         :type to: str
-        :param format: Formato de la respuesta
+        :param origin: Origen de la ejecución: KIBAN_CLOUD, API o FRONT
+        :type origin: str
+        :param status: Estado de la ejecución: SUCCESS, ERROR o PROGRESS
+        :type status: str
+        :param name: Nombre del workfloo (búsqueda parcial)
+        :type name: str
+        :param id: Id exacto de la ejecución
+        :type id: str
+        :param nodes_form_searchable_by_rfc_pf: RFC de persona física (empieza con, sin distinguir mayúsculas)
+        :type nodes_form_searchable_by_rfc_pf: str
+        :param nodes_form_searchable_by_first_name: Nombre (empieza con, sin distinguir mayúsculas)
+        :type nodes_form_searchable_by_first_name: str
+        :param nodes_form_searchable_by_second_name: Segundo nombre (empieza con, sin distinguir mayúsculas)
+        :type nodes_form_searchable_by_second_name: str
+        :param nodes_form_searchable_by_last_name_1: Apellido paterno (empieza con, sin distinguir mayúsculas)
+        :type nodes_form_searchable_by_last_name_1: str
+        :param nodes_form_searchable_by_last_name_2: Apellido materno (empieza con, sin distinguir mayúsculas)
+        :type nodes_form_searchable_by_last_name_2: str
+        :param nodes_form_searchable_by_rfc_pm: RFC de persona moral (empieza con, sin distinguir mayúsculas)
+        :type nodes_form_searchable_by_rfc_pm: str
+        :param nodes_form_searchable_by_company_name: Razón social (empieza con, sin distinguir mayúsculas)
+        :type nodes_form_searchable_by_company_name: str
+        :param format: Formato de la respuesta; por defecto JSON
         :type format: str
+        :param content: Agrega la ejecución completa (todos sus nodos) a cada elemento; por defecto false
+        :type content: bool
+        :param labels: Etiquetas, separadas por punto y coma
+        :type labels: str
         :param sandbox: Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
         :type sandbox: bool
         :param _request_timeout: timeout setting for this request. If one
@@ -2749,10 +2833,22 @@ class WorkflooApi:
         _param = self._list_workfloos_v2_serialize(
             page=page,
             items_per_page=items_per_page,
-            status=status,
             var_from=var_from,
             to=to,
+            origin=origin,
+            status=status,
+            name=name,
+            id=id,
+            nodes_form_searchable_by_rfc_pf=nodes_form_searchable_by_rfc_pf,
+            nodes_form_searchable_by_first_name=nodes_form_searchable_by_first_name,
+            nodes_form_searchable_by_second_name=nodes_form_searchable_by_second_name,
+            nodes_form_searchable_by_last_name_1=nodes_form_searchable_by_last_name_1,
+            nodes_form_searchable_by_last_name_2=nodes_form_searchable_by_last_name_2,
+            nodes_form_searchable_by_rfc_pm=nodes_form_searchable_by_rfc_pm,
+            nodes_form_searchable_by_company_name=nodes_form_searchable_by_company_name,
             format=format,
+            content=content,
+            labels=labels,
             sandbox=sandbox,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2761,7 +2857,7 @@ class WorkflooApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[ControllerWorkflooModelWorkfloo]",
+            '200': "List[ControllerWorkflooModelWorkflooListItem]",
             '400': None,
             '401': None,
             '403': None,
@@ -2784,11 +2880,23 @@ class WorkflooApi:
     def list_workfloos_v2_without_preload_content(
         self,
         page: Annotated[Optional[StrictInt], Field(description="Número de página, empieza en 1")] = None,
-        items_per_page: Annotated[Optional[StrictInt], Field(description="Cantidad de resultados por página")] = None,
-        status: Annotated[Optional[StrictStr], Field(description="Filtra por estado de la ejecución")] = None,
-        var_from: Annotated[Optional[StrictStr], Field(description="Fecha inicial del rango (RFC3339)")] = None,
-        to: Annotated[Optional[StrictStr], Field(description="Fecha final del rango (RFC3339)")] = None,
-        format: Annotated[Optional[StrictStr], Field(description="Formato de la respuesta")] = None,
+        items_per_page: Annotated[Optional[StrictInt], Field(description="Cantidad de resultados por página, entre 1 y 10000")] = None,
+        var_from: Annotated[Optional[StrictStr], Field(description="Fecha inicial del rango (ISO 8601)")] = None,
+        to: Annotated[Optional[StrictStr], Field(description="Fecha final del rango (ISO 8601)")] = None,
+        origin: Annotated[Optional[StrictStr], Field(description="Origen de la ejecución: KIBAN_CLOUD, API o FRONT")] = None,
+        status: Annotated[Optional[StrictStr], Field(description="Estado de la ejecución: SUCCESS, ERROR o PROGRESS")] = None,
+        name: Annotated[Optional[StrictStr], Field(description="Nombre del workfloo (búsqueda parcial)")] = None,
+        id: Annotated[Optional[StrictStr], Field(description="Id exacto de la ejecución")] = None,
+        nodes_form_searchable_by_rfc_pf: Annotated[Optional[StrictStr], Field(description="RFC de persona física (empieza con, sin distinguir mayúsculas)")] = None,
+        nodes_form_searchable_by_first_name: Annotated[Optional[StrictStr], Field(description="Nombre (empieza con, sin distinguir mayúsculas)")] = None,
+        nodes_form_searchable_by_second_name: Annotated[Optional[StrictStr], Field(description="Segundo nombre (empieza con, sin distinguir mayúsculas)")] = None,
+        nodes_form_searchable_by_last_name_1: Annotated[Optional[StrictStr], Field(description="Apellido paterno (empieza con, sin distinguir mayúsculas)")] = None,
+        nodes_form_searchable_by_last_name_2: Annotated[Optional[StrictStr], Field(description="Apellido materno (empieza con, sin distinguir mayúsculas)")] = None,
+        nodes_form_searchable_by_rfc_pm: Annotated[Optional[StrictStr], Field(description="RFC de persona moral (empieza con, sin distinguir mayúsculas)")] = None,
+        nodes_form_searchable_by_company_name: Annotated[Optional[StrictStr], Field(description="Razón social (empieza con, sin distinguir mayúsculas)")] = None,
+        format: Annotated[Optional[StrictStr], Field(description="Formato de la respuesta; por defecto JSON")] = None,
+        content: Annotated[Optional[StrictBool], Field(description="Agrega la ejecución completa (todos sus nodos) a cada elemento; por defecto false")] = None,
+        labels: Annotated[Optional[StrictStr], Field(description="Etiquetas, separadas por punto y coma")] = None,
         sandbox: Annotated[Optional[StrictBool], Field(description="Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito")] = None,
         _request_timeout: Union[
             None,
@@ -2805,20 +2913,44 @@ class WorkflooApi:
     ) -> RESTResponseType:
         """Historial de ejecuciones (v2)
 
-        Igual que v1 pero devuelve el arreglo de ejecuciones directo, sin envoltorio. La paginación viaja en el header Link. Con format=csv la respuesta es un archivo CSV en lugar de JSON. Cualquier query param adicional no listado aquí se interpreta como filtro de búsqueda sobre el listado (searchableBy).
+        Devuelve el arreglo de ejecuciones directo, sin envoltorio. La paginación viaja en el header Link. content=true agrega a cada elemento la ejecución completa, con todos sus nodos (la misma forma que getWorkfloo); por defecto es false y llega el resumen. format=CSV devuelve un archivo CSV en lugar de JSON. Los SDKs tipan la respuesta como JSON: para el CSV hay que leer el cuerpo crudo de la respuesta. Cualquier query param adicional no listado aquí se interpreta como filtro de búsqueda sobre el listado (searchableBy).
 
         :param page: Número de página, empieza en 1
         :type page: int
-        :param items_per_page: Cantidad de resultados por página
+        :param items_per_page: Cantidad de resultados por página, entre 1 y 10000
         :type items_per_page: int
-        :param status: Filtra por estado de la ejecución
-        :type status: str
-        :param var_from: Fecha inicial del rango (RFC3339)
+        :param var_from: Fecha inicial del rango (ISO 8601)
         :type var_from: str
-        :param to: Fecha final del rango (RFC3339)
+        :param to: Fecha final del rango (ISO 8601)
         :type to: str
-        :param format: Formato de la respuesta
+        :param origin: Origen de la ejecución: KIBAN_CLOUD, API o FRONT
+        :type origin: str
+        :param status: Estado de la ejecución: SUCCESS, ERROR o PROGRESS
+        :type status: str
+        :param name: Nombre del workfloo (búsqueda parcial)
+        :type name: str
+        :param id: Id exacto de la ejecución
+        :type id: str
+        :param nodes_form_searchable_by_rfc_pf: RFC de persona física (empieza con, sin distinguir mayúsculas)
+        :type nodes_form_searchable_by_rfc_pf: str
+        :param nodes_form_searchable_by_first_name: Nombre (empieza con, sin distinguir mayúsculas)
+        :type nodes_form_searchable_by_first_name: str
+        :param nodes_form_searchable_by_second_name: Segundo nombre (empieza con, sin distinguir mayúsculas)
+        :type nodes_form_searchable_by_second_name: str
+        :param nodes_form_searchable_by_last_name_1: Apellido paterno (empieza con, sin distinguir mayúsculas)
+        :type nodes_form_searchable_by_last_name_1: str
+        :param nodes_form_searchable_by_last_name_2: Apellido materno (empieza con, sin distinguir mayúsculas)
+        :type nodes_form_searchable_by_last_name_2: str
+        :param nodes_form_searchable_by_rfc_pm: RFC de persona moral (empieza con, sin distinguir mayúsculas)
+        :type nodes_form_searchable_by_rfc_pm: str
+        :param nodes_form_searchable_by_company_name: Razón social (empieza con, sin distinguir mayúsculas)
+        :type nodes_form_searchable_by_company_name: str
+        :param format: Formato de la respuesta; por defecto JSON
         :type format: str
+        :param content: Agrega la ejecución completa (todos sus nodos) a cada elemento; por defecto false
+        :type content: bool
+        :param labels: Etiquetas, separadas por punto y coma
+        :type labels: str
         :param sandbox: Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
         :type sandbox: bool
         :param _request_timeout: timeout setting for this request. If one
@@ -2846,10 +2978,22 @@ class WorkflooApi:
         _param = self._list_workfloos_v2_serialize(
             page=page,
             items_per_page=items_per_page,
-            status=status,
             var_from=var_from,
             to=to,
+            origin=origin,
+            status=status,
+            name=name,
+            id=id,
+            nodes_form_searchable_by_rfc_pf=nodes_form_searchable_by_rfc_pf,
+            nodes_form_searchable_by_first_name=nodes_form_searchable_by_first_name,
+            nodes_form_searchable_by_second_name=nodes_form_searchable_by_second_name,
+            nodes_form_searchable_by_last_name_1=nodes_form_searchable_by_last_name_1,
+            nodes_form_searchable_by_last_name_2=nodes_form_searchable_by_last_name_2,
+            nodes_form_searchable_by_rfc_pm=nodes_form_searchable_by_rfc_pm,
+            nodes_form_searchable_by_company_name=nodes_form_searchable_by_company_name,
             format=format,
+            content=content,
+            labels=labels,
             sandbox=sandbox,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2858,7 +3002,7 @@ class WorkflooApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[ControllerWorkflooModelWorkfloo]",
+            '200': "List[ControllerWorkflooModelWorkflooListItem]",
             '400': None,
             '401': None,
             '403': None,
@@ -2877,10 +3021,22 @@ class WorkflooApi:
         self,
         page,
         items_per_page,
-        status,
         var_from,
         to,
+        origin,
+        status,
+        name,
+        id,
+        nodes_form_searchable_by_rfc_pf,
+        nodes_form_searchable_by_first_name,
+        nodes_form_searchable_by_second_name,
+        nodes_form_searchable_by_last_name_1,
+        nodes_form_searchable_by_last_name_2,
+        nodes_form_searchable_by_rfc_pm,
+        nodes_form_searchable_by_company_name,
         format,
+        content,
+        labels,
         sandbox,
         _request_auth,
         _content_type,
@@ -2912,10 +3068,6 @@ class WorkflooApi:
             
             _query_params.append(('itemsPerPage', items_per_page))
             
-        if status is not None:
-            
-            _query_params.append(('status', status))
-            
         if var_from is not None:
             
             _query_params.append(('from', var_from))
@@ -2924,9 +3076,61 @@ class WorkflooApi:
             
             _query_params.append(('to', to))
             
+        if origin is not None:
+            
+            _query_params.append(('origin', origin))
+            
+        if status is not None:
+            
+            _query_params.append(('status', status))
+            
+        if name is not None:
+            
+            _query_params.append(('name', name))
+            
+        if id is not None:
+            
+            _query_params.append(('_id', id))
+            
+        if nodes_form_searchable_by_rfc_pf is not None:
+            
+            _query_params.append(('nodes.form.searchableBy.rfc_pf', nodes_form_searchable_by_rfc_pf))
+            
+        if nodes_form_searchable_by_first_name is not None:
+            
+            _query_params.append(('nodes.form.searchableBy.first_name', nodes_form_searchable_by_first_name))
+            
+        if nodes_form_searchable_by_second_name is not None:
+            
+            _query_params.append(('nodes.form.searchableBy.second_name', nodes_form_searchable_by_second_name))
+            
+        if nodes_form_searchable_by_last_name_1 is not None:
+            
+            _query_params.append(('nodes.form.searchableBy.last_name_1', nodes_form_searchable_by_last_name_1))
+            
+        if nodes_form_searchable_by_last_name_2 is not None:
+            
+            _query_params.append(('nodes.form.searchableBy.last_name_2', nodes_form_searchable_by_last_name_2))
+            
+        if nodes_form_searchable_by_rfc_pm is not None:
+            
+            _query_params.append(('nodes.form.searchableBy.rfc_pm', nodes_form_searchable_by_rfc_pm))
+            
+        if nodes_form_searchable_by_company_name is not None:
+            
+            _query_params.append(('nodes.form.searchableBy.company_name', nodes_form_searchable_by_company_name))
+            
         if format is not None:
             
             _query_params.append(('format', format))
+            
+        if content is not None:
+            
+            _query_params.append(('content', content))
+            
+        if labels is not None:
+            
+            _query_params.append(('labels', labels))
             
         if sandbox is not None:
             

@@ -164,13 +164,13 @@ namespace kiban.sdk.workfloo.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "decision":
-                            decision = new Option<List<ControllerWorkflooModelRules>?>(JsonSerializer.Deserialize<List<ControllerWorkflooModelRules>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            decision = new Option<List<ControllerWorkflooModelRules>?>(JsonSerializer.Deserialize<List<ControllerWorkflooModelRules>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "exit":
                             exit = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "labels":
-                            labels = new Option<List<string>?>(JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            labels = new Option<List<string>?>(JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         default:
                             break;
@@ -178,14 +178,8 @@ namespace kiban.sdk.workfloo.Model
                 }
             }
 
-            if (decision.IsSet && decision.Value == null)
-                throw new ArgumentNullException(nameof(decision), "Property is not nullable for class ControllerWorkflooModelRuleset.");
-
             if (exit.IsSet && exit.Value == null)
                 throw new ArgumentNullException(nameof(exit), "Property is not nullable for class ControllerWorkflooModelRuleset.");
-
-            if (labels.IsSet && labels.Value == null)
-                throw new ArgumentNullException(nameof(labels), "Property is not nullable for class ControllerWorkflooModelRuleset.");
 
             return new ControllerWorkflooModelRuleset(decision, exit, labels);
         }
@@ -214,28 +208,28 @@ namespace kiban.sdk.workfloo.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, ControllerWorkflooModelRuleset controllerWorkflooModelRuleset, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (controllerWorkflooModelRuleset.DecisionOption.IsSet && controllerWorkflooModelRuleset.Decision == null)
-                throw new ArgumentNullException(nameof(controllerWorkflooModelRuleset.Decision), "Property is required for class ControllerWorkflooModelRuleset.");
-
             if (controllerWorkflooModelRuleset.ExitOption.IsSet && controllerWorkflooModelRuleset.Exit == null)
                 throw new ArgumentNullException(nameof(controllerWorkflooModelRuleset.Exit), "Property is required for class ControllerWorkflooModelRuleset.");
 
-            if (controllerWorkflooModelRuleset.LabelsOption.IsSet && controllerWorkflooModelRuleset.Labels == null)
-                throw new ArgumentNullException(nameof(controllerWorkflooModelRuleset.Labels), "Property is required for class ControllerWorkflooModelRuleset.");
-
             if (controllerWorkflooModelRuleset.DecisionOption.IsSet)
-            {
-                writer.WritePropertyName("decision");
-                JsonSerializer.Serialize(writer, controllerWorkflooModelRuleset.Decision, jsonSerializerOptions);
-            }
+                if (controllerWorkflooModelRuleset.DecisionOption.Value != null)
+                {
+                    writer.WritePropertyName("decision");
+                    JsonSerializer.Serialize(writer, controllerWorkflooModelRuleset.Decision, jsonSerializerOptions);
+                }
+                else
+                    writer.WriteNull("decision");
             if (controllerWorkflooModelRuleset.ExitOption.IsSet)
                 writer.WriteString("exit", controllerWorkflooModelRuleset.Exit);
 
             if (controllerWorkflooModelRuleset.LabelsOption.IsSet)
-            {
-                writer.WritePropertyName("labels");
-                JsonSerializer.Serialize(writer, controllerWorkflooModelRuleset.Labels, jsonSerializerOptions);
-            }
+                if (controllerWorkflooModelRuleset.LabelsOption.Value != null)
+                {
+                    writer.WritePropertyName("labels");
+                    JsonSerializer.Serialize(writer, controllerWorkflooModelRuleset.Labels, jsonSerializerOptions);
+                }
+                else
+                    writer.WriteNull("labels");
         }
     }
 }

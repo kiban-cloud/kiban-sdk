@@ -379,11 +379,11 @@ Devuelve una página de ejecuciones envuelta en un objeto con currentPage/hasNex
 
 <a id="listworkfloosv2"></a>
 # **ListWorkfloosV2**
-> List&lt;ControllerWorkflooModelWorkfloo&gt; ListWorkfloosV2 (int page = null, int itemsPerPage = null, string status = null, string from = null, string to = null, string format = null, bool sandbox = null)
+> List&lt;ControllerWorkflooModelWorkflooListItem&gt; ListWorkfloosV2 (int page = null, int itemsPerPage = null, string from = null, string to = null, string origin = null, string status = null, string name = null, string id = null, string nodesFormSearchableByRfcPf = null, string nodesFormSearchableByFirstName = null, string nodesFormSearchableBySecondName = null, string nodesFormSearchableByLastName1 = null, string nodesFormSearchableByLastName2 = null, string nodesFormSearchableByRfcPm = null, string nodesFormSearchableByCompanyName = null, string format = null, bool content = null, string labels = null, bool sandbox = null)
 
 Historial de ejecuciones (v2)
 
-Igual que v1 pero devuelve el arreglo de ejecuciones directo, sin envoltorio. La paginación viaja en el header Link. Con format=csv la respuesta es un archivo CSV en lugar de JSON. Cualquier query param adicional no listado aquí se interpreta como filtro de búsqueda sobre el listado (searchableBy).
+Devuelve el arreglo de ejecuciones directo, sin envoltorio. La paginación viaja en el header Link. content=true agrega a cada elemento la ejecución completa, con todos sus nodos (la misma forma que getWorkfloo); por defecto es false y llega el resumen. format=CSV devuelve un archivo CSV en lugar de JSON. Los SDKs tipan la respuesta como JSON: para el CSV hay que leer el cuerpo crudo de la respuesta. Cualquier query param adicional no listado aquí se interpreta como filtro de búsqueda sobre el listado (searchableBy).
 
 
 ### Parameters
@@ -391,16 +391,28 @@ Igual que v1 pero devuelve el arreglo de ejecuciones directo, sin envoltorio. La
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **page** | **int** | Número de página, empieza en 1 | [optional]  |
-| **itemsPerPage** | **int** | Cantidad de resultados por página | [optional]  |
-| **status** | **string** | Filtra por estado de la ejecución | [optional]  |
-| **from** | **string** | Fecha inicial del rango (RFC3339) | [optional]  |
-| **to** | **string** | Fecha final del rango (RFC3339) | [optional]  |
-| **format** | **string** | Formato de la respuesta | [optional]  |
+| **itemsPerPage** | **int** | Cantidad de resultados por página, entre 1 y 10000 | [optional]  |
+| **from** | **string** | Fecha inicial del rango (ISO 8601) | [optional]  |
+| **to** | **string** | Fecha final del rango (ISO 8601) | [optional]  |
+| **origin** | **string** | Origen de la ejecución: KIBAN_CLOUD, API o FRONT | [optional]  |
+| **status** | **string** | Estado de la ejecución: SUCCESS, ERROR o PROGRESS | [optional]  |
+| **name** | **string** | Nombre del workfloo (búsqueda parcial) | [optional]  |
+| **id** | **string** | Id exacto de la ejecución | [optional]  |
+| **nodesFormSearchableByRfcPf** | **string** | RFC de persona física (empieza con, sin distinguir mayúsculas) | [optional]  |
+| **nodesFormSearchableByFirstName** | **string** | Nombre (empieza con, sin distinguir mayúsculas) | [optional]  |
+| **nodesFormSearchableBySecondName** | **string** | Segundo nombre (empieza con, sin distinguir mayúsculas) | [optional]  |
+| **nodesFormSearchableByLastName1** | **string** | Apellido paterno (empieza con, sin distinguir mayúsculas) | [optional]  |
+| **nodesFormSearchableByLastName2** | **string** | Apellido materno (empieza con, sin distinguir mayúsculas) | [optional]  |
+| **nodesFormSearchableByRfcPm** | **string** | RFC de persona moral (empieza con, sin distinguir mayúsculas) | [optional]  |
+| **nodesFormSearchableByCompanyName** | **string** | Razón social (empieza con, sin distinguir mayúsculas) | [optional]  |
+| **format** | **string** | Formato de la respuesta; por defecto JSON | [optional]  |
+| **content** | **bool** | Agrega la ejecución completa (todos sus nodos) a cada elemento; por defecto false | [optional]  |
+| **labels** | **string** | Etiquetas, separadas por punto y coma | [optional]  |
 | **sandbox** | **bool** | Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito | [optional]  |
 
 ### Return type
 
-[**List&lt;ControllerWorkflooModelWorkfloo&gt;**](ControllerWorkflooModelWorkfloo.md)
+[**List&lt;ControllerWorkflooModelWorkflooListItem&gt;**](ControllerWorkflooModelWorkflooListItem.md)
 
 ### Authorization
 

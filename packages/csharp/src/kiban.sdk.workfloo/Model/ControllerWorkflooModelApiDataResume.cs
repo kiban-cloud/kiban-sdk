@@ -201,13 +201,13 @@ namespace kiban.sdk.workfloo.Model
                             body = new Option<Object?>(JsonSerializer.Deserialize<Object>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "headers":
-                            headers = new Option<Dictionary<string, string>?>(JsonSerializer.Deserialize<Dictionary<string, string>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            headers = new Option<Dictionary<string, string>?>(JsonSerializer.Deserialize<Dictionary<string, string>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "httpCode":
                             httpCode = new Option<int?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (int?)null : utf8JsonReader.GetInt32());
                             break;
                         case "queryParams":
-                            queryParams = new Option<Dictionary<string, string>?>(JsonSerializer.Deserialize<Dictionary<string, string>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            queryParams = new Option<Dictionary<string, string>?>(JsonSerializer.Deserialize<Dictionary<string, string>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "url":
                             url = new Option<string?>(utf8JsonReader.GetString()!);
@@ -218,14 +218,8 @@ namespace kiban.sdk.workfloo.Model
                 }
             }
 
-            if (headers.IsSet && headers.Value == null)
-                throw new ArgumentNullException(nameof(headers), "Property is not nullable for class ControllerWorkflooModelApiDataResume.");
-
             if (httpCode.IsSet && httpCode.Value == null)
                 throw new ArgumentNullException(nameof(httpCode), "Property is not nullable for class ControllerWorkflooModelApiDataResume.");
-
-            if (queryParams.IsSet && queryParams.Value == null)
-                throw new ArgumentNullException(nameof(queryParams), "Property is not nullable for class ControllerWorkflooModelApiDataResume.");
 
             if (url.IsSet && url.Value == null)
                 throw new ArgumentNullException(nameof(url), "Property is not nullable for class ControllerWorkflooModelApiDataResume.");
@@ -257,12 +251,6 @@ namespace kiban.sdk.workfloo.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, ControllerWorkflooModelApiDataResume controllerWorkflooModelApiDataResume, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (controllerWorkflooModelApiDataResume.HeadersOption.IsSet && controllerWorkflooModelApiDataResume.Headers == null)
-                throw new ArgumentNullException(nameof(controllerWorkflooModelApiDataResume.Headers), "Property is required for class ControllerWorkflooModelApiDataResume.");
-
-            if (controllerWorkflooModelApiDataResume.QueryParamsOption.IsSet && controllerWorkflooModelApiDataResume.QueryParams == null)
-                throw new ArgumentNullException(nameof(controllerWorkflooModelApiDataResume.QueryParams), "Property is required for class ControllerWorkflooModelApiDataResume.");
-
             if (controllerWorkflooModelApiDataResume.UrlOption.IsSet && controllerWorkflooModelApiDataResume.Url == null)
                 throw new ArgumentNullException(nameof(controllerWorkflooModelApiDataResume.Url), "Property is required for class ControllerWorkflooModelApiDataResume.");
 
@@ -275,18 +263,24 @@ namespace kiban.sdk.workfloo.Model
                 else
                     writer.WriteNull("body");
             if (controllerWorkflooModelApiDataResume.HeadersOption.IsSet)
-            {
-                writer.WritePropertyName("headers");
-                JsonSerializer.Serialize(writer, controllerWorkflooModelApiDataResume.Headers, jsonSerializerOptions);
-            }
+                if (controllerWorkflooModelApiDataResume.HeadersOption.Value != null)
+                {
+                    writer.WritePropertyName("headers");
+                    JsonSerializer.Serialize(writer, controllerWorkflooModelApiDataResume.Headers, jsonSerializerOptions);
+                }
+                else
+                    writer.WriteNull("headers");
             if (controllerWorkflooModelApiDataResume.HttpCodeOption.IsSet)
                 writer.WriteNumber("httpCode", controllerWorkflooModelApiDataResume.HttpCodeOption.Value!.Value);
 
             if (controllerWorkflooModelApiDataResume.QueryParamsOption.IsSet)
-            {
-                writer.WritePropertyName("queryParams");
-                JsonSerializer.Serialize(writer, controllerWorkflooModelApiDataResume.QueryParams, jsonSerializerOptions);
-            }
+                if (controllerWorkflooModelApiDataResume.QueryParamsOption.Value != null)
+                {
+                    writer.WritePropertyName("queryParams");
+                    JsonSerializer.Serialize(writer, controllerWorkflooModelApiDataResume.QueryParams, jsonSerializerOptions);
+                }
+                else
+                    writer.WriteNull("queryParams");
             if (controllerWorkflooModelApiDataResume.UrlOption.IsSet)
                 writer.WriteString("url", controllerWorkflooModelApiDataResume.Url);
         }

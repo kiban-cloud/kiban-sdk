@@ -78,6 +78,21 @@ class ControllerWorkflooDefinitionModelSetData(BaseModel):
                 if _item_fields:
                     _items.append(_item_fields.to_dict())
             _dict['fields'] = _items
+        # set to None if fields (nullable) is None
+        # and model_fields_set contains the field
+        if self.fields is None and "fields" in self.model_fields_set:
+            _dict['fields'] = None
+
+        # set to None if optional_at (nullable) is None
+        # and model_fields_set contains the field
+        if self.optional_at is None and "optional_at" in self.model_fields_set:
+            _dict['optionalAt'] = None
+
+        # set to None if required (nullable) is None
+        # and model_fields_set contains the field
+        if self.required is None and "required" in self.model_fields_set:
+            _dict['required'] = None
+
         return _dict
 
     @classmethod

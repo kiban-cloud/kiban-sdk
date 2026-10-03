@@ -79,6 +79,11 @@ class ControllerWorkflooModelWorkflooPage(BaseModel):
                 if _item_items:
                     _items.append(_item_items.to_dict())
             _dict['items'] = _items
+        # set to None if items (nullable) is None
+        # and model_fields_set contains the field
+        if self.items is None and "items" in self.model_fields_set:
+            _dict['items'] = None
+
         return _dict
 
     @classmethod

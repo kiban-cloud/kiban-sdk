@@ -95,6 +95,16 @@ class ControllerWorkflooModelWorkfloo(BaseModel):
                 if _item_steps:
                     _items.append(_item_steps.to_dict())
             _dict['steps'] = _items
+        # set to None if labels (nullable) is None
+        # and model_fields_set contains the field
+        if self.labels is None and "labels" in self.model_fields_set:
+            _dict['labels'] = None
+
+        # set to None if steps (nullable) is None
+        # and model_fields_set contains the field
+        if self.steps is None and "steps" in self.model_fields_set:
+            _dict['steps'] = None
+
         return _dict
 
     @classmethod

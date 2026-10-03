@@ -12,7 +12,7 @@
     <Description>SDK de la API pública de workfloo de kiban cloud.</Description>
     <Copyright>No Copyright</Copyright>
     <RootNamespace>kiban.sdk.workfloo</RootNamespace>
-    <Version>0.2.0</Version>
+    <Version>0.3.0</Version>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\kiban.sdk.workfloo.xml</DocumentationFile>
     <RepositoryUrl>https://github.com/kiban-cloud/kiban-sdk.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>

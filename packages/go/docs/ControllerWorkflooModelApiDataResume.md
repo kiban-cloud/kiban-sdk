@@ -89,6 +89,16 @@ SetHeaders sets Headers field to given value.
 
 HasHeaders returns a boolean if a field has been set.
 
+### SetHeadersNil
+
+`func (o *ControllerWorkflooModelApiDataResume) SetHeadersNil(b bool)`
+
+ SetHeadersNil sets the value for Headers to be an explicit nil
+
+### UnsetHeaders
+`func (o *ControllerWorkflooModelApiDataResume) UnsetHeaders()`
+
+UnsetHeaders ensures that no value is present for Headers, not even an explicit nil
 ### GetHttpCode
 
 `func (o *ControllerWorkflooModelApiDataResume) GetHttpCode() int32`
@@ -139,6 +149,16 @@ SetQueryParams sets QueryParams field to given value.
 
 HasQueryParams returns a boolean if a field has been set.
 
+### SetQueryParamsNil
+
+`func (o *ControllerWorkflooModelApiDataResume) SetQueryParamsNil(b bool)`
+
+ SetQueryParamsNil sets the value for QueryParams to be an explicit nil
+
+### UnsetQueryParams
+`func (o *ControllerWorkflooModelApiDataResume) UnsetQueryParams()`
+
+UnsetQueryParams ensures that no value is present for QueryParams, not even an explicit nil
 ### GetUrl
 
 `func (o *ControllerWorkflooModelApiDataResume) GetUrl() string`

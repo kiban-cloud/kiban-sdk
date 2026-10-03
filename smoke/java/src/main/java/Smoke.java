@@ -19,7 +19,7 @@ import kiban.sdk.workfloo.auth.ApiKeyAuth;
 import kiban.sdk.workfloo.api.WorkflooApi;
 import kiban.sdk.workfloo.model.ControllerWorkflooModelExecute;
 import kiban.sdk.workfloo.model.ControllerWorkflooModelExecuteResponse;
-import kiban.sdk.workfloo.model.ControllerWorkflooModelWorkfloo;
+import kiban.sdk.workfloo.model.ControllerWorkflooModelWorkflooListItem;
 import kiban.sdk.workfloo.model.ControllerWorkflooModelWorkflooPage;
 import kiban.sdk.workfloo.model.ControllerWorkflooModelWorkflooStatus;
 
@@ -67,7 +67,7 @@ public class Smoke {
         System.out.println("    items=" + (page.getItems() == null ? 0 : page.getItems().size()));
 
         System.out.println("    listWorkfloosV2 …");
-        List<ControllerWorkflooModelWorkfloo> items = api.listWorkfloosV2(1, 5, null, null, null, null, sandbox);
+        List<ControllerWorkflooModelWorkflooListItem> items = api.listWorkfloosV2(1, 5, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, sandbox);
         System.out.println("    v2 devolvió " + (items == null ? 0 : items.size()) + " items (arreglo plano)");
 
         System.out.println("\nSMOKE TEST OK");

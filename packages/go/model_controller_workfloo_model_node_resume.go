@@ -24,7 +24,7 @@ type ControllerWorkflooModelNodeResume struct {
 	Data []ControllerWorkflooModelData `json:"data,omitempty"`
 	DecisionTree []ControllerWorkflooModelDecisionTree `json:"decisionTree,omitempty"`
 	Detail *ControllerWorkflooModelNodeDetail `json:"detail,omitempty"`
-	Documents *map[string]ControllerWorkflooModelDocumentsResume `json:"documents,omitempty"`
+	Documents map[string]ControllerWorkflooModelDocumentsResume `json:"documents,omitempty"`
 	Files []ControllerWorkflooModelFile `json:"files,omitempty"`
 	Form *ControllerWorkflooModelFormResume `json:"form,omitempty"`
 	Id *string `json:"id,omitempty"`
@@ -123,9 +123,9 @@ func (o *ControllerWorkflooModelNodeResume) SetCreated(v string) {
 	o.Created = &v
 }
 
-// GetData returns the Data field value if set, zero value otherwise.
+// GetData returns the Data field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ControllerWorkflooModelNodeResume) GetData() []ControllerWorkflooModelData {
-	if o == nil || IsNil(o.Data) {
+	if o == nil {
 		var ret []ControllerWorkflooModelData
 		return ret
 	}
@@ -134,6 +134,7 @@ func (o *ControllerWorkflooModelNodeResume) GetData() []ControllerWorkflooModelD
 
 // GetDataOk returns a tuple with the Data field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *ControllerWorkflooModelNodeResume) GetDataOk() ([]ControllerWorkflooModelData, bool) {
 	if o == nil || IsNil(o.Data) {
 		return nil, false
@@ -155,9 +156,9 @@ func (o *ControllerWorkflooModelNodeResume) SetData(v []ControllerWorkflooModelD
 	o.Data = v
 }
 
-// GetDecisionTree returns the DecisionTree field value if set, zero value otherwise.
+// GetDecisionTree returns the DecisionTree field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ControllerWorkflooModelNodeResume) GetDecisionTree() []ControllerWorkflooModelDecisionTree {
-	if o == nil || IsNil(o.DecisionTree) {
+	if o == nil {
 		var ret []ControllerWorkflooModelDecisionTree
 		return ret
 	}
@@ -166,6 +167,7 @@ func (o *ControllerWorkflooModelNodeResume) GetDecisionTree() []ControllerWorkfl
 
 // GetDecisionTreeOk returns a tuple with the DecisionTree field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *ControllerWorkflooModelNodeResume) GetDecisionTreeOk() ([]ControllerWorkflooModelDecisionTree, bool) {
 	if o == nil || IsNil(o.DecisionTree) {
 		return nil, false
@@ -219,22 +221,23 @@ func (o *ControllerWorkflooModelNodeResume) SetDetail(v ControllerWorkflooModelN
 	o.Detail = &v
 }
 
-// GetDocuments returns the Documents field value if set, zero value otherwise.
+// GetDocuments returns the Documents field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ControllerWorkflooModelNodeResume) GetDocuments() map[string]ControllerWorkflooModelDocumentsResume {
-	if o == nil || IsNil(o.Documents) {
+	if o == nil {
 		var ret map[string]ControllerWorkflooModelDocumentsResume
 		return ret
 	}
-	return *o.Documents
+	return o.Documents
 }
 
 // GetDocumentsOk returns a tuple with the Documents field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *ControllerWorkflooModelNodeResume) GetDocumentsOk() (*map[string]ControllerWorkflooModelDocumentsResume, bool) {
 	if o == nil || IsNil(o.Documents) {
 		return nil, false
 	}
-	return o.Documents, true
+	return &o.Documents, true
 }
 
 // HasDocuments returns a boolean if a field has been set.
@@ -248,12 +251,12 @@ func (o *ControllerWorkflooModelNodeResume) HasDocuments() bool {
 
 // SetDocuments gets a reference to the given map[string]ControllerWorkflooModelDocumentsResume and assigns it to the Documents field.
 func (o *ControllerWorkflooModelNodeResume) SetDocuments(v map[string]ControllerWorkflooModelDocumentsResume) {
-	o.Documents = &v
+	o.Documents = v
 }
 
-// GetFiles returns the Files field value if set, zero value otherwise.
+// GetFiles returns the Files field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ControllerWorkflooModelNodeResume) GetFiles() []ControllerWorkflooModelFile {
-	if o == nil || IsNil(o.Files) {
+	if o == nil {
 		var ret []ControllerWorkflooModelFile
 		return ret
 	}
@@ -262,6 +265,7 @@ func (o *ControllerWorkflooModelNodeResume) GetFiles() []ControllerWorkflooModel
 
 // GetFilesOk returns a tuple with the Files field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *ControllerWorkflooModelNodeResume) GetFilesOk() ([]ControllerWorkflooModelFile, bool) {
 	if o == nil || IsNil(o.Files) {
 		return nil, false
@@ -701,9 +705,9 @@ func (o *ControllerWorkflooModelNodeResume) SetValidation(v ControllerWorkflooMo
 	o.Validation = &v
 }
 
-// GetVariables returns the Variables field value if set, zero value otherwise.
+// GetVariables returns the Variables field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ControllerWorkflooModelNodeResume) GetVariables() []ControllerWorkflooModelVariable {
-	if o == nil || IsNil(o.Variables) {
+	if o == nil {
 		var ret []ControllerWorkflooModelVariable
 		return ret
 	}
@@ -712,6 +716,7 @@ func (o *ControllerWorkflooModelNodeResume) GetVariables() []ControllerWorkflooM
 
 // GetVariablesOk returns a tuple with the Variables field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *ControllerWorkflooModelNodeResume) GetVariablesOk() ([]ControllerWorkflooModelVariable, bool) {
 	if o == nil || IsNil(o.Variables) {
 		return nil, false
@@ -749,19 +754,19 @@ func (o ControllerWorkflooModelNodeResume) ToMap() (map[string]interface{}, erro
 	if !IsNil(o.Created) {
 		toSerialize["created"] = o.Created
 	}
-	if !IsNil(o.Data) {
+	if o.Data != nil {
 		toSerialize["data"] = o.Data
 	}
-	if !IsNil(o.DecisionTree) {
+	if o.DecisionTree != nil {
 		toSerialize["decisionTree"] = o.DecisionTree
 	}
 	if !IsNil(o.Detail) {
 		toSerialize["detail"] = o.Detail
 	}
-	if !IsNil(o.Documents) {
+	if o.Documents != nil {
 		toSerialize["documents"] = o.Documents
 	}
-	if !IsNil(o.Files) {
+	if o.Files != nil {
 		toSerialize["files"] = o.Files
 	}
 	if !IsNil(o.Form) {
@@ -803,7 +808,7 @@ func (o ControllerWorkflooModelNodeResume) ToMap() (map[string]interface{}, erro
 	if !IsNil(o.Validation) {
 		toSerialize["validation"] = o.Validation
 	}
-	if !IsNil(o.Variables) {
+	if o.Variables != nil {
 		toSerialize["variables"] = o.Variables
 	}
 	return toSerialize, nil

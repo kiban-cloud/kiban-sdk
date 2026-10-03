@@ -24,7 +24,7 @@ import kiban.sdk.workfloo.model.ControllerWorkflooModelNipValidateRequest;
 import kiban.sdk.workfloo.model.ControllerWorkflooModelNipValidateResponse;
 import kiban.sdk.workfloo.model.ControllerWorkflooModelOtpValidateRequest;
 import kiban.sdk.workfloo.model.ControllerWorkflooModelReviewRequest;
-import kiban.sdk.workfloo.model.ControllerWorkflooModelWorkfloo;
+import kiban.sdk.workfloo.model.ControllerWorkflooModelWorkflooListItem;
 import kiban.sdk.workfloo.model.ControllerWorkflooModelWorkflooPage;
 import kiban.sdk.workfloo.model.ControllerWorkflooModelWorkflooResume;
 import kiban.sdk.workfloo.model.ControllerWorkflooModelWorkflooStatus;
@@ -175,7 +175,7 @@ public class WorkflooApiTest {
     /**
      * Historial de ejecuciones (v2)
      *
-     * Igual que v1 pero devuelve el arreglo de ejecuciones directo, sin envoltorio. La paginación viaja en el header Link. Con format&#x3D;csv la respuesta es un archivo CSV en lugar de JSON. Cualquier query param adicional no listado aquí se interpreta como filtro de búsqueda sobre el listado (searchableBy).
+     * Devuelve el arreglo de ejecuciones directo, sin envoltorio. La paginación viaja en el header Link. content&#x3D;true agrega a cada elemento la ejecución completa, con todos sus nodos (la misma forma que getWorkfloo); por defecto es false y llega el resumen. format&#x3D;CSV devuelve un archivo CSV en lugar de JSON. Los SDKs tipan la respuesta como JSON: para el CSV hay que leer el cuerpo crudo de la respuesta. Cualquier query param adicional no listado aquí se interpreta como filtro de búsqueda sobre el listado (searchableBy).
      *
      * @throws ApiException if the Api call fails
      */
@@ -183,12 +183,24 @@ public class WorkflooApiTest {
     public void listWorkfloosV2Test() throws ApiException {
         Integer page = null;
         Integer itemsPerPage = null;
-        String status = null;
         String from = null;
         String to = null;
+        String origin = null;
+        String status = null;
+        String name = null;
+        String id = null;
+        String nodesFormSearchableByRfcPf = null;
+        String nodesFormSearchableByFirstName = null;
+        String nodesFormSearchableBySecondName = null;
+        String nodesFormSearchableByLastName1 = null;
+        String nodesFormSearchableByLastName2 = null;
+        String nodesFormSearchableByRfcPm = null;
+        String nodesFormSearchableByCompanyName = null;
         String format = null;
+        Boolean content = null;
+        String labels = null;
         Boolean sandbox = null;
-        List<ControllerWorkflooModelWorkfloo> response = api.listWorkfloosV2(page, itemsPerPage, status, from, to, format, sandbox);
+        List<ControllerWorkflooModelWorkflooListItem> response = api.listWorkfloosV2(page, itemsPerPage, from, to, origin, status, name, id, nodesFormSearchableByRfcPf, nodesFormSearchableByFirstName, nodesFormSearchableBySecondName, nodesFormSearchableByLastName1, nodesFormSearchableByLastName2, nodesFormSearchableByRfcPm, nodesFormSearchableByCompanyName, format, content, labels, sandbox);
         // TODO: test validations
     }
 

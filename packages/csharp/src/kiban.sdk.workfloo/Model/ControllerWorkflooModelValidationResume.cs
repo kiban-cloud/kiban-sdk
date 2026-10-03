@@ -210,7 +210,7 @@ namespace kiban.sdk.workfloo.Model
                             reviewerNote = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "reviews":
-                            reviews = new Option<List<ControllerWorkflooModelReviewResume>?>(JsonSerializer.Deserialize<List<ControllerWorkflooModelReviewResume>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            reviews = new Option<List<ControllerWorkflooModelReviewResume>?>(JsonSerializer.Deserialize<List<ControllerWorkflooModelReviewResume>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         default:
                             break;
@@ -229,9 +229,6 @@ namespace kiban.sdk.workfloo.Model
 
             if (reviewerNote.IsSet && reviewerNote.Value == null)
                 throw new ArgumentNullException(nameof(reviewerNote), "Property is not nullable for class ControllerWorkflooModelValidationResume.");
-
-            if (reviews.IsSet && reviews.Value == null)
-                throw new ArgumentNullException(nameof(reviews), "Property is not nullable for class ControllerWorkflooModelValidationResume.");
 
             return new ControllerWorkflooModelValidationResume(decision, reviewedAt, reviewedBy, reviewerNote, reviews);
         }
@@ -272,9 +269,6 @@ namespace kiban.sdk.workfloo.Model
             if (controllerWorkflooModelValidationResume.ReviewerNoteOption.IsSet && controllerWorkflooModelValidationResume.ReviewerNote == null)
                 throw new ArgumentNullException(nameof(controllerWorkflooModelValidationResume.ReviewerNote), "Property is required for class ControllerWorkflooModelValidationResume.");
 
-            if (controllerWorkflooModelValidationResume.ReviewsOption.IsSet && controllerWorkflooModelValidationResume.Reviews == null)
-                throw new ArgumentNullException(nameof(controllerWorkflooModelValidationResume.Reviews), "Property is required for class ControllerWorkflooModelValidationResume.");
-
             if (controllerWorkflooModelValidationResume.DecisionOption.IsSet)
                 writer.WriteString("decision", controllerWorkflooModelValidationResume.Decision);
 
@@ -288,10 +282,13 @@ namespace kiban.sdk.workfloo.Model
                 writer.WriteString("reviewerNote", controllerWorkflooModelValidationResume.ReviewerNote);
 
             if (controllerWorkflooModelValidationResume.ReviewsOption.IsSet)
-            {
-                writer.WritePropertyName("reviews");
-                JsonSerializer.Serialize(writer, controllerWorkflooModelValidationResume.Reviews, jsonSerializerOptions);
-            }
+                if (controllerWorkflooModelValidationResume.ReviewsOption.Value != null)
+                {
+                    writer.WritePropertyName("reviews");
+                    JsonSerializer.Serialize(writer, controllerWorkflooModelValidationResume.Reviews, jsonSerializerOptions);
+                }
+                else
+                    writer.WriteNull("reviews");
         }
     }
 }

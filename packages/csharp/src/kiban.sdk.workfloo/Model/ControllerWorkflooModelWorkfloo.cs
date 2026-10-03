@@ -460,7 +460,7 @@ namespace kiban.sdk.workfloo.Model
                             ipOrigin = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "labels":
-                            labels = new Option<List<string>?>(JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            labels = new Option<List<string>?>(JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "lastName1":
                             lastName1 = new Option<string?>(utf8JsonReader.GetString()!);
@@ -490,7 +490,7 @@ namespace kiban.sdk.workfloo.Model
                             status = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "steps":
-                            steps = new Option<List<ControllerWorkflooModelNode>?>(JsonSerializer.Deserialize<List<ControllerWorkflooModelNode>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            steps = new Option<List<ControllerWorkflooModelNode>?>(JsonSerializer.Deserialize<List<ControllerWorkflooModelNode>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         default:
                             break;
@@ -522,9 +522,6 @@ namespace kiban.sdk.workfloo.Model
             if (ipOrigin.IsSet && ipOrigin.Value == null)
                 throw new ArgumentNullException(nameof(ipOrigin), "Property is not nullable for class ControllerWorkflooModelWorkfloo.");
 
-            if (labels.IsSet && labels.Value == null)
-                throw new ArgumentNullException(nameof(labels), "Property is not nullable for class ControllerWorkflooModelWorkfloo.");
-
             if (lastName1.IsSet && lastName1.Value == null)
                 throw new ArgumentNullException(nameof(lastName1), "Property is not nullable for class ControllerWorkflooModelWorkfloo.");
 
@@ -551,9 +548,6 @@ namespace kiban.sdk.workfloo.Model
 
             if (status.IsSet && status.Value == null)
                 throw new ArgumentNullException(nameof(status), "Property is not nullable for class ControllerWorkflooModelWorkfloo.");
-
-            if (steps.IsSet && steps.Value == null)
-                throw new ArgumentNullException(nameof(steps), "Property is not nullable for class ControllerWorkflooModelWorkfloo.");
 
             return new ControllerWorkflooModelWorkfloo(companyName, createdAt, createdBy, currentNodeName, firstName, id, idUnykoo, ipOrigin, labels, lastName1, lastName2, modifiedAt, name, origin, rfcPf, rfcPm, secondName, status, steps);
         }
@@ -603,9 +597,6 @@ namespace kiban.sdk.workfloo.Model
             if (controllerWorkflooModelWorkfloo.IpOriginOption.IsSet && controllerWorkflooModelWorkfloo.IpOrigin == null)
                 throw new ArgumentNullException(nameof(controllerWorkflooModelWorkfloo.IpOrigin), "Property is required for class ControllerWorkflooModelWorkfloo.");
 
-            if (controllerWorkflooModelWorkfloo.LabelsOption.IsSet && controllerWorkflooModelWorkfloo.Labels == null)
-                throw new ArgumentNullException(nameof(controllerWorkflooModelWorkfloo.Labels), "Property is required for class ControllerWorkflooModelWorkfloo.");
-
             if (controllerWorkflooModelWorkfloo.LastName1Option.IsSet && controllerWorkflooModelWorkfloo.LastName1 == null)
                 throw new ArgumentNullException(nameof(controllerWorkflooModelWorkfloo.LastName1), "Property is required for class ControllerWorkflooModelWorkfloo.");
 
@@ -633,9 +624,6 @@ namespace kiban.sdk.workfloo.Model
             if (controllerWorkflooModelWorkfloo.StatusOption.IsSet && controllerWorkflooModelWorkfloo.Status == null)
                 throw new ArgumentNullException(nameof(controllerWorkflooModelWorkfloo.Status), "Property is required for class ControllerWorkflooModelWorkfloo.");
 
-            if (controllerWorkflooModelWorkfloo.StepsOption.IsSet && controllerWorkflooModelWorkfloo.Steps == null)
-                throw new ArgumentNullException(nameof(controllerWorkflooModelWorkfloo.Steps), "Property is required for class ControllerWorkflooModelWorkfloo.");
-
             if (controllerWorkflooModelWorkfloo.CompanyNameOption.IsSet)
                 writer.WriteString("companyName", controllerWorkflooModelWorkfloo.CompanyName);
 
@@ -661,10 +649,13 @@ namespace kiban.sdk.workfloo.Model
                 writer.WriteString("ipOrigin", controllerWorkflooModelWorkfloo.IpOrigin);
 
             if (controllerWorkflooModelWorkfloo.LabelsOption.IsSet)
-            {
-                writer.WritePropertyName("labels");
-                JsonSerializer.Serialize(writer, controllerWorkflooModelWorkfloo.Labels, jsonSerializerOptions);
-            }
+                if (controllerWorkflooModelWorkfloo.LabelsOption.Value != null)
+                {
+                    writer.WritePropertyName("labels");
+                    JsonSerializer.Serialize(writer, controllerWorkflooModelWorkfloo.Labels, jsonSerializerOptions);
+                }
+                else
+                    writer.WriteNull("labels");
             if (controllerWorkflooModelWorkfloo.LastName1Option.IsSet)
                 writer.WriteString("lastName1", controllerWorkflooModelWorkfloo.LastName1);
 
@@ -693,10 +684,13 @@ namespace kiban.sdk.workfloo.Model
                 writer.WriteString("status", controllerWorkflooModelWorkfloo.Status);
 
             if (controllerWorkflooModelWorkfloo.StepsOption.IsSet)
-            {
-                writer.WritePropertyName("steps");
-                JsonSerializer.Serialize(writer, controllerWorkflooModelWorkfloo.Steps, jsonSerializerOptions);
-            }
+                if (controllerWorkflooModelWorkfloo.StepsOption.Value != null)
+                {
+                    writer.WritePropertyName("steps");
+                    JsonSerializer.Serialize(writer, controllerWorkflooModelWorkfloo.Steps, jsonSerializerOptions);
+                }
+                else
+                    writer.WriteNull("steps");
         }
     }
 }

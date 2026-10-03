@@ -48,7 +48,7 @@ import kiban.sdk.workfloo.JSON;
 /**
  * ControllerWorkflooModelExecuteResponse
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-10-02T10:13:43.960045-06:00[America/Mexico_City]", comments = "Generator version: 7.24.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0")
 public class ControllerWorkflooModelExecuteResponse {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)

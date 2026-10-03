@@ -164,14 +164,26 @@ namespace kiban.sdk.workfloo.Test.Api
         {
             Client.Option<int> page = default!;
             Client.Option<int> itemsPerPage = default!;
-            Client.Option<string> status = default!;
             Client.Option<string> from = default!;
             Client.Option<string> to = default!;
+            Client.Option<string> origin = default!;
+            Client.Option<string> status = default!;
+            Client.Option<string> name = default!;
+            Client.Option<string> id = default!;
+            Client.Option<string> nodesFormSearchableByRfcPf = default!;
+            Client.Option<string> nodesFormSearchableByFirstName = default!;
+            Client.Option<string> nodesFormSearchableBySecondName = default!;
+            Client.Option<string> nodesFormSearchableByLastName1 = default!;
+            Client.Option<string> nodesFormSearchableByLastName2 = default!;
+            Client.Option<string> nodesFormSearchableByRfcPm = default!;
+            Client.Option<string> nodesFormSearchableByCompanyName = default!;
             Client.Option<string> format = default!;
+            Client.Option<bool> content = default!;
+            Client.Option<string> labels = default!;
             Client.Option<bool> sandbox = default!;
-            var response = await _instance.ListWorkfloosV2Async(page, itemsPerPage, status, from, to, format, sandbox);
+            var response = await _instance.ListWorkfloosV2Async(page, itemsPerPage, from, to, origin, status, name, id, nodesFormSearchableByRfcPf, nodesFormSearchableByFirstName, nodesFormSearchableBySecondName, nodesFormSearchableByLastName1, nodesFormSearchableByLastName2, nodesFormSearchableByRfcPm, nodesFormSearchableByCompanyName, format, content, labels, sandbox);
             var model = response.Ok();
-            Assert.IsType<List<ControllerWorkflooModelWorkfloo>>(model);
+            Assert.IsType<List<ControllerWorkflooModelWorkflooListItem>>(model);
         }
 
         /// <summary>

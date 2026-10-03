@@ -164,7 +164,7 @@ namespace kiban.sdk.workfloo.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "events":
-                            events = new Option<List<ControllerWorkflooModelEvent>?>(JsonSerializer.Deserialize<List<ControllerWorkflooModelEvent>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            events = new Option<List<ControllerWorkflooModelEvent>?>(JsonSerializer.Deserialize<List<ControllerWorkflooModelEvent>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "key":
                             key = new Option<string?>(utf8JsonReader.GetString()!);
@@ -177,9 +177,6 @@ namespace kiban.sdk.workfloo.Model
                     }
                 }
             }
-
-            if (events.IsSet && events.Value == null)
-                throw new ArgumentNullException(nameof(events), "Property is not nullable for class ControllerWorkflooModelLinkResume.");
 
             if (key.IsSet && key.Value == null)
                 throw new ArgumentNullException(nameof(key), "Property is not nullable for class ControllerWorkflooModelLinkResume.");
@@ -214,9 +211,6 @@ namespace kiban.sdk.workfloo.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, ControllerWorkflooModelLinkResume controllerWorkflooModelLinkResume, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (controllerWorkflooModelLinkResume.EventsOption.IsSet && controllerWorkflooModelLinkResume.Events == null)
-                throw new ArgumentNullException(nameof(controllerWorkflooModelLinkResume.Events), "Property is required for class ControllerWorkflooModelLinkResume.");
-
             if (controllerWorkflooModelLinkResume.KeyOption.IsSet && controllerWorkflooModelLinkResume.Key == null)
                 throw new ArgumentNullException(nameof(controllerWorkflooModelLinkResume.Key), "Property is required for class ControllerWorkflooModelLinkResume.");
 
@@ -224,10 +218,13 @@ namespace kiban.sdk.workfloo.Model
                 throw new ArgumentNullException(nameof(controllerWorkflooModelLinkResume.Phase), "Property is required for class ControllerWorkflooModelLinkResume.");
 
             if (controllerWorkflooModelLinkResume.EventsOption.IsSet)
-            {
-                writer.WritePropertyName("events");
-                JsonSerializer.Serialize(writer, controllerWorkflooModelLinkResume.Events, jsonSerializerOptions);
-            }
+                if (controllerWorkflooModelLinkResume.EventsOption.Value != null)
+                {
+                    writer.WritePropertyName("events");
+                    JsonSerializer.Serialize(writer, controllerWorkflooModelLinkResume.Events, jsonSerializerOptions);
+                }
+                else
+                    writer.WriteNull("events");
             if (controllerWorkflooModelLinkResume.KeyOption.IsSet)
                 writer.WriteString("key", controllerWorkflooModelLinkResume.Key);
 

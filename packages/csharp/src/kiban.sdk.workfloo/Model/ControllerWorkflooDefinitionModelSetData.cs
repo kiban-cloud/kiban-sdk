@@ -164,28 +164,19 @@ namespace kiban.sdk.workfloo.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "fields":
-                            fields = new Option<List<ControllerWorkflooDefinitionModelField>?>(JsonSerializer.Deserialize<List<ControllerWorkflooDefinitionModelField>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            fields = new Option<List<ControllerWorkflooDefinitionModelField>?>(JsonSerializer.Deserialize<List<ControllerWorkflooDefinitionModelField>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "optionalAt":
-                            optionalAt = new Option<List<string>?>(JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            optionalAt = new Option<List<string>?>(JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "required":
-                            required = new Option<List<string>?>(JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            required = new Option<List<string>?>(JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         default:
                             break;
                     }
                 }
             }
-
-            if (fields.IsSet && fields.Value == null)
-                throw new ArgumentNullException(nameof(fields), "Property is not nullable for class ControllerWorkflooDefinitionModelSetData.");
-
-            if (optionalAt.IsSet && optionalAt.Value == null)
-                throw new ArgumentNullException(nameof(optionalAt), "Property is not nullable for class ControllerWorkflooDefinitionModelSetData.");
-
-            if (required.IsSet && required.Value == null)
-                throw new ArgumentNullException(nameof(required), "Property is not nullable for class ControllerWorkflooDefinitionModelSetData.");
 
             return new ControllerWorkflooDefinitionModelSetData(fields, optionalAt, required);
         }
@@ -214,30 +205,30 @@ namespace kiban.sdk.workfloo.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, ControllerWorkflooDefinitionModelSetData controllerWorkflooDefinitionModelSetData, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (controllerWorkflooDefinitionModelSetData.FieldsOption.IsSet && controllerWorkflooDefinitionModelSetData.Fields == null)
-                throw new ArgumentNullException(nameof(controllerWorkflooDefinitionModelSetData.Fields), "Property is required for class ControllerWorkflooDefinitionModelSetData.");
-
-            if (controllerWorkflooDefinitionModelSetData.OptionalAtOption.IsSet && controllerWorkflooDefinitionModelSetData.OptionalAt == null)
-                throw new ArgumentNullException(nameof(controllerWorkflooDefinitionModelSetData.OptionalAt), "Property is required for class ControllerWorkflooDefinitionModelSetData.");
-
-            if (controllerWorkflooDefinitionModelSetData.RequiredOption.IsSet && controllerWorkflooDefinitionModelSetData.Required == null)
-                throw new ArgumentNullException(nameof(controllerWorkflooDefinitionModelSetData.Required), "Property is required for class ControllerWorkflooDefinitionModelSetData.");
-
             if (controllerWorkflooDefinitionModelSetData.FieldsOption.IsSet)
-            {
-                writer.WritePropertyName("fields");
-                JsonSerializer.Serialize(writer, controllerWorkflooDefinitionModelSetData.Fields, jsonSerializerOptions);
-            }
+                if (controllerWorkflooDefinitionModelSetData.FieldsOption.Value != null)
+                {
+                    writer.WritePropertyName("fields");
+                    JsonSerializer.Serialize(writer, controllerWorkflooDefinitionModelSetData.Fields, jsonSerializerOptions);
+                }
+                else
+                    writer.WriteNull("fields");
             if (controllerWorkflooDefinitionModelSetData.OptionalAtOption.IsSet)
-            {
-                writer.WritePropertyName("optionalAt");
-                JsonSerializer.Serialize(writer, controllerWorkflooDefinitionModelSetData.OptionalAt, jsonSerializerOptions);
-            }
+                if (controllerWorkflooDefinitionModelSetData.OptionalAtOption.Value != null)
+                {
+                    writer.WritePropertyName("optionalAt");
+                    JsonSerializer.Serialize(writer, controllerWorkflooDefinitionModelSetData.OptionalAt, jsonSerializerOptions);
+                }
+                else
+                    writer.WriteNull("optionalAt");
             if (controllerWorkflooDefinitionModelSetData.RequiredOption.IsSet)
-            {
-                writer.WritePropertyName("required");
-                JsonSerializer.Serialize(writer, controllerWorkflooDefinitionModelSetData.Required, jsonSerializerOptions);
-            }
+                if (controllerWorkflooDefinitionModelSetData.RequiredOption.Value != null)
+                {
+                    writer.WritePropertyName("required");
+                    JsonSerializer.Serialize(writer, controllerWorkflooDefinitionModelSetData.Required, jsonSerializerOptions);
+                }
+                else
+                    writer.WriteNull("required");
         }
     }
 }

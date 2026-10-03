@@ -34,7 +34,7 @@ examples/                  flujo completo de un integrador, en los 5 lenguajes
 
 > Go no admite puntos en el nombre de paquete: el paquete importable es
 > `workfloo`. El path del módulo coincide con su directorio en este repo, así
-> que se instala con `go get github.com/kiban-cloud/kiban-sdk/packages/go@v0.2.0`
+> que se instala con `go get github.com/kiban-cloud/kiban-sdk/packages/go@v0.3.0`
 > y se importa con `workfloo "github.com/kiban-cloud/kiban-sdk/packages/go"`.
 
 ## Autenticación
@@ -54,7 +54,8 @@ obligatorio si la definición tiene conectores LINK).
 Operaciones (mismo nombre en todos los SDKs, adaptado a la convención de cada
 lenguaje): `executeWorkfloo`, `getWorkflooStatus`, `getWorkfloo`,
 `listWorkfloos` (v1, paginado envuelto), `listWorkfloosV2` (v2, arreglo plano +
-header `Link`), `executeWorkflooForm`, `executeWorkflooDocument`,
+header `Link`; con `content=true` cada elemento trae la ejecución completa y con
+`format=CSV` llega un CSV, ver abajo), `executeWorkflooForm`, `executeWorkflooDocument`,
 `getWorkflooFile`, `sendWorkflooNip` / `validateWorkflooNip` /
 `resendWorkflooNip`, `validateWorkflooOtp` / `fallbackWorkflooOtp`,
 `reviewWorkflooValidation`, `submitWorkflooCorrection` y `executePool`.
@@ -149,6 +150,30 @@ var page = (await api.ListWorkfloosAsync(1, 20)).Ok();
 **Flujo completo:** [`examples/`](examples/) tiene, en los 5 lenguajes, el
 programa que ejecuta un workfloo y lo conduce hasta que termina, respondiendo
 cada paso (formulario, documentos, NIP, código de verificación y corrección).
+
+### Historial v2: `content` y CSV
+
+`listWorkfloosV2` sigue a [la documentación pública](https://docs.kiban.com/reference/workfloo-get-all-v2):
+`content` y `format` son query params del mismo endpoint.
+
+- **`content=true`** agrega a cada elemento la ejecución completa (la forma de
+  `getWorkfloo`, con `nodes`). Cada elemento es un `WorkflooListItem`, que tiene
+  los campos de las dos formas: con `content=false` vienen llenos los del
+  resumen (`createdAt`, `currentNodeName`…); con `true`, los de la ejecución
+  (`created`, `nodes`…).
+- **`format=CSV`** devuelve `text/csv`. El método está tipado como JSON, así que
+  el CSV se lee del cuerpo crudo, distinto en cada SDK:
+
+| SDK | Cómo obtener el CSV |
+|---|---|
+| Node | `(await api.listWorkfloosV2(…, 'CSV', …)).data` ya es el texto |
+| Python | `api.list_workfloos_v2_without_preload_content(format="CSV", …).data.decode()` |
+| Go | `Execute()` devuelve error; el CSV está en `err.(*workfloo.GenericOpenAPIError).Body()` (con `resp.StatusCode == 200`) |
+| Java | lanza `ApiException` con `getCode() == 200`; el CSV está en `getResponseBody()` |
+| C# | `response.RawContent` (no llames `Ok()`) |
+
+Los arreglos y mapas del spec son `nullable`: el backend manda `null` cuando
+están vacíos (p. ej. `nodes` de una ejecución que todavía no avanza).
 
 Las respuestas de error no traen un modelo tipado: el SDK expone el código HTTP
 (400/401/403/404/500/503) y el cuerpo crudo, que sólo viene cuando el backend
@@ -256,9 +281,9 @@ node --check examples/node/flujo-completo.mjs
 
 Cada paquete en `packages/**` es publicable de forma independiente (npm, Go
 module, Maven, PyPI, NuGet). El módulo de Go se publica con un tag con el prefijo
-de su directorio: `git tag packages/go/v0.2.0`. Flujo: `gen:spec` → `gen:sdks` → bump de semver en
+de su directorio: `git tag packages/go/v0.3.0`. Flujo: `gen:spec` → `gen:sdks` → bump de semver en
 `openapi-generator/config.*.yaml` (los 5 a la vez: comparten el spec) →
-`gen:sdks` otra vez → publicar. Versión actual: `0.2.0`.
+`gen:sdks` otra vez → publicar. Versión actual: `0.3.0`.
 
 Semver: un campo o endpoint nuevo es **minor**; quitar o renombrar algo (incluido
 un `@ID` de swaggo, que es el nombre del método) es **major**.

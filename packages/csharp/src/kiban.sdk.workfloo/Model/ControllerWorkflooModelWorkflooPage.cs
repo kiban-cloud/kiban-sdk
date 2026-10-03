@@ -170,7 +170,7 @@ namespace kiban.sdk.workfloo.Model
                             hasNextPage = new Option<bool?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (bool?)null : utf8JsonReader.GetBoolean());
                             break;
                         case "items":
-                            items = new Option<List<ControllerWorkflooModelWorkfloo>?>(JsonSerializer.Deserialize<List<ControllerWorkflooModelWorkfloo>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            items = new Option<List<ControllerWorkflooModelWorkfloo>?>(JsonSerializer.Deserialize<List<ControllerWorkflooModelWorkfloo>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         default:
                             break;
@@ -183,9 +183,6 @@ namespace kiban.sdk.workfloo.Model
 
             if (hasNextPage.IsSet && hasNextPage.Value == null)
                 throw new ArgumentNullException(nameof(hasNextPage), "Property is not nullable for class ControllerWorkflooModelWorkflooPage.");
-
-            if (items.IsSet && items.Value == null)
-                throw new ArgumentNullException(nameof(items), "Property is not nullable for class ControllerWorkflooModelWorkflooPage.");
 
             return new ControllerWorkflooModelWorkflooPage(currentPage, hasNextPage, items);
         }
@@ -214,9 +211,6 @@ namespace kiban.sdk.workfloo.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, ControllerWorkflooModelWorkflooPage controllerWorkflooModelWorkflooPage, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (controllerWorkflooModelWorkflooPage.ItemsOption.IsSet && controllerWorkflooModelWorkflooPage.Items == null)
-                throw new ArgumentNullException(nameof(controllerWorkflooModelWorkflooPage.Items), "Property is required for class ControllerWorkflooModelWorkflooPage.");
-
             if (controllerWorkflooModelWorkflooPage.CurrentPageOption.IsSet)
                 writer.WriteNumber("currentPage", controllerWorkflooModelWorkflooPage.CurrentPageOption.Value!.Value);
 
@@ -224,10 +218,13 @@ namespace kiban.sdk.workfloo.Model
                 writer.WriteBoolean("hasNextPage", controllerWorkflooModelWorkflooPage.HasNextPageOption.Value!.Value);
 
             if (controllerWorkflooModelWorkflooPage.ItemsOption.IsSet)
-            {
-                writer.WritePropertyName("items");
-                JsonSerializer.Serialize(writer, controllerWorkflooModelWorkflooPage.Items, jsonSerializerOptions);
-            }
+                if (controllerWorkflooModelWorkflooPage.ItemsOption.Value != null)
+                {
+                    writer.WritePropertyName("items");
+                    JsonSerializer.Serialize(writer, controllerWorkflooModelWorkflooPage.Items, jsonSerializerOptions);
+                }
+                else
+                    writer.WriteNull("items");
         }
     }
 }

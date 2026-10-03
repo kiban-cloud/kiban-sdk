@@ -170,7 +170,7 @@ namespace kiban.sdk.workfloo.Model
                             reviewerNote = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "reviews":
-                            reviews = new Option<List<ControllerWorkflooModelReviewFieldRequest>?>(JsonSerializer.Deserialize<List<ControllerWorkflooModelReviewFieldRequest>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            reviews = new Option<List<ControllerWorkflooModelReviewFieldRequest>?>(JsonSerializer.Deserialize<List<ControllerWorkflooModelReviewFieldRequest>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         default:
                             break;
@@ -183,9 +183,6 @@ namespace kiban.sdk.workfloo.Model
 
             if (reviewerNote.IsSet && reviewerNote.Value == null)
                 throw new ArgumentNullException(nameof(reviewerNote), "Property is not nullable for class ControllerWorkflooModelReviewRequest.");
-
-            if (reviews.IsSet && reviews.Value == null)
-                throw new ArgumentNullException(nameof(reviews), "Property is not nullable for class ControllerWorkflooModelReviewRequest.");
 
             return new ControllerWorkflooModelReviewRequest(decision, reviewerNote, reviews);
         }
@@ -220,9 +217,6 @@ namespace kiban.sdk.workfloo.Model
             if (controllerWorkflooModelReviewRequest.ReviewerNoteOption.IsSet && controllerWorkflooModelReviewRequest.ReviewerNote == null)
                 throw new ArgumentNullException(nameof(controllerWorkflooModelReviewRequest.ReviewerNote), "Property is required for class ControllerWorkflooModelReviewRequest.");
 
-            if (controllerWorkflooModelReviewRequest.ReviewsOption.IsSet && controllerWorkflooModelReviewRequest.Reviews == null)
-                throw new ArgumentNullException(nameof(controllerWorkflooModelReviewRequest.Reviews), "Property is required for class ControllerWorkflooModelReviewRequest.");
-
             if (controllerWorkflooModelReviewRequest.DecisionOption.IsSet)
                 writer.WriteString("decision", controllerWorkflooModelReviewRequest.Decision);
 
@@ -230,10 +224,13 @@ namespace kiban.sdk.workfloo.Model
                 writer.WriteString("reviewerNote", controllerWorkflooModelReviewRequest.ReviewerNote);
 
             if (controllerWorkflooModelReviewRequest.ReviewsOption.IsSet)
-            {
-                writer.WritePropertyName("reviews");
-                JsonSerializer.Serialize(writer, controllerWorkflooModelReviewRequest.Reviews, jsonSerializerOptions);
-            }
+                if (controllerWorkflooModelReviewRequest.ReviewsOption.Value != null)
+                {
+                    writer.WritePropertyName("reviews");
+                    JsonSerializer.Serialize(writer, controllerWorkflooModelReviewRequest.Reviews, jsonSerializerOptions);
+                }
+                else
+                    writer.WriteNull("reviews");
         }
     }
 }

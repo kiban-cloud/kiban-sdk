@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import kiban.sdk.workfloo.model.ControllerWorkflooModelNode;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -51,7 +52,7 @@ import kiban.sdk.workfloo.JSON;
 /**
  * ControllerWorkflooModelWorkfloo
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-10-02T10:13:43.960045-06:00[America/Mexico_City]", comments = "Generator version: 7.24.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0")
 public class ControllerWorkflooModelWorkfloo {
   public static final String SERIALIZED_NAME_COMPANY_NAME = "companyName";
   @SerializedName(SERIALIZED_NAME_COMPANY_NAME)
@@ -96,7 +97,7 @@ public class ControllerWorkflooModelWorkfloo {
   public static final String SERIALIZED_NAME_LABELS = "labels";
   @SerializedName(SERIALIZED_NAME_LABELS)
   @javax.annotation.Nullable
-  private List<String> labels = new ArrayList<>();
+  private List<String> labels;
 
   public static final String SERIALIZED_NAME_LAST_NAME1 = "lastName1";
   @SerializedName(SERIALIZED_NAME_LAST_NAME1)
@@ -146,7 +147,7 @@ public class ControllerWorkflooModelWorkfloo {
   public static final String SERIALIZED_NAME_STEPS = "steps";
   @SerializedName(SERIALIZED_NAME_STEPS)
   @javax.annotation.Nullable
-  private List<ControllerWorkflooModelNode> steps = new ArrayList<>();
+  private List<ControllerWorkflooModelNode> steps;
 
   public ControllerWorkflooModelWorkfloo() {
   }
@@ -559,9 +560,20 @@ public class ControllerWorkflooModelWorkfloo {
         Objects.equals(this.steps, controllerWorkflooModelWorkfloo.steps);
   }
 
+  private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
+    return a == b || (a != null && b != null && a.isPresent() && b.isPresent() && Objects.deepEquals(a.get(), b.get()));
+  }
+
   @Override
   public int hashCode() {
     return Objects.hash(companyName, createdAt, createdBy, currentNodeName, firstName, id, idUnykoo, ipOrigin, labels, lastName1, lastName2, modifiedAt, name, origin, rfcPf, rfcPm, secondName, status, steps);
+  }
+
+  private static <T> int hashCodeNullable(JsonNullable<T> a) {
+    if (a == null) {
+      return 1;
+    }
+    return a.isPresent() ? Arrays.deepHashCode(new Object[]{a.get()}) : 31;
   }
 
   @Override

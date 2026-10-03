@@ -39,9 +39,9 @@ func NewControllerWorkflooDefinitionModelDocumentWithDefaults() *ControllerWorkf
 	return &this
 }
 
-// GetDocumentField returns the DocumentField field value if set, zero value otherwise.
+// GetDocumentField returns the DocumentField field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ControllerWorkflooDefinitionModelDocument) GetDocumentField() []ControllerWorkflooDefinitionModelFileDocument {
-	if o == nil || IsNil(o.DocumentField) {
+	if o == nil {
 		var ret []ControllerWorkflooDefinitionModelFileDocument
 		return ret
 	}
@@ -50,6 +50,7 @@ func (o *ControllerWorkflooDefinitionModelDocument) GetDocumentField() []Control
 
 // GetDocumentFieldOk returns a tuple with the DocumentField field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *ControllerWorkflooDefinitionModelDocument) GetDocumentFieldOk() ([]ControllerWorkflooDefinitionModelFileDocument, bool) {
 	if o == nil || IsNil(o.DocumentField) {
 		return nil, false
@@ -81,7 +82,7 @@ func (o ControllerWorkflooDefinitionModelDocument) MarshalJSON() ([]byte, error)
 
 func (o ControllerWorkflooDefinitionModelDocument) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !IsNil(o.DocumentField) {
+	if o.DocumentField != nil {
 		toSerialize["documentField"] = o.DocumentField
 	}
 	return toSerialize, nil

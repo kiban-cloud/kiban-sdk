@@ -109,6 +109,11 @@ class ControllerWorkflooModelNode(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of variables
         if self.variables:
             _dict['variables'] = self.variables.to_dict()
+        # set to None if decision_tree (nullable) is None
+        # and model_fields_set contains the field
+        if self.decision_tree is None and "decision_tree" in self.model_fields_set:
+            _dict['decisionTree'] = None
+
         return _dict
 
     @classmethod

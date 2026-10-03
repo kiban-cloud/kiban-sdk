@@ -71,6 +71,16 @@ SetSceneries sets Sceneries field to given value.
 
 HasSceneries returns a boolean if a field has been set.
 
+### SetSceneriesNil
+
+`func (o *ControllerPoolModelExecute) SetSceneriesNil(b bool)`
+
+ SetSceneriesNil sets the value for Sceneries to be an explicit nil
+
+### UnsetSceneries
+`func (o *ControllerPoolModelExecute) UnsetSceneries()`
+
+UnsetSceneries ensures that no value is present for Sceneries, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

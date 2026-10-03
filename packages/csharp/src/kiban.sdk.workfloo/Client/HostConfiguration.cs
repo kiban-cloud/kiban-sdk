@@ -102,6 +102,7 @@ namespace kiban.sdk.workfloo.Client
             _jsonOptions.Converters.Add(new ControllerWorkflooModelVariablesJsonConverter());
             _jsonOptions.Converters.Add(new ControllerWorkflooModelVerificationStatusJsonConverter());
             _jsonOptions.Converters.Add(new ControllerWorkflooModelWorkflooJsonConverter());
+            _jsonOptions.Converters.Add(new ControllerWorkflooModelWorkflooListItemJsonConverter());
             _jsonOptions.Converters.Add(new ControllerWorkflooModelWorkflooPageJsonConverter());
             _jsonOptions.Converters.Add(new ControllerWorkflooModelWorkflooResumeJsonConverter());
             _jsonOptions.Converters.Add(new ControllerWorkflooModelWorkflooStatusJsonConverter());

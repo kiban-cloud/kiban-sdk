@@ -148,9 +148,9 @@ func (o *ControllerWorkflooModelNode) SetCreatedBy(v string) {
 	o.CreatedBy = &v
 }
 
-// GetDecisionTree returns the DecisionTree field value if set, zero value otherwise.
+// GetDecisionTree returns the DecisionTree field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ControllerWorkflooModelNode) GetDecisionTree() []ControllerWorkflooModelDecisionTree {
-	if o == nil || IsNil(o.DecisionTree) {
+	if o == nil {
 		var ret []ControllerWorkflooModelDecisionTree
 		return ret
 	}
@@ -159,6 +159,7 @@ func (o *ControllerWorkflooModelNode) GetDecisionTree() []ControllerWorkflooMode
 
 // GetDecisionTreeOk returns a tuple with the DecisionTree field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *ControllerWorkflooModelNode) GetDecisionTreeOk() ([]ControllerWorkflooModelDecisionTree, bool) {
 	if o == nil || IsNil(o.DecisionTree) {
 		return nil, false
@@ -487,7 +488,7 @@ func (o ControllerWorkflooModelNode) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.CreatedBy) {
 		toSerialize["createdBy"] = o.CreatedBy
 	}
-	if !IsNil(o.DecisionTree) {
+	if o.DecisionTree != nil {
 		toSerialize["decisionTree"] = o.DecisionTree
 	}
 	if !IsNil(o.Form) {

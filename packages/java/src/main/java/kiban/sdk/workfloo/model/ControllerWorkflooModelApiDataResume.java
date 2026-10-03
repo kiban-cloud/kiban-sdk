@@ -51,7 +51,7 @@ import kiban.sdk.workfloo.JSON;
 /**
  * ControllerWorkflooModelApiDataResume
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-10-02T10:13:43.960045-06:00[America/Mexico_City]", comments = "Generator version: 7.24.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0")
 public class ControllerWorkflooModelApiDataResume {
   public static final String SERIALIZED_NAME_BODY = "body";
   @SerializedName(SERIALIZED_NAME_BODY)
@@ -61,7 +61,7 @@ public class ControllerWorkflooModelApiDataResume {
   public static final String SERIALIZED_NAME_HEADERS = "headers";
   @SerializedName(SERIALIZED_NAME_HEADERS)
   @javax.annotation.Nullable
-  private Map<String, String> headers = new HashMap<>();
+  private Map<String, String> headers;
 
   public static final String SERIALIZED_NAME_HTTP_CODE = "httpCode";
   @SerializedName(SERIALIZED_NAME_HTTP_CODE)
@@ -71,7 +71,7 @@ public class ControllerWorkflooModelApiDataResume {
   public static final String SERIALIZED_NAME_QUERY_PARAMS = "queryParams";
   @SerializedName(SERIALIZED_NAME_QUERY_PARAMS)
   @javax.annotation.Nullable
-  private Map<String, String> queryParams = new HashMap<>();
+  private Map<String, String> queryParams;
 
   public static final String SERIALIZED_NAME_URL = "url";
   @SerializedName(SERIALIZED_NAME_URL)

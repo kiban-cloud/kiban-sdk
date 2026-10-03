@@ -74,6 +74,16 @@ class ControllerWorkflooModelExecute(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # set to None if document (nullable) is None
+        # and model_fields_set contains the field
+        if self.document is None and "document" in self.model_fields_set:
+            _dict['document'] = None
+
+        # set to None if form (nullable) is None
+        # and model_fields_set contains the field
+        if self.form is None and "form" in self.model_fields_set:
+            _dict['form'] = None
+
         return _dict
 
     @classmethod

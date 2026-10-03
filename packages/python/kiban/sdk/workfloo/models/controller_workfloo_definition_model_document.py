@@ -77,6 +77,11 @@ class ControllerWorkflooDefinitionModelDocument(BaseModel):
                 if _item_document_field:
                     _items.append(_item_document_field.to_dict())
             _dict['documentField'] = _items
+        # set to None if document_field (nullable) is None
+        # and model_fields_set contains the field
+        if self.document_field is None and "document_field" in self.model_fields_set:
+            _dict['documentField'] = None
+
         return _dict
 
     @classmethod

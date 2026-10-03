@@ -258,36 +258,60 @@ namespace kiban.sdk.workfloo.Api
         /// Historial de ejecuciones (v2)
         /// </summary>
         /// <remarks>
-        /// Igual que v1 pero devuelve el arreglo de ejecuciones directo, sin envoltorio. La paginación viaja en el header Link. Con format&#x3D;csv la respuesta es un archivo CSV en lugar de JSON. Cualquier query param adicional no listado aquí se interpreta como filtro de búsqueda sobre el listado (searchableBy).
+        /// Devuelve el arreglo de ejecuciones directo, sin envoltorio. La paginación viaja en el header Link. content&#x3D;true agrega a cada elemento la ejecución completa, con todos sus nodos (la misma forma que getWorkfloo); por defecto es false y llega el resumen. format&#x3D;CSV devuelve un archivo CSV en lugar de JSON. Los SDKs tipan la respuesta como JSON: para el CSV hay que leer el cuerpo crudo de la respuesta. Cualquier query param adicional no listado aquí se interpreta como filtro de búsqueda sobre el listado (searchableBy).
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="page">Número de página, empieza en 1 (optional)</param>
-        /// <param name="itemsPerPage">Cantidad de resultados por página (optional)</param>
-        /// <param name="status">Filtra por estado de la ejecución (optional)</param>
-        /// <param name="from">Fecha inicial del rango (RFC3339) (optional)</param>
-        /// <param name="to">Fecha final del rango (RFC3339) (optional)</param>
-        /// <param name="format">Formato de la respuesta (optional)</param>
+        /// <param name="itemsPerPage">Cantidad de resultados por página, entre 1 y 10000 (optional)</param>
+        /// <param name="from">Fecha inicial del rango (ISO 8601) (optional)</param>
+        /// <param name="to">Fecha final del rango (ISO 8601) (optional)</param>
+        /// <param name="origin">Origen de la ejecución: KIBAN_CLOUD, API o FRONT (optional)</param>
+        /// <param name="status">Estado de la ejecución: SUCCESS, ERROR o PROGRESS (optional)</param>
+        /// <param name="name">Nombre del workfloo (búsqueda parcial) (optional)</param>
+        /// <param name="id">Id exacto de la ejecución (optional)</param>
+        /// <param name="nodesFormSearchableByRfcPf">RFC de persona física (empieza con, sin distinguir mayúsculas) (optional)</param>
+        /// <param name="nodesFormSearchableByFirstName">Nombre (empieza con, sin distinguir mayúsculas) (optional)</param>
+        /// <param name="nodesFormSearchableBySecondName">Segundo nombre (empieza con, sin distinguir mayúsculas) (optional)</param>
+        /// <param name="nodesFormSearchableByLastName1">Apellido paterno (empieza con, sin distinguir mayúsculas) (optional)</param>
+        /// <param name="nodesFormSearchableByLastName2">Apellido materno (empieza con, sin distinguir mayúsculas) (optional)</param>
+        /// <param name="nodesFormSearchableByRfcPm">RFC de persona moral (empieza con, sin distinguir mayúsculas) (optional)</param>
+        /// <param name="nodesFormSearchableByCompanyName">Razón social (empieza con, sin distinguir mayúsculas) (optional)</param>
+        /// <param name="format">Formato de la respuesta; por defecto JSON (optional)</param>
+        /// <param name="content">Agrega la ejecución completa (todos sus nodos) a cada elemento; por defecto false (optional)</param>
+        /// <param name="labels">Etiquetas, separadas por punto y coma (optional)</param>
         /// <param name="sandbox">Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IListWorkfloosV2ApiResponse"/>&gt;</returns>
-        Task<IListWorkfloosV2ApiResponse> ListWorkfloosV2Async(Option<int> page = default, Option<int> itemsPerPage = default, Option<string> status = default, Option<string> from = default, Option<string> to = default, Option<string> format = default, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default);
+        Task<IListWorkfloosV2ApiResponse> ListWorkfloosV2Async(Option<int> page = default, Option<int> itemsPerPage = default, Option<string> from = default, Option<string> to = default, Option<string> origin = default, Option<string> status = default, Option<string> name = default, Option<string> id = default, Option<string> nodesFormSearchableByRfcPf = default, Option<string> nodesFormSearchableByFirstName = default, Option<string> nodesFormSearchableBySecondName = default, Option<string> nodesFormSearchableByLastName1 = default, Option<string> nodesFormSearchableByLastName2 = default, Option<string> nodesFormSearchableByRfcPm = default, Option<string> nodesFormSearchableByCompanyName = default, Option<string> format = default, Option<bool> content = default, Option<string> labels = default, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Historial de ejecuciones (v2)
         /// </summary>
         /// <remarks>
-        /// Igual que v1 pero devuelve el arreglo de ejecuciones directo, sin envoltorio. La paginación viaja en el header Link. Con format&#x3D;csv la respuesta es un archivo CSV en lugar de JSON. Cualquier query param adicional no listado aquí se interpreta como filtro de búsqueda sobre el listado (searchableBy).
+        /// Devuelve el arreglo de ejecuciones directo, sin envoltorio. La paginación viaja en el header Link. content&#x3D;true agrega a cada elemento la ejecución completa, con todos sus nodos (la misma forma que getWorkfloo); por defecto es false y llega el resumen. format&#x3D;CSV devuelve un archivo CSV en lugar de JSON. Los SDKs tipan la respuesta como JSON: para el CSV hay que leer el cuerpo crudo de la respuesta. Cualquier query param adicional no listado aquí se interpreta como filtro de búsqueda sobre el listado (searchableBy).
         /// </remarks>
         /// <param name="page">Número de página, empieza en 1 (optional)</param>
-        /// <param name="itemsPerPage">Cantidad de resultados por página (optional)</param>
-        /// <param name="status">Filtra por estado de la ejecución (optional)</param>
-        /// <param name="from">Fecha inicial del rango (RFC3339) (optional)</param>
-        /// <param name="to">Fecha final del rango (RFC3339) (optional)</param>
-        /// <param name="format">Formato de la respuesta (optional)</param>
+        /// <param name="itemsPerPage">Cantidad de resultados por página, entre 1 y 10000 (optional)</param>
+        /// <param name="from">Fecha inicial del rango (ISO 8601) (optional)</param>
+        /// <param name="to">Fecha final del rango (ISO 8601) (optional)</param>
+        /// <param name="origin">Origen de la ejecución: KIBAN_CLOUD, API o FRONT (optional)</param>
+        /// <param name="status">Estado de la ejecución: SUCCESS, ERROR o PROGRESS (optional)</param>
+        /// <param name="name">Nombre del workfloo (búsqueda parcial) (optional)</param>
+        /// <param name="id">Id exacto de la ejecución (optional)</param>
+        /// <param name="nodesFormSearchableByRfcPf">RFC de persona física (empieza con, sin distinguir mayúsculas) (optional)</param>
+        /// <param name="nodesFormSearchableByFirstName">Nombre (empieza con, sin distinguir mayúsculas) (optional)</param>
+        /// <param name="nodesFormSearchableBySecondName">Segundo nombre (empieza con, sin distinguir mayúsculas) (optional)</param>
+        /// <param name="nodesFormSearchableByLastName1">Apellido paterno (empieza con, sin distinguir mayúsculas) (optional)</param>
+        /// <param name="nodesFormSearchableByLastName2">Apellido materno (empieza con, sin distinguir mayúsculas) (optional)</param>
+        /// <param name="nodesFormSearchableByRfcPm">RFC de persona moral (empieza con, sin distinguir mayúsculas) (optional)</param>
+        /// <param name="nodesFormSearchableByCompanyName">Razón social (empieza con, sin distinguir mayúsculas) (optional)</param>
+        /// <param name="format">Formato de la respuesta; por defecto JSON (optional)</param>
+        /// <param name="content">Agrega la ejecución completa (todos sus nodos) a cada elemento; por defecto false (optional)</param>
+        /// <param name="labels">Etiquetas, separadas por punto y coma (optional)</param>
         /// <param name="sandbox">Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IListWorkfloosV2ApiResponse"/>?&gt;</returns>
-        Task<IListWorkfloosV2ApiResponse?> ListWorkfloosV2OrDefaultAsync(Option<int> page = default, Option<int> itemsPerPage = default, Option<string> status = default, Option<string> from = default, Option<string> to = default, Option<string> format = default, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default);
+        Task<IListWorkfloosV2ApiResponse?> ListWorkfloosV2OrDefaultAsync(Option<int> page = default, Option<int> itemsPerPage = default, Option<string> from = default, Option<string> to = default, Option<string> origin = default, Option<string> status = default, Option<string> name = default, Option<string> id = default, Option<string> nodesFormSearchableByRfcPf = default, Option<string> nodesFormSearchableByFirstName = default, Option<string> nodesFormSearchableBySecondName = default, Option<string> nodesFormSearchableByLastName1 = default, Option<string> nodesFormSearchableByLastName2 = default, Option<string> nodesFormSearchableByRfcPm = default, Option<string> nodesFormSearchableByCompanyName = default, Option<string> format = default, Option<bool> content = default, Option<string> labels = default, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Reenviar el NIP
@@ -869,7 +893,7 @@ namespace kiban.sdk.workfloo.Api
     /// <summary>
     /// The <see cref="IListWorkfloosV2ApiResponse"/>
     /// </summary>
-    public interface IListWorkfloosV2ApiResponse : kiban.sdk.workfloo.Client.IApiResponse, IOk<List<ControllerWorkflooModelWorkfloo>?>
+    public interface IListWorkfloosV2ApiResponse : kiban.sdk.workfloo.Client.IApiResponse, IOk<List<ControllerWorkflooModelWorkflooListItem>?>
     {
         /// <summary>
         /// Returns true if the response is 200 Ok
@@ -3984,29 +4008,73 @@ namespace kiban.sdk.workfloo.Api
             partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
         }
 
-        partial void FormatListWorkfloosV2(ref Option<int> page, ref Option<int> itemsPerPage, ref Option<string> status, ref Option<string> from, ref Option<string> to, ref Option<string> format, ref Option<bool> sandbox);
+        partial void FormatListWorkfloosV2(ref Option<int> page, ref Option<int> itemsPerPage, ref Option<string> from, ref Option<string> to, ref Option<string> origin, ref Option<string> status, ref Option<string> name, ref Option<string> id, ref Option<string> nodesFormSearchableByRfcPf, ref Option<string> nodesFormSearchableByFirstName, ref Option<string> nodesFormSearchableBySecondName, ref Option<string> nodesFormSearchableByLastName1, ref Option<string> nodesFormSearchableByLastName2, ref Option<string> nodesFormSearchableByRfcPm, ref Option<string> nodesFormSearchableByCompanyName, ref Option<string> format, ref Option<bool> content, ref Option<string> labels, ref Option<bool> sandbox);
 
         /// <summary>
         /// Validates the request parameters
         /// </summary>
-        /// <param name="status"></param>
         /// <param name="from"></param>
         /// <param name="to"></param>
+        /// <param name="origin"></param>
+        /// <param name="status"></param>
+        /// <param name="name"></param>
+        /// <param name="id"></param>
+        /// <param name="nodesFormSearchableByRfcPf"></param>
+        /// <param name="nodesFormSearchableByFirstName"></param>
+        /// <param name="nodesFormSearchableBySecondName"></param>
+        /// <param name="nodesFormSearchableByLastName1"></param>
+        /// <param name="nodesFormSearchableByLastName2"></param>
+        /// <param name="nodesFormSearchableByRfcPm"></param>
+        /// <param name="nodesFormSearchableByCompanyName"></param>
         /// <param name="format"></param>
+        /// <param name="labels"></param>
         /// <returns></returns>
-        private void ValidateListWorkfloosV2(Option<string> status, Option<string> from, Option<string> to, Option<string> format)
+        private void ValidateListWorkfloosV2(Option<string> from, Option<string> to, Option<string> origin, Option<string> status, Option<string> name, Option<string> id, Option<string> nodesFormSearchableByRfcPf, Option<string> nodesFormSearchableByFirstName, Option<string> nodesFormSearchableBySecondName, Option<string> nodesFormSearchableByLastName1, Option<string> nodesFormSearchableByLastName2, Option<string> nodesFormSearchableByRfcPm, Option<string> nodesFormSearchableByCompanyName, Option<string> format, Option<string> labels)
         {
-            if (status.IsSet && status.Value == null)
-                throw new ArgumentNullException(nameof(status));
-
             if (from.IsSet && from.Value == null)
                 throw new ArgumentNullException(nameof(from));
 
             if (to.IsSet && to.Value == null)
                 throw new ArgumentNullException(nameof(to));
 
+            if (origin.IsSet && origin.Value == null)
+                throw new ArgumentNullException(nameof(origin));
+
+            if (status.IsSet && status.Value == null)
+                throw new ArgumentNullException(nameof(status));
+
+            if (name.IsSet && name.Value == null)
+                throw new ArgumentNullException(nameof(name));
+
+            if (id.IsSet && id.Value == null)
+                throw new ArgumentNullException(nameof(id));
+
+            if (nodesFormSearchableByRfcPf.IsSet && nodesFormSearchableByRfcPf.Value == null)
+                throw new ArgumentNullException(nameof(nodesFormSearchableByRfcPf));
+
+            if (nodesFormSearchableByFirstName.IsSet && nodesFormSearchableByFirstName.Value == null)
+                throw new ArgumentNullException(nameof(nodesFormSearchableByFirstName));
+
+            if (nodesFormSearchableBySecondName.IsSet && nodesFormSearchableBySecondName.Value == null)
+                throw new ArgumentNullException(nameof(nodesFormSearchableBySecondName));
+
+            if (nodesFormSearchableByLastName1.IsSet && nodesFormSearchableByLastName1.Value == null)
+                throw new ArgumentNullException(nameof(nodesFormSearchableByLastName1));
+
+            if (nodesFormSearchableByLastName2.IsSet && nodesFormSearchableByLastName2.Value == null)
+                throw new ArgumentNullException(nameof(nodesFormSearchableByLastName2));
+
+            if (nodesFormSearchableByRfcPm.IsSet && nodesFormSearchableByRfcPm.Value == null)
+                throw new ArgumentNullException(nameof(nodesFormSearchableByRfcPm));
+
+            if (nodesFormSearchableByCompanyName.IsSet && nodesFormSearchableByCompanyName.Value == null)
+                throw new ArgumentNullException(nameof(nodesFormSearchableByCompanyName));
+
             if (format.IsSet && format.Value == null)
                 throw new ArgumentNullException(nameof(format));
+
+            if (labels.IsSet && labels.Value == null)
+                throw new ArgumentNullException(nameof(labels));
         }
 
         /// <summary>
@@ -4015,15 +4083,27 @@ namespace kiban.sdk.workfloo.Api
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="page"></param>
         /// <param name="itemsPerPage"></param>
-        /// <param name="status"></param>
         /// <param name="from"></param>
         /// <param name="to"></param>
+        /// <param name="origin"></param>
+        /// <param name="status"></param>
+        /// <param name="name"></param>
+        /// <param name="id"></param>
+        /// <param name="nodesFormSearchableByRfcPf"></param>
+        /// <param name="nodesFormSearchableByFirstName"></param>
+        /// <param name="nodesFormSearchableBySecondName"></param>
+        /// <param name="nodesFormSearchableByLastName1"></param>
+        /// <param name="nodesFormSearchableByLastName2"></param>
+        /// <param name="nodesFormSearchableByRfcPm"></param>
+        /// <param name="nodesFormSearchableByCompanyName"></param>
         /// <param name="format"></param>
+        /// <param name="content"></param>
+        /// <param name="labels"></param>
         /// <param name="sandbox"></param>
-        private void AfterListWorkfloosV2DefaultImplementation(IListWorkfloosV2ApiResponse apiResponseLocalVar, Option<int> page, Option<int> itemsPerPage, Option<string> status, Option<string> from, Option<string> to, Option<string> format, Option<bool> sandbox)
+        private void AfterListWorkfloosV2DefaultImplementation(IListWorkfloosV2ApiResponse apiResponseLocalVar, Option<int> page, Option<int> itemsPerPage, Option<string> from, Option<string> to, Option<string> origin, Option<string> status, Option<string> name, Option<string> id, Option<string> nodesFormSearchableByRfcPf, Option<string> nodesFormSearchableByFirstName, Option<string> nodesFormSearchableBySecondName, Option<string> nodesFormSearchableByLastName1, Option<string> nodesFormSearchableByLastName2, Option<string> nodesFormSearchableByRfcPm, Option<string> nodesFormSearchableByCompanyName, Option<string> format, Option<bool> content, Option<string> labels, Option<bool> sandbox)
         {
             bool suppressDefaultLog = false;
-            AfterListWorkfloosV2(ref suppressDefaultLog, apiResponseLocalVar, page, itemsPerPage, status, from, to, format, sandbox);
+            AfterListWorkfloosV2(ref suppressDefaultLog, apiResponseLocalVar, page, itemsPerPage, from, to, origin, status, name, id, nodesFormSearchableByRfcPf, nodesFormSearchableByFirstName, nodesFormSearchableBySecondName, nodesFormSearchableByLastName1, nodesFormSearchableByLastName2, nodesFormSearchableByRfcPm, nodesFormSearchableByCompanyName, format, content, labels, sandbox);
             if (!suppressDefaultLog)
                 Logger.LogInformation(RestLogEvents.ApiRequestCompleted, "{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
@@ -4035,12 +4115,24 @@ namespace kiban.sdk.workfloo.Api
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="page"></param>
         /// <param name="itemsPerPage"></param>
-        /// <param name="status"></param>
         /// <param name="from"></param>
         /// <param name="to"></param>
+        /// <param name="origin"></param>
+        /// <param name="status"></param>
+        /// <param name="name"></param>
+        /// <param name="id"></param>
+        /// <param name="nodesFormSearchableByRfcPf"></param>
+        /// <param name="nodesFormSearchableByFirstName"></param>
+        /// <param name="nodesFormSearchableBySecondName"></param>
+        /// <param name="nodesFormSearchableByLastName1"></param>
+        /// <param name="nodesFormSearchableByLastName2"></param>
+        /// <param name="nodesFormSearchableByRfcPm"></param>
+        /// <param name="nodesFormSearchableByCompanyName"></param>
         /// <param name="format"></param>
+        /// <param name="content"></param>
+        /// <param name="labels"></param>
         /// <param name="sandbox"></param>
-        partial void AfterListWorkfloosV2(ref bool suppressDefaultLog, IListWorkfloosV2ApiResponse apiResponseLocalVar, Option<int> page, Option<int> itemsPerPage, Option<string> status, Option<string> from, Option<string> to, Option<string> format, Option<bool> sandbox);
+        partial void AfterListWorkfloosV2(ref bool suppressDefaultLog, IListWorkfloosV2ApiResponse apiResponseLocalVar, Option<int> page, Option<int> itemsPerPage, Option<string> from, Option<string> to, Option<string> origin, Option<string> status, Option<string> name, Option<string> id, Option<string> nodesFormSearchableByRfcPf, Option<string> nodesFormSearchableByFirstName, Option<string> nodesFormSearchableBySecondName, Option<string> nodesFormSearchableByLastName1, Option<string> nodesFormSearchableByLastName2, Option<string> nodesFormSearchableByRfcPm, Option<string> nodesFormSearchableByCompanyName, Option<string> format, Option<bool> content, Option<string> labels, Option<bool> sandbox);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -4050,15 +4142,27 @@ namespace kiban.sdk.workfloo.Api
         /// <param name="pathLocalVar"></param>
         /// <param name="page"></param>
         /// <param name="itemsPerPage"></param>
-        /// <param name="status"></param>
         /// <param name="from"></param>
         /// <param name="to"></param>
+        /// <param name="origin"></param>
+        /// <param name="status"></param>
+        /// <param name="name"></param>
+        /// <param name="id"></param>
+        /// <param name="nodesFormSearchableByRfcPf"></param>
+        /// <param name="nodesFormSearchableByFirstName"></param>
+        /// <param name="nodesFormSearchableBySecondName"></param>
+        /// <param name="nodesFormSearchableByLastName1"></param>
+        /// <param name="nodesFormSearchableByLastName2"></param>
+        /// <param name="nodesFormSearchableByRfcPm"></param>
+        /// <param name="nodesFormSearchableByCompanyName"></param>
         /// <param name="format"></param>
+        /// <param name="content"></param>
+        /// <param name="labels"></param>
         /// <param name="sandbox"></param>
-        private void OnErrorListWorkfloosV2DefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, Option<int> page, Option<int> itemsPerPage, Option<string> status, Option<string> from, Option<string> to, Option<string> format, Option<bool> sandbox)
+        private void OnErrorListWorkfloosV2DefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, Option<int> page, Option<int> itemsPerPage, Option<string> from, Option<string> to, Option<string> origin, Option<string> status, Option<string> name, Option<string> id, Option<string> nodesFormSearchableByRfcPf, Option<string> nodesFormSearchableByFirstName, Option<string> nodesFormSearchableBySecondName, Option<string> nodesFormSearchableByLastName1, Option<string> nodesFormSearchableByLastName2, Option<string> nodesFormSearchableByRfcPm, Option<string> nodesFormSearchableByCompanyName, Option<string> format, Option<bool> content, Option<string> labels, Option<bool> sandbox)
         {
             bool suppressDefaultLogLocalVar = false;
-            OnErrorListWorkfloosV2(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, page, itemsPerPage, status, from, to, format, sandbox);
+            OnErrorListWorkfloosV2(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, page, itemsPerPage, from, to, origin, status, name, id, nodesFormSearchableByRfcPf, nodesFormSearchableByFirstName, nodesFormSearchableBySecondName, nodesFormSearchableByLastName1, nodesFormSearchableByLastName2, nodesFormSearchableByRfcPm, nodesFormSearchableByCompanyName, format, content, labels, sandbox);
             if (!suppressDefaultLogLocalVar)
                 Logger.LogError(RestLogEvents.ApiRequestFailed, exceptionLocalVar, "An error occurred while sending the request to the server.");
         }
@@ -4072,30 +4176,54 @@ namespace kiban.sdk.workfloo.Api
         /// <param name="pathLocalVar"></param>
         /// <param name="page"></param>
         /// <param name="itemsPerPage"></param>
-        /// <param name="status"></param>
         /// <param name="from"></param>
         /// <param name="to"></param>
+        /// <param name="origin"></param>
+        /// <param name="status"></param>
+        /// <param name="name"></param>
+        /// <param name="id"></param>
+        /// <param name="nodesFormSearchableByRfcPf"></param>
+        /// <param name="nodesFormSearchableByFirstName"></param>
+        /// <param name="nodesFormSearchableBySecondName"></param>
+        /// <param name="nodesFormSearchableByLastName1"></param>
+        /// <param name="nodesFormSearchableByLastName2"></param>
+        /// <param name="nodesFormSearchableByRfcPm"></param>
+        /// <param name="nodesFormSearchableByCompanyName"></param>
         /// <param name="format"></param>
+        /// <param name="content"></param>
+        /// <param name="labels"></param>
         /// <param name="sandbox"></param>
-        partial void OnErrorListWorkfloosV2(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, Option<int> page, Option<int> itemsPerPage, Option<string> status, Option<string> from, Option<string> to, Option<string> format, Option<bool> sandbox);
+        partial void OnErrorListWorkfloosV2(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, Option<int> page, Option<int> itemsPerPage, Option<string> from, Option<string> to, Option<string> origin, Option<string> status, Option<string> name, Option<string> id, Option<string> nodesFormSearchableByRfcPf, Option<string> nodesFormSearchableByFirstName, Option<string> nodesFormSearchableBySecondName, Option<string> nodesFormSearchableByLastName1, Option<string> nodesFormSearchableByLastName2, Option<string> nodesFormSearchableByRfcPm, Option<string> nodesFormSearchableByCompanyName, Option<string> format, Option<bool> content, Option<string> labels, Option<bool> sandbox);
 
         /// <summary>
-        /// Historial de ejecuciones (v2) Igual que v1 pero devuelve el arreglo de ejecuciones directo, sin envoltorio. La paginación viaja en el header Link. Con format&#x3D;csv la respuesta es un archivo CSV en lugar de JSON. Cualquier query param adicional no listado aquí se interpreta como filtro de búsqueda sobre el listado (searchableBy).
+        /// Historial de ejecuciones (v2) Devuelve el arreglo de ejecuciones directo, sin envoltorio. La paginación viaja en el header Link. content&#x3D;true agrega a cada elemento la ejecución completa, con todos sus nodos (la misma forma que getWorkfloo); por defecto es false y llega el resumen. format&#x3D;CSV devuelve un archivo CSV en lugar de JSON. Los SDKs tipan la respuesta como JSON: para el CSV hay que leer el cuerpo crudo de la respuesta. Cualquier query param adicional no listado aquí se interpreta como filtro de búsqueda sobre el listado (searchableBy).
         /// </summary>
         /// <param name="page">Número de página, empieza en 1 (optional)</param>
-        /// <param name="itemsPerPage">Cantidad de resultados por página (optional)</param>
-        /// <param name="status">Filtra por estado de la ejecución (optional)</param>
-        /// <param name="from">Fecha inicial del rango (RFC3339) (optional)</param>
-        /// <param name="to">Fecha final del rango (RFC3339) (optional)</param>
-        /// <param name="format">Formato de la respuesta (optional)</param>
+        /// <param name="itemsPerPage">Cantidad de resultados por página, entre 1 y 10000 (optional)</param>
+        /// <param name="from">Fecha inicial del rango (ISO 8601) (optional)</param>
+        /// <param name="to">Fecha final del rango (ISO 8601) (optional)</param>
+        /// <param name="origin">Origen de la ejecución: KIBAN_CLOUD, API o FRONT (optional)</param>
+        /// <param name="status">Estado de la ejecución: SUCCESS, ERROR o PROGRESS (optional)</param>
+        /// <param name="name">Nombre del workfloo (búsqueda parcial) (optional)</param>
+        /// <param name="id">Id exacto de la ejecución (optional)</param>
+        /// <param name="nodesFormSearchableByRfcPf">RFC de persona física (empieza con, sin distinguir mayúsculas) (optional)</param>
+        /// <param name="nodesFormSearchableByFirstName">Nombre (empieza con, sin distinguir mayúsculas) (optional)</param>
+        /// <param name="nodesFormSearchableBySecondName">Segundo nombre (empieza con, sin distinguir mayúsculas) (optional)</param>
+        /// <param name="nodesFormSearchableByLastName1">Apellido paterno (empieza con, sin distinguir mayúsculas) (optional)</param>
+        /// <param name="nodesFormSearchableByLastName2">Apellido materno (empieza con, sin distinguir mayúsculas) (optional)</param>
+        /// <param name="nodesFormSearchableByRfcPm">RFC de persona moral (empieza con, sin distinguir mayúsculas) (optional)</param>
+        /// <param name="nodesFormSearchableByCompanyName">Razón social (empieza con, sin distinguir mayúsculas) (optional)</param>
+        /// <param name="format">Formato de la respuesta; por defecto JSON (optional)</param>
+        /// <param name="content">Agrega la ejecución completa (todos sus nodos) a cada elemento; por defecto false (optional)</param>
+        /// <param name="labels">Etiquetas, separadas por punto y coma (optional)</param>
         /// <param name="sandbox">Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IListWorkfloosV2ApiResponse"/>&gt;</returns>
-        public async Task<IListWorkfloosV2ApiResponse?> ListWorkfloosV2OrDefaultAsync(Option<int> page = default, Option<int> itemsPerPage = default, Option<string> status = default, Option<string> from = default, Option<string> to = default, Option<string> format = default, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<IListWorkfloosV2ApiResponse?> ListWorkfloosV2OrDefaultAsync(Option<int> page = default, Option<int> itemsPerPage = default, Option<string> from = default, Option<string> to = default, Option<string> origin = default, Option<string> status = default, Option<string> name = default, Option<string> id = default, Option<string> nodesFormSearchableByRfcPf = default, Option<string> nodesFormSearchableByFirstName = default, Option<string> nodesFormSearchableBySecondName = default, Option<string> nodesFormSearchableByLastName1 = default, Option<string> nodesFormSearchableByLastName2 = default, Option<string> nodesFormSearchableByRfcPm = default, Option<string> nodesFormSearchableByCompanyName = default, Option<string> format = default, Option<bool> content = default, Option<string> labels = default, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
-                return await ListWorkfloosV2Async(page, itemsPerPage, status, from, to, format, sandbox, cancellationToken).ConfigureAwait(false);
+                return await ListWorkfloosV2Async(page, itemsPerPage, from, to, origin, status, name, id, nodesFormSearchableByRfcPf, nodesFormSearchableByFirstName, nodesFormSearchableBySecondName, nodesFormSearchableByLastName1, nodesFormSearchableByLastName2, nodesFormSearchableByRfcPm, nodesFormSearchableByCompanyName, format, content, labels, sandbox, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception)
             {
@@ -4104,27 +4232,39 @@ namespace kiban.sdk.workfloo.Api
         }
 
         /// <summary>
-        /// Historial de ejecuciones (v2) Igual que v1 pero devuelve el arreglo de ejecuciones directo, sin envoltorio. La paginación viaja en el header Link. Con format&#x3D;csv la respuesta es un archivo CSV en lugar de JSON. Cualquier query param adicional no listado aquí se interpreta como filtro de búsqueda sobre el listado (searchableBy).
+        /// Historial de ejecuciones (v2) Devuelve el arreglo de ejecuciones directo, sin envoltorio. La paginación viaja en el header Link. content&#x3D;true agrega a cada elemento la ejecución completa, con todos sus nodos (la misma forma que getWorkfloo); por defecto es false y llega el resumen. format&#x3D;CSV devuelve un archivo CSV en lugar de JSON. Los SDKs tipan la respuesta como JSON: para el CSV hay que leer el cuerpo crudo de la respuesta. Cualquier query param adicional no listado aquí se interpreta como filtro de búsqueda sobre el listado (searchableBy).
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="page">Número de página, empieza en 1 (optional)</param>
-        /// <param name="itemsPerPage">Cantidad de resultados por página (optional)</param>
-        /// <param name="status">Filtra por estado de la ejecución (optional)</param>
-        /// <param name="from">Fecha inicial del rango (RFC3339) (optional)</param>
-        /// <param name="to">Fecha final del rango (RFC3339) (optional)</param>
-        /// <param name="format">Formato de la respuesta (optional)</param>
+        /// <param name="itemsPerPage">Cantidad de resultados por página, entre 1 y 10000 (optional)</param>
+        /// <param name="from">Fecha inicial del rango (ISO 8601) (optional)</param>
+        /// <param name="to">Fecha final del rango (ISO 8601) (optional)</param>
+        /// <param name="origin">Origen de la ejecución: KIBAN_CLOUD, API o FRONT (optional)</param>
+        /// <param name="status">Estado de la ejecución: SUCCESS, ERROR o PROGRESS (optional)</param>
+        /// <param name="name">Nombre del workfloo (búsqueda parcial) (optional)</param>
+        /// <param name="id">Id exacto de la ejecución (optional)</param>
+        /// <param name="nodesFormSearchableByRfcPf">RFC de persona física (empieza con, sin distinguir mayúsculas) (optional)</param>
+        /// <param name="nodesFormSearchableByFirstName">Nombre (empieza con, sin distinguir mayúsculas) (optional)</param>
+        /// <param name="nodesFormSearchableBySecondName">Segundo nombre (empieza con, sin distinguir mayúsculas) (optional)</param>
+        /// <param name="nodesFormSearchableByLastName1">Apellido paterno (empieza con, sin distinguir mayúsculas) (optional)</param>
+        /// <param name="nodesFormSearchableByLastName2">Apellido materno (empieza con, sin distinguir mayúsculas) (optional)</param>
+        /// <param name="nodesFormSearchableByRfcPm">RFC de persona moral (empieza con, sin distinguir mayúsculas) (optional)</param>
+        /// <param name="nodesFormSearchableByCompanyName">Razón social (empieza con, sin distinguir mayúsculas) (optional)</param>
+        /// <param name="format">Formato de la respuesta; por defecto JSON (optional)</param>
+        /// <param name="content">Agrega la ejecución completa (todos sus nodos) a cada elemento; por defecto false (optional)</param>
+        /// <param name="labels">Etiquetas, separadas por punto y coma (optional)</param>
         /// <param name="sandbox">Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IListWorkfloosV2ApiResponse"/>&gt;</returns>
-        public async Task<IListWorkfloosV2ApiResponse> ListWorkfloosV2Async(Option<int> page = default, Option<int> itemsPerPage = default, Option<string> status = default, Option<string> from = default, Option<string> to = default, Option<string> format = default, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<IListWorkfloosV2ApiResponse> ListWorkfloosV2Async(Option<int> page = default, Option<int> itemsPerPage = default, Option<string> from = default, Option<string> to = default, Option<string> origin = default, Option<string> status = default, Option<string> name = default, Option<string> id = default, Option<string> nodesFormSearchableByRfcPf = default, Option<string> nodesFormSearchableByFirstName = default, Option<string> nodesFormSearchableBySecondName = default, Option<string> nodesFormSearchableByLastName1 = default, Option<string> nodesFormSearchableByLastName2 = default, Option<string> nodesFormSearchableByRfcPm = default, Option<string> nodesFormSearchableByCompanyName = default, Option<string> format = default, Option<bool> content = default, Option<string> labels = default, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
             try
             {
-                ValidateListWorkfloosV2(status, from, to, format);
+                ValidateListWorkfloosV2(from, to, origin, status, name, id, nodesFormSearchableByRfcPf, nodesFormSearchableByFirstName, nodesFormSearchableBySecondName, nodesFormSearchableByLastName1, nodesFormSearchableByLastName2, nodesFormSearchableByRfcPm, nodesFormSearchableByCompanyName, format, labels);
 
-                FormatListWorkfloosV2(ref page, ref itemsPerPage, ref status, ref from, ref to, ref format, ref sandbox);
+                FormatListWorkfloosV2(ref page, ref itemsPerPage, ref from, ref to, ref origin, ref status, ref name, ref id, ref nodesFormSearchableByRfcPf, ref nodesFormSearchableByFirstName, ref nodesFormSearchableBySecondName, ref nodesFormSearchableByLastName1, ref nodesFormSearchableByLastName2, ref nodesFormSearchableByRfcPm, ref nodesFormSearchableByCompanyName, ref format, ref content, ref labels, ref sandbox);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -4143,17 +4283,53 @@ namespace kiban.sdk.workfloo.Api
                     if (itemsPerPage.IsSet)
                         parseQueryStringLocalVar["itemsPerPage"] = ClientUtils.ParameterToString(itemsPerPage.Value);
 
-                    if (status.IsSet)
-                        parseQueryStringLocalVar["status"] = ClientUtils.ParameterToString(status.Value);
-
                     if (from.IsSet)
                         parseQueryStringLocalVar["from"] = ClientUtils.ParameterToString(from.Value);
 
                     if (to.IsSet)
                         parseQueryStringLocalVar["to"] = ClientUtils.ParameterToString(to.Value);
 
+                    if (origin.IsSet)
+                        parseQueryStringLocalVar["origin"] = ClientUtils.ParameterToString(origin.Value);
+
+                    if (status.IsSet)
+                        parseQueryStringLocalVar["status"] = ClientUtils.ParameterToString(status.Value);
+
+                    if (name.IsSet)
+                        parseQueryStringLocalVar["name"] = ClientUtils.ParameterToString(name.Value);
+
+                    if (id.IsSet)
+                        parseQueryStringLocalVar["_id"] = ClientUtils.ParameterToString(id.Value);
+
+                    if (nodesFormSearchableByRfcPf.IsSet)
+                        parseQueryStringLocalVar["nodes.form.searchableBy.rfc_pf"] = ClientUtils.ParameterToString(nodesFormSearchableByRfcPf.Value);
+
+                    if (nodesFormSearchableByFirstName.IsSet)
+                        parseQueryStringLocalVar["nodes.form.searchableBy.first_name"] = ClientUtils.ParameterToString(nodesFormSearchableByFirstName.Value);
+
+                    if (nodesFormSearchableBySecondName.IsSet)
+                        parseQueryStringLocalVar["nodes.form.searchableBy.second_name"] = ClientUtils.ParameterToString(nodesFormSearchableBySecondName.Value);
+
+                    if (nodesFormSearchableByLastName1.IsSet)
+                        parseQueryStringLocalVar["nodes.form.searchableBy.last_name_1"] = ClientUtils.ParameterToString(nodesFormSearchableByLastName1.Value);
+
+                    if (nodesFormSearchableByLastName2.IsSet)
+                        parseQueryStringLocalVar["nodes.form.searchableBy.last_name_2"] = ClientUtils.ParameterToString(nodesFormSearchableByLastName2.Value);
+
+                    if (nodesFormSearchableByRfcPm.IsSet)
+                        parseQueryStringLocalVar["nodes.form.searchableBy.rfc_pm"] = ClientUtils.ParameterToString(nodesFormSearchableByRfcPm.Value);
+
+                    if (nodesFormSearchableByCompanyName.IsSet)
+                        parseQueryStringLocalVar["nodes.form.searchableBy.company_name"] = ClientUtils.ParameterToString(nodesFormSearchableByCompanyName.Value);
+
                     if (format.IsSet)
                         parseQueryStringLocalVar["format"] = ClientUtils.ParameterToString(format.Value);
+
+                    if (content.IsSet)
+                        parseQueryStringLocalVar["content"] = ClientUtils.ParameterToString(content.Value);
+
+                    if (labels.IsSet)
+                        parseQueryStringLocalVar["labels"] = ClientUtils.ParameterToString(labels.Value);
 
                     if (sandbox.IsSet)
                         parseQueryStringLocalVar["sandbox"] = ClientUtils.ParameterToString(sandbox.Value);
@@ -4194,7 +4370,7 @@ namespace kiban.sdk.workfloo.Api
                             }
                         }
 
-                        AfterListWorkfloosV2DefaultImplementation(apiResponseLocalVar, page, itemsPerPage, status, from, to, format, sandbox);
+                        AfterListWorkfloosV2DefaultImplementation(apiResponseLocalVar, page, itemsPerPage, from, to, origin, status, name, id, nodesFormSearchableByRfcPf, nodesFormSearchableByFirstName, nodesFormSearchableBySecondName, nodesFormSearchableByLastName1, nodesFormSearchableByLastName2, nodesFormSearchableByRfcPm, nodesFormSearchableByCompanyName, format, content, labels, sandbox);
 
                         Events.ExecuteOnListWorkfloosV2(apiResponseLocalVar);
 
@@ -4208,7 +4384,7 @@ namespace kiban.sdk.workfloo.Api
             }
             catch(Exception e)
             {
-                OnErrorListWorkfloosV2DefaultImplementation(e, "/api/v2/workfloo", uriBuilderLocalVar.Path, page, itemsPerPage, status, from, to, format, sandbox);
+                OnErrorListWorkfloosV2DefaultImplementation(e, "/api/v2/workfloo", uriBuilderLocalVar.Path, page, itemsPerPage, from, to, origin, status, name, id, nodesFormSearchableByRfcPf, nodesFormSearchableByFirstName, nodesFormSearchableBySecondName, nodesFormSearchableByLastName1, nodesFormSearchableByLastName2, nodesFormSearchableByRfcPm, nodesFormSearchableByCompanyName, format, content, labels, sandbox);
                 Events.ExecuteOnErrorListWorkfloosV2(e);
                 throw;
             }
@@ -4268,11 +4444,11 @@ namespace kiban.sdk.workfloo.Api
             /// Deserializes the response if the response is 200 Ok
             /// </summary>
             /// <returns></returns>
-            public List<ControllerWorkflooModelWorkfloo>? Ok()
+            public List<ControllerWorkflooModelWorkflooListItem>? Ok()
             {
                 // This logic may be modified with the AsModel.mustache template
                 return IsOk
-                    ? System.Text.Json.JsonSerializer.Deserialize<List<ControllerWorkflooModelWorkfloo>>(RawContent, _jsonSerializerOptions)
+                    ? System.Text.Json.JsonSerializer.Deserialize<List<ControllerWorkflooModelWorkflooListItem>>(RawContent, _jsonSerializerOptions)
                     : null;
             }
 
@@ -4281,7 +4457,7 @@ namespace kiban.sdk.workfloo.Api
             /// </summary>
             /// <param name="result"></param>
             /// <returns></returns>
-            public bool TryOk([NotNullWhen(true)]out List<ControllerWorkflooModelWorkfloo>? result)
+            public bool TryOk([NotNullWhen(true)]out List<ControllerWorkflooModelWorkflooListItem>? result)
             {
                 result = null;
 

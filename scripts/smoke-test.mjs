@@ -87,8 +87,11 @@ const { data: page } = await api.listWorkfloos(1, 5, undefined, undefined, undef
 console.log(`    currentPage=${page.currentPage} hasNextPage=${page.hasNextPage} items=${(page.items ?? []).length}`);
 
 console.log('    listWorkfloosV2 …');
-// listWorkfloosV2(page?, itemsPerPage?, status?, from?, to?, format?, sandbox?)
-const { data: items } = await api.listWorkfloosV2(1, 5, undefined, undefined, undefined, undefined, sandboxFlag);
+// listWorkfloosV2 tiene 19 parámetros posicionales (filtros, format, content…)
+// y sandbox es el último.
+const v2Args = Array(19).fill(undefined);
+v2Args[0] = 1; v2Args[1] = 5; v2Args[18] = sandboxFlag;
+const { data: items } = await api.listWorkfloosV2(...v2Args);
 console.log(`    v2 devolvió ${(items ?? []).length} items (arreglo plano)`);
 
 console.log('\nSMOKE TEST OK');

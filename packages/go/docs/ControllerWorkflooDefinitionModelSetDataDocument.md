@@ -52,6 +52,16 @@ SetFiles sets Files field to given value.
 
 HasFiles returns a boolean if a field has been set.
 
+### SetFilesNil
+
+`func (o *ControllerWorkflooDefinitionModelSetDataDocument) SetFilesNil(b bool)`
+
+ SetFilesNil sets the value for Files to be an explicit nil
+
+### UnsetFiles
+`func (o *ControllerWorkflooDefinitionModelSetDataDocument) UnsetFiles()`
+
+UnsetFiles ensures that no value is present for Files, not even an explicit nil
 ### GetOptionalAt
 
 `func (o *ControllerWorkflooDefinitionModelSetDataDocument) GetOptionalAt() []string`
@@ -77,6 +87,16 @@ SetOptionalAt sets OptionalAt field to given value.
 
 HasOptionalAt returns a boolean if a field has been set.
 
+### SetOptionalAtNil
+
+`func (o *ControllerWorkflooDefinitionModelSetDataDocument) SetOptionalAtNil(b bool)`
+
+ SetOptionalAtNil sets the value for OptionalAt to be an explicit nil
+
+### UnsetOptionalAt
+`func (o *ControllerWorkflooDefinitionModelSetDataDocument) UnsetOptionalAt()`
+
+UnsetOptionalAt ensures that no value is present for OptionalAt, not even an explicit nil
 ### GetRequired
 
 `func (o *ControllerWorkflooDefinitionModelSetDataDocument) GetRequired() []string`
@@ -102,6 +122,16 @@ SetRequired sets Required field to given value.
 
 HasRequired returns a boolean if a field has been set.
 
+### SetRequiredNil
+
+`func (o *ControllerWorkflooDefinitionModelSetDataDocument) SetRequiredNil(b bool)`
+
+ SetRequiredNil sets the value for Required to be an explicit nil
+
+### UnsetRequired
+`func (o *ControllerWorkflooDefinitionModelSetDataDocument) UnsetRequired()`
+
+UnsetRequired ensures that no value is present for Required, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

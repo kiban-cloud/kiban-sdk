@@ -344,7 +344,7 @@ namespace kiban.sdk.workfloo.Model
                             createdBy = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "decisionTree":
-                            decisionTree = new Option<List<ControllerWorkflooModelDecisionTree>?>(JsonSerializer.Deserialize<List<ControllerWorkflooModelDecisionTree>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            decisionTree = new Option<List<ControllerWorkflooModelDecisionTree>?>(JsonSerializer.Deserialize<List<ControllerWorkflooModelDecisionTree>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "form":
                             form = new Option<ControllerWorkflooModelForm?>(JsonSerializer.Deserialize<ControllerWorkflooModelForm>(ref utf8JsonReader, jsonSerializerOptions)!);
@@ -387,9 +387,6 @@ namespace kiban.sdk.workfloo.Model
 
             if (createdBy.IsSet && createdBy.Value == null)
                 throw new ArgumentNullException(nameof(createdBy), "Property is not nullable for class ControllerWorkflooModelNode.");
-
-            if (decisionTree.IsSet && decisionTree.Value == null)
-                throw new ArgumentNullException(nameof(decisionTree), "Property is not nullable for class ControllerWorkflooModelNode.");
 
             if (form.IsSet && form.Value == null)
                 throw new ArgumentNullException(nameof(form), "Property is not nullable for class ControllerWorkflooModelNode.");
@@ -454,9 +451,6 @@ namespace kiban.sdk.workfloo.Model
             if (controllerWorkflooModelNode.CreatedByOption.IsSet && controllerWorkflooModelNode.CreatedBy == null)
                 throw new ArgumentNullException(nameof(controllerWorkflooModelNode.CreatedBy), "Property is required for class ControllerWorkflooModelNode.");
 
-            if (controllerWorkflooModelNode.DecisionTreeOption.IsSet && controllerWorkflooModelNode.DecisionTree == null)
-                throw new ArgumentNullException(nameof(controllerWorkflooModelNode.DecisionTree), "Property is required for class ControllerWorkflooModelNode.");
-
             if (controllerWorkflooModelNode.FormOption.IsSet && controllerWorkflooModelNode.Form == null)
                 throw new ArgumentNullException(nameof(controllerWorkflooModelNode.Form), "Property is required for class ControllerWorkflooModelNode.");
 
@@ -496,10 +490,13 @@ namespace kiban.sdk.workfloo.Model
                 writer.WriteString("createdBy", controllerWorkflooModelNode.CreatedBy);
 
             if (controllerWorkflooModelNode.DecisionTreeOption.IsSet)
-            {
-                writer.WritePropertyName("decisionTree");
-                JsonSerializer.Serialize(writer, controllerWorkflooModelNode.DecisionTree, jsonSerializerOptions);
-            }
+                if (controllerWorkflooModelNode.DecisionTreeOption.Value != null)
+                {
+                    writer.WritePropertyName("decisionTree");
+                    JsonSerializer.Serialize(writer, controllerWorkflooModelNode.DecisionTree, jsonSerializerOptions);
+                }
+                else
+                    writer.WriteNull("decisionTree");
             if (controllerWorkflooModelNode.FormOption.IsSet)
             {
                 writer.WritePropertyName("form");

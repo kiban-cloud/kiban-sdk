@@ -167,10 +167,10 @@ namespace kiban.sdk.workfloo.Model
                             field = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "requiredWithValues":
-                            requiredWithValues = new Option<List<string>?>(JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            requiredWithValues = new Option<List<string>?>(JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "values":
-                            values = new Option<List<string>?>(JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            values = new Option<List<string>?>(JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         default:
                             break;
@@ -180,12 +180,6 @@ namespace kiban.sdk.workfloo.Model
 
             if (field.IsSet && field.Value == null)
                 throw new ArgumentNullException(nameof(field), "Property is not nullable for class ControllerWorkflooDefinitionModelShowIf.");
-
-            if (requiredWithValues.IsSet && requiredWithValues.Value == null)
-                throw new ArgumentNullException(nameof(requiredWithValues), "Property is not nullable for class ControllerWorkflooDefinitionModelShowIf.");
-
-            if (values.IsSet && values.Value == null)
-                throw new ArgumentNullException(nameof(values), "Property is not nullable for class ControllerWorkflooDefinitionModelShowIf.");
 
             return new ControllerWorkflooDefinitionModelShowIf(field, requiredWithValues, values);
         }
@@ -217,25 +211,25 @@ namespace kiban.sdk.workfloo.Model
             if (controllerWorkflooDefinitionModelShowIf.FieldOption.IsSet && controllerWorkflooDefinitionModelShowIf.Field == null)
                 throw new ArgumentNullException(nameof(controllerWorkflooDefinitionModelShowIf.Field), "Property is required for class ControllerWorkflooDefinitionModelShowIf.");
 
-            if (controllerWorkflooDefinitionModelShowIf.RequiredWithValuesOption.IsSet && controllerWorkflooDefinitionModelShowIf.RequiredWithValues == null)
-                throw new ArgumentNullException(nameof(controllerWorkflooDefinitionModelShowIf.RequiredWithValues), "Property is required for class ControllerWorkflooDefinitionModelShowIf.");
-
-            if (controllerWorkflooDefinitionModelShowIf.ValuesOption.IsSet && controllerWorkflooDefinitionModelShowIf.Values == null)
-                throw new ArgumentNullException(nameof(controllerWorkflooDefinitionModelShowIf.Values), "Property is required for class ControllerWorkflooDefinitionModelShowIf.");
-
             if (controllerWorkflooDefinitionModelShowIf.FieldOption.IsSet)
                 writer.WriteString("field", controllerWorkflooDefinitionModelShowIf.Field);
 
             if (controllerWorkflooDefinitionModelShowIf.RequiredWithValuesOption.IsSet)
-            {
-                writer.WritePropertyName("requiredWithValues");
-                JsonSerializer.Serialize(writer, controllerWorkflooDefinitionModelShowIf.RequiredWithValues, jsonSerializerOptions);
-            }
+                if (controllerWorkflooDefinitionModelShowIf.RequiredWithValuesOption.Value != null)
+                {
+                    writer.WritePropertyName("requiredWithValues");
+                    JsonSerializer.Serialize(writer, controllerWorkflooDefinitionModelShowIf.RequiredWithValues, jsonSerializerOptions);
+                }
+                else
+                    writer.WriteNull("requiredWithValues");
             if (controllerWorkflooDefinitionModelShowIf.ValuesOption.IsSet)
-            {
-                writer.WritePropertyName("values");
-                JsonSerializer.Serialize(writer, controllerWorkflooDefinitionModelShowIf.Values, jsonSerializerOptions);
-            }
+                if (controllerWorkflooDefinitionModelShowIf.ValuesOption.Value != null)
+                {
+                    writer.WritePropertyName("values");
+                    JsonSerializer.Serialize(writer, controllerWorkflooDefinitionModelShowIf.Values, jsonSerializerOptions);
+                }
+                else
+                    writer.WriteNull("values");
         }
     }
 }

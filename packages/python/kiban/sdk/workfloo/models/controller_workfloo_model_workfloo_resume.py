@@ -90,6 +90,16 @@ class ControllerWorkflooModelWorkflooResume(BaseModel):
                 if _item_nodes:
                     _items.append(_item_nodes.to_dict())
             _dict['nodes'] = _items
+        # set to None if labels (nullable) is None
+        # and model_fields_set contains the field
+        if self.labels is None and "labels" in self.model_fields_set:
+            _dict['labels'] = None
+
+        # set to None if nodes (nullable) is None
+        # and model_fields_set contains the field
+        if self.nodes is None and "nodes" in self.model_fields_set:
+            _dict['nodes'] = None
+
         return _dict
 
     @classmethod

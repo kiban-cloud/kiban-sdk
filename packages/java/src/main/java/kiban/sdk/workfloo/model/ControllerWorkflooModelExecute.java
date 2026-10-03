@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -50,7 +51,7 @@ import kiban.sdk.workfloo.JSON;
 /**
  * ControllerWorkflooModelExecute
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-10-02T10:13:43.960045-06:00[America/Mexico_City]", comments = "Generator version: 7.24.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0")
 public class ControllerWorkflooModelExecute {
   public static final String SERIALIZED_NAME_CALLBACK_URL = "callbackUrl";
   @SerializedName(SERIALIZED_NAME_CALLBACK_URL)
@@ -65,12 +66,12 @@ public class ControllerWorkflooModelExecute {
   public static final String SERIALIZED_NAME_DOCUMENT = "document";
   @SerializedName(SERIALIZED_NAME_DOCUMENT)
   @javax.annotation.Nullable
-  private Map<String, Object> document = new HashMap<>();
+  private Map<String, Object> document;
 
   public static final String SERIALIZED_NAME_FORM = "form";
   @SerializedName(SERIALIZED_NAME_FORM)
   @javax.annotation.Nullable
-  private Map<String, Object> form = new HashMap<>();
+  private Map<String, Object> form;
 
   public static final String SERIALIZED_NAME_ID_WORKFLOO_DEFINITION = "idWorkflooDefinition";
   @SerializedName(SERIALIZED_NAME_ID_WORKFLOO_DEFINITION)
@@ -233,9 +234,20 @@ public class ControllerWorkflooModelExecute {
         Objects.equals(this.scenarioId, controllerWorkflooModelExecute.scenarioId);
   }
 
+  private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
+    return a == b || (a != null && b != null && a.isPresent() && b.isPresent() && Objects.deepEquals(a.get(), b.get()));
+  }
+
   @Override
   public int hashCode() {
     return Objects.hash(callbackUrl, callbackXApiKey, document, form, idWorkflooDefinition, scenarioId);
+  }
+
+  private static <T> int hashCodeNullable(JsonNullable<T> a) {
+    if (a == null) {
+      return 1;
+    }
+    return a.isPresent() ? Arrays.deepHashCode(new Object[]{a.get()}) : 31;
   }
 
   @Override

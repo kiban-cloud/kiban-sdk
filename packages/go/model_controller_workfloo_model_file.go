@@ -19,7 +19,7 @@ var _ MappedNullable = &ControllerWorkflooModelFile{}
 
 // ControllerWorkflooModelFile struct for ControllerWorkflooModelFile
 type ControllerWorkflooModelFile struct {
-	Name *map[string]string `json:"name,omitempty"`
+	Name map[string]string `json:"name,omitempty"`
 	Value *string `json:"value,omitempty"`
 }
 
@@ -40,22 +40,23 @@ func NewControllerWorkflooModelFileWithDefaults() *ControllerWorkflooModelFile {
 	return &this
 }
 
-// GetName returns the Name field value if set, zero value otherwise.
+// GetName returns the Name field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ControllerWorkflooModelFile) GetName() map[string]string {
-	if o == nil || IsNil(o.Name) {
+	if o == nil {
 		var ret map[string]string
 		return ret
 	}
-	return *o.Name
+	return o.Name
 }
 
 // GetNameOk returns a tuple with the Name field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *ControllerWorkflooModelFile) GetNameOk() (*map[string]string, bool) {
 	if o == nil || IsNil(o.Name) {
 		return nil, false
 	}
-	return o.Name, true
+	return &o.Name, true
 }
 
 // HasName returns a boolean if a field has been set.
@@ -69,7 +70,7 @@ func (o *ControllerWorkflooModelFile) HasName() bool {
 
 // SetName gets a reference to the given map[string]string and assigns it to the Name field.
 func (o *ControllerWorkflooModelFile) SetName(v map[string]string) {
-	o.Name = &v
+	o.Name = v
 }
 
 // GetValue returns the Value field value if set, zero value otherwise.
@@ -114,7 +115,7 @@ func (o ControllerWorkflooModelFile) MarshalJSON() ([]byte, error) {
 
 func (o ControllerWorkflooModelFile) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !IsNil(o.Name) {
+	if o.Name != nil {
 		toSerialize["name"] = o.Name
 	}
 	if !IsNil(o.Value) {

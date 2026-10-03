@@ -56,12 +56,12 @@ import kiban.sdk.workfloo.JSON;
 /**
  * ControllerWorkflooDefinitionModelFieldMetadata
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-10-02T10:13:43.960045-06:00[America/Mexico_City]", comments = "Generator version: 7.24.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0")
 public class ControllerWorkflooDefinitionModelFieldMetadata {
   public static final String SERIALIZED_NAME_AUTO_FILLED_BY = "autoFilledBy";
   @SerializedName(SERIALIZED_NAME_AUTO_FILLED_BY)
   @javax.annotation.Nullable
-  private List<ControllerWorkflooDefinitionModelAutoFilledBy> autoFilledBy = new ArrayList<>();
+  private List<ControllerWorkflooDefinitionModelAutoFilledBy> autoFilledBy;
 
   public static final String SERIALIZED_NAME_AUTOFILL_NODE_ID = "autofillNodeId";
   @SerializedName(SERIALIZED_NAME_AUTOFILL_NODE_ID)
@@ -81,7 +81,7 @@ public class ControllerWorkflooDefinitionModelFieldMetadata {
   public static final String SERIALIZED_NAME_MAP = "map";
   @SerializedName(SERIALIZED_NAME_MAP)
   @javax.annotation.Nullable
-  private Map<String, String> map = new HashMap<>();
+  private Map<String, String> map;
 
   public static final String SERIALIZED_NAME_MAX = "max";
   @SerializedName(SERIALIZED_NAME_MAX)

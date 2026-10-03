@@ -313,9 +313,9 @@ func (o *ControllerWorkflooModelWorkfloo) SetIpOrigin(v string) {
 	o.IpOrigin = &v
 }
 
-// GetLabels returns the Labels field value if set, zero value otherwise.
+// GetLabels returns the Labels field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ControllerWorkflooModelWorkfloo) GetLabels() []string {
-	if o == nil || IsNil(o.Labels) {
+	if o == nil {
 		var ret []string
 		return ret
 	}
@@ -324,6 +324,7 @@ func (o *ControllerWorkflooModelWorkfloo) GetLabels() []string {
 
 // GetLabelsOk returns a tuple with the Labels field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *ControllerWorkflooModelWorkfloo) GetLabelsOk() ([]string, bool) {
 	if o == nil || IsNil(o.Labels) {
 		return nil, false
@@ -633,9 +634,9 @@ func (o *ControllerWorkflooModelWorkfloo) SetStatus(v string) {
 	o.Status = &v
 }
 
-// GetSteps returns the Steps field value if set, zero value otherwise.
+// GetSteps returns the Steps field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ControllerWorkflooModelWorkfloo) GetSteps() []ControllerWorkflooModelNode {
-	if o == nil || IsNil(o.Steps) {
+	if o == nil {
 		var ret []ControllerWorkflooModelNode
 		return ret
 	}
@@ -644,6 +645,7 @@ func (o *ControllerWorkflooModelWorkfloo) GetSteps() []ControllerWorkflooModelNo
 
 // GetStepsOk returns a tuple with the Steps field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *ControllerWorkflooModelWorkfloo) GetStepsOk() ([]ControllerWorkflooModelNode, bool) {
 	if o == nil || IsNil(o.Steps) {
 		return nil, false
@@ -699,7 +701,7 @@ func (o ControllerWorkflooModelWorkfloo) ToMap() (map[string]interface{}, error)
 	if !IsNil(o.IpOrigin) {
 		toSerialize["ipOrigin"] = o.IpOrigin
 	}
-	if !IsNil(o.Labels) {
+	if o.Labels != nil {
 		toSerialize["labels"] = o.Labels
 	}
 	if !IsNil(o.LastName1) {
@@ -729,7 +731,7 @@ func (o ControllerWorkflooModelWorkfloo) ToMap() (map[string]interface{}, error)
 	if !IsNil(o.Status) {
 		toSerialize["status"] = o.Status
 	}
-	if !IsNil(o.Steps) {
+	if o.Steps != nil {
 		toSerialize["steps"] = o.Steps
 	}
 	return toSerialize, nil

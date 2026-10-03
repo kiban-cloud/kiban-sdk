@@ -78,6 +78,16 @@ class ControllerWorkflooModelApiDataResume(BaseModel):
         if self.body is None and "body" in self.model_fields_set:
             _dict['body'] = None
 
+        # set to None if headers (nullable) is None
+        # and model_fields_set contains the field
+        if self.headers is None and "headers" in self.model_fields_set:
+            _dict['headers'] = None
+
+        # set to None if var_query_params (nullable) is None
+        # and model_fields_set contains the field
+        if self.var_query_params is None and "var_query_params" in self.model_fields_set:
+            _dict['queryParams'] = None
+
         return _dict
 
     @classmethod

@@ -2,7 +2,6 @@
 
 Workfloo API
 - API version: 1.0
-  - Build date: 2026-10-02T10:13:43.960045-06:00[America/Mexico_City]
   - Generator version: 7.24.0
 
 API pública de Workfloo: ejecuta un workfloo, consulta su estatus y revisa el historial/detalle de ejecuciones.
@@ -46,7 +45,7 @@ Add this dependency to your project's POM:
 <dependency>
   <groupId>kiban.sdk</groupId>
   <artifactId>workfloo</artifactId>
-  <version>0.2.0</version>
+  <version>0.3.0</version>
   <scope>compile</scope>
 </dependency>
 ```
@@ -62,7 +61,7 @@ Add this dependency to your project's build file:
   }
 
   dependencies {
-     implementation "kiban.sdk:workfloo:0.2.0"
+     implementation "kiban.sdk:workfloo:0.3.0"
   }
 ```
 
@@ -76,7 +75,7 @@ mvn clean package
 
 Then manually install the following JARs:
 
-* `target/workfloo-0.2.0.jar`
+* `target/workfloo-0.3.0.jar`
 * `target/lib/*.jar`
 
 ## Getting Started
@@ -207,6 +206,7 @@ Class | Method | HTTP request | Description
  - [ControllerWorkflooModelVariables](docs/ControllerWorkflooModelVariables.md)
  - [ControllerWorkflooModelVerificationStatus](docs/ControllerWorkflooModelVerificationStatus.md)
  - [ControllerWorkflooModelWorkfloo](docs/ControllerWorkflooModelWorkfloo.md)
+ - [ControllerWorkflooModelWorkflooListItem](docs/ControllerWorkflooModelWorkflooListItem.md)
  - [ControllerWorkflooModelWorkflooPage](docs/ControllerWorkflooModelWorkflooPage.md)
  - [ControllerWorkflooModelWorkflooResume](docs/ControllerWorkflooModelWorkflooResume.md)
  - [ControllerWorkflooModelWorkflooStatus](docs/ControllerWorkflooModelWorkflooStatus.md)

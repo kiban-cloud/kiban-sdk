@@ -147,22 +147,16 @@ namespace kiban.sdk.workfloo.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "fields":
-                            fields = new Option<List<Dictionary<string, Object>>?>(JsonSerializer.Deserialize<List<Dictionary<string, Object>>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            fields = new Option<List<Dictionary<string, Object>>?>(JsonSerializer.Deserialize<List<Dictionary<string, Object>>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "section":
-                            section = new Option<Dictionary<string, string>?>(JsonSerializer.Deserialize<Dictionary<string, string>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            section = new Option<Dictionary<string, string>?>(JsonSerializer.Deserialize<Dictionary<string, string>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         default:
                             break;
                     }
                 }
             }
-
-            if (fields.IsSet && fields.Value == null)
-                throw new ArgumentNullException(nameof(fields), "Property is not nullable for class ControllerWorkflooModelData.");
-
-            if (section.IsSet && section.Value == null)
-                throw new ArgumentNullException(nameof(section), "Property is not nullable for class ControllerWorkflooModelData.");
 
             return new ControllerWorkflooModelData(fields, section);
         }
@@ -191,22 +185,22 @@ namespace kiban.sdk.workfloo.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, ControllerWorkflooModelData controllerWorkflooModelData, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (controllerWorkflooModelData.FieldsOption.IsSet && controllerWorkflooModelData.Fields == null)
-                throw new ArgumentNullException(nameof(controllerWorkflooModelData.Fields), "Property is required for class ControllerWorkflooModelData.");
-
-            if (controllerWorkflooModelData.SectionOption.IsSet && controllerWorkflooModelData.Section == null)
-                throw new ArgumentNullException(nameof(controllerWorkflooModelData.Section), "Property is required for class ControllerWorkflooModelData.");
-
             if (controllerWorkflooModelData.FieldsOption.IsSet)
-            {
-                writer.WritePropertyName("fields");
-                JsonSerializer.Serialize(writer, controllerWorkflooModelData.Fields, jsonSerializerOptions);
-            }
+                if (controllerWorkflooModelData.FieldsOption.Value != null)
+                {
+                    writer.WritePropertyName("fields");
+                    JsonSerializer.Serialize(writer, controllerWorkflooModelData.Fields, jsonSerializerOptions);
+                }
+                else
+                    writer.WriteNull("fields");
             if (controllerWorkflooModelData.SectionOption.IsSet)
-            {
-                writer.WritePropertyName("section");
-                JsonSerializer.Serialize(writer, controllerWorkflooModelData.Section, jsonSerializerOptions);
-            }
+                if (controllerWorkflooModelData.SectionOption.Value != null)
+                {
+                    writer.WritePropertyName("section");
+                    JsonSerializer.Serialize(writer, controllerWorkflooModelData.Section, jsonSerializerOptions);
+                }
+                else
+                    writer.WriteNull("section");
         }
     }
 }

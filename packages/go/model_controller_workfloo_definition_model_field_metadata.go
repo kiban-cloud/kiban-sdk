@@ -23,7 +23,7 @@ type ControllerWorkflooDefinitionModelFieldMetadata struct {
 	AutofillNodeId *string `json:"autofillNodeId,omitempty"`
 	DefaultValue interface{} `json:"defaultValue,omitempty"`
 	Html *string `json:"html,omitempty"`
-	Map *map[string]string `json:"map,omitempty"`
+	Map map[string]string `json:"map,omitempty"`
 	Max *int32 `json:"max,omitempty"`
 	MaxLength *int32 `json:"maxLength,omitempty"`
 	MaxVal *float32 `json:"maxVal,omitempty"`
@@ -53,9 +53,9 @@ func NewControllerWorkflooDefinitionModelFieldMetadataWithDefaults() *Controller
 	return &this
 }
 
-// GetAutoFilledBy returns the AutoFilledBy field value if set, zero value otherwise.
+// GetAutoFilledBy returns the AutoFilledBy field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ControllerWorkflooDefinitionModelFieldMetadata) GetAutoFilledBy() []ControllerWorkflooDefinitionModelAutoFilledBy {
-	if o == nil || IsNil(o.AutoFilledBy) {
+	if o == nil {
 		var ret []ControllerWorkflooDefinitionModelAutoFilledBy
 		return ret
 	}
@@ -64,6 +64,7 @@ func (o *ControllerWorkflooDefinitionModelFieldMetadata) GetAutoFilledBy() []Con
 
 // GetAutoFilledByOk returns a tuple with the AutoFilledBy field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *ControllerWorkflooDefinitionModelFieldMetadata) GetAutoFilledByOk() ([]ControllerWorkflooDefinitionModelAutoFilledBy, bool) {
 	if o == nil || IsNil(o.AutoFilledBy) {
 		return nil, false
@@ -182,22 +183,23 @@ func (o *ControllerWorkflooDefinitionModelFieldMetadata) SetHtml(v string) {
 	o.Html = &v
 }
 
-// GetMap returns the Map field value if set, zero value otherwise.
+// GetMap returns the Map field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ControllerWorkflooDefinitionModelFieldMetadata) GetMap() map[string]string {
-	if o == nil || IsNil(o.Map) {
+	if o == nil {
 		var ret map[string]string
 		return ret
 	}
-	return *o.Map
+	return o.Map
 }
 
 // GetMapOk returns a tuple with the Map field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *ControllerWorkflooDefinitionModelFieldMetadata) GetMapOk() (*map[string]string, bool) {
 	if o == nil || IsNil(o.Map) {
 		return nil, false
 	}
-	return o.Map, true
+	return &o.Map, true
 }
 
 // HasMap returns a boolean if a field has been set.
@@ -211,7 +213,7 @@ func (o *ControllerWorkflooDefinitionModelFieldMetadata) HasMap() bool {
 
 // SetMap gets a reference to the given map[string]string and assigns it to the Map field.
 func (o *ControllerWorkflooDefinitionModelFieldMetadata) SetMap(v map[string]string) {
-	o.Map = &v
+	o.Map = v
 }
 
 // GetMax returns the Max field value if set, zero value otherwise.
@@ -544,7 +546,7 @@ func (o ControllerWorkflooDefinitionModelFieldMetadata) MarshalJSON() ([]byte, e
 
 func (o ControllerWorkflooDefinitionModelFieldMetadata) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !IsNil(o.AutoFilledBy) {
+	if o.AutoFilledBy != nil {
 		toSerialize["autoFilledBy"] = o.AutoFilledBy
 	}
 	if !IsNil(o.AutofillNodeId) {
@@ -556,7 +558,7 @@ func (o ControllerWorkflooDefinitionModelFieldMetadata) ToMap() (map[string]inte
 	if !IsNil(o.Html) {
 		toSerialize["html"] = o.Html
 	}
-	if !IsNil(o.Map) {
+	if o.Map != nil {
 		toSerialize["map"] = o.Map
 	}
 	if !IsNil(o.Max) {

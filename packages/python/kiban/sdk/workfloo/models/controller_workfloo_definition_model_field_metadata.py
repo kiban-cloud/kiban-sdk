@@ -95,10 +95,20 @@ class ControllerWorkflooDefinitionModelFieldMetadata(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of show
         if self.show:
             _dict['show'] = self.show.to_dict()
+        # set to None if auto_filled_by (nullable) is None
+        # and model_fields_set contains the field
+        if self.auto_filled_by is None and "auto_filled_by" in self.model_fields_set:
+            _dict['autoFilledBy'] = None
+
         # set to None if default_value (nullable) is None
         # and model_fields_set contains the field
         if self.default_value is None and "default_value" in self.model_fields_set:
             _dict['defaultValue'] = None
+
+        # set to None if map (nullable) is None
+        # and model_fields_set contains the field
+        if self.map is None and "map" in self.model_fields_set:
+            _dict['map'] = None
 
         return _dict
 

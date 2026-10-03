@@ -77,6 +77,11 @@ class ControllerWorkflooDefinitionModelForm(BaseModel):
                 if _item_form_field_section:
                     _items.append(_item_form_field_section.to_dict())
             _dict['formFieldSection'] = _items
+        # set to None if form_field_section (nullable) is None
+        # and model_fields_set contains the field
+        if self.form_field_section is None and "form_field_section" in self.model_fields_set:
+            _dict['formFieldSection'] = None
+
         return _dict
 
     @classmethod

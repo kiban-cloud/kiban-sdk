@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import kiban.sdk.workfloo.model.ControllerWorkflooModelReviewFieldRequest;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -51,7 +52,7 @@ import kiban.sdk.workfloo.JSON;
 /**
  * ControllerWorkflooModelReviewRequest
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-10-02T10:13:43.960045-06:00[America/Mexico_City]", comments = "Generator version: 7.24.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0")
 public class ControllerWorkflooModelReviewRequest {
   public static final String SERIALIZED_NAME_DECISION = "decision";
   @SerializedName(SERIALIZED_NAME_DECISION)
@@ -66,7 +67,7 @@ public class ControllerWorkflooModelReviewRequest {
   public static final String SERIALIZED_NAME_REVIEWS = "reviews";
   @SerializedName(SERIALIZED_NAME_REVIEWS)
   @javax.annotation.Nullable
-  private List<ControllerWorkflooModelReviewFieldRequest> reviews = new ArrayList<>();
+  private List<ControllerWorkflooModelReviewFieldRequest> reviews;
 
   public ControllerWorkflooModelReviewRequest() {
   }
@@ -151,9 +152,20 @@ public class ControllerWorkflooModelReviewRequest {
         Objects.equals(this.reviews, controllerWorkflooModelReviewRequest.reviews);
   }
 
+  private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
+    return a == b || (a != null && b != null && a.isPresent() && b.isPresent() && Objects.deepEquals(a.get(), b.get()));
+  }
+
   @Override
   public int hashCode() {
     return Objects.hash(decision, reviewerNote, reviews);
+  }
+
+  private static <T> int hashCodeNullable(JsonNullable<T> a) {
+    if (a == null) {
+      return 1;
+    }
+    return a.isPresent() ? Arrays.deepHashCode(new Object[]{a.get()}) : 31;
   }
 
   @Override

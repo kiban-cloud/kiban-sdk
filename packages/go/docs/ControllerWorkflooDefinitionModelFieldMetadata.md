@@ -64,6 +64,16 @@ SetAutoFilledBy sets AutoFilledBy field to given value.
 
 HasAutoFilledBy returns a boolean if a field has been set.
 
+### SetAutoFilledByNil
+
+`func (o *ControllerWorkflooDefinitionModelFieldMetadata) SetAutoFilledByNil(b bool)`
+
+ SetAutoFilledByNil sets the value for AutoFilledBy to be an explicit nil
+
+### UnsetAutoFilledBy
+`func (o *ControllerWorkflooDefinitionModelFieldMetadata) UnsetAutoFilledBy()`
+
+UnsetAutoFilledBy ensures that no value is present for AutoFilledBy, not even an explicit nil
 ### GetAutofillNodeId
 
 `func (o *ControllerWorkflooDefinitionModelFieldMetadata) GetAutofillNodeId() string`
@@ -174,6 +184,16 @@ SetMap sets Map field to given value.
 
 HasMap returns a boolean if a field has been set.
 
+### SetMapNil
+
+`func (o *ControllerWorkflooDefinitionModelFieldMetadata) SetMapNil(b bool)`
+
+ SetMapNil sets the value for Map to be an explicit nil
+
+### UnsetMap
+`func (o *ControllerWorkflooDefinitionModelFieldMetadata) UnsetMap()`
+
+UnsetMap ensures that no value is present for Map, not even an explicit nil
 ### GetMax
 
 `func (o *ControllerWorkflooDefinitionModelFieldMetadata) GetMax() int32`

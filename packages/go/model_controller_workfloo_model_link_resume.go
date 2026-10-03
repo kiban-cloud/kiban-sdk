@@ -41,9 +41,9 @@ func NewControllerWorkflooModelLinkResumeWithDefaults() *ControllerWorkflooModel
 	return &this
 }
 
-// GetEvents returns the Events field value if set, zero value otherwise.
+// GetEvents returns the Events field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ControllerWorkflooModelLinkResume) GetEvents() []ControllerWorkflooModelEvent {
-	if o == nil || IsNil(o.Events) {
+	if o == nil {
 		var ret []ControllerWorkflooModelEvent
 		return ret
 	}
@@ -52,6 +52,7 @@ func (o *ControllerWorkflooModelLinkResume) GetEvents() []ControllerWorkflooMode
 
 // GetEventsOk returns a tuple with the Events field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *ControllerWorkflooModelLinkResume) GetEventsOk() ([]ControllerWorkflooModelEvent, bool) {
 	if o == nil || IsNil(o.Events) {
 		return nil, false
@@ -147,7 +148,7 @@ func (o ControllerWorkflooModelLinkResume) MarshalJSON() ([]byte, error) {
 
 func (o ControllerWorkflooModelLinkResume) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !IsNil(o.Events) {
+	if o.Events != nil {
 		toSerialize["events"] = o.Events
 	}
 	if !IsNil(o.Key) {

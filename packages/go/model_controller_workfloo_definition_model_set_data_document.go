@@ -41,9 +41,9 @@ func NewControllerWorkflooDefinitionModelSetDataDocumentWithDefaults() *Controll
 	return &this
 }
 
-// GetFiles returns the Files field value if set, zero value otherwise.
+// GetFiles returns the Files field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ControllerWorkflooDefinitionModelSetDataDocument) GetFiles() []ControllerWorkflooDefinitionModelFileDocumentSet {
-	if o == nil || IsNil(o.Files) {
+	if o == nil {
 		var ret []ControllerWorkflooDefinitionModelFileDocumentSet
 		return ret
 	}
@@ -52,6 +52,7 @@ func (o *ControllerWorkflooDefinitionModelSetDataDocument) GetFiles() []Controll
 
 // GetFilesOk returns a tuple with the Files field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *ControllerWorkflooDefinitionModelSetDataDocument) GetFilesOk() ([]ControllerWorkflooDefinitionModelFileDocumentSet, bool) {
 	if o == nil || IsNil(o.Files) {
 		return nil, false
@@ -73,9 +74,9 @@ func (o *ControllerWorkflooDefinitionModelSetDataDocument) SetFiles(v []Controll
 	o.Files = v
 }
 
-// GetOptionalAt returns the OptionalAt field value if set, zero value otherwise.
+// GetOptionalAt returns the OptionalAt field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ControllerWorkflooDefinitionModelSetDataDocument) GetOptionalAt() []string {
-	if o == nil || IsNil(o.OptionalAt) {
+	if o == nil {
 		var ret []string
 		return ret
 	}
@@ -84,6 +85,7 @@ func (o *ControllerWorkflooDefinitionModelSetDataDocument) GetOptionalAt() []str
 
 // GetOptionalAtOk returns a tuple with the OptionalAt field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *ControllerWorkflooDefinitionModelSetDataDocument) GetOptionalAtOk() ([]string, bool) {
 	if o == nil || IsNil(o.OptionalAt) {
 		return nil, false
@@ -105,9 +107,9 @@ func (o *ControllerWorkflooDefinitionModelSetDataDocument) SetOptionalAt(v []str
 	o.OptionalAt = v
 }
 
-// GetRequired returns the Required field value if set, zero value otherwise.
+// GetRequired returns the Required field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ControllerWorkflooDefinitionModelSetDataDocument) GetRequired() []string {
-	if o == nil || IsNil(o.Required) {
+	if o == nil {
 		var ret []string
 		return ret
 	}
@@ -116,6 +118,7 @@ func (o *ControllerWorkflooDefinitionModelSetDataDocument) GetRequired() []strin
 
 // GetRequiredOk returns a tuple with the Required field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *ControllerWorkflooDefinitionModelSetDataDocument) GetRequiredOk() ([]string, bool) {
 	if o == nil || IsNil(o.Required) {
 		return nil, false
@@ -147,13 +150,13 @@ func (o ControllerWorkflooDefinitionModelSetDataDocument) MarshalJSON() ([]byte,
 
 func (o ControllerWorkflooDefinitionModelSetDataDocument) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !IsNil(o.Files) {
+	if o.Files != nil {
 		toSerialize["files"] = o.Files
 	}
-	if !IsNil(o.OptionalAt) {
+	if o.OptionalAt != nil {
 		toSerialize["optionalAt"] = o.OptionalAt
 	}
-	if !IsNil(o.Required) {
+	if o.Required != nil {
 		toSerialize["required"] = o.Required
 	}
 	return toSerialize, nil

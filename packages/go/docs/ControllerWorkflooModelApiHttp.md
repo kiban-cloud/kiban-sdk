@@ -54,6 +54,16 @@ SetBody sets Body field to given value.
 
 HasBody returns a boolean if a field has been set.
 
+### SetBodyNil
+
+`func (o *ControllerWorkflooModelApiHttp) SetBodyNil(b bool)`
+
+ SetBodyNil sets the value for Body to be an explicit nil
+
+### UnsetBody
+`func (o *ControllerWorkflooModelApiHttp) UnsetBody()`
+
+UnsetBody ensures that no value is present for Body, not even an explicit nil
 ### GetDate
 
 `func (o *ControllerWorkflooModelApiHttp) GetDate() string`
@@ -104,6 +114,16 @@ SetHeaders sets Headers field to given value.
 
 HasHeaders returns a boolean if a field has been set.
 
+### SetHeadersNil
+
+`func (o *ControllerWorkflooModelApiHttp) SetHeadersNil(b bool)`
+
+ SetHeadersNil sets the value for Headers to be an explicit nil
+
+### UnsetHeaders
+`func (o *ControllerWorkflooModelApiHttp) UnsetHeaders()`
+
+UnsetHeaders ensures that no value is present for Headers, not even an explicit nil
 ### GetHttpCode
 
 `func (o *ControllerWorkflooModelApiHttp) GetHttpCode() int32`
@@ -154,6 +174,16 @@ SetQueryParams sets QueryParams field to given value.
 
 HasQueryParams returns a boolean if a field has been set.
 
+### SetQueryParamsNil
+
+`func (o *ControllerWorkflooModelApiHttp) SetQueryParamsNil(b bool)`
+
+ SetQueryParamsNil sets the value for QueryParams to be an explicit nil
+
+### UnsetQueryParams
+`func (o *ControllerWorkflooModelApiHttp) UnsetQueryParams()`
+
+UnsetQueryParams ensures that no value is present for QueryParams, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

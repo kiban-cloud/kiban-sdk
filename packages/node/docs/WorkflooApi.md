@@ -531,9 +531,9 @@ const { status, data } = await apiInstance.listWorkfloos(
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **listWorkfloosV2**
-> Array<ControllerWorkflooModelWorkfloo> listWorkfloosV2()
+> Array<ControllerWorkflooModelWorkflooListItem> listWorkfloosV2()
 
-Igual que v1 pero devuelve el arreglo de ejecuciones directo, sin envoltorio. La paginación viaja en el header Link. Con format=csv la respuesta es un archivo CSV en lugar de JSON. Cualquier query param adicional no listado aquí se interpreta como filtro de búsqueda sobre el listado (searchableBy).
+Devuelve el arreglo de ejecuciones directo, sin envoltorio. La paginación viaja en el header Link. content=true agrega a cada elemento la ejecución completa, con todos sus nodos (la misma forma que getWorkfloo); por defecto es false y llega el resumen. format=CSV devuelve un archivo CSV en lugar de JSON. Los SDKs tipan la respuesta como JSON: para el CSV hay que leer el cuerpo crudo de la respuesta. Cualquier query param adicional no listado aquí se interpreta como filtro de búsqueda sobre el listado (searchableBy).
 
 ### Example
 
@@ -547,20 +547,44 @@ const configuration = new Configuration();
 const apiInstance = new WorkflooApi(configuration);
 
 let page: number; //Número de página, empieza en 1 (optional) (default to undefined)
-let itemsPerPage: number; //Cantidad de resultados por página (optional) (default to undefined)
-let status: string; //Filtra por estado de la ejecución (optional) (default to undefined)
-let from: string; //Fecha inicial del rango (RFC3339) (optional) (default to undefined)
-let to: string; //Fecha final del rango (RFC3339) (optional) (default to undefined)
-let format: 'json' | 'csv'; //Formato de la respuesta (optional) (default to undefined)
+let itemsPerPage: number; //Cantidad de resultados por página, entre 1 y 10000 (optional) (default to undefined)
+let from: string; //Fecha inicial del rango (ISO 8601) (optional) (default to undefined)
+let to: string; //Fecha final del rango (ISO 8601) (optional) (default to undefined)
+let origin: string; //Origen de la ejecución: KIBAN_CLOUD, API o FRONT (optional) (default to undefined)
+let status: string; //Estado de la ejecución: SUCCESS, ERROR o PROGRESS (optional) (default to undefined)
+let name: string; //Nombre del workfloo (búsqueda parcial) (optional) (default to undefined)
+let id: string; //Id exacto de la ejecución (optional) (default to undefined)
+let nodesFormSearchableByRfcPf: string; //RFC de persona física (empieza con, sin distinguir mayúsculas) (optional) (default to undefined)
+let nodesFormSearchableByFirstName: string; //Nombre (empieza con, sin distinguir mayúsculas) (optional) (default to undefined)
+let nodesFormSearchableBySecondName: string; //Segundo nombre (empieza con, sin distinguir mayúsculas) (optional) (default to undefined)
+let nodesFormSearchableByLastName1: string; //Apellido paterno (empieza con, sin distinguir mayúsculas) (optional) (default to undefined)
+let nodesFormSearchableByLastName2: string; //Apellido materno (empieza con, sin distinguir mayúsculas) (optional) (default to undefined)
+let nodesFormSearchableByRfcPm: string; //RFC de persona moral (empieza con, sin distinguir mayúsculas) (optional) (default to undefined)
+let nodesFormSearchableByCompanyName: string; //Razón social (empieza con, sin distinguir mayúsculas) (optional) (default to undefined)
+let format: 'JSON' | 'CSV'; //Formato de la respuesta; por defecto JSON (optional) (default to undefined)
+let content: boolean; //Agrega la ejecución completa (todos sus nodos) a cada elemento; por defecto false (optional) (default to undefined)
+let labels: string; //Etiquetas, separadas por punto y coma (optional) (default to undefined)
 let sandbox: boolean; //Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional) (default to undefined)
 
 const { status, data } = await apiInstance.listWorkfloosV2(
     page,
     itemsPerPage,
-    status,
     from,
     to,
+    origin,
+    status,
+    name,
+    id,
+    nodesFormSearchableByRfcPf,
+    nodesFormSearchableByFirstName,
+    nodesFormSearchableBySecondName,
+    nodesFormSearchableByLastName1,
+    nodesFormSearchableByLastName2,
+    nodesFormSearchableByRfcPm,
+    nodesFormSearchableByCompanyName,
     format,
+    content,
+    labels,
     sandbox
 );
 ```
@@ -570,17 +594,29 @@ const { status, data } = await apiInstance.listWorkfloosV2(
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
 | **page** | [**number**] | Número de página, empieza en 1 | (optional) defaults to undefined|
-| **itemsPerPage** | [**number**] | Cantidad de resultados por página | (optional) defaults to undefined|
-| **status** | [**string**] | Filtra por estado de la ejecución | (optional) defaults to undefined|
-| **from** | [**string**] | Fecha inicial del rango (RFC3339) | (optional) defaults to undefined|
-| **to** | [**string**] | Fecha final del rango (RFC3339) | (optional) defaults to undefined|
-| **format** | [**&#39;json&#39; | &#39;csv&#39;**]**Array<&#39;json&#39; &#124; &#39;csv&#39;>** | Formato de la respuesta | (optional) defaults to undefined|
+| **itemsPerPage** | [**number**] | Cantidad de resultados por página, entre 1 y 10000 | (optional) defaults to undefined|
+| **from** | [**string**] | Fecha inicial del rango (ISO 8601) | (optional) defaults to undefined|
+| **to** | [**string**] | Fecha final del rango (ISO 8601) | (optional) defaults to undefined|
+| **origin** | [**string**] | Origen de la ejecución: KIBAN_CLOUD, API o FRONT | (optional) defaults to undefined|
+| **status** | [**string**] | Estado de la ejecución: SUCCESS, ERROR o PROGRESS | (optional) defaults to undefined|
+| **name** | [**string**] | Nombre del workfloo (búsqueda parcial) | (optional) defaults to undefined|
+| **id** | [**string**] | Id exacto de la ejecución | (optional) defaults to undefined|
+| **nodesFormSearchableByRfcPf** | [**string**] | RFC de persona física (empieza con, sin distinguir mayúsculas) | (optional) defaults to undefined|
+| **nodesFormSearchableByFirstName** | [**string**] | Nombre (empieza con, sin distinguir mayúsculas) | (optional) defaults to undefined|
+| **nodesFormSearchableBySecondName** | [**string**] | Segundo nombre (empieza con, sin distinguir mayúsculas) | (optional) defaults to undefined|
+| **nodesFormSearchableByLastName1** | [**string**] | Apellido paterno (empieza con, sin distinguir mayúsculas) | (optional) defaults to undefined|
+| **nodesFormSearchableByLastName2** | [**string**] | Apellido materno (empieza con, sin distinguir mayúsculas) | (optional) defaults to undefined|
+| **nodesFormSearchableByRfcPm** | [**string**] | RFC de persona moral (empieza con, sin distinguir mayúsculas) | (optional) defaults to undefined|
+| **nodesFormSearchableByCompanyName** | [**string**] | Razón social (empieza con, sin distinguir mayúsculas) | (optional) defaults to undefined|
+| **format** | [**&#39;JSON&#39; | &#39;CSV&#39;**]**Array<&#39;JSON&#39; &#124; &#39;CSV&#39;>** | Formato de la respuesta; por defecto JSON | (optional) defaults to undefined|
+| **content** | [**boolean**] | Agrega la ejecución completa (todos sus nodos) a cada elemento; por defecto false | (optional) defaults to undefined|
+| **labels** | [**string**] | Etiquetas, separadas por punto y coma | (optional) defaults to undefined|
 | **sandbox** | [**boolean**] | Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito | (optional) defaults to undefined|
 
 
 ### Return type
 
-**Array<ControllerWorkflooModelWorkfloo>**
+**Array<ControllerWorkflooModelWorkflooListItem>**
 
 ### Authorization
 

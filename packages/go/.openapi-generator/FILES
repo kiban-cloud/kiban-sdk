@@ -1,5 +1,4 @@
 .gitignore
-.openapi-generator-ignore
 .travis.yml
 README.md
 api/openapi.yaml
@@ -66,6 +65,7 @@ docs/ControllerWorkflooModelVariable.md
 docs/ControllerWorkflooModelVariables.md
 docs/ControllerWorkflooModelVerificationStatus.md
 docs/ControllerWorkflooModelWorkfloo.md
+docs/ControllerWorkflooModelWorkflooListItem.md
 docs/ControllerWorkflooModelWorkflooPage.md
 docs/ControllerWorkflooModelWorkflooResume.md
 docs/ControllerWorkflooModelWorkflooStatus.md
@@ -133,10 +133,9 @@ model_controller_workfloo_model_variable.go
 model_controller_workfloo_model_variables.go
 model_controller_workfloo_model_verification_status.go
 model_controller_workfloo_model_workfloo.go
+model_controller_workfloo_model_workfloo_list_item.go
 model_controller_workfloo_model_workfloo_page.go
 model_controller_workfloo_model_workfloo_resume.go
 model_controller_workfloo_model_workfloo_status.go
 response.go
-test/api_pool_test.go
-test/api_workfloo_test.go
 utils.go

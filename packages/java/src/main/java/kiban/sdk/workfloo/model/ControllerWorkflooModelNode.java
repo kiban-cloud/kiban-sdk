@@ -29,6 +29,7 @@ import kiban.sdk.workfloo.model.ControllerWorkflooModelForm;
 import kiban.sdk.workfloo.model.ControllerWorkflooModelLink;
 import kiban.sdk.workfloo.model.ControllerWorkflooModelRuleset;
 import kiban.sdk.workfloo.model.ControllerWorkflooModelVariables;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -56,7 +57,7 @@ import kiban.sdk.workfloo.JSON;
 /**
  * ControllerWorkflooModelNode
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-10-02T10:13:43.960045-06:00[America/Mexico_City]", comments = "Generator version: 7.24.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0")
 public class ControllerWorkflooModelNode {
   public static final String SERIALIZED_NAME_API = "api";
   @SerializedName(SERIALIZED_NAME_API)
@@ -76,7 +77,7 @@ public class ControllerWorkflooModelNode {
   public static final String SERIALIZED_NAME_DECISION_TREE = "decisionTree";
   @SerializedName(SERIALIZED_NAME_DECISION_TREE)
   @javax.annotation.Nullable
-  private List<ControllerWorkflooModelDecisionTree> decisionTree = new ArrayList<>();
+  private List<ControllerWorkflooModelDecisionTree> decisionTree;
 
   public static final String SERIALIZED_NAME_FORM = "form";
   @SerializedName(SERIALIZED_NAME_FORM)
@@ -406,9 +407,20 @@ public class ControllerWorkflooModelNode {
         Objects.equals(this.variables, controllerWorkflooModelNode.variables);
   }
 
+  private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
+    return a == b || (a != null && b != null && a.isPresent() && b.isPresent() && Objects.deepEquals(a.get(), b.get()));
+  }
+
   @Override
   public int hashCode() {
     return Objects.hash(api, created, createdBy, decisionTree, form, id, link, modified, name, ruleset, status, type, variables);
+  }
+
+  private static <T> int hashCodeNullable(JsonNullable<T> a) {
+    if (a == null) {
+      return 1;
+    }
+    return a.isPresent() ? Arrays.deepHashCode(new Object[]{a.get()}) : 31;
   }
 
   @Override

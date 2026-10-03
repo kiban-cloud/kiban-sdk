@@ -130,16 +130,13 @@ namespace kiban.sdk.workfloo.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "documentField":
-                            documentField = new Option<List<ControllerWorkflooDefinitionModelFileDocument>?>(JsonSerializer.Deserialize<List<ControllerWorkflooDefinitionModelFileDocument>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            documentField = new Option<List<ControllerWorkflooDefinitionModelFileDocument>?>(JsonSerializer.Deserialize<List<ControllerWorkflooDefinitionModelFileDocument>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         default:
                             break;
                     }
                 }
             }
-
-            if (documentField.IsSet && documentField.Value == null)
-                throw new ArgumentNullException(nameof(documentField), "Property is not nullable for class ControllerWorkflooDefinitionModelDocument.");
 
             return new ControllerWorkflooDefinitionModelDocument(documentField);
         }
@@ -168,14 +165,14 @@ namespace kiban.sdk.workfloo.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, ControllerWorkflooDefinitionModelDocument controllerWorkflooDefinitionModelDocument, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (controllerWorkflooDefinitionModelDocument.DocumentFieldOption.IsSet && controllerWorkflooDefinitionModelDocument.DocumentField == null)
-                throw new ArgumentNullException(nameof(controllerWorkflooDefinitionModelDocument.DocumentField), "Property is required for class ControllerWorkflooDefinitionModelDocument.");
-
             if (controllerWorkflooDefinitionModelDocument.DocumentFieldOption.IsSet)
-            {
-                writer.WritePropertyName("documentField");
-                JsonSerializer.Serialize(writer, controllerWorkflooDefinitionModelDocument.DocumentField, jsonSerializerOptions);
-            }
+                if (controllerWorkflooDefinitionModelDocument.DocumentFieldOption.Value != null)
+                {
+                    writer.WritePropertyName("documentField");
+                    JsonSerializer.Serialize(writer, controllerWorkflooDefinitionModelDocument.DocumentField, jsonSerializerOptions);
+                }
+                else
+                    writer.WriteNull("documentField");
         }
     }
 }

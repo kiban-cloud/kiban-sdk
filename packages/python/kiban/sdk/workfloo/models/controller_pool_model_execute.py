@@ -70,6 +70,11 @@ class ControllerPoolModelExecute(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # set to None if sceneries (nullable) is None
+        # and model_fields_set contains the field
+        if self.sceneries is None and "sceneries" in self.model_fields_set:
+            _dict['sceneries'] = None
+
         return _dict
 
     @classmethod

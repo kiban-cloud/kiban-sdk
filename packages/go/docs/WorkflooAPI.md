@@ -602,7 +602,7 @@ Name | Type | Description  | Notes
 
 ## ListWorkfloosV2
 
-> []ControllerWorkflooModelWorkfloo ListWorkfloosV2(ctx).Page(page).ItemsPerPage(itemsPerPage).Status(status).From(from).To(to).Format(format).Sandbox(sandbox).Execute()
+> []ControllerWorkflooModelWorkflooListItem ListWorkfloosV2(ctx).Page(page).ItemsPerPage(itemsPerPage).From(from).To(to).Origin(origin).Status(status).Name(name).Id(id).NodesFormSearchableByRfcPf(nodesFormSearchableByRfcPf).NodesFormSearchableByFirstName(nodesFormSearchableByFirstName).NodesFormSearchableBySecondName(nodesFormSearchableBySecondName).NodesFormSearchableByLastName1(nodesFormSearchableByLastName1).NodesFormSearchableByLastName2(nodesFormSearchableByLastName2).NodesFormSearchableByRfcPm(nodesFormSearchableByRfcPm).NodesFormSearchableByCompanyName(nodesFormSearchableByCompanyName).Format(format).Content(content).Labels(labels).Sandbox(sandbox).Execute()
 
 Historial de ejecuciones (v2)
 
@@ -622,21 +622,33 @@ import (
 
 func main() {
 	page := int32(56) // int32 | Número de página, empieza en 1 (optional)
-	itemsPerPage := int32(56) // int32 | Cantidad de resultados por página (optional)
-	status := "status_example" // string | Filtra por estado de la ejecución (optional)
-	from := "from_example" // string | Fecha inicial del rango (RFC3339) (optional)
-	to := "to_example" // string | Fecha final del rango (RFC3339) (optional)
-	format := "format_example" // string | Formato de la respuesta (optional)
+	itemsPerPage := int32(56) // int32 | Cantidad de resultados por página, entre 1 y 10000 (optional)
+	from := "from_example" // string | Fecha inicial del rango (ISO 8601) (optional)
+	to := "to_example" // string | Fecha final del rango (ISO 8601) (optional)
+	origin := "origin_example" // string | Origen de la ejecución: KIBAN_CLOUD, API o FRONT (optional)
+	status := "status_example" // string | Estado de la ejecución: SUCCESS, ERROR o PROGRESS (optional)
+	name := "name_example" // string | Nombre del workfloo (búsqueda parcial) (optional)
+	id := "id_example" // string | Id exacto de la ejecución (optional)
+	nodesFormSearchableByRfcPf := "nodesFormSearchableByRfcPf_example" // string | RFC de persona física (empieza con, sin distinguir mayúsculas) (optional)
+	nodesFormSearchableByFirstName := "nodesFormSearchableByFirstName_example" // string | Nombre (empieza con, sin distinguir mayúsculas) (optional)
+	nodesFormSearchableBySecondName := "nodesFormSearchableBySecondName_example" // string | Segundo nombre (empieza con, sin distinguir mayúsculas) (optional)
+	nodesFormSearchableByLastName1 := "nodesFormSearchableByLastName1_example" // string | Apellido paterno (empieza con, sin distinguir mayúsculas) (optional)
+	nodesFormSearchableByLastName2 := "nodesFormSearchableByLastName2_example" // string | Apellido materno (empieza con, sin distinguir mayúsculas) (optional)
+	nodesFormSearchableByRfcPm := "nodesFormSearchableByRfcPm_example" // string | RFC de persona moral (empieza con, sin distinguir mayúsculas) (optional)
+	nodesFormSearchableByCompanyName := "nodesFormSearchableByCompanyName_example" // string | Razón social (empieza con, sin distinguir mayúsculas) (optional)
+	format := "format_example" // string | Formato de la respuesta; por defecto JSON (optional)
+	content := true // bool | Agrega la ejecución completa (todos sus nodos) a cada elemento; por defecto false (optional)
+	labels := "labels_example" // string | Etiquetas, separadas por punto y coma (optional)
 	sandbox := true // bool | Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.WorkflooAPI.ListWorkfloosV2(context.Background()).Page(page).ItemsPerPage(itemsPerPage).Status(status).From(from).To(to).Format(format).Sandbox(sandbox).Execute()
+	resp, r, err := apiClient.WorkflooAPI.ListWorkfloosV2(context.Background()).Page(page).ItemsPerPage(itemsPerPage).From(from).To(to).Origin(origin).Status(status).Name(name).Id(id).NodesFormSearchableByRfcPf(nodesFormSearchableByRfcPf).NodesFormSearchableByFirstName(nodesFormSearchableByFirstName).NodesFormSearchableBySecondName(nodesFormSearchableBySecondName).NodesFormSearchableByLastName1(nodesFormSearchableByLastName1).NodesFormSearchableByLastName2(nodesFormSearchableByLastName2).NodesFormSearchableByRfcPm(nodesFormSearchableByRfcPm).NodesFormSearchableByCompanyName(nodesFormSearchableByCompanyName).Format(format).Content(content).Labels(labels).Sandbox(sandbox).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `WorkflooAPI.ListWorkfloosV2``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `ListWorkfloosV2`: []ControllerWorkflooModelWorkfloo
+	// response from `ListWorkfloosV2`: []ControllerWorkflooModelWorkflooListItem
 	fmt.Fprintf(os.Stdout, "Response from `WorkflooAPI.ListWorkfloosV2`: %v\n", resp)
 }
 ```
@@ -653,16 +665,28 @@ Other parameters are passed through a pointer to a apiListWorkfloosV2Request str
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **page** | **int32** | Número de página, empieza en 1 | 
- **itemsPerPage** | **int32** | Cantidad de resultados por página | 
- **status** | **string** | Filtra por estado de la ejecución | 
- **from** | **string** | Fecha inicial del rango (RFC3339) | 
- **to** | **string** | Fecha final del rango (RFC3339) | 
- **format** | **string** | Formato de la respuesta | 
+ **itemsPerPage** | **int32** | Cantidad de resultados por página, entre 1 y 10000 | 
+ **from** | **string** | Fecha inicial del rango (ISO 8601) | 
+ **to** | **string** | Fecha final del rango (ISO 8601) | 
+ **origin** | **string** | Origen de la ejecución: KIBAN_CLOUD, API o FRONT | 
+ **status** | **string** | Estado de la ejecución: SUCCESS, ERROR o PROGRESS | 
+ **name** | **string** | Nombre del workfloo (búsqueda parcial) | 
+ **id** | **string** | Id exacto de la ejecución | 
+ **nodesFormSearchableByRfcPf** | **string** | RFC de persona física (empieza con, sin distinguir mayúsculas) | 
+ **nodesFormSearchableByFirstName** | **string** | Nombre (empieza con, sin distinguir mayúsculas) | 
+ **nodesFormSearchableBySecondName** | **string** | Segundo nombre (empieza con, sin distinguir mayúsculas) | 
+ **nodesFormSearchableByLastName1** | **string** | Apellido paterno (empieza con, sin distinguir mayúsculas) | 
+ **nodesFormSearchableByLastName2** | **string** | Apellido materno (empieza con, sin distinguir mayúsculas) | 
+ **nodesFormSearchableByRfcPm** | **string** | RFC de persona moral (empieza con, sin distinguir mayúsculas) | 
+ **nodesFormSearchableByCompanyName** | **string** | Razón social (empieza con, sin distinguir mayúsculas) | 
+ **format** | **string** | Formato de la respuesta; por defecto JSON | 
+ **content** | **bool** | Agrega la ejecución completa (todos sus nodos) a cada elemento; por defecto false | 
+ **labels** | **string** | Etiquetas, separadas por punto y coma | 
  **sandbox** | **bool** | Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito | 
 
 ### Return type
 
-[**[]ControllerWorkflooModelWorkfloo**](ControllerWorkflooModelWorkfloo.md)
+[**[]ControllerWorkflooModelWorkflooListItem**](ControllerWorkflooModelWorkflooListItem.md)
 
 ### Authorization
 

@@ -73,9 +73,9 @@ func (o *ControllerWorkflooDefinitionModelShowIf) SetField(v string) {
 	o.Field = &v
 }
 
-// GetRequiredWithValues returns the RequiredWithValues field value if set, zero value otherwise.
+// GetRequiredWithValues returns the RequiredWithValues field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ControllerWorkflooDefinitionModelShowIf) GetRequiredWithValues() []string {
-	if o == nil || IsNil(o.RequiredWithValues) {
+	if o == nil {
 		var ret []string
 		return ret
 	}
@@ -84,6 +84,7 @@ func (o *ControllerWorkflooDefinitionModelShowIf) GetRequiredWithValues() []stri
 
 // GetRequiredWithValuesOk returns a tuple with the RequiredWithValues field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *ControllerWorkflooDefinitionModelShowIf) GetRequiredWithValuesOk() ([]string, bool) {
 	if o == nil || IsNil(o.RequiredWithValues) {
 		return nil, false
@@ -105,9 +106,9 @@ func (o *ControllerWorkflooDefinitionModelShowIf) SetRequiredWithValues(v []stri
 	o.RequiredWithValues = v
 }
 
-// GetValues returns the Values field value if set, zero value otherwise.
+// GetValues returns the Values field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ControllerWorkflooDefinitionModelShowIf) GetValues() []string {
-	if o == nil || IsNil(o.Values) {
+	if o == nil {
 		var ret []string
 		return ret
 	}
@@ -116,6 +117,7 @@ func (o *ControllerWorkflooDefinitionModelShowIf) GetValues() []string {
 
 // GetValuesOk returns a tuple with the Values field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *ControllerWorkflooDefinitionModelShowIf) GetValuesOk() ([]string, bool) {
 	if o == nil || IsNil(o.Values) {
 		return nil, false
@@ -150,10 +152,10 @@ func (o ControllerWorkflooDefinitionModelShowIf) ToMap() (map[string]interface{}
 	if !IsNil(o.Field) {
 		toSerialize["field"] = o.Field
 	}
-	if !IsNil(o.RequiredWithValues) {
+	if o.RequiredWithValues != nil {
 		toSerialize["requiredWithValues"] = o.RequiredWithValues
 	}
-	if !IsNil(o.Values) {
+	if o.Values != nil {
 		toSerialize["values"] = o.Values
 	}
 	return toSerialize, nil

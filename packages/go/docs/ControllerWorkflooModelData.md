@@ -51,6 +51,16 @@ SetFields sets Fields field to given value.
 
 HasFields returns a boolean if a field has been set.
 
+### SetFieldsNil
+
+`func (o *ControllerWorkflooModelData) SetFieldsNil(b bool)`
+
+ SetFieldsNil sets the value for Fields to be an explicit nil
+
+### UnsetFields
+`func (o *ControllerWorkflooModelData) UnsetFields()`
+
+UnsetFields ensures that no value is present for Fields, not even an explicit nil
 ### GetSection
 
 `func (o *ControllerWorkflooModelData) GetSection() map[string]string`
@@ -76,6 +86,16 @@ SetSection sets Section field to given value.
 
 HasSection returns a boolean if a field has been set.
 
+### SetSectionNil
+
+`func (o *ControllerWorkflooModelData) SetSectionNil(b bool)`
+
+ SetSectionNil sets the value for Section to be an explicit nil
+
+### UnsetSection
+`func (o *ControllerWorkflooModelData) UnsetSection()`
+
+UnsetSection ensures that no value is present for Section, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

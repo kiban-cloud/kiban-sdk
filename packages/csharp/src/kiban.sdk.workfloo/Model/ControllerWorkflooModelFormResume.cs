@@ -130,16 +130,13 @@ namespace kiban.sdk.workfloo.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "fields":
-                            fields = new Option<Dictionary<string, Object>?>(JsonSerializer.Deserialize<Dictionary<string, Object>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            fields = new Option<Dictionary<string, Object>?>(JsonSerializer.Deserialize<Dictionary<string, Object>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         default:
                             break;
                     }
                 }
             }
-
-            if (fields.IsSet && fields.Value == null)
-                throw new ArgumentNullException(nameof(fields), "Property is not nullable for class ControllerWorkflooModelFormResume.");
 
             return new ControllerWorkflooModelFormResume(fields);
         }
@@ -168,14 +165,14 @@ namespace kiban.sdk.workfloo.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, ControllerWorkflooModelFormResume controllerWorkflooModelFormResume, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (controllerWorkflooModelFormResume.FieldsOption.IsSet && controllerWorkflooModelFormResume.Fields == null)
-                throw new ArgumentNullException(nameof(controllerWorkflooModelFormResume.Fields), "Property is required for class ControllerWorkflooModelFormResume.");
-
             if (controllerWorkflooModelFormResume.FieldsOption.IsSet)
-            {
-                writer.WritePropertyName("fields");
-                JsonSerializer.Serialize(writer, controllerWorkflooModelFormResume.Fields, jsonSerializerOptions);
-            }
+                if (controllerWorkflooModelFormResume.FieldsOption.Value != null)
+                {
+                    writer.WritePropertyName("fields");
+                    JsonSerializer.Serialize(writer, controllerWorkflooModelFormResume.Fields, jsonSerializerOptions);
+                }
+                else
+                    writer.WriteNull("fields");
         }
     }
 }

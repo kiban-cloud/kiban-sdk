@@ -476,19 +476,19 @@ namespace kiban.sdk.workfloo.Model
                             created = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "data":
-                            data = new Option<List<ControllerWorkflooModelData>?>(JsonSerializer.Deserialize<List<ControllerWorkflooModelData>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            data = new Option<List<ControllerWorkflooModelData>?>(JsonSerializer.Deserialize<List<ControllerWorkflooModelData>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "decisionTree":
-                            decisionTree = new Option<List<ControllerWorkflooModelDecisionTree>?>(JsonSerializer.Deserialize<List<ControllerWorkflooModelDecisionTree>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            decisionTree = new Option<List<ControllerWorkflooModelDecisionTree>?>(JsonSerializer.Deserialize<List<ControllerWorkflooModelDecisionTree>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "detail":
                             detail = new Option<ControllerWorkflooModelNodeDetail?>(JsonSerializer.Deserialize<ControllerWorkflooModelNodeDetail>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         case "documents":
-                            documents = new Option<Dictionary<string, ControllerWorkflooModelDocumentsResume>?>(JsonSerializer.Deserialize<Dictionary<string, ControllerWorkflooModelDocumentsResume>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            documents = new Option<Dictionary<string, ControllerWorkflooModelDocumentsResume>?>(JsonSerializer.Deserialize<Dictionary<string, ControllerWorkflooModelDocumentsResume>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "files":
-                            files = new Option<List<ControllerWorkflooModelFile>?>(JsonSerializer.Deserialize<List<ControllerWorkflooModelFile>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            files = new Option<List<ControllerWorkflooModelFile>?>(JsonSerializer.Deserialize<List<ControllerWorkflooModelFile>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "form":
                             form = new Option<ControllerWorkflooModelFormResume?>(JsonSerializer.Deserialize<ControllerWorkflooModelFormResume>(ref utf8JsonReader, jsonSerializerOptions)!);
@@ -530,7 +530,7 @@ namespace kiban.sdk.workfloo.Model
                             validation = new Option<ControllerWorkflooModelValidationResume?>(JsonSerializer.Deserialize<ControllerWorkflooModelValidationResume>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         case "variables":
-                            variables = new Option<List<ControllerWorkflooModelVariable>?>(JsonSerializer.Deserialize<List<ControllerWorkflooModelVariable>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            variables = new Option<List<ControllerWorkflooModelVariable>?>(JsonSerializer.Deserialize<List<ControllerWorkflooModelVariable>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         default:
                             break;
@@ -544,20 +544,8 @@ namespace kiban.sdk.workfloo.Model
             if (created.IsSet && created.Value == null)
                 throw new ArgumentNullException(nameof(created), "Property is not nullable for class ControllerWorkflooModelNodeResume.");
 
-            if (data.IsSet && data.Value == null)
-                throw new ArgumentNullException(nameof(data), "Property is not nullable for class ControllerWorkflooModelNodeResume.");
-
-            if (decisionTree.IsSet && decisionTree.Value == null)
-                throw new ArgumentNullException(nameof(decisionTree), "Property is not nullable for class ControllerWorkflooModelNodeResume.");
-
             if (detail.IsSet && detail.Value == null)
                 throw new ArgumentNullException(nameof(detail), "Property is not nullable for class ControllerWorkflooModelNodeResume.");
-
-            if (documents.IsSet && documents.Value == null)
-                throw new ArgumentNullException(nameof(documents), "Property is not nullable for class ControllerWorkflooModelNodeResume.");
-
-            if (files.IsSet && files.Value == null)
-                throw new ArgumentNullException(nameof(files), "Property is not nullable for class ControllerWorkflooModelNodeResume.");
 
             if (form.IsSet && form.Value == null)
                 throw new ArgumentNullException(nameof(form), "Property is not nullable for class ControllerWorkflooModelNodeResume.");
@@ -592,9 +580,6 @@ namespace kiban.sdk.workfloo.Model
             if (validation.IsSet && validation.Value == null)
                 throw new ArgumentNullException(nameof(validation), "Property is not nullable for class ControllerWorkflooModelNodeResume.");
 
-            if (variables.IsSet && variables.Value == null)
-                throw new ArgumentNullException(nameof(variables), "Property is not nullable for class ControllerWorkflooModelNodeResume.");
-
             return new ControllerWorkflooModelNodeResume(apiData, created, data, decisionTree, detail, documents, files, form, id, label, link, modified, name, pdf, request, response, ruleset, timer, type, validation, variables);
         }
 
@@ -628,20 +613,8 @@ namespace kiban.sdk.workfloo.Model
             if (controllerWorkflooModelNodeResume.CreatedOption.IsSet && controllerWorkflooModelNodeResume.Created == null)
                 throw new ArgumentNullException(nameof(controllerWorkflooModelNodeResume.Created), "Property is required for class ControllerWorkflooModelNodeResume.");
 
-            if (controllerWorkflooModelNodeResume.DataOption.IsSet && controllerWorkflooModelNodeResume.Data == null)
-                throw new ArgumentNullException(nameof(controllerWorkflooModelNodeResume.Data), "Property is required for class ControllerWorkflooModelNodeResume.");
-
-            if (controllerWorkflooModelNodeResume.DecisionTreeOption.IsSet && controllerWorkflooModelNodeResume.DecisionTree == null)
-                throw new ArgumentNullException(nameof(controllerWorkflooModelNodeResume.DecisionTree), "Property is required for class ControllerWorkflooModelNodeResume.");
-
             if (controllerWorkflooModelNodeResume.DetailOption.IsSet && controllerWorkflooModelNodeResume.Detail == null)
                 throw new ArgumentNullException(nameof(controllerWorkflooModelNodeResume.Detail), "Property is required for class ControllerWorkflooModelNodeResume.");
-
-            if (controllerWorkflooModelNodeResume.DocumentsOption.IsSet && controllerWorkflooModelNodeResume.Documents == null)
-                throw new ArgumentNullException(nameof(controllerWorkflooModelNodeResume.Documents), "Property is required for class ControllerWorkflooModelNodeResume.");
-
-            if (controllerWorkflooModelNodeResume.FilesOption.IsSet && controllerWorkflooModelNodeResume.Files == null)
-                throw new ArgumentNullException(nameof(controllerWorkflooModelNodeResume.Files), "Property is required for class ControllerWorkflooModelNodeResume.");
 
             if (controllerWorkflooModelNodeResume.FormOption.IsSet && controllerWorkflooModelNodeResume.Form == null)
                 throw new ArgumentNullException(nameof(controllerWorkflooModelNodeResume.Form), "Property is required for class ControllerWorkflooModelNodeResume.");
@@ -676,9 +649,6 @@ namespace kiban.sdk.workfloo.Model
             if (controllerWorkflooModelNodeResume.ValidationOption.IsSet && controllerWorkflooModelNodeResume.Validation == null)
                 throw new ArgumentNullException(nameof(controllerWorkflooModelNodeResume.Validation), "Property is required for class ControllerWorkflooModelNodeResume.");
 
-            if (controllerWorkflooModelNodeResume.VariablesOption.IsSet && controllerWorkflooModelNodeResume.Variables == null)
-                throw new ArgumentNullException(nameof(controllerWorkflooModelNodeResume.Variables), "Property is required for class ControllerWorkflooModelNodeResume.");
-
             if (controllerWorkflooModelNodeResume.ApiDataOption.IsSet)
             {
                 writer.WritePropertyName("apiData");
@@ -688,30 +658,42 @@ namespace kiban.sdk.workfloo.Model
                 writer.WriteString("created", controllerWorkflooModelNodeResume.Created);
 
             if (controllerWorkflooModelNodeResume.DataOption.IsSet)
-            {
-                writer.WritePropertyName("data");
-                JsonSerializer.Serialize(writer, controllerWorkflooModelNodeResume.Data, jsonSerializerOptions);
-            }
+                if (controllerWorkflooModelNodeResume.DataOption.Value != null)
+                {
+                    writer.WritePropertyName("data");
+                    JsonSerializer.Serialize(writer, controllerWorkflooModelNodeResume.Data, jsonSerializerOptions);
+                }
+                else
+                    writer.WriteNull("data");
             if (controllerWorkflooModelNodeResume.DecisionTreeOption.IsSet)
-            {
-                writer.WritePropertyName("decisionTree");
-                JsonSerializer.Serialize(writer, controllerWorkflooModelNodeResume.DecisionTree, jsonSerializerOptions);
-            }
+                if (controllerWorkflooModelNodeResume.DecisionTreeOption.Value != null)
+                {
+                    writer.WritePropertyName("decisionTree");
+                    JsonSerializer.Serialize(writer, controllerWorkflooModelNodeResume.DecisionTree, jsonSerializerOptions);
+                }
+                else
+                    writer.WriteNull("decisionTree");
             if (controllerWorkflooModelNodeResume.DetailOption.IsSet)
             {
                 writer.WritePropertyName("detail");
                 JsonSerializer.Serialize(writer, controllerWorkflooModelNodeResume.Detail, jsonSerializerOptions);
             }
             if (controllerWorkflooModelNodeResume.DocumentsOption.IsSet)
-            {
-                writer.WritePropertyName("documents");
-                JsonSerializer.Serialize(writer, controllerWorkflooModelNodeResume.Documents, jsonSerializerOptions);
-            }
+                if (controllerWorkflooModelNodeResume.DocumentsOption.Value != null)
+                {
+                    writer.WritePropertyName("documents");
+                    JsonSerializer.Serialize(writer, controllerWorkflooModelNodeResume.Documents, jsonSerializerOptions);
+                }
+                else
+                    writer.WriteNull("documents");
             if (controllerWorkflooModelNodeResume.FilesOption.IsSet)
-            {
-                writer.WritePropertyName("files");
-                JsonSerializer.Serialize(writer, controllerWorkflooModelNodeResume.Files, jsonSerializerOptions);
-            }
+                if (controllerWorkflooModelNodeResume.FilesOption.Value != null)
+                {
+                    writer.WritePropertyName("files");
+                    JsonSerializer.Serialize(writer, controllerWorkflooModelNodeResume.Files, jsonSerializerOptions);
+                }
+                else
+                    writer.WriteNull("files");
             if (controllerWorkflooModelNodeResume.FormOption.IsSet)
             {
                 writer.WritePropertyName("form");
@@ -776,10 +758,13 @@ namespace kiban.sdk.workfloo.Model
                 JsonSerializer.Serialize(writer, controllerWorkflooModelNodeResume.Validation, jsonSerializerOptions);
             }
             if (controllerWorkflooModelNodeResume.VariablesOption.IsSet)
-            {
-                writer.WritePropertyName("variables");
-                JsonSerializer.Serialize(writer, controllerWorkflooModelNodeResume.Variables, jsonSerializerOptions);
-            }
+                if (controllerWorkflooModelNodeResume.VariablesOption.Value != null)
+                {
+                    writer.WritePropertyName("variables");
+                    JsonSerializer.Serialize(writer, controllerWorkflooModelNodeResume.Variables, jsonSerializerOptions);
+                }
+                else
+                    writer.WriteNull("variables");
         }
     }
 }

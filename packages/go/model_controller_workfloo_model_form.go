@@ -39,9 +39,9 @@ func NewControllerWorkflooModelFormWithDefaults() *ControllerWorkflooModelForm {
 	return &this
 }
 
-// GetFields returns the Fields field value if set, zero value otherwise.
+// GetFields returns the Fields field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ControllerWorkflooModelForm) GetFields() []ControllerWorkflooModelFormField {
-	if o == nil || IsNil(o.Fields) {
+	if o == nil {
 		var ret []ControllerWorkflooModelFormField
 		return ret
 	}
@@ -50,6 +50,7 @@ func (o *ControllerWorkflooModelForm) GetFields() []ControllerWorkflooModelFormF
 
 // GetFieldsOk returns a tuple with the Fields field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *ControllerWorkflooModelForm) GetFieldsOk() ([]ControllerWorkflooModelFormField, bool) {
 	if o == nil || IsNil(o.Fields) {
 		return nil, false
@@ -81,7 +82,7 @@ func (o ControllerWorkflooModelForm) MarshalJSON() ([]byte, error) {
 
 func (o ControllerWorkflooModelForm) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !IsNil(o.Fields) {
+	if o.Fields != nil {
 		toSerialize["fields"] = o.Fields
 	}
 	return toSerialize, nil

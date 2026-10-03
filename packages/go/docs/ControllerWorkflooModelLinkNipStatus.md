@@ -137,6 +137,16 @@ SetEvents sets Events field to given value.
 
 HasEvents returns a boolean if a field has been set.
 
+### SetEventsNil
+
+`func (o *ControllerWorkflooModelLinkNipStatus) SetEventsNil(b bool)`
+
+ SetEventsNil sets the value for Events to be an explicit nil
+
+### UnsetEvents
+`func (o *ControllerWorkflooModelLinkNipStatus) UnsetEvents()`
+
+UnsetEvents ensures that no value is present for Events, not even an explicit nil
 ### GetKey
 
 `func (o *ControllerWorkflooModelLinkNipStatus) GetKey() string`

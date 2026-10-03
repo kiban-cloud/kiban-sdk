@@ -270,7 +270,7 @@ namespace kiban.sdk.workfloo.Model
                             set = new Option<ControllerWorkflooDefinitionModelSetData?>(JsonSerializer.Deserialize<ControllerWorkflooDefinitionModelSetData>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         case "showIf":
-                            showIf = new Option<List<ControllerWorkflooDefinitionModelShowIf>?>(JsonSerializer.Deserialize<List<ControllerWorkflooDefinitionModelShowIf>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            showIf = new Option<List<ControllerWorkflooDefinitionModelShowIf>?>(JsonSerializer.Deserialize<List<ControllerWorkflooDefinitionModelShowIf>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         default:
                             break;
@@ -298,9 +298,6 @@ namespace kiban.sdk.workfloo.Model
 
             if (set.IsSet && set.Value == null)
                 throw new ArgumentNullException(nameof(set), "Property is not nullable for class ControllerWorkflooDefinitionModelField.");
-
-            if (showIf.IsSet && showIf.Value == null)
-                throw new ArgumentNullException(nameof(showIf), "Property is not nullable for class ControllerWorkflooDefinitionModelField.");
 
             return new ControllerWorkflooDefinitionModelField(fieldMetadata, id, name, predefined, required, section, set, showIf);
         }
@@ -344,9 +341,6 @@ namespace kiban.sdk.workfloo.Model
             if (controllerWorkflooDefinitionModelField.SetOption.IsSet && controllerWorkflooDefinitionModelField.Set == null)
                 throw new ArgumentNullException(nameof(controllerWorkflooDefinitionModelField.Set), "Property is required for class ControllerWorkflooDefinitionModelField.");
 
-            if (controllerWorkflooDefinitionModelField.ShowIfOption.IsSet && controllerWorkflooDefinitionModelField.ShowIf == null)
-                throw new ArgumentNullException(nameof(controllerWorkflooDefinitionModelField.ShowIf), "Property is required for class ControllerWorkflooDefinitionModelField.");
-
             if (controllerWorkflooDefinitionModelField.FieldMetadataOption.IsSet)
             {
                 writer.WritePropertyName("fieldMetadata");
@@ -373,10 +367,13 @@ namespace kiban.sdk.workfloo.Model
                 JsonSerializer.Serialize(writer, controllerWorkflooDefinitionModelField.Set, jsonSerializerOptions);
             }
             if (controllerWorkflooDefinitionModelField.ShowIfOption.IsSet)
-            {
-                writer.WritePropertyName("showIf");
-                JsonSerializer.Serialize(writer, controllerWorkflooDefinitionModelField.ShowIf, jsonSerializerOptions);
-            }
+                if (controllerWorkflooDefinitionModelField.ShowIfOption.Value != null)
+                {
+                    writer.WritePropertyName("showIf");
+                    JsonSerializer.Serialize(writer, controllerWorkflooDefinitionModelField.ShowIf, jsonSerializerOptions);
+                }
+                else
+                    writer.WriteNull("showIf");
         }
     }
 }

@@ -79,6 +79,21 @@ class ControllerWorkflooDefinitionModelSetDataDocument(BaseModel):
                 if _item_files:
                     _items.append(_item_files.to_dict())
             _dict['files'] = _items
+        # set to None if files (nullable) is None
+        # and model_fields_set contains the field
+        if self.files is None and "files" in self.model_fields_set:
+            _dict['files'] = None
+
+        # set to None if optional_at (nullable) is None
+        # and model_fields_set contains the field
+        if self.optional_at is None and "optional_at" in self.model_fields_set:
+            _dict['optionalAt'] = None
+
+        # set to None if required (nullable) is None
+        # and model_fields_set contains the field
+        if self.required is None and "required" in self.model_fields_set:
+            _dict['required'] = None
+
         return _dict
 
     @classmethod

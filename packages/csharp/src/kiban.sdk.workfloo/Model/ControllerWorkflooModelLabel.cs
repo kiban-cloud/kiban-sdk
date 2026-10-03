@@ -130,16 +130,13 @@ namespace kiban.sdk.workfloo.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "labels":
-                            labels = new Option<List<string>?>(JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            labels = new Option<List<string>?>(JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         default:
                             break;
                     }
                 }
             }
-
-            if (labels.IsSet && labels.Value == null)
-                throw new ArgumentNullException(nameof(labels), "Property is not nullable for class ControllerWorkflooModelLabel.");
 
             return new ControllerWorkflooModelLabel(labels);
         }
@@ -168,14 +165,14 @@ namespace kiban.sdk.workfloo.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, ControllerWorkflooModelLabel controllerWorkflooModelLabel, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (controllerWorkflooModelLabel.LabelsOption.IsSet && controllerWorkflooModelLabel.Labels == null)
-                throw new ArgumentNullException(nameof(controllerWorkflooModelLabel.Labels), "Property is required for class ControllerWorkflooModelLabel.");
-
             if (controllerWorkflooModelLabel.LabelsOption.IsSet)
-            {
-                writer.WritePropertyName("labels");
-                JsonSerializer.Serialize(writer, controllerWorkflooModelLabel.Labels, jsonSerializerOptions);
-            }
+                if (controllerWorkflooModelLabel.LabelsOption.Value != null)
+                {
+                    writer.WritePropertyName("labels");
+                    JsonSerializer.Serialize(writer, controllerWorkflooModelLabel.Labels, jsonSerializerOptions);
+                }
+                else
+                    writer.WriteNull("labels");
         }
     }
 }

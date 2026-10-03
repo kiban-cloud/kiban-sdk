@@ -137,6 +137,16 @@ SetDecisionTree sets DecisionTree field to given value.
 
 HasDecisionTree returns a boolean if a field has been set.
 
+### SetDecisionTreeNil
+
+`func (o *ControllerWorkflooModelNode) SetDecisionTreeNil(b bool)`
+
+ SetDecisionTreeNil sets the value for DecisionTree to be an explicit nil
+
+### UnsetDecisionTree
+`func (o *ControllerWorkflooModelNode) UnsetDecisionTree()`
+
+UnsetDecisionTree ensures that no value is present for DecisionTree, not even an explicit nil
 ### GetForm
 
 `func (o *ControllerWorkflooModelNode) GetForm() ControllerWorkflooModelForm`

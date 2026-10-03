@@ -143,7 +143,7 @@ namespace kiban.sdk.workfloo.Model
                             idPoolDefinition = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "sceneries":
-                            sceneries = new Option<Dictionary<string, string>?>(JsonSerializer.Deserialize<Dictionary<string, string>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            sceneries = new Option<Dictionary<string, string>?>(JsonSerializer.Deserialize<Dictionary<string, string>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         default:
                             break;
@@ -156,9 +156,6 @@ namespace kiban.sdk.workfloo.Model
 
             if (idPoolDefinition.IsSet && idPoolDefinition.Value == null)
                 throw new ArgumentNullException(nameof(idPoolDefinition), "Property is not nullable for class ControllerPoolModelExecute.");
-
-            if (sceneries.IsSet && sceneries.Value == null)
-                throw new ArgumentNullException(nameof(sceneries), "Property is not nullable for class ControllerPoolModelExecute.");
 
             return new ControllerPoolModelExecute(idPoolDefinition.Value!, sceneries);
         }
@@ -190,16 +187,16 @@ namespace kiban.sdk.workfloo.Model
             if (controllerPoolModelExecute.IdPoolDefinition == null)
                 throw new ArgumentNullException(nameof(controllerPoolModelExecute.IdPoolDefinition), "Property is required for class ControllerPoolModelExecute.");
 
-            if (controllerPoolModelExecute.SceneriesOption.IsSet && controllerPoolModelExecute.Sceneries == null)
-                throw new ArgumentNullException(nameof(controllerPoolModelExecute.Sceneries), "Property is required for class ControllerPoolModelExecute.");
-
             writer.WriteString("idPoolDefinition", controllerPoolModelExecute.IdPoolDefinition);
 
             if (controllerPoolModelExecute.SceneriesOption.IsSet)
-            {
-                writer.WritePropertyName("sceneries");
-                JsonSerializer.Serialize(writer, controllerPoolModelExecute.Sceneries, jsonSerializerOptions);
-            }
+                if (controllerPoolModelExecute.SceneriesOption.Value != null)
+                {
+                    writer.WritePropertyName("sceneries");
+                    JsonSerializer.Serialize(writer, controllerPoolModelExecute.Sceneries, jsonSerializerOptions);
+                }
+                else
+                    writer.WriteNull("sceneries");
         }
     }
 }

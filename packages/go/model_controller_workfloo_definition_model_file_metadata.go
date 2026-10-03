@@ -42,9 +42,9 @@ func NewControllerWorkflooDefinitionModelFileMetadataWithDefaults() *ControllerW
 	return &this
 }
 
-// GetFormats returns the Formats field value if set, zero value otherwise.
+// GetFormats returns the Formats field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ControllerWorkflooDefinitionModelFileMetadata) GetFormats() []string {
-	if o == nil || IsNil(o.Formats) {
+	if o == nil {
 		var ret []string
 		return ret
 	}
@@ -53,6 +53,7 @@ func (o *ControllerWorkflooDefinitionModelFileMetadata) GetFormats() []string {
 
 // GetFormatsOk returns a tuple with the Formats field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *ControllerWorkflooDefinitionModelFileMetadata) GetFormatsOk() ([]string, bool) {
 	if o == nil || IsNil(o.Formats) {
 		return nil, false
@@ -180,7 +181,7 @@ func (o ControllerWorkflooDefinitionModelFileMetadata) MarshalJSON() ([]byte, er
 
 func (o ControllerWorkflooDefinitionModelFileMetadata) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !IsNil(o.Formats) {
+	if o.Formats != nil {
 		toSerialize["formats"] = o.Formats
 	}
 	if !IsNil(o.Max) {

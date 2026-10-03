@@ -4,7 +4,8 @@
 //
 //   1. Segundo server (sandbox): Swagger 2.0 sólo admite un @host, así que la
 //      conversión produce un único server de producción.
-//   2. Header `Link` en el 200 de listWorkfloosV2: swaggo no lo emite.
+//   2. Header `Link` en el 200 de los listados v2: swaggo no lo emite.
+//   3. Arreglos y mapas nullable: el backend Go los manda como null cuando están vacíos.
 //
 // Uso: node scripts/postprocess-spec.mjs <ruta-al-openapi.yaml>
 import { readFileSync, writeFileSync } from 'node:fs';
@@ -28,10 +29,13 @@ doc.servers = [
   },
 ];
 
-// 2. Header Link en el 200 de v2 (historial paginado).
-const v2 = doc.paths?.['/api/v2/workfloo']?.get;
-const ok200 = v2?.responses?.['200'];
-if (ok200) {
+// 2. Header Link en el 200 de los listados v2 (paginación): swaggo no lo emite.
+for (const path of ['/api/v2/workfloo']) {
+  const ok200 = doc.paths?.[path]?.get?.responses?.['200'];
+  if (!ok200) {
+    console.warn(`Aviso: no se encontró el 200 de GET ${path}; no se agregó el header Link.`);
+    continue;
+  }
   ok200.headers = {
     Link: {
       description:
@@ -39,9 +43,23 @@ if (ok200) {
       schema: { type: 'string' },
     },
   };
-} else {
-  console.warn('Aviso: no se encontró el 200 de GET /api/v2/workfloo; no se agregó el header Link.');
+}
+
+// 3. Arreglos y mapas nullable. El backend es Go: un slice o un map nil sin
+//    omitempty se serializa como null (p. ej. "nodes": null en una ejecución
+//    que todavía no tiene nodos, con content=true o en getWorkfloo). Sin esto,
+//    los SDKs que validan (C#) rechazan la respuesta entera por un null.
+let nullables = 0;
+for (const schema of Object.values(doc.components?.schemas || {})) {
+  for (const prop of Object.values(schema.properties || {})) {
+    const isArray = prop.type === 'array';
+    const isMap = prop.type === 'object' && prop.additionalProperties !== undefined;
+    if ((isArray || isMap) && !prop.nullable) {
+      prop.nullable = true;
+      nullables += 1;
+    }
+  }
 }
 
 writeFileSync(file, yaml.dump(doc, { lineWidth: -1, noRefs: true }));
-console.log('postprocess OK: 2 servers (prod + sandbox) + header Link en v2');
+console.log(`postprocess OK: 2 servers (prod + sandbox) + header Link en v2 + ${nullables} arreglos/mapas nullable`);

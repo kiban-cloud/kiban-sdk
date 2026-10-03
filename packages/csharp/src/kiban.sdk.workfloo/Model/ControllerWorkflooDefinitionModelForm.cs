@@ -130,16 +130,13 @@ namespace kiban.sdk.workfloo.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "formFieldSection":
-                            formFieldSection = new Option<List<ControllerWorkflooDefinitionModelFormFieldSection>?>(JsonSerializer.Deserialize<List<ControllerWorkflooDefinitionModelFormFieldSection>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            formFieldSection = new Option<List<ControllerWorkflooDefinitionModelFormFieldSection>?>(JsonSerializer.Deserialize<List<ControllerWorkflooDefinitionModelFormFieldSection>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         default:
                             break;
                     }
                 }
             }
-
-            if (formFieldSection.IsSet && formFieldSection.Value == null)
-                throw new ArgumentNullException(nameof(formFieldSection), "Property is not nullable for class ControllerWorkflooDefinitionModelForm.");
 
             return new ControllerWorkflooDefinitionModelForm(formFieldSection);
         }
@@ -168,14 +165,14 @@ namespace kiban.sdk.workfloo.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, ControllerWorkflooDefinitionModelForm controllerWorkflooDefinitionModelForm, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (controllerWorkflooDefinitionModelForm.FormFieldSectionOption.IsSet && controllerWorkflooDefinitionModelForm.FormFieldSection == null)
-                throw new ArgumentNullException(nameof(controllerWorkflooDefinitionModelForm.FormFieldSection), "Property is required for class ControllerWorkflooDefinitionModelForm.");
-
             if (controllerWorkflooDefinitionModelForm.FormFieldSectionOption.IsSet)
-            {
-                writer.WritePropertyName("formFieldSection");
-                JsonSerializer.Serialize(writer, controllerWorkflooDefinitionModelForm.FormFieldSection, jsonSerializerOptions);
-            }
+                if (controllerWorkflooDefinitionModelForm.FormFieldSectionOption.Value != null)
+                {
+                    writer.WritePropertyName("formFieldSection");
+                    JsonSerializer.Serialize(writer, controllerWorkflooDefinitionModelForm.FormFieldSection, jsonSerializerOptions);
+                }
+                else
+                    writer.WriteNull("formFieldSection");
         }
     }
 }

@@ -50,6 +50,16 @@ SetFormFieldSection sets FormFieldSection field to given value.
 
 HasFormFieldSection returns a boolean if a field has been set.
 
+### SetFormFieldSectionNil
+
+`func (o *ControllerWorkflooDefinitionModelForm) SetFormFieldSectionNil(b bool)`
+
+ SetFormFieldSectionNil sets the value for FormFieldSection to be an explicit nil
+
+### UnsetFormFieldSection
+`func (o *ControllerWorkflooDefinitionModelForm) UnsetFormFieldSection()`
+
+UnsetFormFieldSection ensures that no value is present for FormFieldSection, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

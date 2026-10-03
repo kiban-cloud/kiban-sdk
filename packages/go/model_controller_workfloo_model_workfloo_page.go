@@ -105,9 +105,9 @@ func (o *ControllerWorkflooModelWorkflooPage) SetHasNextPage(v bool) {
 	o.HasNextPage = &v
 }
 
-// GetItems returns the Items field value if set, zero value otherwise.
+// GetItems returns the Items field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ControllerWorkflooModelWorkflooPage) GetItems() []ControllerWorkflooModelWorkfloo {
-	if o == nil || IsNil(o.Items) {
+	if o == nil {
 		var ret []ControllerWorkflooModelWorkfloo
 		return ret
 	}
@@ -116,6 +116,7 @@ func (o *ControllerWorkflooModelWorkflooPage) GetItems() []ControllerWorkflooMod
 
 // GetItemsOk returns a tuple with the Items field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *ControllerWorkflooModelWorkflooPage) GetItemsOk() ([]ControllerWorkflooModelWorkfloo, bool) {
 	if o == nil || IsNil(o.Items) {
 		return nil, false
@@ -153,7 +154,7 @@ func (o ControllerWorkflooModelWorkflooPage) ToMap() (map[string]interface{}, er
 	if !IsNil(o.HasNextPage) {
 		toSerialize["hasNextPage"] = o.HasNextPage
 	}
-	if !IsNil(o.Items) {
+	if o.Items != nil {
 		toSerialize["items"] = o.Items
 	}
 	return toSerialize, nil

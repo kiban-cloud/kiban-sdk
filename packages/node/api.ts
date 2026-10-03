@@ -25,7 +25,7 @@ import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError, operationServerM
 
 export interface ControllerPoolModelExecute {
     'idPoolDefinition': string;
-    'sceneries'?: { [key: string]: string; };
+    'sceneries'?: { [key: string]: string; } | null;
 }
 export interface ControllerPoolModelExecuteResponse {
     'idWorkfloo'?: string;
@@ -36,7 +36,7 @@ export interface ControllerWorkflooDefinitionModelAutoFilledBy {
     'nodeId'?: string;
 }
 export interface ControllerWorkflooDefinitionModelDocument {
-    'documentField'?: Array<ControllerWorkflooDefinitionModelFileDocument>;
+    'documentField'?: Array<ControllerWorkflooDefinitionModelFileDocument> | null;
 }
 export interface ControllerWorkflooDefinitionModelField {
     'fieldMetadata'?: ControllerWorkflooDefinitionModelFieldMetadata;
@@ -46,14 +46,14 @@ export interface ControllerWorkflooDefinitionModelField {
     'required'?: boolean;
     'section'?: string;
     'set'?: ControllerWorkflooDefinitionModelSetData;
-    'showIf'?: Array<ControllerWorkflooDefinitionModelShowIf>;
+    'showIf'?: Array<ControllerWorkflooDefinitionModelShowIf> | null;
 }
 export interface ControllerWorkflooDefinitionModelFieldMetadata {
-    'autoFilledBy'?: Array<ControllerWorkflooDefinitionModelAutoFilledBy>;
+    'autoFilledBy'?: Array<ControllerWorkflooDefinitionModelAutoFilledBy> | null;
     'autofillNodeId'?: string;
     'defaultValue'?: any;
     'html'?: string;
-    'map'?: { [key: string]: string; };
+    'map'?: { [key: string]: string; } | null;
     'max'?: number;
     'maxLength'?: number;
     'maxVal'?: number;
@@ -85,27 +85,27 @@ export interface ControllerWorkflooDefinitionModelFileDocumentSet {
     'required'?: boolean;
 }
 export interface ControllerWorkflooDefinitionModelFileMetadata {
-    'formats'?: Array<string>;
+    'formats'?: Array<string> | null;
     'max'?: number;
     'maxSize'?: number;
     'min'?: number;
 }
 export interface ControllerWorkflooDefinitionModelForm {
-    'formFieldSection'?: Array<ControllerWorkflooDefinitionModelFormFieldSection>;
+    'formFieldSection'?: Array<ControllerWorkflooDefinitionModelFormFieldSection> | null;
 }
 export interface ControllerWorkflooDefinitionModelFormFieldSection {
-    'fields'?: Array<ControllerWorkflooDefinitionModelField>;
+    'fields'?: Array<ControllerWorkflooDefinitionModelField> | null;
     'section'?: string;
 }
 export interface ControllerWorkflooDefinitionModelSetData {
-    'fields'?: Array<ControllerWorkflooDefinitionModelField>;
-    'optionalAt'?: Array<string>;
-    'required'?: Array<string>;
+    'fields'?: Array<ControllerWorkflooDefinitionModelField> | null;
+    'optionalAt'?: Array<string> | null;
+    'required'?: Array<string> | null;
 }
 export interface ControllerWorkflooDefinitionModelSetDataDocument {
-    'files'?: Array<ControllerWorkflooDefinitionModelFileDocumentSet>;
-    'optionalAt'?: Array<string>;
-    'required'?: Array<string>;
+    'files'?: Array<ControllerWorkflooDefinitionModelFileDocumentSet> | null;
+    'optionalAt'?: Array<string> | null;
+    'required'?: Array<string> | null;
 }
 export interface ControllerWorkflooDefinitionModelShow {
     'field'?: string;
@@ -113,8 +113,8 @@ export interface ControllerWorkflooDefinitionModelShow {
 }
 export interface ControllerWorkflooDefinitionModelShowIf {
     'field'?: string;
-    'requiredWithValues'?: Array<string>;
-    'values'?: Array<string>;
+    'requiredWithValues'?: Array<string> | null;
+    'values'?: Array<string> | null;
 }
 export interface ControllerWorkflooModelApi {
     'duration'?: number;
@@ -128,21 +128,21 @@ export interface ControllerWorkflooModelApiData {
 }
 export interface ControllerWorkflooModelApiDataResume {
     'body'?: any;
-    'headers'?: { [key: string]: string; };
+    'headers'?: { [key: string]: string; } | null;
     'httpCode'?: number;
-    'queryParams'?: { [key: string]: string; };
+    'queryParams'?: { [key: string]: string; } | null;
     'url'?: string;
 }
 export interface ControllerWorkflooModelApiHttp {
-    'body'?: Array<number>;
+    'body'?: Array<number> | null;
     'date'?: string;
-    'headers'?: { [key: string]: string; };
+    'headers'?: { [key: string]: string; } | null;
     'httpCode'?: number;
-    'queryParams'?: { [key: string]: string; };
+    'queryParams'?: { [key: string]: string; } | null;
 }
 export interface ControllerWorkflooModelData {
-    'fields'?: Array<{ [key: string]: any; }>;
-    'section'?: { [key: string]: string; };
+    'fields'?: Array<{ [key: string]: any; }> | null;
+    'section'?: { [key: string]: string; } | null;
 }
 export interface ControllerWorkflooModelDecisionTree {
     'message'?: string;
@@ -162,8 +162,8 @@ export interface ControllerWorkflooModelEvent {
 export interface ControllerWorkflooModelExecute {
     'callbackUrl'?: string;
     'callbackXApiKey'?: string;
-    'document'?: { [key: string]: any; };
-    'form'?: { [key: string]: any; };
+    'document'?: { [key: string]: any; } | null;
+    'form'?: { [key: string]: any; } | null;
     'idWorkflooDefinition': string;
     'scenarioId'?: string;
 }
@@ -172,14 +172,14 @@ export interface ControllerWorkflooModelExecuteResponse {
     'idUnykoo'?: number;
 }
 export interface ControllerWorkflooModelFile {
-    'name'?: { [key: string]: string; };
+    'name'?: { [key: string]: string; } | null;
     'value'?: string;
 }
 export interface ControllerWorkflooModelFileResponse {
     'fileBase64'?: string;
 }
 export interface ControllerWorkflooModelForm {
-    'fields'?: Array<ControllerWorkflooModelFormField>;
+    'fields'?: Array<ControllerWorkflooModelFormField> | null;
 }
 export interface ControllerWorkflooModelFormField {
     'id'?: string;
@@ -187,13 +187,13 @@ export interface ControllerWorkflooModelFormField {
     'value'?: string;
 }
 export interface ControllerWorkflooModelFormResume {
-    'fields'?: { [key: string]: any; };
+    'fields'?: { [key: string]: any; } | null;
 }
 export interface ControllerWorkflooModelLabel {
-    'labels'?: Array<string>;
+    'labels'?: Array<string> | null;
 }
 export interface ControllerWorkflooModelLink {
-    'data'?: { [key: string]: any; };
+    'data'?: { [key: string]: any; } | null;
     'id'?: string;
     'key'?: string;
     'service'?: string;
@@ -203,7 +203,7 @@ export interface ControllerWorkflooModelLinkNipStatus {
     'companyName'?: string;
     'countryCode'?: string;
     'email'?: string;
-    'events'?: Array<ControllerWorkflooModelEvent>;
+    'events'?: Array<ControllerWorkflooModelEvent> | null;
     'key'?: string;
     'keyTypeNode'?: string;
     'nipType'?: string;
@@ -215,7 +215,7 @@ export interface ControllerWorkflooModelLinkNipStatus {
     'widget'?: any;
 }
 export interface ControllerWorkflooModelLinkResume {
-    'events'?: Array<ControllerWorkflooModelEvent>;
+    'events'?: Array<ControllerWorkflooModelEvent> | null;
     'key'?: string;
     'phase'?: string;
 }
@@ -251,7 +251,7 @@ export interface ControllerWorkflooModelNode {
      * TODO MOVER
      */
     'createdBy'?: string;
-    'decisionTree'?: Array<ControllerWorkflooModelDecisionTree>;
+    'decisionTree'?: Array<ControllerWorkflooModelDecisionTree> | null;
     'form'?: ControllerWorkflooModelForm;
     'id'?: string;
     'link'?: ControllerWorkflooModelLink;
@@ -276,11 +276,11 @@ export interface ControllerWorkflooModelNodeDetail {
 export interface ControllerWorkflooModelNodeResume {
     'apiData'?: ControllerWorkflooModelApiData;
     'created'?: string;
-    'data'?: Array<ControllerWorkflooModelData>;
-    'decisionTree'?: Array<ControllerWorkflooModelDecisionTree>;
+    'data'?: Array<ControllerWorkflooModelData> | null;
+    'decisionTree'?: Array<ControllerWorkflooModelDecisionTree> | null;
     'detail'?: ControllerWorkflooModelNodeDetail;
-    'documents'?: { [key: string]: ControllerWorkflooModelDocumentsResume; };
-    'files'?: Array<ControllerWorkflooModelFile>;
+    'documents'?: { [key: string]: ControllerWorkflooModelDocumentsResume; } | null;
+    'files'?: Array<ControllerWorkflooModelFile> | null;
     'form'?: ControllerWorkflooModelFormResume;
     'id'?: string;
     'label'?: ControllerWorkflooModelLabel;
@@ -294,7 +294,7 @@ export interface ControllerWorkflooModelNodeResume {
     'timer'?: ControllerWorkflooModelTimer;
     'type'?: string;
     'validation'?: ControllerWorkflooModelValidationResume;
-    'variables'?: Array<ControllerWorkflooModelVariable>;
+    'variables'?: Array<ControllerWorkflooModelVariable> | null;
 }
 export interface ControllerWorkflooModelOtpValidateRequest {
     'token': string;
@@ -316,7 +316,7 @@ export interface ControllerWorkflooModelReviewFieldRequest {
 export interface ControllerWorkflooModelReviewRequest {
     'decision'?: string;
     'reviewerNote'?: string;
-    'reviews'?: Array<ControllerWorkflooModelReviewFieldRequest>;
+    'reviews'?: Array<ControllerWorkflooModelReviewFieldRequest> | null;
 }
 export interface ControllerWorkflooModelReviewResume {
     'fieldId'?: string;
@@ -327,9 +327,9 @@ export interface ControllerWorkflooModelRules {
     'message'?: string;
 }
 export interface ControllerWorkflooModelRuleset {
-    'decision'?: Array<ControllerWorkflooModelRules>;
+    'decision'?: Array<ControllerWorkflooModelRules> | null;
     'exit'?: string;
-    'labels'?: Array<string>;
+    'labels'?: Array<string> | null;
 }
 export interface ControllerWorkflooModelTimer {
     'endWaitDate'?: string;
@@ -347,10 +347,10 @@ export interface ControllerWorkflooModelValidationResume {
     'reviewedAt'?: string;
     'reviewedBy'?: string;
     'reviewerNote'?: string;
-    'reviews'?: Array<ControllerWorkflooModelReviewResume>;
+    'reviews'?: Array<ControllerWorkflooModelReviewResume> | null;
 }
 export interface ControllerWorkflooModelValidationStatus {
-    'fields'?: Array<ControllerWorkflooModelValidationField>;
+    'fields'?: Array<ControllerWorkflooModelValidationField> | null;
     'instruction'?: string;
     'reviewerNote'?: string;
     'state'?: string;
@@ -378,7 +378,7 @@ export interface ControllerWorkflooModelWorkfloo {
     'id'?: string;
     'idUnykoo'?: number;
     'ipOrigin'?: string;
-    'labels'?: Array<string>;
+    'labels'?: Array<string> | null;
     'lastName1'?: string;
     'lastName2'?: string;
     'modifiedAt'?: string;
@@ -388,12 +388,49 @@ export interface ControllerWorkflooModelWorkfloo {
     'rfcPm'?: string;
     'secondName'?: string;
     'status'?: string;
-    'steps'?: Array<ControllerWorkflooModelNode>;
+    'steps'?: Array<ControllerWorkflooModelNode> | null;
+}
+export interface ControllerWorkflooModelWorkflooListItem {
+    'cancelledAt'?: string;
+    'cancelledBy'?: string;
+    'companyName'?: string;
+    /**
+     * Ejecución completa (content=true): lo mismo que GET /api/v1/workfloo/{id}.
+     */
+    'created'?: string;
+    /**
+     * Resumen (content=false).
+     */
+    'createdAt'?: string;
+    'createdBy'?: string;
+    'currentNodeName'?: string;
+    'firstName'?: string;
+    /**
+     * Comunes a las dos formas.
+     */
+    'id'?: string;
+    'idUnykoo'?: number;
+    'ipOrigin'?: string;
+    'labels'?: Array<string> | null;
+    'lastName1'?: string;
+    'lastName2'?: string;
+    'modified'?: string;
+    'modifiedAt'?: string;
+    'name'?: string;
+    'nodes'?: Array<ControllerWorkflooModelNodeResume> | null;
+    'origin'?: string;
+    'rfcPf'?: string;
+    'rfcPm'?: string;
+    'sceneryId'?: string;
+    'sceneryName'?: string;
+    'secondName'?: string;
+    'status'?: string;
+    'steps'?: Array<ControllerWorkflooModelNode> | null;
 }
 export interface ControllerWorkflooModelWorkflooPage {
     'currentPage'?: number;
     'hasNextPage'?: boolean;
-    'items'?: Array<ControllerWorkflooModelWorkfloo>;
+    'items'?: Array<ControllerWorkflooModelWorkfloo> | null;
 }
 export interface ControllerWorkflooModelWorkflooResume {
     'cancelledAt'?: string;
@@ -405,10 +442,10 @@ export interface ControllerWorkflooModelWorkflooResume {
     'id'?: string;
     'idUnykoo'?: number;
     'ipOrigin'?: string;
-    'labels'?: Array<string>;
+    'labels'?: Array<string> | null;
     'modified'?: string;
     'name'?: string;
-    'nodes'?: Array<ControllerWorkflooModelNodeResume>;
+    'nodes'?: Array<ControllerWorkflooModelNodeResume> | null;
     'origin'?: string;
     'sceneryId'?: string;
     'sceneryName'?: string;
@@ -939,19 +976,31 @@ export const WorkflooApiAxiosParamCreator = function (configuration?: Configurat
             };
         },
         /**
-         * Igual que v1 pero devuelve el arreglo de ejecuciones directo, sin envoltorio. La paginación viaja en el header Link. Con format=csv la respuesta es un archivo CSV en lugar de JSON. Cualquier query param adicional no listado aquí se interpreta como filtro de búsqueda sobre el listado (searchableBy).
+         * Devuelve el arreglo de ejecuciones directo, sin envoltorio. La paginación viaja en el header Link. content=true agrega a cada elemento la ejecución completa, con todos sus nodos (la misma forma que getWorkfloo); por defecto es false y llega el resumen. format=CSV devuelve un archivo CSV en lugar de JSON. Los SDKs tipan la respuesta como JSON: para el CSV hay que leer el cuerpo crudo de la respuesta. Cualquier query param adicional no listado aquí se interpreta como filtro de búsqueda sobre el listado (searchableBy).
          * @summary Historial de ejecuciones (v2)
          * @param {number} [page] Número de página, empieza en 1
-         * @param {number} [itemsPerPage] Cantidad de resultados por página
-         * @param {string} [status] Filtra por estado de la ejecución
-         * @param {string} [from] Fecha inicial del rango (RFC3339)
-         * @param {string} [to] Fecha final del rango (RFC3339)
-         * @param {ListWorkfloosV2FormatEnum} [format] Formato de la respuesta
+         * @param {number} [itemsPerPage] Cantidad de resultados por página, entre 1 y 10000
+         * @param {string} [from] Fecha inicial del rango (ISO 8601)
+         * @param {string} [to] Fecha final del rango (ISO 8601)
+         * @param {string} [origin] Origen de la ejecución: KIBAN_CLOUD, API o FRONT
+         * @param {string} [status] Estado de la ejecución: SUCCESS, ERROR o PROGRESS
+         * @param {string} [name] Nombre del workfloo (búsqueda parcial)
+         * @param {string} [id] Id exacto de la ejecución
+         * @param {string} [nodesFormSearchableByRfcPf] RFC de persona física (empieza con, sin distinguir mayúsculas)
+         * @param {string} [nodesFormSearchableByFirstName] Nombre (empieza con, sin distinguir mayúsculas)
+         * @param {string} [nodesFormSearchableBySecondName] Segundo nombre (empieza con, sin distinguir mayúsculas)
+         * @param {string} [nodesFormSearchableByLastName1] Apellido paterno (empieza con, sin distinguir mayúsculas)
+         * @param {string} [nodesFormSearchableByLastName2] Apellido materno (empieza con, sin distinguir mayúsculas)
+         * @param {string} [nodesFormSearchableByRfcPm] RFC de persona moral (empieza con, sin distinguir mayúsculas)
+         * @param {string} [nodesFormSearchableByCompanyName] Razón social (empieza con, sin distinguir mayúsculas)
+         * @param {ListWorkfloosV2FormatEnum} [format] Formato de la respuesta; por defecto JSON
+         * @param {boolean} [content] Agrega la ejecución completa (todos sus nodos) a cada elemento; por defecto false
+         * @param {string} [labels] Etiquetas, separadas por punto y coma
          * @param {boolean} [sandbox] Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listWorkfloosV2: async (page?: number, itemsPerPage?: number, status?: string, from?: string, to?: string, format?: ListWorkfloosV2FormatEnum, sandbox?: boolean, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        listWorkfloosV2: async (page?: number, itemsPerPage?: number, from?: string, to?: string, origin?: string, status?: string, name?: string, id?: string, nodesFormSearchableByRfcPf?: string, nodesFormSearchableByFirstName?: string, nodesFormSearchableBySecondName?: string, nodesFormSearchableByLastName1?: string, nodesFormSearchableByLastName2?: string, nodesFormSearchableByRfcPm?: string, nodesFormSearchableByCompanyName?: string, format?: ListWorkfloosV2FormatEnum, content?: boolean, labels?: string, sandbox?: boolean, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/v2/workfloo`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -975,10 +1024,6 @@ export const WorkflooApiAxiosParamCreator = function (configuration?: Configurat
                 localVarQueryParameter['itemsPerPage'] = itemsPerPage;
             }
 
-            if (status !== undefined) {
-                localVarQueryParameter['status'] = status;
-            }
-
             if (from !== undefined) {
                 localVarQueryParameter['from'] = from;
             }
@@ -987,8 +1032,60 @@ export const WorkflooApiAxiosParamCreator = function (configuration?: Configurat
                 localVarQueryParameter['to'] = to;
             }
 
+            if (origin !== undefined) {
+                localVarQueryParameter['origin'] = origin;
+            }
+
+            if (status !== undefined) {
+                localVarQueryParameter['status'] = status;
+            }
+
+            if (name !== undefined) {
+                localVarQueryParameter['name'] = name;
+            }
+
+            if (id !== undefined) {
+                localVarQueryParameter['_id'] = id;
+            }
+
+            if (nodesFormSearchableByRfcPf !== undefined) {
+                localVarQueryParameter['nodes.form.searchableBy.rfc_pf'] = nodesFormSearchableByRfcPf;
+            }
+
+            if (nodesFormSearchableByFirstName !== undefined) {
+                localVarQueryParameter['nodes.form.searchableBy.first_name'] = nodesFormSearchableByFirstName;
+            }
+
+            if (nodesFormSearchableBySecondName !== undefined) {
+                localVarQueryParameter['nodes.form.searchableBy.second_name'] = nodesFormSearchableBySecondName;
+            }
+
+            if (nodesFormSearchableByLastName1 !== undefined) {
+                localVarQueryParameter['nodes.form.searchableBy.last_name_1'] = nodesFormSearchableByLastName1;
+            }
+
+            if (nodesFormSearchableByLastName2 !== undefined) {
+                localVarQueryParameter['nodes.form.searchableBy.last_name_2'] = nodesFormSearchableByLastName2;
+            }
+
+            if (nodesFormSearchableByRfcPm !== undefined) {
+                localVarQueryParameter['nodes.form.searchableBy.rfc_pm'] = nodesFormSearchableByRfcPm;
+            }
+
+            if (nodesFormSearchableByCompanyName !== undefined) {
+                localVarQueryParameter['nodes.form.searchableBy.company_name'] = nodesFormSearchableByCompanyName;
+            }
+
             if (format !== undefined) {
                 localVarQueryParameter['format'] = format;
+            }
+
+            if (content !== undefined) {
+                localVarQueryParameter['content'] = content;
+            }
+
+            if (labels !== undefined) {
+                localVarQueryParameter['labels'] = labels;
             }
 
             if (sandbox !== undefined) {
@@ -1410,20 +1507,32 @@ export const WorkflooApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * Igual que v1 pero devuelve el arreglo de ejecuciones directo, sin envoltorio. La paginación viaja en el header Link. Con format=csv la respuesta es un archivo CSV en lugar de JSON. Cualquier query param adicional no listado aquí se interpreta como filtro de búsqueda sobre el listado (searchableBy).
+         * Devuelve el arreglo de ejecuciones directo, sin envoltorio. La paginación viaja en el header Link. content=true agrega a cada elemento la ejecución completa, con todos sus nodos (la misma forma que getWorkfloo); por defecto es false y llega el resumen. format=CSV devuelve un archivo CSV en lugar de JSON. Los SDKs tipan la respuesta como JSON: para el CSV hay que leer el cuerpo crudo de la respuesta. Cualquier query param adicional no listado aquí se interpreta como filtro de búsqueda sobre el listado (searchableBy).
          * @summary Historial de ejecuciones (v2)
          * @param {number} [page] Número de página, empieza en 1
-         * @param {number} [itemsPerPage] Cantidad de resultados por página
-         * @param {string} [status] Filtra por estado de la ejecución
-         * @param {string} [from] Fecha inicial del rango (RFC3339)
-         * @param {string} [to] Fecha final del rango (RFC3339)
-         * @param {ListWorkfloosV2FormatEnum} [format] Formato de la respuesta
+         * @param {number} [itemsPerPage] Cantidad de resultados por página, entre 1 y 10000
+         * @param {string} [from] Fecha inicial del rango (ISO 8601)
+         * @param {string} [to] Fecha final del rango (ISO 8601)
+         * @param {string} [origin] Origen de la ejecución: KIBAN_CLOUD, API o FRONT
+         * @param {string} [status] Estado de la ejecución: SUCCESS, ERROR o PROGRESS
+         * @param {string} [name] Nombre del workfloo (búsqueda parcial)
+         * @param {string} [id] Id exacto de la ejecución
+         * @param {string} [nodesFormSearchableByRfcPf] RFC de persona física (empieza con, sin distinguir mayúsculas)
+         * @param {string} [nodesFormSearchableByFirstName] Nombre (empieza con, sin distinguir mayúsculas)
+         * @param {string} [nodesFormSearchableBySecondName] Segundo nombre (empieza con, sin distinguir mayúsculas)
+         * @param {string} [nodesFormSearchableByLastName1] Apellido paterno (empieza con, sin distinguir mayúsculas)
+         * @param {string} [nodesFormSearchableByLastName2] Apellido materno (empieza con, sin distinguir mayúsculas)
+         * @param {string} [nodesFormSearchableByRfcPm] RFC de persona moral (empieza con, sin distinguir mayúsculas)
+         * @param {string} [nodesFormSearchableByCompanyName] Razón social (empieza con, sin distinguir mayúsculas)
+         * @param {ListWorkfloosV2FormatEnum} [format] Formato de la respuesta; por defecto JSON
+         * @param {boolean} [content] Agrega la ejecución completa (todos sus nodos) a cada elemento; por defecto false
+         * @param {string} [labels] Etiquetas, separadas por punto y coma
          * @param {boolean} [sandbox] Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async listWorkfloosV2(page?: number, itemsPerPage?: number, status?: string, from?: string, to?: string, format?: ListWorkfloosV2FormatEnum, sandbox?: boolean, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ControllerWorkflooModelWorkfloo>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.listWorkfloosV2(page, itemsPerPage, status, from, to, format, sandbox, options);
+        async listWorkfloosV2(page?: number, itemsPerPage?: number, from?: string, to?: string, origin?: string, status?: string, name?: string, id?: string, nodesFormSearchableByRfcPf?: string, nodesFormSearchableByFirstName?: string, nodesFormSearchableBySecondName?: string, nodesFormSearchableByLastName1?: string, nodesFormSearchableByLastName2?: string, nodesFormSearchableByRfcPm?: string, nodesFormSearchableByCompanyName?: string, format?: ListWorkfloosV2FormatEnum, content?: boolean, labels?: string, sandbox?: boolean, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ControllerWorkflooModelWorkflooListItem>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listWorkfloosV2(page, itemsPerPage, from, to, origin, status, name, id, nodesFormSearchableByRfcPf, nodesFormSearchableByFirstName, nodesFormSearchableBySecondName, nodesFormSearchableByLastName1, nodesFormSearchableByLastName2, nodesFormSearchableByRfcPm, nodesFormSearchableByCompanyName, format, content, labels, sandbox, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['WorkflooApi.listWorkfloosV2']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -1624,20 +1733,32 @@ export const WorkflooApiFactory = function (configuration?: Configuration, baseP
             return localVarFp.listWorkfloos(page, itemsPerPage, status, from, to, sandbox, options).then((request) => request(axios, basePath));
         },
         /**
-         * Igual que v1 pero devuelve el arreglo de ejecuciones directo, sin envoltorio. La paginación viaja en el header Link. Con format=csv la respuesta es un archivo CSV en lugar de JSON. Cualquier query param adicional no listado aquí se interpreta como filtro de búsqueda sobre el listado (searchableBy).
+         * Devuelve el arreglo de ejecuciones directo, sin envoltorio. La paginación viaja en el header Link. content=true agrega a cada elemento la ejecución completa, con todos sus nodos (la misma forma que getWorkfloo); por defecto es false y llega el resumen. format=CSV devuelve un archivo CSV en lugar de JSON. Los SDKs tipan la respuesta como JSON: para el CSV hay que leer el cuerpo crudo de la respuesta. Cualquier query param adicional no listado aquí se interpreta como filtro de búsqueda sobre el listado (searchableBy).
          * @summary Historial de ejecuciones (v2)
          * @param {number} [page] Número de página, empieza en 1
-         * @param {number} [itemsPerPage] Cantidad de resultados por página
-         * @param {string} [status] Filtra por estado de la ejecución
-         * @param {string} [from] Fecha inicial del rango (RFC3339)
-         * @param {string} [to] Fecha final del rango (RFC3339)
-         * @param {ListWorkfloosV2FormatEnum} [format] Formato de la respuesta
+         * @param {number} [itemsPerPage] Cantidad de resultados por página, entre 1 y 10000
+         * @param {string} [from] Fecha inicial del rango (ISO 8601)
+         * @param {string} [to] Fecha final del rango (ISO 8601)
+         * @param {string} [origin] Origen de la ejecución: KIBAN_CLOUD, API o FRONT
+         * @param {string} [status] Estado de la ejecución: SUCCESS, ERROR o PROGRESS
+         * @param {string} [name] Nombre del workfloo (búsqueda parcial)
+         * @param {string} [id] Id exacto de la ejecución
+         * @param {string} [nodesFormSearchableByRfcPf] RFC de persona física (empieza con, sin distinguir mayúsculas)
+         * @param {string} [nodesFormSearchableByFirstName] Nombre (empieza con, sin distinguir mayúsculas)
+         * @param {string} [nodesFormSearchableBySecondName] Segundo nombre (empieza con, sin distinguir mayúsculas)
+         * @param {string} [nodesFormSearchableByLastName1] Apellido paterno (empieza con, sin distinguir mayúsculas)
+         * @param {string} [nodesFormSearchableByLastName2] Apellido materno (empieza con, sin distinguir mayúsculas)
+         * @param {string} [nodesFormSearchableByRfcPm] RFC de persona moral (empieza con, sin distinguir mayúsculas)
+         * @param {string} [nodesFormSearchableByCompanyName] Razón social (empieza con, sin distinguir mayúsculas)
+         * @param {ListWorkfloosV2FormatEnum} [format] Formato de la respuesta; por defecto JSON
+         * @param {boolean} [content] Agrega la ejecución completa (todos sus nodos) a cada elemento; por defecto false
+         * @param {string} [labels] Etiquetas, separadas por punto y coma
          * @param {boolean} [sandbox] Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listWorkfloosV2(page?: number, itemsPerPage?: number, status?: string, from?: string, to?: string, format?: ListWorkfloosV2FormatEnum, sandbox?: boolean, options?: RawAxiosRequestConfig): AxiosPromise<Array<ControllerWorkflooModelWorkfloo>> {
-            return localVarFp.listWorkfloosV2(page, itemsPerPage, status, from, to, format, sandbox, options).then((request) => request(axios, basePath));
+        listWorkfloosV2(page?: number, itemsPerPage?: number, from?: string, to?: string, origin?: string, status?: string, name?: string, id?: string, nodesFormSearchableByRfcPf?: string, nodesFormSearchableByFirstName?: string, nodesFormSearchableBySecondName?: string, nodesFormSearchableByLastName1?: string, nodesFormSearchableByLastName2?: string, nodesFormSearchableByRfcPm?: string, nodesFormSearchableByCompanyName?: string, format?: ListWorkfloosV2FormatEnum, content?: boolean, labels?: string, sandbox?: boolean, options?: RawAxiosRequestConfig): AxiosPromise<Array<ControllerWorkflooModelWorkflooListItem>> {
+            return localVarFp.listWorkfloosV2(page, itemsPerPage, from, to, origin, status, name, id, nodesFormSearchableByRfcPf, nodesFormSearchableByFirstName, nodesFormSearchableBySecondName, nodesFormSearchableByLastName1, nodesFormSearchableByLastName2, nodesFormSearchableByRfcPm, nodesFormSearchableByCompanyName, format, content, labels, sandbox, options).then((request) => request(axios, basePath));
         },
         /**
          * Reenvía el NIP y devuelve el estado del flujo NIP. El body es opcional (teléfono al que reenviar).
@@ -1823,20 +1944,32 @@ export class WorkflooApi extends BaseAPI {
     }
 
     /**
-     * Igual que v1 pero devuelve el arreglo de ejecuciones directo, sin envoltorio. La paginación viaja en el header Link. Con format=csv la respuesta es un archivo CSV en lugar de JSON. Cualquier query param adicional no listado aquí se interpreta como filtro de búsqueda sobre el listado (searchableBy).
+     * Devuelve el arreglo de ejecuciones directo, sin envoltorio. La paginación viaja en el header Link. content=true agrega a cada elemento la ejecución completa, con todos sus nodos (la misma forma que getWorkfloo); por defecto es false y llega el resumen. format=CSV devuelve un archivo CSV en lugar de JSON. Los SDKs tipan la respuesta como JSON: para el CSV hay que leer el cuerpo crudo de la respuesta. Cualquier query param adicional no listado aquí se interpreta como filtro de búsqueda sobre el listado (searchableBy).
      * @summary Historial de ejecuciones (v2)
      * @param {number} [page] Número de página, empieza en 1
-     * @param {number} [itemsPerPage] Cantidad de resultados por página
-     * @param {string} [status] Filtra por estado de la ejecución
-     * @param {string} [from] Fecha inicial del rango (RFC3339)
-     * @param {string} [to] Fecha final del rango (RFC3339)
-     * @param {ListWorkfloosV2FormatEnum} [format] Formato de la respuesta
+     * @param {number} [itemsPerPage] Cantidad de resultados por página, entre 1 y 10000
+     * @param {string} [from] Fecha inicial del rango (ISO 8601)
+     * @param {string} [to] Fecha final del rango (ISO 8601)
+     * @param {string} [origin] Origen de la ejecución: KIBAN_CLOUD, API o FRONT
+     * @param {string} [status] Estado de la ejecución: SUCCESS, ERROR o PROGRESS
+     * @param {string} [name] Nombre del workfloo (búsqueda parcial)
+     * @param {string} [id] Id exacto de la ejecución
+     * @param {string} [nodesFormSearchableByRfcPf] RFC de persona física (empieza con, sin distinguir mayúsculas)
+     * @param {string} [nodesFormSearchableByFirstName] Nombre (empieza con, sin distinguir mayúsculas)
+     * @param {string} [nodesFormSearchableBySecondName] Segundo nombre (empieza con, sin distinguir mayúsculas)
+     * @param {string} [nodesFormSearchableByLastName1] Apellido paterno (empieza con, sin distinguir mayúsculas)
+     * @param {string} [nodesFormSearchableByLastName2] Apellido materno (empieza con, sin distinguir mayúsculas)
+     * @param {string} [nodesFormSearchableByRfcPm] RFC de persona moral (empieza con, sin distinguir mayúsculas)
+     * @param {string} [nodesFormSearchableByCompanyName] Razón social (empieza con, sin distinguir mayúsculas)
+     * @param {ListWorkfloosV2FormatEnum} [format] Formato de la respuesta; por defecto JSON
+     * @param {boolean} [content] Agrega la ejecución completa (todos sus nodos) a cada elemento; por defecto false
+     * @param {string} [labels] Etiquetas, separadas por punto y coma
      * @param {boolean} [sandbox] Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public listWorkfloosV2(page?: number, itemsPerPage?: number, status?: string, from?: string, to?: string, format?: ListWorkfloosV2FormatEnum, sandbox?: boolean, options?: RawAxiosRequestConfig) {
-        return WorkflooApiFp(this.configuration).listWorkfloosV2(page, itemsPerPage, status, from, to, format, sandbox, options).then((request) => request(this.axios, this.basePath));
+    public listWorkfloosV2(page?: number, itemsPerPage?: number, from?: string, to?: string, origin?: string, status?: string, name?: string, id?: string, nodesFormSearchableByRfcPf?: string, nodesFormSearchableByFirstName?: string, nodesFormSearchableBySecondName?: string, nodesFormSearchableByLastName1?: string, nodesFormSearchableByLastName2?: string, nodesFormSearchableByRfcPm?: string, nodesFormSearchableByCompanyName?: string, format?: ListWorkfloosV2FormatEnum, content?: boolean, labels?: string, sandbox?: boolean, options?: RawAxiosRequestConfig) {
+        return WorkflooApiFp(this.configuration).listWorkfloosV2(page, itemsPerPage, from, to, origin, status, name, id, nodesFormSearchableByRfcPf, nodesFormSearchableByFirstName, nodesFormSearchableBySecondName, nodesFormSearchableByLastName1, nodesFormSearchableByLastName2, nodesFormSearchableByRfcPm, nodesFormSearchableByCompanyName, format, content, labels, sandbox, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1919,8 +2052,8 @@ export class WorkflooApi extends BaseAPI {
 }
 
 export const ListWorkfloosV2FormatEnum = {
-    Json: 'json',
-    Csv: 'csv',
+    Json: 'JSON',
+    Csv: 'CSV',
 } as const;
 export type ListWorkfloosV2FormatEnum = typeof ListWorkfloosV2FormatEnum[keyof typeof ListWorkfloosV2FormatEnum];
 

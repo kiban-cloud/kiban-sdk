@@ -694,8 +694,9 @@ paths:
   /api/v2/workfloo:
     get:
       description: |-
-        Igual que v1 pero devuelve el arreglo de ejecuciones directo, sin envoltorio. La paginación viaja en el header Link.
-        Con format=csv la respuesta es un archivo CSV en lugar de JSON.
+        Devuelve el arreglo de ejecuciones directo, sin envoltorio. La paginación viaja en el header Link.
+        content=true agrega a cada elemento la ejecución completa, con todos sus nodos (la misma forma que getWorkfloo); por defecto es false y llega el resumen.
+        format=CSV devuelve un archivo CSV en lugar de JSON. Los SDKs tipan la respuesta como JSON: para el CSV hay que leer el cuerpo crudo de la respuesta.
         Cualquier query param adicional no listado aquí se interpreta como filtro de búsqueda sobre el listado (searchableBy).
       operationId: listWorkfloosV2
       parameters:
@@ -704,34 +705,94 @@ paths:
           name: page
           schema:
             type: integer
-        - description: Cantidad de resultados por página
+        - description: Cantidad de resultados por página, entre 1 y 10000
           in: query
           name: itemsPerPage
           schema:
             type: integer
-        - description: Filtra por estado de la ejecución
-          in: query
-          name: status
-          schema:
-            type: string
-        - description: Fecha inicial del rango (RFC3339)
+        - description: Fecha inicial del rango (ISO 8601)
           in: query
           name: from
           schema:
             type: string
-        - description: Fecha final del rango (RFC3339)
+        - description: Fecha final del rango (ISO 8601)
           in: query
           name: to
           schema:
             type: string
-        - description: Formato de la respuesta
+        - description: 'Origen de la ejecución: KIBAN_CLOUD, API o FRONT'
+          in: query
+          name: origin
+          schema:
+            type: string
+        - description: 'Estado de la ejecución: SUCCESS, ERROR o PROGRESS'
+          in: query
+          name: status
+          schema:
+            type: string
+        - description: Nombre del workfloo (búsqueda parcial)
+          in: query
+          name: name
+          schema:
+            type: string
+        - description: Id exacto de la ejecución
+          in: query
+          name: _id
+          schema:
+            type: string
+        - description: RFC de persona física (empieza con, sin distinguir mayúsculas)
+          in: query
+          name: nodes.form.searchableBy.rfc_pf
+          schema:
+            type: string
+        - description: Nombre (empieza con, sin distinguir mayúsculas)
+          in: query
+          name: nodes.form.searchableBy.first_name
+          schema:
+            type: string
+        - description: Segundo nombre (empieza con, sin distinguir mayúsculas)
+          in: query
+          name: nodes.form.searchableBy.second_name
+          schema:
+            type: string
+        - description: Apellido paterno (empieza con, sin distinguir mayúsculas)
+          in: query
+          name: nodes.form.searchableBy.last_name_1
+          schema:
+            type: string
+        - description: Apellido materno (empieza con, sin distinguir mayúsculas)
+          in: query
+          name: nodes.form.searchableBy.last_name_2
+          schema:
+            type: string
+        - description: RFC de persona moral (empieza con, sin distinguir mayúsculas)
+          in: query
+          name: nodes.form.searchableBy.rfc_pm
+          schema:
+            type: string
+        - description: Razón social (empieza con, sin distinguir mayúsculas)
+          in: query
+          name: nodes.form.searchableBy.company_name
+          schema:
+            type: string
+        - description: Formato de la respuesta; por defecto JSON
           in: query
           name: format
           schema:
             type: string
             enum:
-              - json
-              - csv
+              - JSON
+              - CSV
+        - description: Agrega la ejecución completa (todos sus nodos) a cada elemento; por defecto false
+          in: query
+          name: content
+          schema:
+            type: boolean
+        - description: Etiquetas, separadas por punto y coma
+          in: query
+          name: labels
+          schema:
+            type: string
         - description: Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
           in: query
           name: sandbox
@@ -744,12 +805,12 @@ paths:
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/controller_workfloo_model.Workfloo'
+                  $ref: '#/components/schemas/controller_workfloo_model.WorkflooListItem'
                 type: array
             text/csv:
               schema:
                 items:
-                  $ref: '#/components/schemas/controller_workfloo_model.Workfloo'
+                  $ref: '#/components/schemas/controller_workfloo_model.WorkflooListItem'
                 type: array
           headers:
             Link:
@@ -794,6 +855,7 @@ components:
           additionalProperties:
             type: string
           type: object
+          nullable: true
       required:
         - idPoolDefinition
       type: object
@@ -817,6 +879,7 @@ components:
           items:
             $ref: '#/components/schemas/controller_workfloo_definition_model.FileDocument'
           type: array
+          nullable: true
       type: object
     controller_workfloo_definition_model.Field:
       properties:
@@ -838,6 +901,7 @@ components:
           items:
             $ref: '#/components/schemas/controller_workfloo_definition_model.ShowIf'
           type: array
+          nullable: true
       type: object
     controller_workfloo_definition_model.FieldMetadata:
       properties:
@@ -845,6 +909,7 @@ components:
           items:
             $ref: '#/components/schemas/controller_workfloo_definition_model.AutoFilledBy'
           type: array
+          nullable: true
         autofillNodeId:
           type: string
         defaultValue: {}
@@ -854,6 +919,7 @@ components:
           additionalProperties:
             type: string
           type: object
+          nullable: true
         max:
           type: integer
         maxLength:
@@ -914,6 +980,7 @@ components:
           items:
             type: string
           type: array
+          nullable: true
         max:
           type: integer
         maxSize:
@@ -927,6 +994,7 @@ components:
           items:
             $ref: '#/components/schemas/controller_workfloo_definition_model.FormFieldSection'
           type: array
+          nullable: true
       type: object
     controller_workfloo_definition_model.FormFieldSection:
       properties:
@@ -934,6 +1002,7 @@ components:
           items:
             $ref: '#/components/schemas/controller_workfloo_definition_model.Field'
           type: array
+          nullable: true
         section:
           type: string
       type: object
@@ -943,14 +1012,17 @@ components:
           items:
             $ref: '#/components/schemas/controller_workfloo_definition_model.Field'
           type: array
+          nullable: true
         optionalAt:
           items:
             type: string
           type: array
+          nullable: true
         required:
           items:
             type: string
           type: array
+          nullable: true
       type: object
     controller_workfloo_definition_model.SetDataDocument:
       properties:
@@ -958,14 +1030,17 @@ components:
           items:
             $ref: '#/components/schemas/controller_workfloo_definition_model.FileDocumentSet'
           type: array
+          nullable: true
         optionalAt:
           items:
             type: string
           type: array
+          nullable: true
         required:
           items:
             type: string
           type: array
+          nullable: true
       type: object
     controller_workfloo_definition_model.Show:
       properties:
@@ -982,10 +1057,12 @@ components:
           items:
             type: string
           type: array
+          nullable: true
         values:
           items:
             type: string
           type: array
+          nullable: true
       type: object
     controller_workfloo_model.Api:
       properties:
@@ -1012,12 +1089,14 @@ components:
           additionalProperties:
             type: string
           type: object
+          nullable: true
         httpCode:
           type: integer
         queryParams:
           additionalProperties:
             type: string
           type: object
+          nullable: true
         url:
           type: string
       type: object
@@ -1027,18 +1106,21 @@ components:
           items:
             type: integer
           type: array
+          nullable: true
         date:
           type: string
         headers:
           additionalProperties:
             type: string
           type: object
+          nullable: true
         httpCode:
           type: integer
         queryParams:
           additionalProperties:
             type: string
           type: object
+          nullable: true
       type: object
     controller_workfloo_model.Data:
       properties:
@@ -1047,10 +1129,12 @@ components:
             additionalProperties: true
             type: object
           type: array
+          nullable: true
         section:
           additionalProperties:
             type: string
           type: object
+          nullable: true
       type: object
     controller_workfloo_model.DecisionTree:
       properties:
@@ -1087,9 +1171,11 @@ components:
         document:
           additionalProperties: true
           type: object
+          nullable: true
         form:
           additionalProperties: true
           type: object
+          nullable: true
         idWorkflooDefinition:
           type: string
         scenarioId:
@@ -1110,6 +1196,7 @@ components:
           additionalProperties:
             type: string
           type: object
+          nullable: true
         value:
           type: string
       type: object
@@ -1124,6 +1211,7 @@ components:
           items:
             $ref: '#/components/schemas/controller_workfloo_model.FormField'
           type: array
+          nullable: true
       type: object
     controller_workfloo_model.FormField:
       properties:
@@ -1139,6 +1227,7 @@ components:
         fields:
           additionalProperties: true
           type: object
+          nullable: true
       type: object
     controller_workfloo_model.Label:
       properties:
@@ -1146,12 +1235,14 @@ components:
           items:
             type: string
           type: array
+          nullable: true
       type: object
     controller_workfloo_model.Link:
       properties:
         data:
           additionalProperties: true
           type: object
+          nullable: true
         id:
           type: string
         key:
@@ -1173,6 +1264,7 @@ components:
           items:
             $ref: '#/components/schemas/controller_workfloo_model.Event'
           type: array
+          nullable: true
         key:
           type: string
         keyTypeNode:
@@ -1197,6 +1289,7 @@ components:
           items:
             $ref: '#/components/schemas/controller_workfloo_model.Event'
           type: array
+          nullable: true
         key:
           type: string
         phase:
@@ -1261,6 +1354,7 @@ components:
           items:
             $ref: '#/components/schemas/controller_workfloo_model.DecisionTree'
           type: array
+          nullable: true
         form:
           $ref: '#/components/schemas/controller_workfloo_model.Form'
         id:
@@ -1311,20 +1405,24 @@ components:
           items:
             $ref: '#/components/schemas/controller_workfloo_model.Data'
           type: array
+          nullable: true
         decisionTree:
           items:
             $ref: '#/components/schemas/controller_workfloo_model.DecisionTree'
           type: array
+          nullable: true
         detail:
           $ref: '#/components/schemas/controller_workfloo_model.NodeDetail'
         documents:
           additionalProperties:
             $ref: '#/components/schemas/controller_workfloo_model.DocumentsResume'
           type: object
+          nullable: true
         files:
           items:
             $ref: '#/components/schemas/controller_workfloo_model.File'
           type: array
+          nullable: true
         form:
           $ref: '#/components/schemas/controller_workfloo_model.FormResume'
         id:
@@ -1353,6 +1451,7 @@ components:
           items:
             $ref: '#/components/schemas/controller_workfloo_model.Variable'
           type: array
+          nullable: true
       type: object
     controller_workfloo_model.OtpValidateRequest:
       properties:
@@ -1396,6 +1495,7 @@ components:
           items:
             $ref: '#/components/schemas/controller_workfloo_model.ReviewFieldRequest'
           type: array
+          nullable: true
       type: object
     controller_workfloo_model.ReviewResume:
       properties:
@@ -1417,12 +1517,14 @@ components:
           items:
             $ref: '#/components/schemas/controller_workfloo_model.Rules'
           type: array
+          nullable: true
         exit:
           type: string
         labels:
           items:
             type: string
           type: array
+          nullable: true
       type: object
     controller_workfloo_model.Timer:
       properties:
@@ -1457,6 +1559,7 @@ components:
           items:
             $ref: '#/components/schemas/controller_workfloo_model.ReviewResume'
           type: array
+          nullable: true
       type: object
     controller_workfloo_model.ValidationStatus:
       properties:
@@ -1464,6 +1567,7 @@ components:
           items:
             $ref: '#/components/schemas/controller_workfloo_model.ValidationField'
           type: array
+          nullable: true
         instruction:
           type: string
         reviewerNote:
@@ -1517,6 +1621,7 @@ components:
           items:
             type: string
           type: array
+          nullable: true
         lastName1:
           type: string
         lastName2:
@@ -1539,6 +1644,74 @@ components:
           items:
             $ref: '#/components/schemas/controller_workfloo_model.Node'
           type: array
+          nullable: true
+      type: object
+    controller_workfloo_model.WorkflooListItem:
+      properties:
+        cancelledAt:
+          type: string
+        cancelledBy:
+          type: string
+        companyName:
+          type: string
+        created:
+          description: 'Ejecución completa (content=true): lo mismo que GET /api/v1/workfloo/{id}.'
+          type: string
+        createdAt:
+          description: Resumen (content=false).
+          type: string
+        createdBy:
+          type: string
+        currentNodeName:
+          type: string
+        firstName:
+          type: string
+        id:
+          description: Comunes a las dos formas.
+          type: string
+        idUnykoo:
+          type: integer
+        ipOrigin:
+          type: string
+        labels:
+          items:
+            type: string
+          type: array
+          nullable: true
+        lastName1:
+          type: string
+        lastName2:
+          type: string
+        modified:
+          type: string
+        modifiedAt:
+          type: string
+        name:
+          type: string
+        nodes:
+          items:
+            $ref: '#/components/schemas/controller_workfloo_model.NodeResume'
+          type: array
+          nullable: true
+        origin:
+          type: string
+        rfcPf:
+          type: string
+        rfcPm:
+          type: string
+        sceneryId:
+          type: string
+        sceneryName:
+          type: string
+        secondName:
+          type: string
+        status:
+          type: string
+        steps:
+          items:
+            $ref: '#/components/schemas/controller_workfloo_model.Node'
+          type: array
+          nullable: true
       type: object
     controller_workfloo_model.WorkflooPage:
       properties:
@@ -1550,6 +1723,7 @@ components:
           items:
             $ref: '#/components/schemas/controller_workfloo_model.Workfloo'
           type: array
+          nullable: true
       type: object
     controller_workfloo_model.WorkflooResume:
       properties:
@@ -1576,6 +1750,7 @@ components:
           items:
             type: string
           type: array
+          nullable: true
         modified:
           type: string
         name:
@@ -1584,6 +1759,7 @@ components:
           items:
             $ref: '#/components/schemas/controller_workfloo_model.NodeResume'
           type: array
+          nullable: true
         origin:
           type: string
         sceneryId:

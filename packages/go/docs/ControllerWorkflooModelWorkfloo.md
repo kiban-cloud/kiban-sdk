@@ -268,6 +268,16 @@ SetLabels sets Labels field to given value.
 
 HasLabels returns a boolean if a field has been set.
 
+### SetLabelsNil
+
+`func (o *ControllerWorkflooModelWorkfloo) SetLabelsNil(b bool)`
+
+ SetLabelsNil sets the value for Labels to be an explicit nil
+
+### UnsetLabels
+`func (o *ControllerWorkflooModelWorkfloo) UnsetLabels()`
+
+UnsetLabels ensures that no value is present for Labels, not even an explicit nil
 ### GetLastName1
 
 `func (o *ControllerWorkflooModelWorkfloo) GetLastName1() string`
@@ -518,6 +528,16 @@ SetSteps sets Steps field to given value.
 
 HasSteps returns a boolean if a field has been set.
 
+### SetStepsNil
+
+`func (o *ControllerWorkflooModelWorkfloo) SetStepsNil(b bool)`
+
+ SetStepsNil sets the value for Steps to be an explicit nil
+
+### UnsetSteps
+`func (o *ControllerWorkflooModelWorkfloo) UnsetSteps()`
+
+UnsetSteps ensures that no value is present for Steps, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

@@ -232,6 +232,16 @@ SetShowIf sets ShowIf field to given value.
 
 HasShowIf returns a boolean if a field has been set.
 
+### SetShowIfNil
+
+`func (o *ControllerWorkflooDefinitionModelField) SetShowIfNil(b bool)`
+
+ SetShowIfNil sets the value for ShowIf to be an explicit nil
+
+### UnsetShowIf
+`func (o *ControllerWorkflooDefinitionModelField) UnsetShowIf()`
+
+UnsetShowIf ensures that no value is present for ShowIf, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

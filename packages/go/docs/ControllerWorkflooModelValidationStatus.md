@@ -53,6 +53,16 @@ SetFields sets Fields field to given value.
 
 HasFields returns a boolean if a field has been set.
 
+### SetFieldsNil
+
+`func (o *ControllerWorkflooModelValidationStatus) SetFieldsNil(b bool)`
+
+ SetFieldsNil sets the value for Fields to be an explicit nil
+
+### UnsetFields
+`func (o *ControllerWorkflooModelValidationStatus) UnsetFields()`
+
+UnsetFields ensures that no value is present for Fields, not even an explicit nil
 ### GetInstruction
 
 `func (o *ControllerWorkflooModelValidationStatus) GetInstruction() string`

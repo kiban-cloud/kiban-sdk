@@ -26,6 +26,7 @@ import java.util.List;
 import kiban.sdk.workfloo.model.ControllerWorkflooDefinitionModelFieldMetadata;
 import kiban.sdk.workfloo.model.ControllerWorkflooDefinitionModelSetData;
 import kiban.sdk.workfloo.model.ControllerWorkflooDefinitionModelShowIf;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -53,7 +54,7 @@ import kiban.sdk.workfloo.JSON;
 /**
  * ControllerWorkflooDefinitionModelField
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-10-02T10:13:43.960045-06:00[America/Mexico_City]", comments = "Generator version: 7.24.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0")
 public class ControllerWorkflooDefinitionModelField {
   public static final String SERIALIZED_NAME_FIELD_METADATA = "fieldMetadata";
   @SerializedName(SERIALIZED_NAME_FIELD_METADATA)
@@ -93,7 +94,7 @@ public class ControllerWorkflooDefinitionModelField {
   public static final String SERIALIZED_NAME_SHOW_IF = "showIf";
   @SerializedName(SERIALIZED_NAME_SHOW_IF)
   @javax.annotation.Nullable
-  private List<ControllerWorkflooDefinitionModelShowIf> showIf = new ArrayList<>();
+  private List<ControllerWorkflooDefinitionModelShowIf> showIf;
 
   public ControllerWorkflooDefinitionModelField() {
   }
@@ -278,9 +279,20 @@ public class ControllerWorkflooDefinitionModelField {
         Objects.equals(this.showIf, controllerWorkflooDefinitionModelField.showIf);
   }
 
+  private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
+    return a == b || (a != null && b != null && a.isPresent() && b.isPresent() && Objects.deepEquals(a.get(), b.get()));
+  }
+
   @Override
   public int hashCode() {
     return Objects.hash(fieldMetadata, id, name, predefined, required, section, set, showIf);
+  }
+
+  private static <T> int hashCodeNullable(JsonNullable<T> a) {
+    if (a == null) {
+      return 1;
+    }
+    return a.isPresent() ? Arrays.deepHashCode(new Object[]{a.get()}) : 31;
   }
 
   @Override

@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -50,7 +51,7 @@ import kiban.sdk.workfloo.JSON;
 /**
  * ControllerPoolModelExecute
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-10-02T10:13:43.960045-06:00[America/Mexico_City]", comments = "Generator version: 7.24.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0")
 public class ControllerPoolModelExecute {
   public static final String SERIALIZED_NAME_ID_POOL_DEFINITION = "idPoolDefinition";
   @SerializedName(SERIALIZED_NAME_ID_POOL_DEFINITION)
@@ -60,7 +61,7 @@ public class ControllerPoolModelExecute {
   public static final String SERIALIZED_NAME_SCENERIES = "sceneries";
   @SerializedName(SERIALIZED_NAME_SCENERIES)
   @javax.annotation.Nullable
-  private Map<String, String> sceneries = new HashMap<>();
+  private Map<String, String> sceneries;
 
   public ControllerPoolModelExecute() {
   }
@@ -125,9 +126,20 @@ public class ControllerPoolModelExecute {
         Objects.equals(this.sceneries, controllerPoolModelExecute.sceneries);
   }
 
+  private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
+    return a == b || (a != null && b != null && a.isPresent() && b.isPresent() && Objects.deepEquals(a.get(), b.get()));
+  }
+
   @Override
   public int hashCode() {
     return Objects.hash(idPoolDefinition, sceneries);
+  }
+
+  private static <T> int hashCodeNullable(JsonNullable<T> a) {
+    if (a == null) {
+      return 1;
+    }
+    return a.isPresent() ? Arrays.deepHashCode(new Object[]{a.get()}) : 31;
   }
 
   @Override

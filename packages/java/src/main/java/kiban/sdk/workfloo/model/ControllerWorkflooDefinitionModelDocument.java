@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import kiban.sdk.workfloo.model.ControllerWorkflooDefinitionModelFileDocument;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -51,12 +52,12 @@ import kiban.sdk.workfloo.JSON;
 /**
  * ControllerWorkflooDefinitionModelDocument
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-10-02T10:13:43.960045-06:00[America/Mexico_City]", comments = "Generator version: 7.24.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0")
 public class ControllerWorkflooDefinitionModelDocument {
   public static final String SERIALIZED_NAME_DOCUMENT_FIELD = "documentField";
   @SerializedName(SERIALIZED_NAME_DOCUMENT_FIELD)
   @javax.annotation.Nullable
-  private List<ControllerWorkflooDefinitionModelFileDocument> documentField = new ArrayList<>();
+  private List<ControllerWorkflooDefinitionModelFileDocument> documentField;
 
   public ControllerWorkflooDefinitionModelDocument() {
   }
@@ -101,9 +102,20 @@ public class ControllerWorkflooDefinitionModelDocument {
     return Objects.equals(this.documentField, controllerWorkflooDefinitionModelDocument.documentField);
   }
 
+  private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
+    return a == b || (a != null && b != null && a.isPresent() && b.isPresent() && Objects.deepEquals(a.get(), b.get()));
+  }
+
   @Override
   public int hashCode() {
     return Objects.hash(documentField);
+  }
+
+  private static <T> int hashCodeNullable(JsonNullable<T> a) {
+    if (a == null) {
+      return 1;
+    }
+    return a.isPresent() ? Arrays.deepHashCode(new Object[]{a.get()}) : 31;
   }
 
   @Override

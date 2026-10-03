@@ -79,6 +79,16 @@ class ControllerWorkflooModelRuleset(BaseModel):
                 if _item_decision:
                     _items.append(_item_decision.to_dict())
             _dict['decision'] = _items
+        # set to None if decision (nullable) is None
+        # and model_fields_set contains the field
+        if self.decision is None and "decision" in self.model_fields_set:
+            _dict['decision'] = None
+
+        # set to None if labels (nullable) is None
+        # and model_fields_set contains the field
+        if self.labels is None and "labels" in self.model_fields_set:
+            _dict['labels'] = None
+
         return _dict
 
     @classmethod

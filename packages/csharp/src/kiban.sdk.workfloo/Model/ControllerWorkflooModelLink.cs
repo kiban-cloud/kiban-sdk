@@ -198,7 +198,7 @@ namespace kiban.sdk.workfloo.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "data":
-                            data = new Option<Dictionary<string, Object>?>(JsonSerializer.Deserialize<Dictionary<string, Object>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            data = new Option<Dictionary<string, Object>?>(JsonSerializer.Deserialize<Dictionary<string, Object>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "id":
                             id = new Option<string?>(utf8JsonReader.GetString()!);
@@ -217,9 +217,6 @@ namespace kiban.sdk.workfloo.Model
                     }
                 }
             }
-
-            if (data.IsSet && data.Value == null)
-                throw new ArgumentNullException(nameof(data), "Property is not nullable for class ControllerWorkflooModelLink.");
 
             if (id.IsSet && id.Value == null)
                 throw new ArgumentNullException(nameof(id), "Property is not nullable for class ControllerWorkflooModelLink.");
@@ -260,9 +257,6 @@ namespace kiban.sdk.workfloo.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, ControllerWorkflooModelLink controllerWorkflooModelLink, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (controllerWorkflooModelLink.DataOption.IsSet && controllerWorkflooModelLink.Data == null)
-                throw new ArgumentNullException(nameof(controllerWorkflooModelLink.Data), "Property is required for class ControllerWorkflooModelLink.");
-
             if (controllerWorkflooModelLink.IdOption.IsSet && controllerWorkflooModelLink.Id == null)
                 throw new ArgumentNullException(nameof(controllerWorkflooModelLink.Id), "Property is required for class ControllerWorkflooModelLink.");
 
@@ -276,10 +270,13 @@ namespace kiban.sdk.workfloo.Model
                 throw new ArgumentNullException(nameof(controllerWorkflooModelLink.SubService), "Property is required for class ControllerWorkflooModelLink.");
 
             if (controllerWorkflooModelLink.DataOption.IsSet)
-            {
-                writer.WritePropertyName("data");
-                JsonSerializer.Serialize(writer, controllerWorkflooModelLink.Data, jsonSerializerOptions);
-            }
+                if (controllerWorkflooModelLink.DataOption.Value != null)
+                {
+                    writer.WritePropertyName("data");
+                    JsonSerializer.Serialize(writer, controllerWorkflooModelLink.Data, jsonSerializerOptions);
+                }
+                else
+                    writer.WriteNull("data");
             if (controllerWorkflooModelLink.IdOption.IsSet)
                 writer.WriteString("id", controllerWorkflooModelLink.Id);
 

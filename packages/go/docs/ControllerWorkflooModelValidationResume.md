@@ -154,6 +154,16 @@ SetReviews sets Reviews field to given value.
 
 HasReviews returns a boolean if a field has been set.
 
+### SetReviewsNil
+
+`func (o *ControllerWorkflooModelValidationResume) SetReviewsNil(b bool)`
+
+ SetReviewsNil sets the value for Reviews to be an explicit nil
+
+### UnsetReviews
+`func (o *ControllerWorkflooModelValidationResume) UnsetReviews()`
+
+UnsetReviews ensures that no value is present for Reviews, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

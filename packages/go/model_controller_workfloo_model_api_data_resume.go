@@ -20,9 +20,9 @@ var _ MappedNullable = &ControllerWorkflooModelApiDataResume{}
 // ControllerWorkflooModelApiDataResume struct for ControllerWorkflooModelApiDataResume
 type ControllerWorkflooModelApiDataResume struct {
 	Body interface{} `json:"body,omitempty"`
-	Headers *map[string]string `json:"headers,omitempty"`
+	Headers map[string]string `json:"headers,omitempty"`
 	HttpCode *int32 `json:"httpCode,omitempty"`
-	QueryParams *map[string]string `json:"queryParams,omitempty"`
+	QueryParams map[string]string `json:"queryParams,omitempty"`
 	Url *string `json:"url,omitempty"`
 }
 
@@ -76,22 +76,23 @@ func (o *ControllerWorkflooModelApiDataResume) SetBody(v interface{}) {
 	o.Body = v
 }
 
-// GetHeaders returns the Headers field value if set, zero value otherwise.
+// GetHeaders returns the Headers field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ControllerWorkflooModelApiDataResume) GetHeaders() map[string]string {
-	if o == nil || IsNil(o.Headers) {
+	if o == nil {
 		var ret map[string]string
 		return ret
 	}
-	return *o.Headers
+	return o.Headers
 }
 
 // GetHeadersOk returns a tuple with the Headers field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *ControllerWorkflooModelApiDataResume) GetHeadersOk() (*map[string]string, bool) {
 	if o == nil || IsNil(o.Headers) {
 		return nil, false
 	}
-	return o.Headers, true
+	return &o.Headers, true
 }
 
 // HasHeaders returns a boolean if a field has been set.
@@ -105,7 +106,7 @@ func (o *ControllerWorkflooModelApiDataResume) HasHeaders() bool {
 
 // SetHeaders gets a reference to the given map[string]string and assigns it to the Headers field.
 func (o *ControllerWorkflooModelApiDataResume) SetHeaders(v map[string]string) {
-	o.Headers = &v
+	o.Headers = v
 }
 
 // GetHttpCode returns the HttpCode field value if set, zero value otherwise.
@@ -140,22 +141,23 @@ func (o *ControllerWorkflooModelApiDataResume) SetHttpCode(v int32) {
 	o.HttpCode = &v
 }
 
-// GetQueryParams returns the QueryParams field value if set, zero value otherwise.
+// GetQueryParams returns the QueryParams field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ControllerWorkflooModelApiDataResume) GetQueryParams() map[string]string {
-	if o == nil || IsNil(o.QueryParams) {
+	if o == nil {
 		var ret map[string]string
 		return ret
 	}
-	return *o.QueryParams
+	return o.QueryParams
 }
 
 // GetQueryParamsOk returns a tuple with the QueryParams field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *ControllerWorkflooModelApiDataResume) GetQueryParamsOk() (*map[string]string, bool) {
 	if o == nil || IsNil(o.QueryParams) {
 		return nil, false
 	}
-	return o.QueryParams, true
+	return &o.QueryParams, true
 }
 
 // HasQueryParams returns a boolean if a field has been set.
@@ -169,7 +171,7 @@ func (o *ControllerWorkflooModelApiDataResume) HasQueryParams() bool {
 
 // SetQueryParams gets a reference to the given map[string]string and assigns it to the QueryParams field.
 func (o *ControllerWorkflooModelApiDataResume) SetQueryParams(v map[string]string) {
-	o.QueryParams = &v
+	o.QueryParams = v
 }
 
 // GetUrl returns the Url field value if set, zero value otherwise.
@@ -217,13 +219,13 @@ func (o ControllerWorkflooModelApiDataResume) ToMap() (map[string]interface{}, e
 	if o.Body != nil {
 		toSerialize["body"] = o.Body
 	}
-	if !IsNil(o.Headers) {
+	if o.Headers != nil {
 		toSerialize["headers"] = o.Headers
 	}
 	if !IsNil(o.HttpCode) {
 		toSerialize["httpCode"] = o.HttpCode
 	}
-	if !IsNil(o.QueryParams) {
+	if o.QueryParams != nil {
 		toSerialize["queryParams"] = o.QueryParams
 	}
 	if !IsNil(o.Url) {

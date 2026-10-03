@@ -270,9 +270,9 @@ func (o *ControllerWorkflooDefinitionModelField) SetSet(v ControllerWorkflooDefi
 	o.Set = &v
 }
 
-// GetShowIf returns the ShowIf field value if set, zero value otherwise.
+// GetShowIf returns the ShowIf field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ControllerWorkflooDefinitionModelField) GetShowIf() []ControllerWorkflooDefinitionModelShowIf {
-	if o == nil || IsNil(o.ShowIf) {
+	if o == nil {
 		var ret []ControllerWorkflooDefinitionModelShowIf
 		return ret
 	}
@@ -281,6 +281,7 @@ func (o *ControllerWorkflooDefinitionModelField) GetShowIf() []ControllerWorkflo
 
 // GetShowIfOk returns a tuple with the ShowIf field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *ControllerWorkflooDefinitionModelField) GetShowIfOk() ([]ControllerWorkflooDefinitionModelShowIf, bool) {
 	if o == nil || IsNil(o.ShowIf) {
 		return nil, false
@@ -333,7 +334,7 @@ func (o ControllerWorkflooDefinitionModelField) ToMap() (map[string]interface{},
 	if !IsNil(o.Set) {
 		toSerialize["set"] = o.Set
 	}
-	if !IsNil(o.ShowIf) {
+	if o.ShowIf != nil {
 		toSerialize["showIf"] = o.ShowIf
 	}
 	return toSerialize, nil

@@ -368,7 +368,7 @@ namespace kiban.sdk.workfloo.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "autoFilledBy":
-                            autoFilledBy = new Option<List<ControllerWorkflooDefinitionModelAutoFilledBy>?>(JsonSerializer.Deserialize<List<ControllerWorkflooDefinitionModelAutoFilledBy>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            autoFilledBy = new Option<List<ControllerWorkflooDefinitionModelAutoFilledBy>?>(JsonSerializer.Deserialize<List<ControllerWorkflooDefinitionModelAutoFilledBy>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "autofillNodeId":
                             autofillNodeId = new Option<string?>(utf8JsonReader.GetString()!);
@@ -380,7 +380,7 @@ namespace kiban.sdk.workfloo.Model
                             html = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "map":
-                            map = new Option<Dictionary<string, string>?>(JsonSerializer.Deserialize<Dictionary<string, string>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            map = new Option<Dictionary<string, string>?>(JsonSerializer.Deserialize<Dictionary<string, string>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "max":
                             max = new Option<int?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (int?)null : utf8JsonReader.GetInt32());
@@ -418,17 +418,11 @@ namespace kiban.sdk.workfloo.Model
                 }
             }
 
-            if (autoFilledBy.IsSet && autoFilledBy.Value == null)
-                throw new ArgumentNullException(nameof(autoFilledBy), "Property is not nullable for class ControllerWorkflooDefinitionModelFieldMetadata.");
-
             if (autofillNodeId.IsSet && autofillNodeId.Value == null)
                 throw new ArgumentNullException(nameof(autofillNodeId), "Property is not nullable for class ControllerWorkflooDefinitionModelFieldMetadata.");
 
             if (html.IsSet && html.Value == null)
                 throw new ArgumentNullException(nameof(html), "Property is not nullable for class ControllerWorkflooDefinitionModelFieldMetadata.");
-
-            if (map.IsSet && map.Value == null)
-                throw new ArgumentNullException(nameof(map), "Property is not nullable for class ControllerWorkflooDefinitionModelFieldMetadata.");
 
             if (max.IsSet && max.Value == null)
                 throw new ArgumentNullException(nameof(max), "Property is not nullable for class ControllerWorkflooDefinitionModelFieldMetadata.");
@@ -487,17 +481,11 @@ namespace kiban.sdk.workfloo.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, ControllerWorkflooDefinitionModelFieldMetadata controllerWorkflooDefinitionModelFieldMetadata, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (controllerWorkflooDefinitionModelFieldMetadata.AutoFilledByOption.IsSet && controllerWorkflooDefinitionModelFieldMetadata.AutoFilledBy == null)
-                throw new ArgumentNullException(nameof(controllerWorkflooDefinitionModelFieldMetadata.AutoFilledBy), "Property is required for class ControllerWorkflooDefinitionModelFieldMetadata.");
-
             if (controllerWorkflooDefinitionModelFieldMetadata.AutofillNodeIdOption.IsSet && controllerWorkflooDefinitionModelFieldMetadata.AutofillNodeId == null)
                 throw new ArgumentNullException(nameof(controllerWorkflooDefinitionModelFieldMetadata.AutofillNodeId), "Property is required for class ControllerWorkflooDefinitionModelFieldMetadata.");
 
             if (controllerWorkflooDefinitionModelFieldMetadata.HtmlOption.IsSet && controllerWorkflooDefinitionModelFieldMetadata.Html == null)
                 throw new ArgumentNullException(nameof(controllerWorkflooDefinitionModelFieldMetadata.Html), "Property is required for class ControllerWorkflooDefinitionModelFieldMetadata.");
-
-            if (controllerWorkflooDefinitionModelFieldMetadata.MapOption.IsSet && controllerWorkflooDefinitionModelFieldMetadata.Map == null)
-                throw new ArgumentNullException(nameof(controllerWorkflooDefinitionModelFieldMetadata.Map), "Property is required for class ControllerWorkflooDefinitionModelFieldMetadata.");
 
             if (controllerWorkflooDefinitionModelFieldMetadata.RegexOption.IsSet && controllerWorkflooDefinitionModelFieldMetadata.Regex == null)
                 throw new ArgumentNullException(nameof(controllerWorkflooDefinitionModelFieldMetadata.Regex), "Property is required for class ControllerWorkflooDefinitionModelFieldMetadata.");
@@ -512,10 +500,13 @@ namespace kiban.sdk.workfloo.Model
                 throw new ArgumentNullException(nameof(controllerWorkflooDefinitionModelFieldMetadata.Type), "Property is required for class ControllerWorkflooDefinitionModelFieldMetadata.");
 
             if (controllerWorkflooDefinitionModelFieldMetadata.AutoFilledByOption.IsSet)
-            {
-                writer.WritePropertyName("autoFilledBy");
-                JsonSerializer.Serialize(writer, controllerWorkflooDefinitionModelFieldMetadata.AutoFilledBy, jsonSerializerOptions);
-            }
+                if (controllerWorkflooDefinitionModelFieldMetadata.AutoFilledByOption.Value != null)
+                {
+                    writer.WritePropertyName("autoFilledBy");
+                    JsonSerializer.Serialize(writer, controllerWorkflooDefinitionModelFieldMetadata.AutoFilledBy, jsonSerializerOptions);
+                }
+                else
+                    writer.WriteNull("autoFilledBy");
             if (controllerWorkflooDefinitionModelFieldMetadata.AutofillNodeIdOption.IsSet)
                 writer.WriteString("autofillNodeId", controllerWorkflooDefinitionModelFieldMetadata.AutofillNodeId);
 
@@ -531,10 +522,13 @@ namespace kiban.sdk.workfloo.Model
                 writer.WriteString("html", controllerWorkflooDefinitionModelFieldMetadata.Html);
 
             if (controllerWorkflooDefinitionModelFieldMetadata.MapOption.IsSet)
-            {
-                writer.WritePropertyName("map");
-                JsonSerializer.Serialize(writer, controllerWorkflooDefinitionModelFieldMetadata.Map, jsonSerializerOptions);
-            }
+                if (controllerWorkflooDefinitionModelFieldMetadata.MapOption.Value != null)
+                {
+                    writer.WritePropertyName("map");
+                    JsonSerializer.Serialize(writer, controllerWorkflooDefinitionModelFieldMetadata.Map, jsonSerializerOptions);
+                }
+                else
+                    writer.WriteNull("map");
             if (controllerWorkflooDefinitionModelFieldMetadata.MaxOption.IsSet)
                 writer.WriteNumber("max", controllerWorkflooDefinitionModelFieldMetadata.MaxOption.Value!.Value);
 

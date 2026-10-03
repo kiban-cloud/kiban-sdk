@@ -217,10 +217,10 @@ namespace kiban.sdk.workfloo.Model
                             callbackXApiKey = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "document":
-                            document = new Option<Dictionary<string, Object>?>(JsonSerializer.Deserialize<Dictionary<string, Object>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            document = new Option<Dictionary<string, Object>?>(JsonSerializer.Deserialize<Dictionary<string, Object>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "form":
-                            form = new Option<Dictionary<string, Object>?>(JsonSerializer.Deserialize<Dictionary<string, Object>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            form = new Option<Dictionary<string, Object>?>(JsonSerializer.Deserialize<Dictionary<string, Object>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "scenarioId":
                             scenarioId = new Option<string?>(utf8JsonReader.GetString()!);
@@ -242,12 +242,6 @@ namespace kiban.sdk.workfloo.Model
 
             if (callbackXApiKey.IsSet && callbackXApiKey.Value == null)
                 throw new ArgumentNullException(nameof(callbackXApiKey), "Property is not nullable for class ControllerWorkflooModelExecute.");
-
-            if (document.IsSet && document.Value == null)
-                throw new ArgumentNullException(nameof(document), "Property is not nullable for class ControllerWorkflooModelExecute.");
-
-            if (form.IsSet && form.Value == null)
-                throw new ArgumentNullException(nameof(form), "Property is not nullable for class ControllerWorkflooModelExecute.");
 
             if (scenarioId.IsSet && scenarioId.Value == null)
                 throw new ArgumentNullException(nameof(scenarioId), "Property is not nullable for class ControllerWorkflooModelExecute.");
@@ -288,12 +282,6 @@ namespace kiban.sdk.workfloo.Model
             if (controllerWorkflooModelExecute.CallbackXApiKeyOption.IsSet && controllerWorkflooModelExecute.CallbackXApiKey == null)
                 throw new ArgumentNullException(nameof(controllerWorkflooModelExecute.CallbackXApiKey), "Property is required for class ControllerWorkflooModelExecute.");
 
-            if (controllerWorkflooModelExecute.DocumentOption.IsSet && controllerWorkflooModelExecute.Document == null)
-                throw new ArgumentNullException(nameof(controllerWorkflooModelExecute.Document), "Property is required for class ControllerWorkflooModelExecute.");
-
-            if (controllerWorkflooModelExecute.FormOption.IsSet && controllerWorkflooModelExecute.Form == null)
-                throw new ArgumentNullException(nameof(controllerWorkflooModelExecute.Form), "Property is required for class ControllerWorkflooModelExecute.");
-
             if (controllerWorkflooModelExecute.ScenarioIdOption.IsSet && controllerWorkflooModelExecute.ScenarioId == null)
                 throw new ArgumentNullException(nameof(controllerWorkflooModelExecute.ScenarioId), "Property is required for class ControllerWorkflooModelExecute.");
 
@@ -306,15 +294,21 @@ namespace kiban.sdk.workfloo.Model
                 writer.WriteString("callbackXApiKey", controllerWorkflooModelExecute.CallbackXApiKey);
 
             if (controllerWorkflooModelExecute.DocumentOption.IsSet)
-            {
-                writer.WritePropertyName("document");
-                JsonSerializer.Serialize(writer, controllerWorkflooModelExecute.Document, jsonSerializerOptions);
-            }
+                if (controllerWorkflooModelExecute.DocumentOption.Value != null)
+                {
+                    writer.WritePropertyName("document");
+                    JsonSerializer.Serialize(writer, controllerWorkflooModelExecute.Document, jsonSerializerOptions);
+                }
+                else
+                    writer.WriteNull("document");
             if (controllerWorkflooModelExecute.FormOption.IsSet)
-            {
-                writer.WritePropertyName("form");
-                JsonSerializer.Serialize(writer, controllerWorkflooModelExecute.Form, jsonSerializerOptions);
-            }
+                if (controllerWorkflooModelExecute.FormOption.Value != null)
+                {
+                    writer.WritePropertyName("form");
+                    JsonSerializer.Serialize(writer, controllerWorkflooModelExecute.Form, jsonSerializerOptions);
+                }
+                else
+                    writer.WriteNull("form");
             if (controllerWorkflooModelExecute.ScenarioIdOption.IsSet)
                 writer.WriteString("scenarioId", controllerWorkflooModelExecute.ScenarioId);
         }

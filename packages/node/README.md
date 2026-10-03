@@ -1,4 +1,4 @@
-## kiban.sdk.workfloo@0.2.0
+## kiban.sdk.workfloo@0.3.0
 
 This generator creates TypeScript/JavaScript client that utilizes [axios](https://github.com/axios/axios). The generated Node module can be used in the following environments:
 
@@ -36,7 +36,7 @@ navigate to the folder of your consuming project and run one of the following co
 _published:_
 
 ```
-npm install kiban.sdk.workfloo@0.2.0 --save
+npm install kiban.sdk.workfloo@0.3.0 --save
 ```
 
 _unPublished (not recommended):_
@@ -130,6 +130,7 @@ Class | Method | HTTP request | Description
  - [ControllerWorkflooModelVariables](docs/ControllerWorkflooModelVariables.md)
  - [ControllerWorkflooModelVerificationStatus](docs/ControllerWorkflooModelVerificationStatus.md)
  - [ControllerWorkflooModelWorkfloo](docs/ControllerWorkflooModelWorkfloo.md)
+ - [ControllerWorkflooModelWorkflooListItem](docs/ControllerWorkflooModelWorkflooListItem.md)
  - [ControllerWorkflooModelWorkflooPage](docs/ControllerWorkflooModelWorkflooPage.md)
  - [ControllerWorkflooModelWorkflooResume](docs/ControllerWorkflooModelWorkflooResume.md)
  - [ControllerWorkflooModelWorkflooStatus](docs/ControllerWorkflooModelWorkflooStatus.md)

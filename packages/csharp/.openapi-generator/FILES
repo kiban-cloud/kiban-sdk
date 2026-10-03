@@ -63,6 +63,7 @@ docs/models/ControllerWorkflooModelVariable.md
 docs/models/ControllerWorkflooModelVariables.md
 docs/models/ControllerWorkflooModelVerificationStatus.md
 docs/models/ControllerWorkflooModelWorkfloo.md
+docs/models/ControllerWorkflooModelWorkflooListItem.md
 docs/models/ControllerWorkflooModelWorkflooPage.md
 docs/models/ControllerWorkflooModelWorkflooResume.md
 docs/models/ControllerWorkflooModelWorkflooStatus.md
@@ -158,6 +159,7 @@ src/kiban.sdk.workfloo/Model/ControllerWorkflooModelVariable.cs
 src/kiban.sdk.workfloo/Model/ControllerWorkflooModelVariables.cs
 src/kiban.sdk.workfloo/Model/ControllerWorkflooModelVerificationStatus.cs
 src/kiban.sdk.workfloo/Model/ControllerWorkflooModelWorkfloo.cs
+src/kiban.sdk.workfloo/Model/ControllerWorkflooModelWorkflooListItem.cs
 src/kiban.sdk.workfloo/Model/ControllerWorkflooModelWorkflooPage.cs
 src/kiban.sdk.workfloo/Model/ControllerWorkflooModelWorkflooResume.cs
 src/kiban.sdk.workfloo/Model/ControllerWorkflooModelWorkflooStatus.cs

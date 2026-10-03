@@ -5,7 +5,7 @@
 # lo resuelve: github.com/kiban-cloud/kiban-sdk/packages/go. Los tags de release
 # llevan el prefijo del directorio: packages/go/v0.2.0.
 packageName: workfloo
-packageVersion: 0.2.0
+packageVersion: 0.3.0
 gitUserId: kiban-cloud
 gitRepoId: kiban-sdk/packages/go
 isGoSubmodule: false

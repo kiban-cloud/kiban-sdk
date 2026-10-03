@@ -79,6 +79,11 @@ class ControllerWorkflooModelLinkResume(BaseModel):
                 if _item_events:
                     _items.append(_item_events.to_dict())
             _dict['events'] = _items
+        # set to None if events (nullable) is None
+        # and model_fields_set contains the field
+        if self.events is None and "events" in self.model_fields_set:
+            _dict['events'] = None
+
         return _dict
 
     @classmethod

@@ -343,7 +343,7 @@ namespace kiban.sdk.workfloo.Model
                             email = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "events":
-                            events = new Option<List<ControllerWorkflooModelEvent>?>(JsonSerializer.Deserialize<List<ControllerWorkflooModelEvent>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            events = new Option<List<ControllerWorkflooModelEvent>?>(JsonSerializer.Deserialize<List<ControllerWorkflooModelEvent>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "key":
                             key = new Option<string?>(utf8JsonReader.GetString()!);
@@ -386,9 +386,6 @@ namespace kiban.sdk.workfloo.Model
 
             if (email.IsSet && email.Value == null)
                 throw new ArgumentNullException(nameof(email), "Property is not nullable for class ControllerWorkflooModelLinkNipStatus.");
-
-            if (events.IsSet && events.Value == null)
-                throw new ArgumentNullException(nameof(events), "Property is not nullable for class ControllerWorkflooModelLinkNipStatus.");
 
             if (key.IsSet && key.Value == null)
                 throw new ArgumentNullException(nameof(key), "Property is not nullable for class ControllerWorkflooModelLinkNipStatus.");
@@ -450,9 +447,6 @@ namespace kiban.sdk.workfloo.Model
             if (controllerWorkflooModelLinkNipStatus.EmailOption.IsSet && controllerWorkflooModelLinkNipStatus.Email == null)
                 throw new ArgumentNullException(nameof(controllerWorkflooModelLinkNipStatus.Email), "Property is required for class ControllerWorkflooModelLinkNipStatus.");
 
-            if (controllerWorkflooModelLinkNipStatus.EventsOption.IsSet && controllerWorkflooModelLinkNipStatus.Events == null)
-                throw new ArgumentNullException(nameof(controllerWorkflooModelLinkNipStatus.Events), "Property is required for class ControllerWorkflooModelLinkNipStatus.");
-
             if (controllerWorkflooModelLinkNipStatus.KeyOption.IsSet && controllerWorkflooModelLinkNipStatus.Key == null)
                 throw new ArgumentNullException(nameof(controllerWorkflooModelLinkNipStatus.Key), "Property is required for class ControllerWorkflooModelLinkNipStatus.");
 
@@ -487,10 +481,13 @@ namespace kiban.sdk.workfloo.Model
                 writer.WriteString("email", controllerWorkflooModelLinkNipStatus.Email);
 
             if (controllerWorkflooModelLinkNipStatus.EventsOption.IsSet)
-            {
-                writer.WritePropertyName("events");
-                JsonSerializer.Serialize(writer, controllerWorkflooModelLinkNipStatus.Events, jsonSerializerOptions);
-            }
+                if (controllerWorkflooModelLinkNipStatus.EventsOption.Value != null)
+                {
+                    writer.WritePropertyName("events");
+                    JsonSerializer.Serialize(writer, controllerWorkflooModelLinkNipStatus.Events, jsonSerializerOptions);
+                }
+                else
+                    writer.WriteNull("events");
             if (controllerWorkflooModelLinkNipStatus.KeyOption.IsSet)
                 writer.WriteString("key", controllerWorkflooModelLinkNipStatus.Key);
 

@@ -52,6 +52,16 @@ SetFields sets Fields field to given value.
 
 HasFields returns a boolean if a field has been set.
 
+### SetFieldsNil
+
+`func (o *ControllerWorkflooDefinitionModelSetData) SetFieldsNil(b bool)`
+
+ SetFieldsNil sets the value for Fields to be an explicit nil
+
+### UnsetFields
+`func (o *ControllerWorkflooDefinitionModelSetData) UnsetFields()`
+
+UnsetFields ensures that no value is present for Fields, not even an explicit nil
 ### GetOptionalAt
 
 `func (o *ControllerWorkflooDefinitionModelSetData) GetOptionalAt() []string`
@@ -77,6 +87,16 @@ SetOptionalAt sets OptionalAt field to given value.
 
 HasOptionalAt returns a boolean if a field has been set.
 
+### SetOptionalAtNil
+
+`func (o *ControllerWorkflooDefinitionModelSetData) SetOptionalAtNil(b bool)`
+
+ SetOptionalAtNil sets the value for OptionalAt to be an explicit nil
+
+### UnsetOptionalAt
+`func (o *ControllerWorkflooDefinitionModelSetData) UnsetOptionalAt()`
+
+UnsetOptionalAt ensures that no value is present for OptionalAt, not even an explicit nil
 ### GetRequired
 
 `func (o *ControllerWorkflooDefinitionModelSetData) GetRequired() []string`
@@ -102,6 +122,16 @@ SetRequired sets Required field to given value.
 
 HasRequired returns a boolean if a field has been set.
 
+### SetRequiredNil
+
+`func (o *ControllerWorkflooDefinitionModelSetData) SetRequiredNil(b bool)`
+
+ SetRequiredNil sets the value for Required to be an explicit nil
+
+### UnsetRequired
+`func (o *ControllerWorkflooDefinitionModelSetData) UnsetRequired()`
+
+UnsetRequired ensures that no value is present for Required, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

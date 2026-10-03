@@ -147,9 +147,9 @@ func (o *ControllerWorkflooModelLinkNipStatus) SetEmail(v string) {
 	o.Email = &v
 }
 
-// GetEvents returns the Events field value if set, zero value otherwise.
+// GetEvents returns the Events field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ControllerWorkflooModelLinkNipStatus) GetEvents() []ControllerWorkflooModelEvent {
-	if o == nil || IsNil(o.Events) {
+	if o == nil {
 		var ret []ControllerWorkflooModelEvent
 		return ret
 	}
@@ -158,6 +158,7 @@ func (o *ControllerWorkflooModelLinkNipStatus) GetEvents() []ControllerWorkflooM
 
 // GetEventsOk returns a tuple with the Events field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *ControllerWorkflooModelLinkNipStatus) GetEventsOk() ([]ControllerWorkflooModelEvent, bool) {
 	if o == nil || IsNil(o.Events) {
 		return nil, false
@@ -487,7 +488,7 @@ func (o ControllerWorkflooModelLinkNipStatus) ToMap() (map[string]interface{}, e
 	if !IsNil(o.Email) {
 		toSerialize["email"] = o.Email
 	}
-	if !IsNil(o.Events) {
+	if o.Events != nil {
 		toSerialize["events"] = o.Events
 	}
 	if !IsNil(o.Key) {

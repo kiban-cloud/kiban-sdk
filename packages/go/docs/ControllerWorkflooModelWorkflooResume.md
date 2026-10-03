@@ -213,6 +213,16 @@ SetLabels sets Labels field to given value.
 
 HasLabels returns a boolean if a field has been set.
 
+### SetLabelsNil
+
+`func (o *ControllerWorkflooModelWorkflooResume) SetLabelsNil(b bool)`
+
+ SetLabelsNil sets the value for Labels to be an explicit nil
+
+### UnsetLabels
+`func (o *ControllerWorkflooModelWorkflooResume) UnsetLabels()`
+
+UnsetLabels ensures that no value is present for Labels, not even an explicit nil
 ### GetModified
 
 `func (o *ControllerWorkflooModelWorkflooResume) GetModified() string`
@@ -288,6 +298,16 @@ SetNodes sets Nodes field to given value.
 
 HasNodes returns a boolean if a field has been set.
 
+### SetNodesNil
+
+`func (o *ControllerWorkflooModelWorkflooResume) SetNodesNil(b bool)`
+
+ SetNodesNil sets the value for Nodes to be an explicit nil
+
+### UnsetNodes
+`func (o *ControllerWorkflooModelWorkflooResume) UnsetNodes()`
+
+UnsetNodes ensures that no value is present for Nodes, not even an explicit nil
 ### GetOrigin
 
 `func (o *ControllerWorkflooModelWorkflooResume) GetOrigin() string`

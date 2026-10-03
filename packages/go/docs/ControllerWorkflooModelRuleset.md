@@ -52,6 +52,16 @@ SetDecision sets Decision field to given value.
 
 HasDecision returns a boolean if a field has been set.
 
+### SetDecisionNil
+
+`func (o *ControllerWorkflooModelRuleset) SetDecisionNil(b bool)`
+
+ SetDecisionNil sets the value for Decision to be an explicit nil
+
+### UnsetDecision
+`func (o *ControllerWorkflooModelRuleset) UnsetDecision()`
+
+UnsetDecision ensures that no value is present for Decision, not even an explicit nil
 ### GetExit
 
 `func (o *ControllerWorkflooModelRuleset) GetExit() string`
@@ -102,6 +112,16 @@ SetLabels sets Labels field to given value.
 
 HasLabels returns a boolean if a field has been set.
 
+### SetLabelsNil
+
+`func (o *ControllerWorkflooModelRuleset) SetLabelsNil(b bool)`
+
+ SetLabelsNil sets the value for Labels to be an explicit nil
+
+### UnsetLabels
+`func (o *ControllerWorkflooModelRuleset) UnsetLabels()`
+
+UnsetLabels ensures that no value is present for Labels, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

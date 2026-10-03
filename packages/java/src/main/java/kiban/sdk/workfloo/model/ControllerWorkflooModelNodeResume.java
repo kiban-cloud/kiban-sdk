@@ -67,7 +67,7 @@ import kiban.sdk.workfloo.JSON;
 /**
  * ControllerWorkflooModelNodeResume
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-10-02T10:13:43.960045-06:00[America/Mexico_City]", comments = "Generator version: 7.24.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0")
 public class ControllerWorkflooModelNodeResume {
   public static final String SERIALIZED_NAME_API_DATA = "apiData";
   @SerializedName(SERIALIZED_NAME_API_DATA)
@@ -82,12 +82,12 @@ public class ControllerWorkflooModelNodeResume {
   public static final String SERIALIZED_NAME_DATA = "data";
   @SerializedName(SERIALIZED_NAME_DATA)
   @javax.annotation.Nullable
-  private List<ControllerWorkflooModelData> data = new ArrayList<>();
+  private List<ControllerWorkflooModelData> data;
 
   public static final String SERIALIZED_NAME_DECISION_TREE = "decisionTree";
   @SerializedName(SERIALIZED_NAME_DECISION_TREE)
   @javax.annotation.Nullable
-  private List<ControllerWorkflooModelDecisionTree> decisionTree = new ArrayList<>();
+  private List<ControllerWorkflooModelDecisionTree> decisionTree;
 
   public static final String SERIALIZED_NAME_DETAIL = "detail";
   @SerializedName(SERIALIZED_NAME_DETAIL)
@@ -97,12 +97,12 @@ public class ControllerWorkflooModelNodeResume {
   public static final String SERIALIZED_NAME_DOCUMENTS = "documents";
   @SerializedName(SERIALIZED_NAME_DOCUMENTS)
   @javax.annotation.Nullable
-  private Map<String, ControllerWorkflooModelDocumentsResume> documents = new HashMap<>();
+  private Map<String, ControllerWorkflooModelDocumentsResume> documents;
 
   public static final String SERIALIZED_NAME_FILES = "files";
   @SerializedName(SERIALIZED_NAME_FILES)
   @javax.annotation.Nullable
-  private List<ControllerWorkflooModelFile> files = new ArrayList<>();
+  private List<ControllerWorkflooModelFile> files;
 
   public static final String SERIALIZED_NAME_FORM = "form";
   @SerializedName(SERIALIZED_NAME_FORM)
@@ -172,7 +172,7 @@ public class ControllerWorkflooModelNodeResume {
   public static final String SERIALIZED_NAME_VARIABLES = "variables";
   @SerializedName(SERIALIZED_NAME_VARIABLES)
   @javax.annotation.Nullable
-  private List<ControllerWorkflooModelVariable> variables = new ArrayList<>();
+  private List<ControllerWorkflooModelVariable> variables;
 
   public ControllerWorkflooModelNodeResume() {
   }

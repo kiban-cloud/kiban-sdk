@@ -147,7 +147,7 @@ namespace kiban.sdk.workfloo.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "name":
-                            name = new Option<Dictionary<string, string>?>(JsonSerializer.Deserialize<Dictionary<string, string>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            name = new Option<Dictionary<string, string>?>(JsonSerializer.Deserialize<Dictionary<string, string>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "value":
                             value = new Option<string?>(utf8JsonReader.GetString()!);
@@ -157,9 +157,6 @@ namespace kiban.sdk.workfloo.Model
                     }
                 }
             }
-
-            if (name.IsSet && name.Value == null)
-                throw new ArgumentNullException(nameof(name), "Property is not nullable for class ControllerWorkflooModelFile.");
 
             if (value.IsSet && value.Value == null)
                 throw new ArgumentNullException(nameof(value), "Property is not nullable for class ControllerWorkflooModelFile.");
@@ -191,17 +188,17 @@ namespace kiban.sdk.workfloo.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, ControllerWorkflooModelFile controllerWorkflooModelFile, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (controllerWorkflooModelFile.NameOption.IsSet && controllerWorkflooModelFile.Name == null)
-                throw new ArgumentNullException(nameof(controllerWorkflooModelFile.Name), "Property is required for class ControllerWorkflooModelFile.");
-
             if (controllerWorkflooModelFile.ValueOption.IsSet && controllerWorkflooModelFile.Value == null)
                 throw new ArgumentNullException(nameof(controllerWorkflooModelFile.Value), "Property is required for class ControllerWorkflooModelFile.");
 
             if (controllerWorkflooModelFile.NameOption.IsSet)
-            {
-                writer.WritePropertyName("name");
-                JsonSerializer.Serialize(writer, controllerWorkflooModelFile.Name, jsonSerializerOptions);
-            }
+                if (controllerWorkflooModelFile.NameOption.Value != null)
+                {
+                    writer.WritePropertyName("name");
+                    JsonSerializer.Serialize(writer, controllerWorkflooModelFile.Name, jsonSerializerOptions);
+                }
+                else
+                    writer.WriteNull("name");
             if (controllerWorkflooModelFile.ValueOption.IsSet)
                 writer.WriteString("value", controllerWorkflooModelFile.Value);
         }

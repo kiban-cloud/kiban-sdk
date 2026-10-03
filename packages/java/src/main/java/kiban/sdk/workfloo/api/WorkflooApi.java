@@ -37,7 +37,7 @@ import kiban.sdk.workfloo.model.ControllerWorkflooModelNipValidateRequest;
 import kiban.sdk.workfloo.model.ControllerWorkflooModelNipValidateResponse;
 import kiban.sdk.workfloo.model.ControllerWorkflooModelOtpValidateRequest;
 import kiban.sdk.workfloo.model.ControllerWorkflooModelReviewRequest;
-import kiban.sdk.workfloo.model.ControllerWorkflooModelWorkfloo;
+import kiban.sdk.workfloo.model.ControllerWorkflooModelWorkflooListItem;
 import kiban.sdk.workfloo.model.ControllerWorkflooModelWorkflooPage;
 import kiban.sdk.workfloo.model.ControllerWorkflooModelWorkflooResume;
 import kiban.sdk.workfloo.model.ControllerWorkflooModelWorkflooStatus;
@@ -1451,11 +1451,23 @@ public class WorkflooApi {
     /**
      * Build call for listWorkfloosV2
      * @param page Número de página, empieza en 1 (optional)
-     * @param itemsPerPage Cantidad de resultados por página (optional)
-     * @param status Filtra por estado de la ejecución (optional)
-     * @param from Fecha inicial del rango (RFC3339) (optional)
-     * @param to Fecha final del rango (RFC3339) (optional)
-     * @param format Formato de la respuesta (optional)
+     * @param itemsPerPage Cantidad de resultados por página, entre 1 y 10000 (optional)
+     * @param from Fecha inicial del rango (ISO 8601) (optional)
+     * @param to Fecha final del rango (ISO 8601) (optional)
+     * @param origin Origen de la ejecución: KIBAN_CLOUD, API o FRONT (optional)
+     * @param status Estado de la ejecución: SUCCESS, ERROR o PROGRESS (optional)
+     * @param name Nombre del workfloo (búsqueda parcial) (optional)
+     * @param id Id exacto de la ejecución (optional)
+     * @param nodesFormSearchableByRfcPf RFC de persona física (empieza con, sin distinguir mayúsculas) (optional)
+     * @param nodesFormSearchableByFirstName Nombre (empieza con, sin distinguir mayúsculas) (optional)
+     * @param nodesFormSearchableBySecondName Segundo nombre (empieza con, sin distinguir mayúsculas) (optional)
+     * @param nodesFormSearchableByLastName1 Apellido paterno (empieza con, sin distinguir mayúsculas) (optional)
+     * @param nodesFormSearchableByLastName2 Apellido materno (empieza con, sin distinguir mayúsculas) (optional)
+     * @param nodesFormSearchableByRfcPm RFC de persona moral (empieza con, sin distinguir mayúsculas) (optional)
+     * @param nodesFormSearchableByCompanyName Razón social (empieza con, sin distinguir mayúsculas) (optional)
+     * @param format Formato de la respuesta; por defecto JSON (optional)
+     * @param content Agrega la ejecución completa (todos sus nodos) a cada elemento; por defecto false (optional)
+     * @param labels Etiquetas, separadas por punto y coma (optional)
      * @param sandbox Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
@@ -1473,7 +1485,7 @@ public class WorkflooApi {
         <tr><td> 503 </td><td> Servicio dependiente no disponible </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call listWorkfloosV2Call(@javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer itemsPerPage, @javax.annotation.Nullable String status, @javax.annotation.Nullable String from, @javax.annotation.Nullable String to, @javax.annotation.Nullable String format, @javax.annotation.Nullable Boolean sandbox, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call listWorkfloosV2Call(@javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer itemsPerPage, @javax.annotation.Nullable String from, @javax.annotation.Nullable String to, @javax.annotation.Nullable String origin, @javax.annotation.Nullable String status, @javax.annotation.Nullable String name, @javax.annotation.Nullable String id, @javax.annotation.Nullable String nodesFormSearchableByRfcPf, @javax.annotation.Nullable String nodesFormSearchableByFirstName, @javax.annotation.Nullable String nodesFormSearchableBySecondName, @javax.annotation.Nullable String nodesFormSearchableByLastName1, @javax.annotation.Nullable String nodesFormSearchableByLastName2, @javax.annotation.Nullable String nodesFormSearchableByRfcPm, @javax.annotation.Nullable String nodesFormSearchableByCompanyName, @javax.annotation.Nullable String format, @javax.annotation.Nullable Boolean content, @javax.annotation.Nullable String labels, @javax.annotation.Nullable Boolean sandbox, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -1506,10 +1518,6 @@ public class WorkflooApi {
             localVarQueryParams.addAll(localVarApiClient.parameterToPair("itemsPerPage", itemsPerPage));
         }
 
-        if (status != null) {
-            localVarQueryParams.addAll(localVarApiClient.parameterToPair("status", status));
-        }
-
         if (from != null) {
             localVarQueryParams.addAll(localVarApiClient.parameterToPair("from", from));
         }
@@ -1518,8 +1526,60 @@ public class WorkflooApi {
             localVarQueryParams.addAll(localVarApiClient.parameterToPair("to", to));
         }
 
+        if (origin != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("origin", origin));
+        }
+
+        if (status != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("status", status));
+        }
+
+        if (name != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("name", name));
+        }
+
+        if (id != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("_id", id));
+        }
+
+        if (nodesFormSearchableByRfcPf != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("nodes.form.searchableBy.rfc_pf", nodesFormSearchableByRfcPf));
+        }
+
+        if (nodesFormSearchableByFirstName != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("nodes.form.searchableBy.first_name", nodesFormSearchableByFirstName));
+        }
+
+        if (nodesFormSearchableBySecondName != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("nodes.form.searchableBy.second_name", nodesFormSearchableBySecondName));
+        }
+
+        if (nodesFormSearchableByLastName1 != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("nodes.form.searchableBy.last_name_1", nodesFormSearchableByLastName1));
+        }
+
+        if (nodesFormSearchableByLastName2 != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("nodes.form.searchableBy.last_name_2", nodesFormSearchableByLastName2));
+        }
+
+        if (nodesFormSearchableByRfcPm != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("nodes.form.searchableBy.rfc_pm", nodesFormSearchableByRfcPm));
+        }
+
+        if (nodesFormSearchableByCompanyName != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("nodes.form.searchableBy.company_name", nodesFormSearchableByCompanyName));
+        }
+
         if (format != null) {
             localVarQueryParams.addAll(localVarApiClient.parameterToPair("format", format));
+        }
+
+        if (content != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("content", content));
+        }
+
+        if (labels != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("labels", labels));
         }
 
         if (sandbox != null) {
@@ -1547,22 +1607,34 @@ public class WorkflooApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call listWorkfloosV2ValidateBeforeCall(@javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer itemsPerPage, @javax.annotation.Nullable String status, @javax.annotation.Nullable String from, @javax.annotation.Nullable String to, @javax.annotation.Nullable String format, @javax.annotation.Nullable Boolean sandbox, final ApiCallback _callback) throws ApiException {
-        return listWorkfloosV2Call(page, itemsPerPage, status, from, to, format, sandbox, _callback);
+    private okhttp3.Call listWorkfloosV2ValidateBeforeCall(@javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer itemsPerPage, @javax.annotation.Nullable String from, @javax.annotation.Nullable String to, @javax.annotation.Nullable String origin, @javax.annotation.Nullable String status, @javax.annotation.Nullable String name, @javax.annotation.Nullable String id, @javax.annotation.Nullable String nodesFormSearchableByRfcPf, @javax.annotation.Nullable String nodesFormSearchableByFirstName, @javax.annotation.Nullable String nodesFormSearchableBySecondName, @javax.annotation.Nullable String nodesFormSearchableByLastName1, @javax.annotation.Nullable String nodesFormSearchableByLastName2, @javax.annotation.Nullable String nodesFormSearchableByRfcPm, @javax.annotation.Nullable String nodesFormSearchableByCompanyName, @javax.annotation.Nullable String format, @javax.annotation.Nullable Boolean content, @javax.annotation.Nullable String labels, @javax.annotation.Nullable Boolean sandbox, final ApiCallback _callback) throws ApiException {
+        return listWorkfloosV2Call(page, itemsPerPage, from, to, origin, status, name, id, nodesFormSearchableByRfcPf, nodesFormSearchableByFirstName, nodesFormSearchableBySecondName, nodesFormSearchableByLastName1, nodesFormSearchableByLastName2, nodesFormSearchableByRfcPm, nodesFormSearchableByCompanyName, format, content, labels, sandbox, _callback);
 
     }
 
     /**
      * Historial de ejecuciones (v2)
-     * Igual que v1 pero devuelve el arreglo de ejecuciones directo, sin envoltorio. La paginación viaja en el header Link. Con format&#x3D;csv la respuesta es un archivo CSV en lugar de JSON. Cualquier query param adicional no listado aquí se interpreta como filtro de búsqueda sobre el listado (searchableBy).
+     * Devuelve el arreglo de ejecuciones directo, sin envoltorio. La paginación viaja en el header Link. content&#x3D;true agrega a cada elemento la ejecución completa, con todos sus nodos (la misma forma que getWorkfloo); por defecto es false y llega el resumen. format&#x3D;CSV devuelve un archivo CSV en lugar de JSON. Los SDKs tipan la respuesta como JSON: para el CSV hay que leer el cuerpo crudo de la respuesta. Cualquier query param adicional no listado aquí se interpreta como filtro de búsqueda sobre el listado (searchableBy).
      * @param page Número de página, empieza en 1 (optional)
-     * @param itemsPerPage Cantidad de resultados por página (optional)
-     * @param status Filtra por estado de la ejecución (optional)
-     * @param from Fecha inicial del rango (RFC3339) (optional)
-     * @param to Fecha final del rango (RFC3339) (optional)
-     * @param format Formato de la respuesta (optional)
+     * @param itemsPerPage Cantidad de resultados por página, entre 1 y 10000 (optional)
+     * @param from Fecha inicial del rango (ISO 8601) (optional)
+     * @param to Fecha final del rango (ISO 8601) (optional)
+     * @param origin Origen de la ejecución: KIBAN_CLOUD, API o FRONT (optional)
+     * @param status Estado de la ejecución: SUCCESS, ERROR o PROGRESS (optional)
+     * @param name Nombre del workfloo (búsqueda parcial) (optional)
+     * @param id Id exacto de la ejecución (optional)
+     * @param nodesFormSearchableByRfcPf RFC de persona física (empieza con, sin distinguir mayúsculas) (optional)
+     * @param nodesFormSearchableByFirstName Nombre (empieza con, sin distinguir mayúsculas) (optional)
+     * @param nodesFormSearchableBySecondName Segundo nombre (empieza con, sin distinguir mayúsculas) (optional)
+     * @param nodesFormSearchableByLastName1 Apellido paterno (empieza con, sin distinguir mayúsculas) (optional)
+     * @param nodesFormSearchableByLastName2 Apellido materno (empieza con, sin distinguir mayúsculas) (optional)
+     * @param nodesFormSearchableByRfcPm RFC de persona moral (empieza con, sin distinguir mayúsculas) (optional)
+     * @param nodesFormSearchableByCompanyName Razón social (empieza con, sin distinguir mayúsculas) (optional)
+     * @param format Formato de la respuesta; por defecto JSON (optional)
+     * @param content Agrega la ejecución completa (todos sus nodos) a cada elemento; por defecto false (optional)
+     * @param labels Etiquetas, separadas por punto y coma (optional)
      * @param sandbox Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
-     * @return List&lt;ControllerWorkflooModelWorkfloo&gt;
+     * @return List&lt;ControllerWorkflooModelWorkflooListItem&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table border="1">
@@ -1577,22 +1649,34 @@ public class WorkflooApi {
         <tr><td> 503 </td><td> Servicio dependiente no disponible </td><td>  -  </td></tr>
      </table>
      */
-    public List<ControllerWorkflooModelWorkfloo> listWorkfloosV2(@javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer itemsPerPage, @javax.annotation.Nullable String status, @javax.annotation.Nullable String from, @javax.annotation.Nullable String to, @javax.annotation.Nullable String format, @javax.annotation.Nullable Boolean sandbox) throws ApiException {
-        ApiResponse<List<ControllerWorkflooModelWorkfloo>> localVarResp = listWorkfloosV2WithHttpInfo(page, itemsPerPage, status, from, to, format, sandbox);
+    public List<ControllerWorkflooModelWorkflooListItem> listWorkfloosV2(@javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer itemsPerPage, @javax.annotation.Nullable String from, @javax.annotation.Nullable String to, @javax.annotation.Nullable String origin, @javax.annotation.Nullable String status, @javax.annotation.Nullable String name, @javax.annotation.Nullable String id, @javax.annotation.Nullable String nodesFormSearchableByRfcPf, @javax.annotation.Nullable String nodesFormSearchableByFirstName, @javax.annotation.Nullable String nodesFormSearchableBySecondName, @javax.annotation.Nullable String nodesFormSearchableByLastName1, @javax.annotation.Nullable String nodesFormSearchableByLastName2, @javax.annotation.Nullable String nodesFormSearchableByRfcPm, @javax.annotation.Nullable String nodesFormSearchableByCompanyName, @javax.annotation.Nullable String format, @javax.annotation.Nullable Boolean content, @javax.annotation.Nullable String labels, @javax.annotation.Nullable Boolean sandbox) throws ApiException {
+        ApiResponse<List<ControllerWorkflooModelWorkflooListItem>> localVarResp = listWorkfloosV2WithHttpInfo(page, itemsPerPage, from, to, origin, status, name, id, nodesFormSearchableByRfcPf, nodesFormSearchableByFirstName, nodesFormSearchableBySecondName, nodesFormSearchableByLastName1, nodesFormSearchableByLastName2, nodesFormSearchableByRfcPm, nodesFormSearchableByCompanyName, format, content, labels, sandbox);
         return localVarResp.getData();
     }
 
     /**
      * Historial de ejecuciones (v2)
-     * Igual que v1 pero devuelve el arreglo de ejecuciones directo, sin envoltorio. La paginación viaja en el header Link. Con format&#x3D;csv la respuesta es un archivo CSV en lugar de JSON. Cualquier query param adicional no listado aquí se interpreta como filtro de búsqueda sobre el listado (searchableBy).
+     * Devuelve el arreglo de ejecuciones directo, sin envoltorio. La paginación viaja en el header Link. content&#x3D;true agrega a cada elemento la ejecución completa, con todos sus nodos (la misma forma que getWorkfloo); por defecto es false y llega el resumen. format&#x3D;CSV devuelve un archivo CSV en lugar de JSON. Los SDKs tipan la respuesta como JSON: para el CSV hay que leer el cuerpo crudo de la respuesta. Cualquier query param adicional no listado aquí se interpreta como filtro de búsqueda sobre el listado (searchableBy).
      * @param page Número de página, empieza en 1 (optional)
-     * @param itemsPerPage Cantidad de resultados por página (optional)
-     * @param status Filtra por estado de la ejecución (optional)
-     * @param from Fecha inicial del rango (RFC3339) (optional)
-     * @param to Fecha final del rango (RFC3339) (optional)
-     * @param format Formato de la respuesta (optional)
+     * @param itemsPerPage Cantidad de resultados por página, entre 1 y 10000 (optional)
+     * @param from Fecha inicial del rango (ISO 8601) (optional)
+     * @param to Fecha final del rango (ISO 8601) (optional)
+     * @param origin Origen de la ejecución: KIBAN_CLOUD, API o FRONT (optional)
+     * @param status Estado de la ejecución: SUCCESS, ERROR o PROGRESS (optional)
+     * @param name Nombre del workfloo (búsqueda parcial) (optional)
+     * @param id Id exacto de la ejecución (optional)
+     * @param nodesFormSearchableByRfcPf RFC de persona física (empieza con, sin distinguir mayúsculas) (optional)
+     * @param nodesFormSearchableByFirstName Nombre (empieza con, sin distinguir mayúsculas) (optional)
+     * @param nodesFormSearchableBySecondName Segundo nombre (empieza con, sin distinguir mayúsculas) (optional)
+     * @param nodesFormSearchableByLastName1 Apellido paterno (empieza con, sin distinguir mayúsculas) (optional)
+     * @param nodesFormSearchableByLastName2 Apellido materno (empieza con, sin distinguir mayúsculas) (optional)
+     * @param nodesFormSearchableByRfcPm RFC de persona moral (empieza con, sin distinguir mayúsculas) (optional)
+     * @param nodesFormSearchableByCompanyName Razón social (empieza con, sin distinguir mayúsculas) (optional)
+     * @param format Formato de la respuesta; por defecto JSON (optional)
+     * @param content Agrega la ejecución completa (todos sus nodos) a cada elemento; por defecto false (optional)
+     * @param labels Etiquetas, separadas por punto y coma (optional)
      * @param sandbox Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
-     * @return ApiResponse&lt;List&lt;ControllerWorkflooModelWorkfloo&gt;&gt;
+     * @return ApiResponse&lt;List&lt;ControllerWorkflooModelWorkflooListItem&gt;&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table border="1">
@@ -1607,21 +1691,33 @@ public class WorkflooApi {
         <tr><td> 503 </td><td> Servicio dependiente no disponible </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<List<ControllerWorkflooModelWorkfloo>> listWorkfloosV2WithHttpInfo(@javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer itemsPerPage, @javax.annotation.Nullable String status, @javax.annotation.Nullable String from, @javax.annotation.Nullable String to, @javax.annotation.Nullable String format, @javax.annotation.Nullable Boolean sandbox) throws ApiException {
-        okhttp3.Call localVarCall = listWorkfloosV2ValidateBeforeCall(page, itemsPerPage, status, from, to, format, sandbox, null);
-        Type localVarReturnType = new TypeToken<List<ControllerWorkflooModelWorkfloo>>(){}.getType();
+    public ApiResponse<List<ControllerWorkflooModelWorkflooListItem>> listWorkfloosV2WithHttpInfo(@javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer itemsPerPage, @javax.annotation.Nullable String from, @javax.annotation.Nullable String to, @javax.annotation.Nullable String origin, @javax.annotation.Nullable String status, @javax.annotation.Nullable String name, @javax.annotation.Nullable String id, @javax.annotation.Nullable String nodesFormSearchableByRfcPf, @javax.annotation.Nullable String nodesFormSearchableByFirstName, @javax.annotation.Nullable String nodesFormSearchableBySecondName, @javax.annotation.Nullable String nodesFormSearchableByLastName1, @javax.annotation.Nullable String nodesFormSearchableByLastName2, @javax.annotation.Nullable String nodesFormSearchableByRfcPm, @javax.annotation.Nullable String nodesFormSearchableByCompanyName, @javax.annotation.Nullable String format, @javax.annotation.Nullable Boolean content, @javax.annotation.Nullable String labels, @javax.annotation.Nullable Boolean sandbox) throws ApiException {
+        okhttp3.Call localVarCall = listWorkfloosV2ValidateBeforeCall(page, itemsPerPage, from, to, origin, status, name, id, nodesFormSearchableByRfcPf, nodesFormSearchableByFirstName, nodesFormSearchableBySecondName, nodesFormSearchableByLastName1, nodesFormSearchableByLastName2, nodesFormSearchableByRfcPm, nodesFormSearchableByCompanyName, format, content, labels, sandbox, null);
+        Type localVarReturnType = new TypeToken<List<ControllerWorkflooModelWorkflooListItem>>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
      * Historial de ejecuciones (v2) (asynchronously)
-     * Igual que v1 pero devuelve el arreglo de ejecuciones directo, sin envoltorio. La paginación viaja en el header Link. Con format&#x3D;csv la respuesta es un archivo CSV en lugar de JSON. Cualquier query param adicional no listado aquí se interpreta como filtro de búsqueda sobre el listado (searchableBy).
+     * Devuelve el arreglo de ejecuciones directo, sin envoltorio. La paginación viaja en el header Link. content&#x3D;true agrega a cada elemento la ejecución completa, con todos sus nodos (la misma forma que getWorkfloo); por defecto es false y llega el resumen. format&#x3D;CSV devuelve un archivo CSV en lugar de JSON. Los SDKs tipan la respuesta como JSON: para el CSV hay que leer el cuerpo crudo de la respuesta. Cualquier query param adicional no listado aquí se interpreta como filtro de búsqueda sobre el listado (searchableBy).
      * @param page Número de página, empieza en 1 (optional)
-     * @param itemsPerPage Cantidad de resultados por página (optional)
-     * @param status Filtra por estado de la ejecución (optional)
-     * @param from Fecha inicial del rango (RFC3339) (optional)
-     * @param to Fecha final del rango (RFC3339) (optional)
-     * @param format Formato de la respuesta (optional)
+     * @param itemsPerPage Cantidad de resultados por página, entre 1 y 10000 (optional)
+     * @param from Fecha inicial del rango (ISO 8601) (optional)
+     * @param to Fecha final del rango (ISO 8601) (optional)
+     * @param origin Origen de la ejecución: KIBAN_CLOUD, API o FRONT (optional)
+     * @param status Estado de la ejecución: SUCCESS, ERROR o PROGRESS (optional)
+     * @param name Nombre del workfloo (búsqueda parcial) (optional)
+     * @param id Id exacto de la ejecución (optional)
+     * @param nodesFormSearchableByRfcPf RFC de persona física (empieza con, sin distinguir mayúsculas) (optional)
+     * @param nodesFormSearchableByFirstName Nombre (empieza con, sin distinguir mayúsculas) (optional)
+     * @param nodesFormSearchableBySecondName Segundo nombre (empieza con, sin distinguir mayúsculas) (optional)
+     * @param nodesFormSearchableByLastName1 Apellido paterno (empieza con, sin distinguir mayúsculas) (optional)
+     * @param nodesFormSearchableByLastName2 Apellido materno (empieza con, sin distinguir mayúsculas) (optional)
+     * @param nodesFormSearchableByRfcPm RFC de persona moral (empieza con, sin distinguir mayúsculas) (optional)
+     * @param nodesFormSearchableByCompanyName Razón social (empieza con, sin distinguir mayúsculas) (optional)
+     * @param format Formato de la respuesta; por defecto JSON (optional)
+     * @param content Agrega la ejecución completa (todos sus nodos) a cada elemento; por defecto false (optional)
+     * @param labels Etiquetas, separadas por punto y coma (optional)
      * @param sandbox Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
@@ -1639,10 +1735,10 @@ public class WorkflooApi {
         <tr><td> 503 </td><td> Servicio dependiente no disponible </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call listWorkfloosV2Async(@javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer itemsPerPage, @javax.annotation.Nullable String status, @javax.annotation.Nullable String from, @javax.annotation.Nullable String to, @javax.annotation.Nullable String format, @javax.annotation.Nullable Boolean sandbox, final ApiCallback<List<ControllerWorkflooModelWorkfloo>> _callback) throws ApiException {
+    public okhttp3.Call listWorkfloosV2Async(@javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer itemsPerPage, @javax.annotation.Nullable String from, @javax.annotation.Nullable String to, @javax.annotation.Nullable String origin, @javax.annotation.Nullable String status, @javax.annotation.Nullable String name, @javax.annotation.Nullable String id, @javax.annotation.Nullable String nodesFormSearchableByRfcPf, @javax.annotation.Nullable String nodesFormSearchableByFirstName, @javax.annotation.Nullable String nodesFormSearchableBySecondName, @javax.annotation.Nullable String nodesFormSearchableByLastName1, @javax.annotation.Nullable String nodesFormSearchableByLastName2, @javax.annotation.Nullable String nodesFormSearchableByRfcPm, @javax.annotation.Nullable String nodesFormSearchableByCompanyName, @javax.annotation.Nullable String format, @javax.annotation.Nullable Boolean content, @javax.annotation.Nullable String labels, @javax.annotation.Nullable Boolean sandbox, final ApiCallback<List<ControllerWorkflooModelWorkflooListItem>> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = listWorkfloosV2ValidateBeforeCall(page, itemsPerPage, status, from, to, format, sandbox, _callback);
-        Type localVarReturnType = new TypeToken<List<ControllerWorkflooModelWorkfloo>>(){}.getType();
+        okhttp3.Call localVarCall = listWorkfloosV2ValidateBeforeCall(page, itemsPerPage, from, to, origin, status, name, id, nodesFormSearchableByRfcPf, nodesFormSearchableByFirstName, nodesFormSearchableBySecondName, nodesFormSearchableByLastName1, nodesFormSearchableByLastName2, nodesFormSearchableByRfcPm, nodesFormSearchableByCompanyName, format, content, labels, sandbox, _callback);
+        Type localVarReturnType = new TypeToken<List<ControllerWorkflooModelWorkflooListItem>>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }

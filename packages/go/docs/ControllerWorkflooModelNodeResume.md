@@ -120,6 +120,16 @@ SetData sets Data field to given value.
 
 HasData returns a boolean if a field has been set.
 
+### SetDataNil
+
+`func (o *ControllerWorkflooModelNodeResume) SetDataNil(b bool)`
+
+ SetDataNil sets the value for Data to be an explicit nil
+
+### UnsetData
+`func (o *ControllerWorkflooModelNodeResume) UnsetData()`
+
+UnsetData ensures that no value is present for Data, not even an explicit nil
 ### GetDecisionTree
 
 `func (o *ControllerWorkflooModelNodeResume) GetDecisionTree() []ControllerWorkflooModelDecisionTree`
@@ -145,6 +155,16 @@ SetDecisionTree sets DecisionTree field to given value.
 
 HasDecisionTree returns a boolean if a field has been set.
 
+### SetDecisionTreeNil
+
+`func (o *ControllerWorkflooModelNodeResume) SetDecisionTreeNil(b bool)`
+
+ SetDecisionTreeNil sets the value for DecisionTree to be an explicit nil
+
+### UnsetDecisionTree
+`func (o *ControllerWorkflooModelNodeResume) UnsetDecisionTree()`
+
+UnsetDecisionTree ensures that no value is present for DecisionTree, not even an explicit nil
 ### GetDetail
 
 `func (o *ControllerWorkflooModelNodeResume) GetDetail() ControllerWorkflooModelNodeDetail`
@@ -195,6 +215,16 @@ SetDocuments sets Documents field to given value.
 
 HasDocuments returns a boolean if a field has been set.
 
+### SetDocumentsNil
+
+`func (o *ControllerWorkflooModelNodeResume) SetDocumentsNil(b bool)`
+
+ SetDocumentsNil sets the value for Documents to be an explicit nil
+
+### UnsetDocuments
+`func (o *ControllerWorkflooModelNodeResume) UnsetDocuments()`
+
+UnsetDocuments ensures that no value is present for Documents, not even an explicit nil
 ### GetFiles
 
 `func (o *ControllerWorkflooModelNodeResume) GetFiles() []ControllerWorkflooModelFile`
@@ -220,6 +250,16 @@ SetFiles sets Files field to given value.
 
 HasFiles returns a boolean if a field has been set.
 
+### SetFilesNil
+
+`func (o *ControllerWorkflooModelNodeResume) SetFilesNil(b bool)`
+
+ SetFilesNil sets the value for Files to be an explicit nil
+
+### UnsetFiles
+`func (o *ControllerWorkflooModelNodeResume) UnsetFiles()`
+
+UnsetFiles ensures that no value is present for Files, not even an explicit nil
 ### GetForm
 
 `func (o *ControllerWorkflooModelNodeResume) GetForm() ControllerWorkflooModelFormResume`
@@ -590,6 +630,16 @@ SetVariables sets Variables field to given value.
 
 HasVariables returns a boolean if a field has been set.
 
+### SetVariablesNil
+
+`func (o *ControllerWorkflooModelNodeResume) SetVariablesNil(b bool)`
+
+ SetVariablesNil sets the value for Variables to be an explicit nil
+
+### UnsetVariables
+`func (o *ControllerWorkflooModelNodeResume) UnsetVariables()`
+
+UnsetVariables ensures that no value is present for Variables, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

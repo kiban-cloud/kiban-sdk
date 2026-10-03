@@ -25,6 +25,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -52,12 +53,12 @@ import kiban.sdk.workfloo.JSON;
 /**
  * ControllerWorkflooModelApiHttp
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-10-02T10:13:43.960045-06:00[America/Mexico_City]", comments = "Generator version: 7.24.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0")
 public class ControllerWorkflooModelApiHttp {
   public static final String SERIALIZED_NAME_BODY = "body";
   @SerializedName(SERIALIZED_NAME_BODY)
   @javax.annotation.Nullable
-  private List<Integer> body = new ArrayList<>();
+  private List<Integer> body;
 
   public static final String SERIALIZED_NAME_DATE = "date";
   @SerializedName(SERIALIZED_NAME_DATE)
@@ -67,7 +68,7 @@ public class ControllerWorkflooModelApiHttp {
   public static final String SERIALIZED_NAME_HEADERS = "headers";
   @SerializedName(SERIALIZED_NAME_HEADERS)
   @javax.annotation.Nullable
-  private Map<String, String> headers = new HashMap<>();
+  private Map<String, String> headers;
 
   public static final String SERIALIZED_NAME_HTTP_CODE = "httpCode";
   @SerializedName(SERIALIZED_NAME_HTTP_CODE)
@@ -77,7 +78,7 @@ public class ControllerWorkflooModelApiHttp {
   public static final String SERIALIZED_NAME_QUERY_PARAMS = "queryParams";
   @SerializedName(SERIALIZED_NAME_QUERY_PARAMS)
   @javax.annotation.Nullable
-  private Map<String, String> queryParams = new HashMap<>();
+  private Map<String, String> queryParams;
 
   public ControllerWorkflooModelApiHttp() {
   }
@@ -218,9 +219,20 @@ public class ControllerWorkflooModelApiHttp {
         Objects.equals(this.queryParams, controllerWorkflooModelApiHttp.queryParams);
   }
 
+  private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
+    return a == b || (a != null && b != null && a.isPresent() && b.isPresent() && Objects.deepEquals(a.get(), b.get()));
+  }
+
   @Override
   public int hashCode() {
     return Objects.hash(body, date, headers, httpCode, queryParams);
+  }
+
+  private static <T> int hashCodeNullable(JsonNullable<T> a) {
+    if (a == null) {
+      return 1;
+    }
+    return a.isPresent() ? Arrays.deepHashCode(new Object[]{a.get()}) : 31;
   }
 
   @Override

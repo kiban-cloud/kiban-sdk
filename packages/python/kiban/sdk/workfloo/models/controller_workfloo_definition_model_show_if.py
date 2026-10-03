@@ -71,6 +71,16 @@ class ControllerWorkflooDefinitionModelShowIf(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # set to None if required_with_values (nullable) is None
+        # and model_fields_set contains the field
+        if self.required_with_values is None and "required_with_values" in self.model_fields_set:
+            _dict['requiredWithValues'] = None
+
+        # set to None if values (nullable) is None
+        # and model_fields_set contains the field
+        if self.values is None and "values" in self.model_fields_set:
+            _dict['values'] = None
+
         return _dict
 
     @classmethod

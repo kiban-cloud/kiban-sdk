@@ -39,9 +39,9 @@ func NewControllerWorkflooDefinitionModelFormWithDefaults() *ControllerWorkflooD
 	return &this
 }
 
-// GetFormFieldSection returns the FormFieldSection field value if set, zero value otherwise.
+// GetFormFieldSection returns the FormFieldSection field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ControllerWorkflooDefinitionModelForm) GetFormFieldSection() []ControllerWorkflooDefinitionModelFormFieldSection {
-	if o == nil || IsNil(o.FormFieldSection) {
+	if o == nil {
 		var ret []ControllerWorkflooDefinitionModelFormFieldSection
 		return ret
 	}
@@ -50,6 +50,7 @@ func (o *ControllerWorkflooDefinitionModelForm) GetFormFieldSection() []Controll
 
 // GetFormFieldSectionOk returns a tuple with the FormFieldSection field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *ControllerWorkflooDefinitionModelForm) GetFormFieldSectionOk() ([]ControllerWorkflooDefinitionModelFormFieldSection, bool) {
 	if o == nil || IsNil(o.FormFieldSection) {
 		return nil, false
@@ -81,7 +82,7 @@ func (o ControllerWorkflooDefinitionModelForm) MarshalJSON() ([]byte, error) {
 
 func (o ControllerWorkflooDefinitionModelForm) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !IsNil(o.FormFieldSection) {
+	if o.FormFieldSection != nil {
 		toSerialize["formFieldSection"] = o.FormFieldSection
 	}
 	return toSerialize, nil

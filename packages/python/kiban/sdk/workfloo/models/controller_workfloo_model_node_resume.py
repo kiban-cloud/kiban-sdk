@@ -165,6 +165,26 @@ class ControllerWorkflooModelNodeResume(BaseModel):
                 if _item_variables:
                     _items.append(_item_variables.to_dict())
             _dict['variables'] = _items
+        # set to None if data (nullable) is None
+        # and model_fields_set contains the field
+        if self.data is None and "data" in self.model_fields_set:
+            _dict['data'] = None
+
+        # set to None if decision_tree (nullable) is None
+        # and model_fields_set contains the field
+        if self.decision_tree is None and "decision_tree" in self.model_fields_set:
+            _dict['decisionTree'] = None
+
+        # set to None if documents (nullable) is None
+        # and model_fields_set contains the field
+        if self.documents is None and "documents" in self.model_fields_set:
+            _dict['documents'] = None
+
+        # set to None if files (nullable) is None
+        # and model_fields_set contains the field
+        if self.files is None and "files" in self.model_fields_set:
+            _dict['files'] = None
+
         # set to None if request (nullable) is None
         # and model_fields_set contains the field
         if self.request is None and "request" in self.model_fields_set:
@@ -174,6 +194,11 @@ class ControllerWorkflooModelNodeResume(BaseModel):
         # and model_fields_set contains the field
         if self.response is None and "response" in self.model_fields_set:
             _dict['response'] = None
+
+        # set to None if variables (nullable) is None
+        # and model_fields_set contains the field
+        if self.variables is None and "variables" in self.model_fields_set:
+            _dict['variables'] = None
 
         return _dict
 

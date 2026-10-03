@@ -245,9 +245,9 @@ func (o *ControllerWorkflooModelWorkflooResume) SetIpOrigin(v string) {
 	o.IpOrigin = &v
 }
 
-// GetLabels returns the Labels field value if set, zero value otherwise.
+// GetLabels returns the Labels field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ControllerWorkflooModelWorkflooResume) GetLabels() []string {
-	if o == nil || IsNil(o.Labels) {
+	if o == nil {
 		var ret []string
 		return ret
 	}
@@ -256,6 +256,7 @@ func (o *ControllerWorkflooModelWorkflooResume) GetLabels() []string {
 
 // GetLabelsOk returns a tuple with the Labels field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *ControllerWorkflooModelWorkflooResume) GetLabelsOk() ([]string, bool) {
 	if o == nil || IsNil(o.Labels) {
 		return nil, false
@@ -341,9 +342,9 @@ func (o *ControllerWorkflooModelWorkflooResume) SetName(v string) {
 	o.Name = &v
 }
 
-// GetNodes returns the Nodes field value if set, zero value otherwise.
+// GetNodes returns the Nodes field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ControllerWorkflooModelWorkflooResume) GetNodes() []ControllerWorkflooModelNodeResume {
-	if o == nil || IsNil(o.Nodes) {
+	if o == nil {
 		var ret []ControllerWorkflooModelNodeResume
 		return ret
 	}
@@ -352,6 +353,7 @@ func (o *ControllerWorkflooModelWorkflooResume) GetNodes() []ControllerWorkflooM
 
 // GetNodesOk returns a tuple with the Nodes field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *ControllerWorkflooModelWorkflooResume) GetNodesOk() ([]ControllerWorkflooModelNodeResume, bool) {
 	if o == nil || IsNil(o.Nodes) {
 		return nil, false
@@ -529,7 +531,7 @@ func (o ControllerWorkflooModelWorkflooResume) ToMap() (map[string]interface{}, 
 	if !IsNil(o.IpOrigin) {
 		toSerialize["ipOrigin"] = o.IpOrigin
 	}
-	if !IsNil(o.Labels) {
+	if o.Labels != nil {
 		toSerialize["labels"] = o.Labels
 	}
 	if !IsNil(o.Modified) {
@@ -538,7 +540,7 @@ func (o ControllerWorkflooModelWorkflooResume) ToMap() (map[string]interface{}, 
 	if !IsNil(o.Name) {
 		toSerialize["name"] = o.Name
 	}
-	if !IsNil(o.Nodes) {
+	if o.Nodes != nil {
 		toSerialize["nodes"] = o.Nodes
 	}
 	if !IsNil(o.Origin) {

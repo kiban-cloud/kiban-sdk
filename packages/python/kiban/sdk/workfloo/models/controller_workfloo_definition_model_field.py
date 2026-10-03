@@ -91,6 +91,11 @@ class ControllerWorkflooDefinitionModelField(BaseModel):
                 if _item_show_if:
                     _items.append(_item_show_if.to_dict())
             _dict['showIf'] = _items
+        # set to None if show_if (nullable) is None
+        # and model_fields_set contains the field
+        if self.show_if is None and "show_if" in self.model_fields_set:
+            _dict['showIf'] = None
+
         return _dict
 
     @classmethod

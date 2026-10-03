@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import kiban.sdk.workfloo.model.ControllerWorkflooModelWorkfloo;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -51,7 +52,7 @@ import kiban.sdk.workfloo.JSON;
 /**
  * ControllerWorkflooModelWorkflooPage
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-10-02T10:13:43.960045-06:00[America/Mexico_City]", comments = "Generator version: 7.24.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0")
 public class ControllerWorkflooModelWorkflooPage {
   public static final String SERIALIZED_NAME_CURRENT_PAGE = "currentPage";
   @SerializedName(SERIALIZED_NAME_CURRENT_PAGE)
@@ -66,7 +67,7 @@ public class ControllerWorkflooModelWorkflooPage {
   public static final String SERIALIZED_NAME_ITEMS = "items";
   @SerializedName(SERIALIZED_NAME_ITEMS)
   @javax.annotation.Nullable
-  private List<ControllerWorkflooModelWorkfloo> items = new ArrayList<>();
+  private List<ControllerWorkflooModelWorkfloo> items;
 
   public ControllerWorkflooModelWorkflooPage() {
   }
@@ -151,9 +152,20 @@ public class ControllerWorkflooModelWorkflooPage {
         Objects.equals(this.items, controllerWorkflooModelWorkflooPage.items);
   }
 
+  private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
+    return a == b || (a != null && b != null && a.isPresent() && b.isPresent() && Objects.deepEquals(a.get(), b.get()));
+  }
+
   @Override
   public int hashCode() {
     return Objects.hash(currentPage, hasNextPage, items);
+  }
+
+  private static <T> int hashCodeNullable(JsonNullable<T> a) {
+    if (a == null) {
+      return 1;
+    }
+    return a.isPresent() ? Arrays.deepHashCode(new Object[]{a.get()}) : 31;
   }
 
   @Override

@@ -79,6 +79,11 @@ class ControllerWorkflooModelReviewRequest(BaseModel):
                 if _item_reviews:
                     _items.append(_item_reviews.to_dict())
             _dict['reviews'] = _items
+        # set to None if reviews (nullable) is None
+        # and model_fields_set contains the field
+        if self.reviews is None and "reviews" in self.model_fields_set:
+            _dict['reviews'] = None
+
         return _dict
 
     @classmethod

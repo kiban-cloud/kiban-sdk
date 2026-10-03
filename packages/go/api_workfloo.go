@@ -1115,10 +1115,22 @@ type ApiListWorkfloosV2Request struct {
 	ApiService *WorkflooAPIService
 	page *int32
 	itemsPerPage *int32
-	status *string
 	from *string
 	to *string
+	origin *string
+	status *string
+	name *string
+	id *string
+	nodesFormSearchableByRfcPf *string
+	nodesFormSearchableByFirstName *string
+	nodesFormSearchableBySecondName *string
+	nodesFormSearchableByLastName1 *string
+	nodesFormSearchableByLastName2 *string
+	nodesFormSearchableByRfcPm *string
+	nodesFormSearchableByCompanyName *string
 	format *string
+	content *bool
+	labels *string
 	sandbox *bool
 }
 
@@ -1128,33 +1140,105 @@ func (r ApiListWorkfloosV2Request) Page(page int32) ApiListWorkfloosV2Request {
 	return r
 }
 
-// Cantidad de resultados por página
+// Cantidad de resultados por página, entre 1 y 10000
 func (r ApiListWorkfloosV2Request) ItemsPerPage(itemsPerPage int32) ApiListWorkfloosV2Request {
 	r.itemsPerPage = &itemsPerPage
 	return r
 }
 
-// Filtra por estado de la ejecución
-func (r ApiListWorkfloosV2Request) Status(status string) ApiListWorkfloosV2Request {
-	r.status = &status
-	return r
-}
-
-// Fecha inicial del rango (RFC3339)
+// Fecha inicial del rango (ISO 8601)
 func (r ApiListWorkfloosV2Request) From(from string) ApiListWorkfloosV2Request {
 	r.from = &from
 	return r
 }
 
-// Fecha final del rango (RFC3339)
+// Fecha final del rango (ISO 8601)
 func (r ApiListWorkfloosV2Request) To(to string) ApiListWorkfloosV2Request {
 	r.to = &to
 	return r
 }
 
-// Formato de la respuesta
+// Origen de la ejecución: KIBAN_CLOUD, API o FRONT
+func (r ApiListWorkfloosV2Request) Origin(origin string) ApiListWorkfloosV2Request {
+	r.origin = &origin
+	return r
+}
+
+// Estado de la ejecución: SUCCESS, ERROR o PROGRESS
+func (r ApiListWorkfloosV2Request) Status(status string) ApiListWorkfloosV2Request {
+	r.status = &status
+	return r
+}
+
+// Nombre del workfloo (búsqueda parcial)
+func (r ApiListWorkfloosV2Request) Name(name string) ApiListWorkfloosV2Request {
+	r.name = &name
+	return r
+}
+
+// Id exacto de la ejecución
+func (r ApiListWorkfloosV2Request) Id(id string) ApiListWorkfloosV2Request {
+	r.id = &id
+	return r
+}
+
+// RFC de persona física (empieza con, sin distinguir mayúsculas)
+func (r ApiListWorkfloosV2Request) NodesFormSearchableByRfcPf(nodesFormSearchableByRfcPf string) ApiListWorkfloosV2Request {
+	r.nodesFormSearchableByRfcPf = &nodesFormSearchableByRfcPf
+	return r
+}
+
+// Nombre (empieza con, sin distinguir mayúsculas)
+func (r ApiListWorkfloosV2Request) NodesFormSearchableByFirstName(nodesFormSearchableByFirstName string) ApiListWorkfloosV2Request {
+	r.nodesFormSearchableByFirstName = &nodesFormSearchableByFirstName
+	return r
+}
+
+// Segundo nombre (empieza con, sin distinguir mayúsculas)
+func (r ApiListWorkfloosV2Request) NodesFormSearchableBySecondName(nodesFormSearchableBySecondName string) ApiListWorkfloosV2Request {
+	r.nodesFormSearchableBySecondName = &nodesFormSearchableBySecondName
+	return r
+}
+
+// Apellido paterno (empieza con, sin distinguir mayúsculas)
+func (r ApiListWorkfloosV2Request) NodesFormSearchableByLastName1(nodesFormSearchableByLastName1 string) ApiListWorkfloosV2Request {
+	r.nodesFormSearchableByLastName1 = &nodesFormSearchableByLastName1
+	return r
+}
+
+// Apellido materno (empieza con, sin distinguir mayúsculas)
+func (r ApiListWorkfloosV2Request) NodesFormSearchableByLastName2(nodesFormSearchableByLastName2 string) ApiListWorkfloosV2Request {
+	r.nodesFormSearchableByLastName2 = &nodesFormSearchableByLastName2
+	return r
+}
+
+// RFC de persona moral (empieza con, sin distinguir mayúsculas)
+func (r ApiListWorkfloosV2Request) NodesFormSearchableByRfcPm(nodesFormSearchableByRfcPm string) ApiListWorkfloosV2Request {
+	r.nodesFormSearchableByRfcPm = &nodesFormSearchableByRfcPm
+	return r
+}
+
+// Razón social (empieza con, sin distinguir mayúsculas)
+func (r ApiListWorkfloosV2Request) NodesFormSearchableByCompanyName(nodesFormSearchableByCompanyName string) ApiListWorkfloosV2Request {
+	r.nodesFormSearchableByCompanyName = &nodesFormSearchableByCompanyName
+	return r
+}
+
+// Formato de la respuesta; por defecto JSON
 func (r ApiListWorkfloosV2Request) Format(format string) ApiListWorkfloosV2Request {
 	r.format = &format
+	return r
+}
+
+// Agrega la ejecución completa (todos sus nodos) a cada elemento; por defecto false
+func (r ApiListWorkfloosV2Request) Content(content bool) ApiListWorkfloosV2Request {
+	r.content = &content
+	return r
+}
+
+// Etiquetas, separadas por punto y coma
+func (r ApiListWorkfloosV2Request) Labels(labels string) ApiListWorkfloosV2Request {
+	r.labels = &labels
 	return r
 }
 
@@ -1164,15 +1248,16 @@ func (r ApiListWorkfloosV2Request) Sandbox(sandbox bool) ApiListWorkfloosV2Reque
 	return r
 }
 
-func (r ApiListWorkfloosV2Request) Execute() ([]ControllerWorkflooModelWorkfloo, *http.Response, error) {
+func (r ApiListWorkfloosV2Request) Execute() ([]ControllerWorkflooModelWorkflooListItem, *http.Response, error) {
 	return r.ApiService.ListWorkfloosV2Execute(r)
 }
 
 /*
 ListWorkfloosV2 Historial de ejecuciones (v2)
 
-Igual que v1 pero devuelve el arreglo de ejecuciones directo, sin envoltorio. La paginación viaja en el header Link.
-Con format=csv la respuesta es un archivo CSV en lugar de JSON.
+Devuelve el arreglo de ejecuciones directo, sin envoltorio. La paginación viaja en el header Link.
+content=true agrega a cada elemento la ejecución completa, con todos sus nodos (la misma forma que getWorkfloo); por defecto es false y llega el resumen.
+format=CSV devuelve un archivo CSV en lugar de JSON. Los SDKs tipan la respuesta como JSON: para el CSV hay que leer el cuerpo crudo de la respuesta.
 Cualquier query param adicional no listado aquí se interpreta como filtro de búsqueda sobre el listado (searchableBy).
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
@@ -1186,13 +1271,13 @@ func (a *WorkflooAPIService) ListWorkfloosV2(ctx context.Context) ApiListWorkflo
 }
 
 // Execute executes the request
-//  @return []ControllerWorkflooModelWorkfloo
-func (a *WorkflooAPIService) ListWorkfloosV2Execute(r ApiListWorkfloosV2Request) ([]ControllerWorkflooModelWorkfloo, *http.Response, error) {
+//  @return []ControllerWorkflooModelWorkflooListItem
+func (a *WorkflooAPIService) ListWorkfloosV2Execute(r ApiListWorkfloosV2Request) ([]ControllerWorkflooModelWorkflooListItem, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  []ControllerWorkflooModelWorkfloo
+		localVarReturnValue  []ControllerWorkflooModelWorkflooListItem
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "WorkflooAPIService.ListWorkfloosV2")
@@ -1212,17 +1297,53 @@ func (a *WorkflooAPIService) ListWorkfloosV2Execute(r ApiListWorkfloosV2Request)
 	if r.itemsPerPage != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "itemsPerPage", r.itemsPerPage, "form", "")
 	}
-	if r.status != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "status", r.status, "form", "")
-	}
 	if r.from != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "from", r.from, "form", "")
 	}
 	if r.to != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "to", r.to, "form", "")
 	}
+	if r.origin != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "origin", r.origin, "form", "")
+	}
+	if r.status != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "status", r.status, "form", "")
+	}
+	if r.name != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "name", r.name, "form", "")
+	}
+	if r.id != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "_id", r.id, "form", "")
+	}
+	if r.nodesFormSearchableByRfcPf != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "nodes.form.searchableBy.rfc_pf", r.nodesFormSearchableByRfcPf, "form", "")
+	}
+	if r.nodesFormSearchableByFirstName != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "nodes.form.searchableBy.first_name", r.nodesFormSearchableByFirstName, "form", "")
+	}
+	if r.nodesFormSearchableBySecondName != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "nodes.form.searchableBy.second_name", r.nodesFormSearchableBySecondName, "form", "")
+	}
+	if r.nodesFormSearchableByLastName1 != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "nodes.form.searchableBy.last_name_1", r.nodesFormSearchableByLastName1, "form", "")
+	}
+	if r.nodesFormSearchableByLastName2 != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "nodes.form.searchableBy.last_name_2", r.nodesFormSearchableByLastName2, "form", "")
+	}
+	if r.nodesFormSearchableByRfcPm != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "nodes.form.searchableBy.rfc_pm", r.nodesFormSearchableByRfcPm, "form", "")
+	}
+	if r.nodesFormSearchableByCompanyName != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "nodes.form.searchableBy.company_name", r.nodesFormSearchableByCompanyName, "form", "")
+	}
 	if r.format != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "format", r.format, "form", "")
+	}
+	if r.content != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "content", r.content, "form", "")
+	}
+	if r.labels != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "labels", r.labels, "form", "")
 	}
 	if r.sandbox != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "sandbox", r.sandbox, "form", "")

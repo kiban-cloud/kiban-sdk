@@ -868,8 +868,9 @@ paths:
   /api/v2/workfloo:
     get:
       description: |-
-        Igual que v1 pero devuelve el arreglo de ejecuciones directo, sin envoltorio. La paginación viaja en el header Link.
-        Con format=csv la respuesta es un archivo CSV en lugar de JSON.
+        Devuelve el arreglo de ejecuciones directo, sin envoltorio. La paginación viaja en el header Link.
+        content=true agrega a cada elemento la ejecución completa, con todos sus nodos (la misma forma que getWorkfloo); por defecto es false y llega el resumen.
+        format=CSV devuelve un archivo CSV en lugar de JSON. Los SDKs tipan la respuesta como JSON: para el CSV hay que leer el cuerpo crudo de la respuesta.
         Cualquier query param adicional no listado aquí se interpreta como filtro de búsqueda sobre el listado (searchableBy).
       operationId: listWorkfloosV2
       parameters:
@@ -881,7 +882,7 @@ paths:
         schema:
           type: integer
         style: form
-      - description: Cantidad de resultados por página
+      - description: "Cantidad de resultados por página, entre 1 y 10000"
         explode: true
         in: query
         name: itemsPerPage
@@ -889,15 +890,7 @@ paths:
         schema:
           type: integer
         style: form
-      - description: Filtra por estado de la ejecución
-        explode: true
-        in: query
-        name: status
-        required: false
-        schema:
-          type: string
-        style: form
-      - description: Fecha inicial del rango (RFC3339)
+      - description: Fecha inicial del rango (ISO 8601)
         explode: true
         in: query
         name: from
@@ -905,7 +898,7 @@ paths:
         schema:
           type: string
         style: form
-      - description: Fecha final del rango (RFC3339)
+      - description: Fecha final del rango (ISO 8601)
         explode: true
         in: query
         name: to
@@ -913,15 +906,120 @@ paths:
         schema:
           type: string
         style: form
-      - description: Formato de la respuesta
+      - description: "Origen de la ejecución: KIBAN_CLOUD, API o FRONT"
+        explode: true
+        in: query
+        name: origin
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: "Estado de la ejecución: SUCCESS, ERROR o PROGRESS"
+        explode: true
+        in: query
+        name: status
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Nombre del workfloo (búsqueda parcial)
+        explode: true
+        in: query
+        name: name
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Id exacto de la ejecución
+        explode: true
+        in: query
+        name: _id
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: "RFC de persona física (empieza con, sin distinguir mayúsculas)"
+        explode: true
+        in: query
+        name: nodes.form.searchableBy.rfc_pf
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: "Nombre (empieza con, sin distinguir mayúsculas)"
+        explode: true
+        in: query
+        name: nodes.form.searchableBy.first_name
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: "Segundo nombre (empieza con, sin distinguir mayúsculas)"
+        explode: true
+        in: query
+        name: nodes.form.searchableBy.second_name
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: "Apellido paterno (empieza con, sin distinguir mayúsculas)"
+        explode: true
+        in: query
+        name: nodes.form.searchableBy.last_name_1
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: "Apellido materno (empieza con, sin distinguir mayúsculas)"
+        explode: true
+        in: query
+        name: nodes.form.searchableBy.last_name_2
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: "RFC de persona moral (empieza con, sin distinguir mayúsculas)"
+        explode: true
+        in: query
+        name: nodes.form.searchableBy.rfc_pm
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: "Razón social (empieza con, sin distinguir mayúsculas)"
+        explode: true
+        in: query
+        name: nodes.form.searchableBy.company_name
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Formato de la respuesta; por defecto JSON
         explode: true
         in: query
         name: format
         required: false
         schema:
           enum:
-          - json
-          - csv
+          - JSON
+          - CSV
+          type: string
+        style: form
+      - description: Agrega la ejecución completa (todos sus nodos) a cada elemento;
+          por defecto false
+        explode: true
+        in: query
+        name: content
+        required: false
+        schema:
+          type: boolean
+        style: form
+      - description: "Etiquetas, separadas por punto y coma"
+        explode: true
+        in: query
+        name: labels
+        required: false
+        schema:
           type: string
         style: form
       - description: "Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde\
@@ -939,12 +1037,12 @@ paths:
             application/json:
               schema:
                 items:
-                  $ref: "#/components/schemas/controller_workfloo_model.Workfloo"
+                  $ref: "#/components/schemas/controller_workfloo_model.WorkflooListItem"
                 type: array
             text/csv:
               schema:
                 items:
-                  $ref: "#/components/schemas/controller_workfloo_model.Workfloo"
+                  $ref: "#/components/schemas/controller_workfloo_model.WorkflooListItem"
                 type: array
           description: Arreglo de ejecuciones. El header Link trae las páginas siguiente/anterior
           headers:
@@ -984,6 +1082,7 @@ components:
         sceneries:
           additionalProperties:
             type: string
+          nullable: true
           type: object
       required:
       - idPoolDefinition
@@ -1099,6 +1198,7 @@ components:
         documentField:
           items:
             $ref: "#/components/schemas/controller_workfloo_definition_model.FileDocument"
+          nullable: true
           type: array
       type: object
     controller_workfloo_definition_model.Field:
@@ -1174,6 +1274,7 @@ components:
         showIf:
           items:
             $ref: "#/components/schemas/controller_workfloo_definition_model.ShowIf"
+          nullable: true
           type: array
       type: object
     controller_workfloo_definition_model.FieldMetadata:
@@ -1204,6 +1305,7 @@ components:
         autoFilledBy:
           items:
             $ref: "#/components/schemas/controller_workfloo_definition_model.AutoFilledBy"
+          nullable: true
           type: array
         autofillNodeId:
           type: string
@@ -1213,6 +1315,7 @@ components:
         map:
           additionalProperties:
             type: string
+          nullable: true
           type: object
         max:
           type: integer
@@ -1335,6 +1438,7 @@ components:
         formats:
           items:
             type: string
+          nullable: true
           type: array
         max:
           type: integer
@@ -1566,6 +1670,7 @@ components:
         formFieldSection:
           items:
             $ref: "#/components/schemas/controller_workfloo_definition_model.FormFieldSection"
+          nullable: true
           type: array
       type: object
     controller_workfloo_definition_model.FormFieldSection:
@@ -1682,6 +1787,7 @@ components:
         fields:
           items:
             $ref: "#/components/schemas/controller_workfloo_definition_model.Field"
+          nullable: true
           type: array
         section:
           type: string
@@ -1701,14 +1807,17 @@ components:
         fields:
           items:
             $ref: "#/components/schemas/controller_workfloo_definition_model.Field"
+          nullable: true
           type: array
         optionalAt:
           items:
             type: string
+          nullable: true
           type: array
         required:
           items:
             type: string
+          nullable: true
           type: array
       type: object
     controller_workfloo_definition_model.SetDataDocument:
@@ -1746,14 +1855,17 @@ components:
         files:
           items:
             $ref: "#/components/schemas/controller_workfloo_definition_model.FileDocumentSet"
+          nullable: true
           type: array
         optionalAt:
           items:
             type: string
+          nullable: true
           type: array
         required:
           items:
             type: string
+          nullable: true
           type: array
       type: object
     controller_workfloo_definition_model.Show:
@@ -1781,10 +1893,12 @@ components:
         requiredWithValues:
           items:
             type: string
+          nullable: true
           type: array
         values:
           items:
             type: string
+          nullable: true
           type: array
       type: object
     controller_workfloo_model.Api:
@@ -1859,12 +1973,14 @@ components:
         headers:
           additionalProperties:
             type: string
+          nullable: true
           type: object
         httpCode:
           type: integer
         queryParams:
           additionalProperties:
             type: string
+          nullable: true
           type: object
         url:
           type: string
@@ -1884,18 +2000,21 @@ components:
         body:
           items:
             type: integer
+          nullable: true
           type: array
         date:
           type: string
         headers:
           additionalProperties:
             type: string
+          nullable: true
           type: object
         httpCode:
           type: integer
         queryParams:
           additionalProperties:
             type: string
+          nullable: true
           type: object
       type: object
     controller_workfloo_model.Data:
@@ -1910,10 +2029,12 @@ components:
           items:
             additionalProperties: true
             type: object
+          nullable: true
           type: array
         section:
           additionalProperties:
             type: string
+          nullable: true
           type: object
       type: object
     controller_workfloo_model.DecisionTree:
@@ -1962,9 +2083,11 @@ components:
           type: string
         document:
           additionalProperties: true
+          nullable: true
           type: object
         form:
           additionalProperties: true
+          nullable: true
           type: object
         idWorkflooDefinition:
           type: string
@@ -1992,6 +2115,7 @@ components:
         name:
           additionalProperties:
             type: string
+          nullable: true
           type: object
         value:
           type: string
@@ -2016,6 +2140,7 @@ components:
         fields:
           items:
             $ref: "#/components/schemas/controller_workfloo_model.FormField"
+          nullable: true
           type: array
       type: object
     controller_workfloo_model.FormField:
@@ -2038,6 +2163,7 @@ components:
       properties:
         fields:
           additionalProperties: true
+          nullable: true
           type: object
       type: object
     controller_workfloo_model.Label:
@@ -2049,6 +2175,7 @@ components:
         labels:
           items:
             type: string
+          nullable: true
           type: array
       type: object
     controller_workfloo_model.Link:
@@ -2062,6 +2189,7 @@ components:
       properties:
         data:
           additionalProperties: true
+          nullable: true
           type: object
         id:
           type: string
@@ -2105,6 +2233,7 @@ components:
         events:
           items:
             $ref: "#/components/schemas/controller_workfloo_model.Event"
+          nullable: true
           type: array
         key:
           type: string
@@ -2139,6 +2268,7 @@ components:
         events:
           items:
             $ref: "#/components/schemas/controller_workfloo_model.Event"
+          nullable: true
           type: array
         key:
           type: string
@@ -2277,6 +2407,7 @@ components:
         decisionTree:
           items:
             $ref: "#/components/schemas/controller_workfloo_model.DecisionTree"
+          nullable: true
           type: array
         form:
           $ref: "#/components/schemas/controller_workfloo_model.Form"
@@ -2453,20 +2584,24 @@ components:
         data:
           items:
             $ref: "#/components/schemas/controller_workfloo_model.Data"
+          nullable: true
           type: array
         decisionTree:
           items:
             $ref: "#/components/schemas/controller_workfloo_model.DecisionTree"
+          nullable: true
           type: array
         detail:
           $ref: "#/components/schemas/controller_workfloo_model.NodeDetail"
         documents:
           additionalProperties:
             $ref: "#/components/schemas/controller_workfloo_model.DocumentsResume"
+          nullable: true
           type: object
         files:
           items:
             $ref: "#/components/schemas/controller_workfloo_model.File"
+          nullable: true
           type: array
         form:
           $ref: "#/components/schemas/controller_workfloo_model.FormResume"
@@ -2495,6 +2630,7 @@ components:
         variables:
           items:
             $ref: "#/components/schemas/controller_workfloo_model.Variable"
+          nullable: true
           type: array
       type: object
     controller_workfloo_model.OtpValidateRequest:
@@ -2545,6 +2681,7 @@ components:
         reviews:
           items:
             $ref: "#/components/schemas/controller_workfloo_model.ReviewFieldRequest"
+          nullable: true
           type: array
       type: object
     controller_workfloo_model.ReviewResume:
@@ -2580,12 +2717,14 @@ components:
         decision:
           items:
             $ref: "#/components/schemas/controller_workfloo_model.Rules"
+          nullable: true
           type: array
         exit:
           type: string
         labels:
           items:
             type: string
+          nullable: true
           type: array
       type: object
     controller_workfloo_model.Timer:
@@ -2644,6 +2783,7 @@ components:
         reviews:
           items:
             $ref: "#/components/schemas/controller_workfloo_model.ReviewResume"
+          nullable: true
           type: array
       type: object
     controller_workfloo_model.ValidationStatus:
@@ -2666,6 +2806,7 @@ components:
         fields:
           items:
             $ref: "#/components/schemas/controller_workfloo_model.ValidationField"
+          nullable: true
           type: array
         instruction:
           type: string
@@ -2870,6 +3011,7 @@ components:
         labels:
           items:
             type: string
+          nullable: true
           type: array
         lastName1:
           type: string
@@ -2892,6 +3034,457 @@ components:
         steps:
           items:
             $ref: "#/components/schemas/controller_workfloo_model.Node"
+          nullable: true
+          type: array
+      type: object
+    controller_workfloo_model.WorkflooListItem:
+      example:
+        cancelledAt: cancelledAt
+        cancelledBy: cancelledBy
+        companyName: companyName
+        created: created
+        createdAt: createdAt
+        createdBy: createdBy
+        currentNodeName: currentNodeName
+        firstName: firstName
+        id: id
+        idUnykoo: 0
+        ipOrigin: ipOrigin
+        labels:
+        - labels
+        - labels
+        lastName1: lastName1
+        lastName2: lastName2
+        modified: modified
+        modifiedAt: modifiedAt
+        name: name
+        nodes:
+        - apiData:
+            request:
+              body: ""
+              headers:
+                key: headers
+              httpCode: 6
+              queryParams:
+                key: queryParams
+              url: url
+            response:
+              body: ""
+              headers:
+                key: headers
+              httpCode: 6
+              queryParams:
+                key: queryParams
+              url: url
+          created: created
+          data:
+          - fields:
+            - key: ""
+            - key: ""
+            section:
+              key: section
+          - fields:
+            - key: ""
+            - key: ""
+            section:
+              key: section
+          decisionTree:
+          - message: message
+            nameNode: nameNode
+            result: true
+          - message: message
+            nameNode: nameNode
+            result: true
+          detail:
+            createdBy: createdBy
+            dateFound: dateFound
+            errorMessage: errorMessage
+            httpCode: 1
+            idLink: idLink
+            idWorkfloo: idWorkfloo
+            origin: origin
+            responseTime: 5
+            status: status
+          documents:
+            key:
+              name: name
+              size: size
+              value: ""
+          files:
+          - name:
+              key: name
+            value: value
+          - name:
+              key: name
+            value: value
+          form:
+            fields:
+              key: ""
+          id: id
+          label:
+            labels:
+            - labels
+            - labels
+          link:
+            events:
+            - date: date
+              errorMessage: errorMessage
+              status: status
+            - date: date
+              errorMessage: errorMessage
+              status: status
+            key: key
+            phase: phase
+          modified: modified
+          name: name
+          pdf:
+            errorMessage: errorMessage
+            pdfBase64: pdfBase64
+          request: ""
+          response: ""
+          ruleset:
+            decision:
+            - message: message
+            - message: message
+            exit: exit
+            labels:
+            - labels
+            - labels
+          timer:
+            endWaitDate: endWaitDate
+            remainingTime:
+              hours: 5
+              minutes: 2
+              seconds: 7
+          type: type
+          validation:
+            decision: decision
+            reviewedAt: reviewedAt
+            reviewedBy: reviewedBy
+            reviewerNote: reviewerNote
+            reviews:
+            - fieldId: fieldId
+              message: message
+              sourceNodeId: sourceNodeId
+            - fieldId: fieldId
+              message: message
+              sourceNodeId: sourceNodeId
+          variables:
+          - name: name
+            value: ""
+          - name: name
+            value: ""
+        - apiData:
+            request:
+              body: ""
+              headers:
+                key: headers
+              httpCode: 6
+              queryParams:
+                key: queryParams
+              url: url
+            response:
+              body: ""
+              headers:
+                key: headers
+              httpCode: 6
+              queryParams:
+                key: queryParams
+              url: url
+          created: created
+          data:
+          - fields:
+            - key: ""
+            - key: ""
+            section:
+              key: section
+          - fields:
+            - key: ""
+            - key: ""
+            section:
+              key: section
+          decisionTree:
+          - message: message
+            nameNode: nameNode
+            result: true
+          - message: message
+            nameNode: nameNode
+            result: true
+          detail:
+            createdBy: createdBy
+            dateFound: dateFound
+            errorMessage: errorMessage
+            httpCode: 1
+            idLink: idLink
+            idWorkfloo: idWorkfloo
+            origin: origin
+            responseTime: 5
+            status: status
+          documents:
+            key:
+              name: name
+              size: size
+              value: ""
+          files:
+          - name:
+              key: name
+            value: value
+          - name:
+              key: name
+            value: value
+          form:
+            fields:
+              key: ""
+          id: id
+          label:
+            labels:
+            - labels
+            - labels
+          link:
+            events:
+            - date: date
+              errorMessage: errorMessage
+              status: status
+            - date: date
+              errorMessage: errorMessage
+              status: status
+            key: key
+            phase: phase
+          modified: modified
+          name: name
+          pdf:
+            errorMessage: errorMessage
+            pdfBase64: pdfBase64
+          request: ""
+          response: ""
+          ruleset:
+            decision:
+            - message: message
+            - message: message
+            exit: exit
+            labels:
+            - labels
+            - labels
+          timer:
+            endWaitDate: endWaitDate
+            remainingTime:
+              hours: 5
+              minutes: 2
+              seconds: 7
+          type: type
+          validation:
+            decision: decision
+            reviewedAt: reviewedAt
+            reviewedBy: reviewedBy
+            reviewerNote: reviewerNote
+            reviews:
+            - fieldId: fieldId
+              message: message
+              sourceNodeId: sourceNodeId
+            - fieldId: fieldId
+              message: message
+              sourceNodeId: sourceNodeId
+          variables:
+          - name: name
+            value: ""
+          - name: name
+            value: ""
+        origin: origin
+        rfcPf: rfcPf
+        rfcPm: rfcPm
+        sceneryId: sceneryId
+        sceneryName: sceneryName
+        secondName: secondName
+        status: status
+        steps:
+        - api:
+            duration: 1
+            request:
+              body:
+              - 5
+              - 5
+              date: date
+              headers:
+                key: headers
+              httpCode: 5
+              queryParams:
+                key: queryParams
+            response:
+              body:
+              - 5
+              - 5
+              date: date
+              headers:
+                key: headers
+              httpCode: 5
+              queryParams:
+                key: queryParams
+            url: url
+          created: created
+          createdBy: createdBy
+          decisionTree:
+          - message: message
+            nameNode: nameNode
+            result: true
+          - message: message
+            nameNode: nameNode
+            result: true
+          form:
+            fields:
+            - id: id
+              name: name
+              value: value
+            - id: id
+              name: name
+              value: value
+          id: id
+          link:
+            data:
+              key: ""
+            id: id
+            key: key
+            service: service
+            subService: subService
+          modified: modified
+          name: name
+          ruleset:
+            decision:
+            - message: message
+            - message: message
+            exit: exit
+            labels:
+            - labels
+            - labels
+          status: status
+          type: type
+          variables:
+            variables: variables
+        - api:
+            duration: 1
+            request:
+              body:
+              - 5
+              - 5
+              date: date
+              headers:
+                key: headers
+              httpCode: 5
+              queryParams:
+                key: queryParams
+            response:
+              body:
+              - 5
+              - 5
+              date: date
+              headers:
+                key: headers
+              httpCode: 5
+              queryParams:
+                key: queryParams
+            url: url
+          created: created
+          createdBy: createdBy
+          decisionTree:
+          - message: message
+            nameNode: nameNode
+            result: true
+          - message: message
+            nameNode: nameNode
+            result: true
+          form:
+            fields:
+            - id: id
+              name: name
+              value: value
+            - id: id
+              name: name
+              value: value
+          id: id
+          link:
+            data:
+              key: ""
+            id: id
+            key: key
+            service: service
+            subService: subService
+          modified: modified
+          name: name
+          ruleset:
+            decision:
+            - message: message
+            - message: message
+            exit: exit
+            labels:
+            - labels
+            - labels
+          status: status
+          type: type
+          variables:
+            variables: variables
+      properties:
+        cancelledAt:
+          type: string
+        cancelledBy:
+          type: string
+        companyName:
+          type: string
+        created:
+          description: "Ejecución completa (content=true): lo mismo que GET /api/v1/workfloo/{id}."
+          type: string
+        createdAt:
+          description: Resumen (content=false).
+          type: string
+        createdBy:
+          type: string
+        currentNodeName:
+          type: string
+        firstName:
+          type: string
+        id:
+          description: Comunes a las dos formas.
+          type: string
+        idUnykoo:
+          type: integer
+        ipOrigin:
+          type: string
+        labels:
+          items:
+            type: string
+          nullable: true
+          type: array
+        lastName1:
+          type: string
+        lastName2:
+          type: string
+        modified:
+          type: string
+        modifiedAt:
+          type: string
+        name:
+          type: string
+        nodes:
+          items:
+            $ref: "#/components/schemas/controller_workfloo_model.NodeResume"
+          nullable: true
+          type: array
+        origin:
+          type: string
+        rfcPf:
+          type: string
+        rfcPm:
+          type: string
+        sceneryId:
+          type: string
+        sceneryName:
+          type: string
+        secondName:
+          type: string
+        status:
+          type: string
+        steps:
+          items:
+            $ref: "#/components/schemas/controller_workfloo_model.Node"
+          nullable: true
           type: array
       type: object
     controller_workfloo_model.WorkflooPage:
@@ -3197,6 +3790,7 @@ components:
         items:
           items:
             $ref: "#/components/schemas/controller_workfloo_model.Workfloo"
+          nullable: true
           type: array
       type: object
     controller_workfloo_model.WorkflooResume:
@@ -3470,6 +4064,7 @@ components:
         labels:
           items:
             type: string
+          nullable: true
           type: array
         modified:
           type: string
@@ -3478,6 +4073,7 @@ components:
         nodes:
           items:
             $ref: "#/components/schemas/controller_workfloo_model.NodeResume"
+          nullable: true
           type: array
         origin:
           type: string
