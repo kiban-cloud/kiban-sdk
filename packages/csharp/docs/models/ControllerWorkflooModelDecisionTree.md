@@ -1,4 +1,4 @@
-# kiban.sdk.workfloo.Model.ControllerWorkflooModelDecisionTree
+# Kiban.Workfloo.Model.ControllerWorkflooModelDecisionTree
 
 ## Properties
 

@@ -1,4 +1,4 @@
-# kiban.sdk.workfloo.Model.ControllerWorkflooModelNipResendRequest
+# Kiban.Workfloo.Model.ControllerWorkflooModelNipResendRequest
 
 ## Properties
 

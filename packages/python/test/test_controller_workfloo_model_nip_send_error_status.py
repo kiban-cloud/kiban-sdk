@@ -14,7 +14,7 @@
 
 import unittest
 
-from kiban.sdk.workfloo.models.controller_workfloo_model_nip_send_error_status import ControllerWorkflooModelNipSendErrorStatus
+from kiban.workfloo.models.controller_workfloo_model_nip_send_error_status import ControllerWorkflooModelNipSendErrorStatus
 
 class TestControllerWorkflooModelNipSendErrorStatus(unittest.TestCase):
     """ControllerWorkflooModelNipSendErrorStatus unit test stubs"""

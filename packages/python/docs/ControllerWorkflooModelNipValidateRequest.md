@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from kiban.sdk.workfloo.models.controller_workfloo_model_nip_validate_request import ControllerWorkflooModelNipValidateRequest
+from kiban.workfloo.models.controller_workfloo_model_nip_validate_request import ControllerWorkflooModelNipValidateRequest
 
 # TODO update the JSON string below
 json = "{}"

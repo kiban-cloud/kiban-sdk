@@ -30,13 +30,13 @@ Opcionales:
 
 **Las respuestas** salen de [`answers.example.json`](answers.example.json):
 `form` es `{campoId: valor}` y `documents` es `{documentoId: ruta}`, con la ruta
-relativa al propio archivo. Copialo y ajustalo a tu definición. Si el
+relativa al propio archivo. Cópialo y ajústalo a tu definición. Si el
 formulario pide un campo obligatorio que no está ahí, el programa se detiene y
 lista los que faltan. **Los códigos** (NIP, código de verificación) y las
 correcciones se piden por consola, porque los recibe una persona en ese
 momento.
 
-Sin sandbox cada corrida es una ejecución real y consume saldo.
+Sin sandbox, cada corrida es una ejecución real y consume saldo.
 
 ## Cómo decide qué hacer
 
@@ -58,7 +58,7 @@ Dos detalles que el código respeta y conviene copiar:
 - **`verification` se revisa antes que la fase.** El código de un proveedor
   externo (p. ej. Truora) también se estaciona en `VALIDATE`, igual que el NIP,
   pero se valida con otro endpoint.
-- **Cada paso se atiende una sola vez.** Entre que respondés y que el motor
+- **Cada paso se atiende una sola vez.** Entre que respondes y que el motor
   avanza, el estatus puede seguir mostrando el mismo paso por un momento. El
   ejemplo recuerda el último paso que atendió (nodo + tipo + fase + estado) y no
   lo repite; si el motor pasa por otro paso y regresa, sí lo vuelve a atender.
@@ -66,9 +66,9 @@ Dos detalles que el código respeta y conviene copiar:
 ## En producción: webhook en lugar de consultar en bucle
 
 Estos ejemplos consultan el estatus cada 3 segundos porque así se pueden correr
-sin infraestructura. En una integración real, pasá `callbackUrl` (y
+sin infraestructura. En una integración real, pasa `callbackUrl` (y
 opcionalmente `callbackXApiKey`) al ejecutar: workfloo te avisa en cada cambio
-con **el mismo objeto** que devuelve `getWorkflooStatus`, así que la tabla de
+con **el mismo objeto** que regresa `getWorkflooStatus`, así que la tabla de
 arriba aplica sin cambios. Los headers `x-kiban-event-id` y `x-kiban-event-type`
 de cada entrega sirven para deduplicar y enrutar.
 
@@ -77,7 +77,7 @@ de cada entrega sirven para deduplicar y enrutar.
 Son el flujo de quien **ejecuta** el workfloo. No muestran la decisión del
 revisor interno (`reviewWorkflooValidation`), la descarga de archivos
 (`getWorkflooFile`), los reenvíos (`resendWorkflooNip`, `fallbackWorkflooOtp`),
-documentos de tipo *set* (que van como arreglo de objetos), el historial
+los documentos de tipo *set* (que van como arreglo de objetos), el historial
 paginado ni los pools. Cada operación tiene su ejemplo de uso en
-`packages/<lenguaje>/docs/` (en C# esas docs sólo listan parámetros y tipos; el
+`packages/<lenguaje>/docs/` (en C# esas docs solo listan parámetros y tipos; el
 uso está en [`packages/csharp/README.md`](../packages/csharp/README.md)).

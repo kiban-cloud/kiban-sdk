@@ -14,7 +14,7 @@
 
 import unittest
 
-from kiban.sdk.workfloo.models.controller_workfloo_model_validation_field import ControllerWorkflooModelValidationField
+from kiban.workfloo.models.controller_workfloo_model_validation_field import ControllerWorkflooModelValidationField
 
 class TestControllerWorkflooModelValidationField(unittest.TestCase):
     """ControllerWorkflooModelValidationField unit test stubs"""

@@ -14,7 +14,7 @@
 
 import unittest
 
-from kiban.sdk.workfloo.models.controller_workfloo_model_verification_status import ControllerWorkflooModelVerificationStatus
+from kiban.workfloo.models.controller_workfloo_model_verification_status import ControllerWorkflooModelVerificationStatus
 
 class TestControllerWorkflooModelVerificationStatus(unittest.TestCase):
     """ControllerWorkflooModelVerificationStatus unit test stubs"""

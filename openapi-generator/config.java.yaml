@@ -1,11 +1,23 @@
-# openapi-generator · Java (generator: java)
-# El cliente recibe la API key (x-api-key) por configuración, nunca hardcodeada.
-groupId: kiban.sdk
+# openapi-generator · Java (generator: java, librería okhttp-gson)
+# groupId com.kiban: Maven Central sólo acepta un namespace verificado por DNS
+# sobre un dominio propio (kiban.com).
+# La versión NO va aquí: sale de config/modules.json (gen-sdks.sh la inyecta).
+groupId: com.kiban
 artifactId: workfloo
-artifactVersion: 0.3.0
-invokerPackage: kiban.sdk.workfloo
-apiPackage: kiban.sdk.workfloo.api
-modelPackage: kiban.sdk.workfloo.model
+invokerPackage: com.kiban.workfloo
+apiPackage: com.kiban.workfloo.api
+modelPackage: com.kiban.workfloo.model
+artifactDescription: SDK de la API pública de workfloo de kiban cloud.
+artifactUrl: https://github.com/kiban-cloud/kiban-sdk
+scmConnection: scm:git:git://github.com/kiban-cloud/kiban-sdk.git
+scmDeveloperConnection: scm:git:ssh://git@github.com/kiban-cloud/kiban-sdk.git
+scmUrl: https://github.com/kiban-cloud/kiban-sdk
+developerName: kiban
+developerOrganization: kiban
+developerOrganizationUrl: https://kiban.com
+# Un solo objeto de parámetros por método: agregar un parámetro opcional en el
+# futuro no rompe a nadie (con parámetros posicionales sería un major).
+useSingleRequestParameter: true
 # Sin fecha de generación: si no, cada regeneración cambia ~74 archivos aunque
 # el spec sea el mismo, y los PRs de regeneración se llenan de ruido.
 hideGenerationTimestamp: true

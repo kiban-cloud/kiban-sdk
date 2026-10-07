@@ -14,7 +14,7 @@
 
 import unittest
 
-from kiban.sdk.workfloo.models.controller_workfloo_model_label import ControllerWorkflooModelLabel
+from kiban.workfloo.models.controller_workfloo_model_label import ControllerWorkflooModelLabel
 
 class TestControllerWorkflooModelLabel(unittest.TestCase):
     """ControllerWorkflooModelLabel unit test stubs"""

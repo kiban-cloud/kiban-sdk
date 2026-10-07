@@ -1,4 +1,4 @@
-# kiban.sdk.workfloo.Model.ControllerWorkflooModelValidationField
+# Kiban.Workfloo.Model.ControllerWorkflooModelValidationField
 
 ## Properties
 

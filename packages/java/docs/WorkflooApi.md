@@ -23,7 +23,7 @@ All URIs are relative to *https://workfloo.kiban.com*
 
 <a id="executeWorkfloo"></a>
 # **executeWorkfloo**
-> ControllerWorkflooModelExecuteResponse executeWorkfloo(controllerWorkflooModelExecute, sandbox)
+> ControllerWorkflooModelExecuteResponse executeWorkfloo(controllerWorkflooModelExecute).sandbox(sandbox).execute();
 
 Ejecutar un workfloo
 
@@ -32,12 +32,12 @@ Crea y arranca una ejecución a partir de una definición de workfloo. Devuelve 
 ### Example
 ```java
 // Import classes:
-import kiban.sdk.workfloo.ApiClient;
-import kiban.sdk.workfloo.ApiException;
-import kiban.sdk.workfloo.Configuration;
-import kiban.sdk.workfloo.auth.*;
-import kiban.sdk.workfloo.models.*;
-import kiban.sdk.workfloo.api.WorkflooApi;
+import com.kiban.workfloo.ApiClient;
+import com.kiban.workfloo.ApiException;
+import com.kiban.workfloo.Configuration;
+import com.kiban.workfloo.auth.*;
+import com.kiban.workfloo.models.*;
+import com.kiban.workfloo.api.WorkflooApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -54,7 +54,9 @@ public class Example {
     ControllerWorkflooModelExecute controllerWorkflooModelExecute = new ControllerWorkflooModelExecute(); // ControllerWorkflooModelExecute | Definición a ejecutar y datos iniciales
     Boolean sandbox = true; // Boolean | Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
     try {
-      ControllerWorkflooModelExecuteResponse result = apiInstance.executeWorkfloo(controllerWorkflooModelExecute, sandbox);
+      ControllerWorkflooModelExecuteResponse result = apiInstance.executeWorkfloo(controllerWorkflooModelExecute)
+            .sandbox(sandbox)
+            .execute();
       System.out.println(result);
     } catch (ApiException e) {
       System.err.println("Exception when calling WorkflooApi#executeWorkfloo");
@@ -101,7 +103,7 @@ public class Example {
 
 <a id="executeWorkflooDocument"></a>
 # **executeWorkflooDocument**
-> executeWorkflooDocument(id, body, sandbox)
+> executeWorkflooDocument(id, body).sandbox(sandbox).execute();
 
 Enviar los documentos de un paso
 
@@ -110,12 +112,12 @@ Envía los documentos del nodo DOCUMENT actual. El body es un objeto {documentoI
 ### Example
 ```java
 // Import classes:
-import kiban.sdk.workfloo.ApiClient;
-import kiban.sdk.workfloo.ApiException;
-import kiban.sdk.workfloo.Configuration;
-import kiban.sdk.workfloo.auth.*;
-import kiban.sdk.workfloo.models.*;
-import kiban.sdk.workfloo.api.WorkflooApi;
+import com.kiban.workfloo.ApiClient;
+import com.kiban.workfloo.ApiException;
+import com.kiban.workfloo.Configuration;
+import com.kiban.workfloo.auth.*;
+import com.kiban.workfloo.models.*;
+import com.kiban.workfloo.api.WorkflooApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -133,7 +135,9 @@ public class Example {
     Object body = null; // Object | Documentos: {documentoId: base64}
     Boolean sandbox = true; // Boolean | Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
     try {
-      apiInstance.executeWorkflooDocument(id, body, sandbox);
+      apiInstance.executeWorkflooDocument(id, body)
+            .sandbox(sandbox)
+            .execute();
     } catch (ApiException e) {
       System.err.println("Exception when calling WorkflooApi#executeWorkflooDocument");
       System.err.println("Status code: " + e.getCode());
@@ -180,7 +184,7 @@ null (empty response body)
 
 <a id="executeWorkflooForm"></a>
 # **executeWorkflooForm**
-> executeWorkflooForm(id, body, sandbox)
+> executeWorkflooForm(id, body).sandbox(sandbox).execute();
 
 Enviar el formulario de un paso
 
@@ -189,12 +193,12 @@ Envía las respuestas del nodo FORM actual de la ejecución. El body es un objet
 ### Example
 ```java
 // Import classes:
-import kiban.sdk.workfloo.ApiClient;
-import kiban.sdk.workfloo.ApiException;
-import kiban.sdk.workfloo.Configuration;
-import kiban.sdk.workfloo.auth.*;
-import kiban.sdk.workfloo.models.*;
-import kiban.sdk.workfloo.api.WorkflooApi;
+import com.kiban.workfloo.ApiClient;
+import com.kiban.workfloo.ApiException;
+import com.kiban.workfloo.Configuration;
+import com.kiban.workfloo.auth.*;
+import com.kiban.workfloo.models.*;
+import com.kiban.workfloo.api.WorkflooApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -212,7 +216,9 @@ public class Example {
     Object body = null; // Object | Campos del formulario: {campoId: valor}
     Boolean sandbox = true; // Boolean | Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
     try {
-      apiInstance.executeWorkflooForm(id, body, sandbox);
+      apiInstance.executeWorkflooForm(id, body)
+            .sandbox(sandbox)
+            .execute();
     } catch (ApiException e) {
       System.err.println("Exception when calling WorkflooApi#executeWorkflooForm");
       System.err.println("Status code: " + e.getCode());
@@ -259,7 +265,7 @@ null (empty response body)
 
 <a id="fallbackWorkflooOtp"></a>
 # **fallbackWorkflooOtp**
-> fallbackWorkflooOtp(id, sandbox)
+> fallbackWorkflooOtp(id).sandbox(sandbox).execute();
 
 Reenviar el código de verificación (OTP)
 
@@ -268,12 +274,12 @@ Pide al proveedor una validación nueva (y un código nuevo) para el paso de ver
 ### Example
 ```java
 // Import classes:
-import kiban.sdk.workfloo.ApiClient;
-import kiban.sdk.workfloo.ApiException;
-import kiban.sdk.workfloo.Configuration;
-import kiban.sdk.workfloo.auth.*;
-import kiban.sdk.workfloo.models.*;
-import kiban.sdk.workfloo.api.WorkflooApi;
+import com.kiban.workfloo.ApiClient;
+import com.kiban.workfloo.ApiException;
+import com.kiban.workfloo.Configuration;
+import com.kiban.workfloo.auth.*;
+import com.kiban.workfloo.models.*;
+import com.kiban.workfloo.api.WorkflooApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -290,7 +296,9 @@ public class Example {
     String id = "id_example"; // String | Id de la ejecución
     Boolean sandbox = true; // Boolean | Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
     try {
-      apiInstance.fallbackWorkflooOtp(id, sandbox);
+      apiInstance.fallbackWorkflooOtp(id)
+            .sandbox(sandbox)
+            .execute();
     } catch (ApiException e) {
       System.err.println("Exception when calling WorkflooApi#fallbackWorkflooOtp");
       System.err.println("Status code: " + e.getCode());
@@ -335,7 +343,7 @@ null (empty response body)
 
 <a id="getWorkfloo"></a>
 # **getWorkfloo**
-> ControllerWorkflooModelWorkflooResume getWorkfloo(id, sandbox)
+> ControllerWorkflooModelWorkflooResume getWorkfloo(id).sandbox(sandbox).execute();
 
 Detalle de una ejecución
 
@@ -344,12 +352,12 @@ Devuelve el historial completo de una ejecución: todos sus nodos con request/re
 ### Example
 ```java
 // Import classes:
-import kiban.sdk.workfloo.ApiClient;
-import kiban.sdk.workfloo.ApiException;
-import kiban.sdk.workfloo.Configuration;
-import kiban.sdk.workfloo.auth.*;
-import kiban.sdk.workfloo.models.*;
-import kiban.sdk.workfloo.api.WorkflooApi;
+import com.kiban.workfloo.ApiClient;
+import com.kiban.workfloo.ApiException;
+import com.kiban.workfloo.Configuration;
+import com.kiban.workfloo.auth.*;
+import com.kiban.workfloo.models.*;
+import com.kiban.workfloo.api.WorkflooApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -366,7 +374,9 @@ public class Example {
     String id = "id_example"; // String | Id de la ejecución
     Boolean sandbox = true; // Boolean | Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
     try {
-      ControllerWorkflooModelWorkflooResume result = apiInstance.getWorkfloo(id, sandbox);
+      ControllerWorkflooModelWorkflooResume result = apiInstance.getWorkfloo(id)
+            .sandbox(sandbox)
+            .execute();
       System.out.println(result);
     } catch (ApiException e) {
       System.err.println("Exception when calling WorkflooApi#getWorkfloo");
@@ -413,7 +423,7 @@ public class Example {
 
 <a id="getWorkflooFile"></a>
 # **getWorkflooFile**
-> ControllerWorkflooModelFileResponse getWorkflooFile(id, nodeId, name, sandbox)
+> ControllerWorkflooModelFileResponse getWorkflooFile(id, nodeId, name).sandbox(sandbox).execute();
 
 Descargar un archivo de un nodo
 
@@ -422,12 +432,12 @@ Devuelve, en base64, un archivo producido/subido en un nodo de la ejecución, id
 ### Example
 ```java
 // Import classes:
-import kiban.sdk.workfloo.ApiClient;
-import kiban.sdk.workfloo.ApiException;
-import kiban.sdk.workfloo.Configuration;
-import kiban.sdk.workfloo.auth.*;
-import kiban.sdk.workfloo.models.*;
-import kiban.sdk.workfloo.api.WorkflooApi;
+import com.kiban.workfloo.ApiClient;
+import com.kiban.workfloo.ApiException;
+import com.kiban.workfloo.Configuration;
+import com.kiban.workfloo.auth.*;
+import com.kiban.workfloo.models.*;
+import com.kiban.workfloo.api.WorkflooApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -446,7 +456,9 @@ public class Example {
     String name = "name_example"; // String | Nombre del archivo
     Boolean sandbox = true; // Boolean | Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
     try {
-      ControllerWorkflooModelFileResponse result = apiInstance.getWorkflooFile(id, nodeId, name, sandbox);
+      ControllerWorkflooModelFileResponse result = apiInstance.getWorkflooFile(id, nodeId, name)
+            .sandbox(sandbox)
+            .execute();
       System.out.println(result);
     } catch (ApiException e) {
       System.err.println("Exception when calling WorkflooApi#getWorkflooFile");
@@ -494,7 +506,7 @@ public class Example {
 
 <a id="getWorkflooStatus"></a>
 # **getWorkflooStatus**
-> ControllerWorkflooModelWorkflooStatus getWorkflooStatus(id, sandbox)
+> ControllerWorkflooModelWorkflooStatus getWorkflooStatus(id).sandbox(sandbox).execute();
 
 Estatus de una ejecución
 
@@ -503,12 +515,12 @@ Devuelve el estado actual de la ejecución y el paso en el que está parada, con
 ### Example
 ```java
 // Import classes:
-import kiban.sdk.workfloo.ApiClient;
-import kiban.sdk.workfloo.ApiException;
-import kiban.sdk.workfloo.Configuration;
-import kiban.sdk.workfloo.auth.*;
-import kiban.sdk.workfloo.models.*;
-import kiban.sdk.workfloo.api.WorkflooApi;
+import com.kiban.workfloo.ApiClient;
+import com.kiban.workfloo.ApiException;
+import com.kiban.workfloo.Configuration;
+import com.kiban.workfloo.auth.*;
+import com.kiban.workfloo.models.*;
+import com.kiban.workfloo.api.WorkflooApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -525,7 +537,9 @@ public class Example {
     String id = "id_example"; // String | Id de la ejecución
     Boolean sandbox = true; // Boolean | Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
     try {
-      ControllerWorkflooModelWorkflooStatus result = apiInstance.getWorkflooStatus(id, sandbox);
+      ControllerWorkflooModelWorkflooStatus result = apiInstance.getWorkflooStatus(id)
+            .sandbox(sandbox)
+            .execute();
       System.out.println(result);
     } catch (ApiException e) {
       System.err.println("Exception when calling WorkflooApi#getWorkflooStatus");
@@ -572,7 +586,7 @@ public class Example {
 
 <a id="listWorkfloos"></a>
 # **listWorkfloos**
-> ControllerWorkflooModelWorkflooPage listWorkfloos(page, itemsPerPage, status, from, to, sandbox)
+> ControllerWorkflooModelWorkflooPage listWorkfloos(page, itemsPerPage).status(status).from(from).to(to).sandbox(sandbox).execute();
 
 Historial de ejecuciones (v1)
 
@@ -581,12 +595,12 @@ Devuelve una página de ejecuciones envuelta en un objeto con currentPage/hasNex
 ### Example
 ```java
 // Import classes:
-import kiban.sdk.workfloo.ApiClient;
-import kiban.sdk.workfloo.ApiException;
-import kiban.sdk.workfloo.Configuration;
-import kiban.sdk.workfloo.auth.*;
-import kiban.sdk.workfloo.models.*;
-import kiban.sdk.workfloo.api.WorkflooApi;
+import com.kiban.workfloo.ApiClient;
+import com.kiban.workfloo.ApiException;
+import com.kiban.workfloo.Configuration;
+import com.kiban.workfloo.auth.*;
+import com.kiban.workfloo.models.*;
+import com.kiban.workfloo.api.WorkflooApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -607,7 +621,12 @@ public class Example {
     String to = "to_example"; // String | Fecha final del rango (RFC3339)
     Boolean sandbox = true; // Boolean | Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
     try {
-      ControllerWorkflooModelWorkflooPage result = apiInstance.listWorkfloos(page, itemsPerPage, status, from, to, sandbox);
+      ControllerWorkflooModelWorkflooPage result = apiInstance.listWorkfloos(page, itemsPerPage)
+            .status(status)
+            .from(from)
+            .to(to)
+            .sandbox(sandbox)
+            .execute();
       System.out.println(result);
     } catch (ApiException e) {
       System.err.println("Exception when calling WorkflooApi#listWorkfloos");
@@ -657,7 +676,7 @@ public class Example {
 
 <a id="listWorkfloosV2"></a>
 # **listWorkfloosV2**
-> List&lt;ControllerWorkflooModelWorkflooListItem&gt; listWorkfloosV2(page, itemsPerPage, from, to, origin, status, name, id, nodesFormSearchableByRfcPf, nodesFormSearchableByFirstName, nodesFormSearchableBySecondName, nodesFormSearchableByLastName1, nodesFormSearchableByLastName2, nodesFormSearchableByRfcPm, nodesFormSearchableByCompanyName, format, content, labels, sandbox)
+> List&lt;ControllerWorkflooModelWorkflooListItem&gt; listWorkfloosV2().page(page).itemsPerPage(itemsPerPage).from(from).to(to).origin(origin).status(status).name(name).id(id).nodesFormSearchableByRfcPf(nodesFormSearchableByRfcPf).nodesFormSearchableByFirstName(nodesFormSearchableByFirstName).nodesFormSearchableBySecondName(nodesFormSearchableBySecondName).nodesFormSearchableByLastName1(nodesFormSearchableByLastName1).nodesFormSearchableByLastName2(nodesFormSearchableByLastName2).nodesFormSearchableByRfcPm(nodesFormSearchableByRfcPm).nodesFormSearchableByCompanyName(nodesFormSearchableByCompanyName).format(format).content(content).labels(labels).sandbox(sandbox).execute();
 
 Historial de ejecuciones (v2)
 
@@ -666,12 +685,12 @@ Devuelve el arreglo de ejecuciones directo, sin envoltorio. La paginación viaja
 ### Example
 ```java
 // Import classes:
-import kiban.sdk.workfloo.ApiClient;
-import kiban.sdk.workfloo.ApiException;
-import kiban.sdk.workfloo.Configuration;
-import kiban.sdk.workfloo.auth.*;
-import kiban.sdk.workfloo.models.*;
-import kiban.sdk.workfloo.api.WorkflooApi;
+import com.kiban.workfloo.ApiClient;
+import com.kiban.workfloo.ApiException;
+import com.kiban.workfloo.Configuration;
+import com.kiban.workfloo.auth.*;
+import com.kiban.workfloo.models.*;
+import com.kiban.workfloo.api.WorkflooApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -705,7 +724,27 @@ public class Example {
     String labels = "labels_example"; // String | Etiquetas, separadas por punto y coma
     Boolean sandbox = true; // Boolean | Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
     try {
-      List<ControllerWorkflooModelWorkflooListItem> result = apiInstance.listWorkfloosV2(page, itemsPerPage, from, to, origin, status, name, id, nodesFormSearchableByRfcPf, nodesFormSearchableByFirstName, nodesFormSearchableBySecondName, nodesFormSearchableByLastName1, nodesFormSearchableByLastName2, nodesFormSearchableByRfcPm, nodesFormSearchableByCompanyName, format, content, labels, sandbox);
+      List<ControllerWorkflooModelWorkflooListItem> result = apiInstance.listWorkfloosV2()
+            .page(page)
+            .itemsPerPage(itemsPerPage)
+            .from(from)
+            .to(to)
+            .origin(origin)
+            .status(status)
+            .name(name)
+            .id(id)
+            .nodesFormSearchableByRfcPf(nodesFormSearchableByRfcPf)
+            .nodesFormSearchableByFirstName(nodesFormSearchableByFirstName)
+            .nodesFormSearchableBySecondName(nodesFormSearchableBySecondName)
+            .nodesFormSearchableByLastName1(nodesFormSearchableByLastName1)
+            .nodesFormSearchableByLastName2(nodesFormSearchableByLastName2)
+            .nodesFormSearchableByRfcPm(nodesFormSearchableByRfcPm)
+            .nodesFormSearchableByCompanyName(nodesFormSearchableByCompanyName)
+            .format(format)
+            .content(content)
+            .labels(labels)
+            .sandbox(sandbox)
+            .execute();
       System.out.println(result);
     } catch (ApiException e) {
       System.err.println("Exception when calling WorkflooApi#listWorkfloosV2");
@@ -768,7 +807,7 @@ public class Example {
 
 <a id="resendWorkflooNip"></a>
 # **resendWorkflooNip**
-> ControllerWorkflooModelNipResendStatus resendWorkflooNip(id, sandbox, controllerWorkflooModelNipResendRequest)
+> ControllerWorkflooModelNipResendStatus resendWorkflooNip(id).sandbox(sandbox).controllerWorkflooModelNipResendRequest(controllerWorkflooModelNipResendRequest).execute();
 
 Reenviar el NIP
 
@@ -777,12 +816,12 @@ Reenvía el NIP y devuelve el estado del flujo NIP. El body es opcional (teléfo
 ### Example
 ```java
 // Import classes:
-import kiban.sdk.workfloo.ApiClient;
-import kiban.sdk.workfloo.ApiException;
-import kiban.sdk.workfloo.Configuration;
-import kiban.sdk.workfloo.auth.*;
-import kiban.sdk.workfloo.models.*;
-import kiban.sdk.workfloo.api.WorkflooApi;
+import com.kiban.workfloo.ApiClient;
+import com.kiban.workfloo.ApiException;
+import com.kiban.workfloo.Configuration;
+import com.kiban.workfloo.auth.*;
+import com.kiban.workfloo.models.*;
+import com.kiban.workfloo.api.WorkflooApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -800,7 +839,10 @@ public class Example {
     Boolean sandbox = true; // Boolean | Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
     ControllerWorkflooModelNipResendRequest controllerWorkflooModelNipResendRequest = new ControllerWorkflooModelNipResendRequest(); // ControllerWorkflooModelNipResendRequest | Teléfono al que reenviar (opcional)
     try {
-      ControllerWorkflooModelNipResendStatus result = apiInstance.resendWorkflooNip(id, sandbox, controllerWorkflooModelNipResendRequest);
+      ControllerWorkflooModelNipResendStatus result = apiInstance.resendWorkflooNip(id)
+            .sandbox(sandbox)
+            .controllerWorkflooModelNipResendRequest(controllerWorkflooModelNipResendRequest)
+            .execute();
       System.out.println(result);
     } catch (ApiException e) {
       System.err.println("Exception when calling WorkflooApi#resendWorkflooNip");
@@ -847,7 +889,7 @@ public class Example {
 
 <a id="reviewWorkflooValidation"></a>
 # **reviewWorkflooValidation**
-> reviewWorkflooValidation(id, controllerWorkflooModelReviewRequest, sandbox)
+> reviewWorkflooValidation(id, controllerWorkflooModelReviewRequest).sandbox(sandbox).execute();
 
 Revisar un paso de validación
 
@@ -856,12 +898,12 @@ Aplica la decisión del revisor sobre un nodo VALIDATION en estado REVIEW: aprob
 ### Example
 ```java
 // Import classes:
-import kiban.sdk.workfloo.ApiClient;
-import kiban.sdk.workfloo.ApiException;
-import kiban.sdk.workfloo.Configuration;
-import kiban.sdk.workfloo.auth.*;
-import kiban.sdk.workfloo.models.*;
-import kiban.sdk.workfloo.api.WorkflooApi;
+import com.kiban.workfloo.ApiClient;
+import com.kiban.workfloo.ApiException;
+import com.kiban.workfloo.Configuration;
+import com.kiban.workfloo.auth.*;
+import com.kiban.workfloo.models.*;
+import com.kiban.workfloo.api.WorkflooApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -879,7 +921,9 @@ public class Example {
     ControllerWorkflooModelReviewRequest controllerWorkflooModelReviewRequest = new ControllerWorkflooModelReviewRequest(); // ControllerWorkflooModelReviewRequest | Decisión del revisor
     Boolean sandbox = true; // Boolean | Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
     try {
-      apiInstance.reviewWorkflooValidation(id, controllerWorkflooModelReviewRequest, sandbox);
+      apiInstance.reviewWorkflooValidation(id, controllerWorkflooModelReviewRequest)
+            .sandbox(sandbox)
+            .execute();
     } catch (ApiException e) {
       System.err.println("Exception when calling WorkflooApi#reviewWorkflooValidation");
       System.err.println("Status code: " + e.getCode());
@@ -926,7 +970,7 @@ null (empty response body)
 
 <a id="sendWorkflooNip"></a>
 # **sendWorkflooNip**
-> sendWorkflooNip(id, sandbox, controllerWorkflooModelNipSendRequest)
+> sendWorkflooNip(id).sandbox(sandbox).controllerWorkflooModelNipSendRequest(controllerWorkflooModelNipSendRequest).execute();
 
 Enviar el NIP
 
@@ -935,12 +979,12 @@ Envía el NIP (código de un solo uso) del nodo NIP actual. El body es opcional;
 ### Example
 ```java
 // Import classes:
-import kiban.sdk.workfloo.ApiClient;
-import kiban.sdk.workfloo.ApiException;
-import kiban.sdk.workfloo.Configuration;
-import kiban.sdk.workfloo.auth.*;
-import kiban.sdk.workfloo.models.*;
-import kiban.sdk.workfloo.api.WorkflooApi;
+import com.kiban.workfloo.ApiClient;
+import com.kiban.workfloo.ApiException;
+import com.kiban.workfloo.Configuration;
+import com.kiban.workfloo.auth.*;
+import com.kiban.workfloo.models.*;
+import com.kiban.workfloo.api.WorkflooApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -958,7 +1002,10 @@ public class Example {
     Boolean sandbox = true; // Boolean | Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
     ControllerWorkflooModelNipSendRequest controllerWorkflooModelNipSendRequest = new ControllerWorkflooModelNipSendRequest(); // ControllerWorkflooModelNipSendRequest | Teléfono al que enviar el NIP (opcional)
     try {
-      apiInstance.sendWorkflooNip(id, sandbox, controllerWorkflooModelNipSendRequest);
+      apiInstance.sendWorkflooNip(id)
+            .sandbox(sandbox)
+            .controllerWorkflooModelNipSendRequest(controllerWorkflooModelNipSendRequest)
+            .execute();
     } catch (ApiException e) {
       System.err.println("Exception when calling WorkflooApi#sendWorkflooNip");
       System.err.println("Status code: " + e.getCode());
@@ -1004,7 +1051,7 @@ null (empty response body)
 
 <a id="submitWorkflooCorrection"></a>
 # **submitWorkflooCorrection**
-> submitWorkflooCorrection(id, body, sandbox)
+> submitWorkflooCorrection(id, body).sandbox(sandbox).execute();
 
 Enviar la corrección de un paso de validación
 
@@ -1013,12 +1060,12 @@ Reenvía los campos corregidos por el prospecto cuando un nodo VALIDATION está 
 ### Example
 ```java
 // Import classes:
-import kiban.sdk.workfloo.ApiClient;
-import kiban.sdk.workfloo.ApiException;
-import kiban.sdk.workfloo.Configuration;
-import kiban.sdk.workfloo.auth.*;
-import kiban.sdk.workfloo.models.*;
-import kiban.sdk.workfloo.api.WorkflooApi;
+import com.kiban.workfloo.ApiClient;
+import com.kiban.workfloo.ApiException;
+import com.kiban.workfloo.Configuration;
+import com.kiban.workfloo.auth.*;
+import com.kiban.workfloo.models.*;
+import com.kiban.workfloo.api.WorkflooApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -1036,7 +1083,9 @@ public class Example {
     Object body = null; // Object | Campos corregidos: {campoId: valor}
     Boolean sandbox = true; // Boolean | Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
     try {
-      apiInstance.submitWorkflooCorrection(id, body, sandbox);
+      apiInstance.submitWorkflooCorrection(id, body)
+            .sandbox(sandbox)
+            .execute();
     } catch (ApiException e) {
       System.err.println("Exception when calling WorkflooApi#submitWorkflooCorrection");
       System.err.println("Status code: " + e.getCode());
@@ -1083,7 +1132,7 @@ null (empty response body)
 
 <a id="validateWorkflooNip"></a>
 # **validateWorkflooNip**
-> ControllerWorkflooModelNipValidateResponse validateWorkflooNip(id, controllerWorkflooModelNipValidateRequest, sandbox)
+> ControllerWorkflooModelNipValidateResponse validateWorkflooNip(id, controllerWorkflooModelNipValidateRequest).sandbox(sandbox).execute();
 
 Validar el NIP
 
@@ -1092,12 +1141,12 @@ Valida el NIP capturado por el usuario y devuelve la fase resultante del flujo N
 ### Example
 ```java
 // Import classes:
-import kiban.sdk.workfloo.ApiClient;
-import kiban.sdk.workfloo.ApiException;
-import kiban.sdk.workfloo.Configuration;
-import kiban.sdk.workfloo.auth.*;
-import kiban.sdk.workfloo.models.*;
-import kiban.sdk.workfloo.api.WorkflooApi;
+import com.kiban.workfloo.ApiClient;
+import com.kiban.workfloo.ApiException;
+import com.kiban.workfloo.Configuration;
+import com.kiban.workfloo.auth.*;
+import com.kiban.workfloo.models.*;
+import com.kiban.workfloo.api.WorkflooApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -1115,7 +1164,9 @@ public class Example {
     ControllerWorkflooModelNipValidateRequest controllerWorkflooModelNipValidateRequest = new ControllerWorkflooModelNipValidateRequest(); // ControllerWorkflooModelNipValidateRequest | El NIP a validar
     Boolean sandbox = true; // Boolean | Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
     try {
-      ControllerWorkflooModelNipValidateResponse result = apiInstance.validateWorkflooNip(id, controllerWorkflooModelNipValidateRequest, sandbox);
+      ControllerWorkflooModelNipValidateResponse result = apiInstance.validateWorkflooNip(id, controllerWorkflooModelNipValidateRequest)
+            .sandbox(sandbox)
+            .execute();
       System.out.println(result);
     } catch (ApiException e) {
       System.err.println("Exception when calling WorkflooApi#validateWorkflooNip");
@@ -1162,7 +1213,7 @@ public class Example {
 
 <a id="validateWorkflooOtp"></a>
 # **validateWorkflooOtp**
-> validateWorkflooOtp(id, controllerWorkflooModelOtpValidateRequest, sandbox)
+> validateWorkflooOtp(id, controllerWorkflooModelOtpValidateRequest).sandbox(sandbox).execute();
 
 Validar el código de verificación (OTP)
 
@@ -1171,12 +1222,12 @@ Envía al proveedor el código que tecleó la persona en el paso de verificació
 ### Example
 ```java
 // Import classes:
-import kiban.sdk.workfloo.ApiClient;
-import kiban.sdk.workfloo.ApiException;
-import kiban.sdk.workfloo.Configuration;
-import kiban.sdk.workfloo.auth.*;
-import kiban.sdk.workfloo.models.*;
-import kiban.sdk.workfloo.api.WorkflooApi;
+import com.kiban.workfloo.ApiClient;
+import com.kiban.workfloo.ApiException;
+import com.kiban.workfloo.Configuration;
+import com.kiban.workfloo.auth.*;
+import com.kiban.workfloo.models.*;
+import com.kiban.workfloo.api.WorkflooApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -1194,7 +1245,9 @@ public class Example {
     ControllerWorkflooModelOtpValidateRequest controllerWorkflooModelOtpValidateRequest = new ControllerWorkflooModelOtpValidateRequest(); // ControllerWorkflooModelOtpValidateRequest | El código a validar
     Boolean sandbox = true; // Boolean | Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
     try {
-      apiInstance.validateWorkflooOtp(id, controllerWorkflooModelOtpValidateRequest, sandbox);
+      apiInstance.validateWorkflooOtp(id, controllerWorkflooModelOtpValidateRequest)
+            .sandbox(sandbox)
+            .execute();
     } catch (ApiException e) {
       System.err.println("Exception when calling WorkflooApi#validateWorkflooOtp");
       System.err.println("Status code: " + e.getCode());

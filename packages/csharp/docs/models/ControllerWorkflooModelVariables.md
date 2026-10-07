@@ -1,4 +1,4 @@
-# kiban.sdk.workfloo.Model.ControllerWorkflooModelVariables
+# Kiban.Workfloo.Model.ControllerWorkflooModelVariables
 
 ## Properties
 

@@ -14,7 +14,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```typescript
-import { ControllerWorkflooModelApiDataResume } from 'kiban.sdk.workfloo';
+import { ControllerWorkflooModelApiDataResume } from '@kiban/workfloo';
 
 const instance: ControllerWorkflooModelApiDataResume = {
     body,

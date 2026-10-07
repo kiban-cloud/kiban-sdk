@@ -30,7 +30,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from kiban.sdk.workfloo.models.controller_workfloo_model_node_resume import ControllerWorkflooModelNodeResume
+from kiban.workfloo.models.controller_workfloo_model_node_resume import ControllerWorkflooModelNodeResume
 
 # TODO update the JSON string below
 json = "{}"

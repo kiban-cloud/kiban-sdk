@@ -14,7 +14,7 @@
 
 import unittest
 
-from kiban.sdk.workfloo.models.controller_workfloo_definition_model_file_document import ControllerWorkflooDefinitionModelFileDocument
+from kiban.workfloo.models.controller_workfloo_definition_model_file_document import ControllerWorkflooDefinitionModelFileDocument
 
 class TestControllerWorkflooDefinitionModelFileDocument(unittest.TestCase):
     """ControllerWorkflooDefinitionModelFileDocument unit test stubs"""
@@ -35,7 +35,7 @@ class TestControllerWorkflooDefinitionModelFileDocument(unittest.TestCase):
         model = ControllerWorkflooDefinitionModelFileDocument()
         if include_optional:
             return ControllerWorkflooDefinitionModelFileDocument(
-                file_metadata = kiban.sdk.workfloo.models.controller_workfloo_definition_model/file_metadata.controller_workfloo_definition_model.FileMetadata(
+                file_metadata = kiban.workfloo.models.controller_workfloo_definition_model/file_metadata.controller_workfloo_definition_model.FileMetadata(
                     formats = [
                         ''
                         ], 
@@ -46,10 +46,10 @@ class TestControllerWorkflooDefinitionModelFileDocument(unittest.TestCase):
                 name = '',
                 predefined = True,
                 required = True,
-                set = kiban.sdk.workfloo.models.controller_workfloo_definition_model/set_data_document.controller_workfloo_definition_model.SetDataDocument(
+                set = kiban.workfloo.models.controller_workfloo_definition_model/set_data_document.controller_workfloo_definition_model.SetDataDocument(
                     files = [
-                        kiban.sdk.workfloo.models.controller_workfloo_definition_model/file_document_set.controller_workfloo_definition_model.FileDocumentSet(
-                            file_metadata = kiban.sdk.workfloo.models.controller_workfloo_definition_model/file_metadata.controller_workfloo_definition_model.FileMetadata(
+                        kiban.workfloo.models.controller_workfloo_definition_model/file_document_set.controller_workfloo_definition_model.FileDocumentSet(
+                            file_metadata = kiban.workfloo.models.controller_workfloo_definition_model/file_metadata.controller_workfloo_definition_model.FileMetadata(
                                 formats = [
                                     ''
                                     ], 

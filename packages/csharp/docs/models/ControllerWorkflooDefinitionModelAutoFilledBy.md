@@ -1,4 +1,4 @@
-# kiban.sdk.workfloo.Model.ControllerWorkflooDefinitionModelAutoFilledBy
+# Kiban.Workfloo.Model.ControllerWorkflooDefinitionModelAutoFilledBy
 
 ## Properties
 

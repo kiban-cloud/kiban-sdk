@@ -14,7 +14,7 @@
 
 import unittest
 
-from kiban.sdk.workfloo.models.controller_workfloo_definition_model_field_metadata import ControllerWorkflooDefinitionModelFieldMetadata
+from kiban.workfloo.models.controller_workfloo_definition_model_field_metadata import ControllerWorkflooDefinitionModelFieldMetadata
 
 class TestControllerWorkflooDefinitionModelFieldMetadata(unittest.TestCase):
     """ControllerWorkflooDefinitionModelFieldMetadata unit test stubs"""
@@ -36,7 +36,7 @@ class TestControllerWorkflooDefinitionModelFieldMetadata(unittest.TestCase):
         if include_optional:
             return ControllerWorkflooDefinitionModelFieldMetadata(
                 auto_filled_by = [
-                    kiban.sdk.workfloo.models.controller_workfloo_definition_model/auto_filled_by.controller_workfloo_definition_model.AutoFilledBy(
+                    kiban.workfloo.models.controller_workfloo_definition_model/auto_filled_by.controller_workfloo_definition_model.AutoFilledBy(
                         name_node = '', 
                         node_id = '', )
                     ],
@@ -54,7 +54,7 @@ class TestControllerWorkflooDefinitionModelFieldMetadata(unittest.TestCase):
                 min_val = 1.337,
                 regex = '',
                 regex_message = '',
-                show = kiban.sdk.workfloo.models.controller_workfloo_definition_model/show.controller_workfloo_definition_model.Show(
+                show = kiban.workfloo.models.controller_workfloo_definition_model/show.controller_workfloo_definition_model.Show(
                     field = '', 
                     value = '', ),
                 type = ''

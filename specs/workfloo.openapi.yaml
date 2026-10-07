@@ -1,6 +1,9 @@
 openapi: 3.0.0
 info:
-  contact: {}
+  contact:
+    name: kiban
+    url: https://kiban.com
+    email: hola@kiban.com
   description: |-
     API pública de Workfloo: ejecuta un workfloo, consulta su estatus y revisa el historial/detalle de ejecuciones.
     Todos los endpoints se autentican con el header x-api-key.
@@ -10,6 +13,9 @@ info:
     Desde el host de producción se puede forzar el modo sandbox por request con sandbox=true.
   title: Workfloo API
   version: '1.0'
+  license:
+    name: Apache-2.0
+    url: https://spdx.org/licenses/Apache-2.0.html
 paths:
   /api/v1/pool:
     post:

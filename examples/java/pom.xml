@@ -4,9 +4,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>kiban.sdk</groupId>
+  <groupId>com.kiban</groupId>
   <artifactId>workfloo-example</artifactId>
-  <version>0.3.0</version>
+  <version>1.0.0</version>
   <packaging>jar</packaging>
 
   <properties>
@@ -19,9 +19,9 @@
     <!-- El SDK generado. Instalalo antes en el repo local:
          cd ../../packages/java && mvn -q install -DskipTests -->
     <dependency>
-      <groupId>kiban.sdk</groupId>
+      <groupId>com.kiban</groupId>
       <artifactId>workfloo</artifactId>
-      <version>0.3.0</version>
+      <version>1.0.0</version>
     </dependency>
   </dependencies>
 

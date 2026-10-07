@@ -1,4 +1,4 @@
-# kiban.sdk.workfloo.Model.ControllerWorkflooModelReviewRequest
+# Kiban.Workfloo.Model.ControllerWorkflooModelReviewRequest
 
 ## Properties
 

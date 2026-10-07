@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```typescript
-import { ControllerWorkflooModelFormField } from 'kiban.sdk.workfloo';
+import { ControllerWorkflooModelFormField } from '@kiban/workfloo';
 
 const instance: ControllerWorkflooModelFormField = {
     id,

@@ -14,7 +14,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```typescript
-import { ControllerWorkflooModelLink } from 'kiban.sdk.workfloo';
+import { ControllerWorkflooModelLink } from '@kiban/workfloo';
 
 const instance: ControllerWorkflooModelLink = {
     data,

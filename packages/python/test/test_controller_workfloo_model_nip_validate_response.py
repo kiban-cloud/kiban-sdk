@@ -14,7 +14,7 @@
 
 import unittest
 
-from kiban.sdk.workfloo.models.controller_workfloo_model_nip_validate_response import ControllerWorkflooModelNipValidateResponse
+from kiban.workfloo.models.controller_workfloo_model_nip_validate_response import ControllerWorkflooModelNipValidateResponse
 
 class TestControllerWorkflooModelNipValidateResponse(unittest.TestCase):
     """ControllerWorkflooModelNipValidateResponse unit test stubs"""

@@ -1,4 +1,4 @@
-# kiban.sdk.workfloo.Model.ControllerWorkflooModelTimer
+# Kiban.Workfloo.Model.ControllerWorkflooModelTimer
 
 ## Properties
 

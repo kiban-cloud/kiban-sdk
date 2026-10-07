@@ -14,7 +14,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```typescript
-import { ControllerWorkflooModelValidationField } from 'kiban.sdk.workfloo';
+import { ControllerWorkflooModelValidationField } from '@kiban/workfloo';
 
 const instance: ControllerWorkflooModelValidationField = {
     fieldId,

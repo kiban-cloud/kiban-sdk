@@ -17,7 +17,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```typescript
-import { ControllerWorkflooDefinitionModelField } from 'kiban.sdk.workfloo';
+import { ControllerWorkflooDefinitionModelField } from '@kiban/workfloo';
 
 const instance: ControllerWorkflooDefinitionModelField = {
     fieldMetadata,

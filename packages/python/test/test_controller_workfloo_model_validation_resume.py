@@ -14,7 +14,7 @@
 
 import unittest
 
-from kiban.sdk.workfloo.models.controller_workfloo_model_validation_resume import ControllerWorkflooModelValidationResume
+from kiban.workfloo.models.controller_workfloo_model_validation_resume import ControllerWorkflooModelValidationResume
 
 class TestControllerWorkflooModelValidationResume(unittest.TestCase):
     """ControllerWorkflooModelValidationResume unit test stubs"""
@@ -40,7 +40,7 @@ class TestControllerWorkflooModelValidationResume(unittest.TestCase):
                 reviewed_by = '',
                 reviewer_note = '',
                 reviews = [
-                    kiban.sdk.workfloo.models.controller_workfloo_model/review_resume.controller_workfloo_model.ReviewResume(
+                    kiban.workfloo.models.controller_workfloo_model/review_resume.controller_workfloo_model.ReviewResume(
                         field_id = '', 
                         message = '', 
                         source_node_id = '', )

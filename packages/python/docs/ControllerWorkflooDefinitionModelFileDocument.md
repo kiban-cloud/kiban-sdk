@@ -16,7 +16,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from kiban.sdk.workfloo.models.controller_workfloo_definition_model_file_document import ControllerWorkflooDefinitionModelFileDocument
+from kiban.workfloo.models.controller_workfloo_definition_model_file_document import ControllerWorkflooDefinitionModelFileDocument
 
 # TODO update the JSON string below
 json = "{}"

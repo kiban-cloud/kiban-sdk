@@ -14,7 +14,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from kiban.sdk.workfloo.models.controller_workfloo_model_nip_resend_status import ControllerWorkflooModelNipResendStatus
+from kiban.workfloo.models.controller_workfloo_model_nip_resend_status import ControllerWorkflooModelNipResendStatus
 
 # TODO update the JSON string below
 json = "{}"

@@ -9,7 +9,7 @@ All URIs are relative to *https://workfloo.kiban.com*
 
 <a id="executePool"></a>
 # **executePool**
-> ControllerPoolModelExecuteResponse executePool(controllerPoolModelExecute, sandbox)
+> ControllerPoolModelExecuteResponse executePool(controllerPoolModelExecute).sandbox(sandbox).execute();
 
 Ejecutar un pool
 
@@ -18,12 +18,12 @@ Ejecuta un pool de workfloos a partir de su definición. En sandbox, sceneries m
 ### Example
 ```java
 // Import classes:
-import kiban.sdk.workfloo.ApiClient;
-import kiban.sdk.workfloo.ApiException;
-import kiban.sdk.workfloo.Configuration;
-import kiban.sdk.workfloo.auth.*;
-import kiban.sdk.workfloo.models.*;
-import kiban.sdk.workfloo.api.PoolApi;
+import com.kiban.workfloo.ApiClient;
+import com.kiban.workfloo.ApiException;
+import com.kiban.workfloo.Configuration;
+import com.kiban.workfloo.auth.*;
+import com.kiban.workfloo.models.*;
+import com.kiban.workfloo.api.PoolApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -40,7 +40,9 @@ public class Example {
     ControllerPoolModelExecute controllerPoolModelExecute = new ControllerPoolModelExecute(); // ControllerPoolModelExecute | Definición del pool y escenarios
     Boolean sandbox = true; // Boolean | Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
     try {
-      ControllerPoolModelExecuteResponse result = apiInstance.executePool(controllerPoolModelExecute, sandbox);
+      ControllerPoolModelExecuteResponse result = apiInstance.executePool(controllerPoolModelExecute)
+            .sandbox(sandbox)
+            .execute();
       System.out.println(result);
     } catch (ApiException e) {
       System.err.println("Exception when calling PoolApi#executePool");

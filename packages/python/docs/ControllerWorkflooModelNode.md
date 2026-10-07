@@ -22,7 +22,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from kiban.sdk.workfloo.models.controller_workfloo_model_node import ControllerWorkflooModelNode
+from kiban.workfloo.models.controller_workfloo_model_node import ControllerWorkflooModelNode
 
 # TODO update the JSON string below
 json = "{}"

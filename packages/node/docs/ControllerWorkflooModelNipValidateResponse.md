@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```typescript
-import { ControllerWorkflooModelNipValidateResponse } from 'kiban.sdk.workfloo';
+import { ControllerWorkflooModelNipValidateResponse } from '@kiban/workfloo';
 
 const instance: ControllerWorkflooModelNipValidateResponse = {
     phase,

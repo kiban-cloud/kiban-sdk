@@ -1,4 +1,4 @@
-# kiban.sdk.workfloo.Model.ControllerWorkflooModelValidationResume
+# Kiban.Workfloo.Model.ControllerWorkflooModelValidationResume
 
 ## Properties
 

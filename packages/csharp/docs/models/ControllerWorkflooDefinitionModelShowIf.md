@@ -1,4 +1,4 @@
-# kiban.sdk.workfloo.Model.ControllerWorkflooDefinitionModelShowIf
+# Kiban.Workfloo.Model.ControllerWorkflooDefinitionModelShowIf
 
 ## Properties
 

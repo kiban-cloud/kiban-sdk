@@ -14,7 +14,7 @@
 
 import unittest
 
-from kiban.sdk.workfloo.models.controller_pool_model_execute_response import ControllerPoolModelExecuteResponse
+from kiban.workfloo.models.controller_pool_model_execute_response import ControllerPoolModelExecuteResponse
 
 class TestControllerPoolModelExecuteResponse(unittest.TestCase):
     """ControllerPoolModelExecuteResponse unit test stubs"""

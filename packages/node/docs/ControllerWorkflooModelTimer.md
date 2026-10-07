@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```typescript
-import { ControllerWorkflooModelTimer } from 'kiban.sdk.workfloo';
+import { ControllerWorkflooModelTimer } from '@kiban/workfloo';
 
 const instance: ControllerWorkflooModelTimer = {
     endWaitDate,

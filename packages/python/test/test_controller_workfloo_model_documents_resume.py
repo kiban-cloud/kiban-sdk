@@ -14,7 +14,7 @@
 
 import unittest
 
-from kiban.sdk.workfloo.models.controller_workfloo_model_documents_resume import ControllerWorkflooModelDocumentsResume
+from kiban.workfloo.models.controller_workfloo_model_documents_resume import ControllerWorkflooModelDocumentsResume
 
 class TestControllerWorkflooModelDocumentsResume(unittest.TestCase):
     """ControllerWorkflooModelDocumentsResume unit test stubs"""

@@ -35,7 +35,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```typescript
-import { ControllerWorkflooModelWorkflooListItem } from 'kiban.sdk.workfloo';
+import { ControllerWorkflooModelWorkflooListItem } from '@kiban/workfloo';
 
 const instance: ControllerWorkflooModelWorkflooListItem = {
     cancelledAt,

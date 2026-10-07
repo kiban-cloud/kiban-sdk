@@ -14,7 +14,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from kiban.sdk.workfloo.models.controller_workfloo_model_validation_resume import ControllerWorkflooModelValidationResume
+from kiban.workfloo.models.controller_workfloo_model_validation_resume import ControllerWorkflooModelValidationResume
 
 # TODO update the JSON string below
 json = "{}"

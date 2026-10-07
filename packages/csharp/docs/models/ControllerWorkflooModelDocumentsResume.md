@@ -1,4 +1,4 @@
-# kiban.sdk.workfloo.Model.ControllerWorkflooModelDocumentsResume
+# Kiban.Workfloo.Model.ControllerWorkflooModelDocumentsResume
 
 ## Properties
 

@@ -14,7 +14,7 @@
 
 import unittest
 
-from kiban.sdk.workfloo.models.controller_workfloo_definition_model_show_if import ControllerWorkflooDefinitionModelShowIf
+from kiban.workfloo.models.controller_workfloo_definition_model_show_if import ControllerWorkflooDefinitionModelShowIf
 
 class TestControllerWorkflooDefinitionModelShowIf(unittest.TestCase):
     """ControllerWorkflooDefinitionModelShowIf unit test stubs"""

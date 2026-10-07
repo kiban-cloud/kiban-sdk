@@ -14,7 +14,7 @@
 
 import unittest
 
-from kiban.sdk.workfloo.models.controller_workfloo_model_review_field_request import ControllerWorkflooModelReviewFieldRequest
+from kiban.workfloo.models.controller_workfloo_model_review_field_request import ControllerWorkflooModelReviewFieldRequest
 
 class TestControllerWorkflooModelReviewFieldRequest(unittest.TestCase):
     """ControllerWorkflooModelReviewFieldRequest unit test stubs"""

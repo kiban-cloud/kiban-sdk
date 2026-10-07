@@ -14,7 +14,7 @@
 
 import unittest
 
-from kiban.sdk.workfloo.models.controller_workfloo_model_api_data_resume import ControllerWorkflooModelApiDataResume
+from kiban.workfloo.models.controller_workfloo_model_api_data_resume import ControllerWorkflooModelApiDataResume
 
 class TestControllerWorkflooModelApiDataResume(unittest.TestCase):
     """ControllerWorkflooModelApiDataResume unit test stubs"""

@@ -14,7 +14,7 @@
 
 import unittest
 
-from kiban.sdk.workfloo.models.controller_workfloo_model_nip_resend_status import ControllerWorkflooModelNipResendStatus
+from kiban.workfloo.models.controller_workfloo_model_nip_resend_status import ControllerWorkflooModelNipResendStatus
 
 class TestControllerWorkflooModelNipResendStatus(unittest.TestCase):
     """ControllerWorkflooModelNipResendStatus unit test stubs"""

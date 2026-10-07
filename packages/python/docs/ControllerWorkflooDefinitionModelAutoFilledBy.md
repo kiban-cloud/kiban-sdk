@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from kiban.sdk.workfloo.models.controller_workfloo_definition_model_auto_filled_by import ControllerWorkflooDefinitionModelAutoFilledBy
+from kiban.workfloo.models.controller_workfloo_definition_model_auto_filled_by import ControllerWorkflooDefinitionModelAutoFilledBy
 
 # TODO update the JSON string below
 json = "{}"

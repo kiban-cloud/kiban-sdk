@@ -1,4 +1,4 @@
-# kiban.sdk.workfloo.Model.ControllerWorkflooModelRuleset
+# Kiban.Workfloo.Model.ControllerWorkflooModelRuleset
 
 ## Properties
 

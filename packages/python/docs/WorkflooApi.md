@@ -1,4 +1,4 @@
-# kiban.sdk.workfloo.WorkflooApi
+# kiban.workfloo.WorkflooApi
 
 All URIs are relative to *https://workfloo.kiban.com*
 
@@ -33,15 +33,15 @@ Crea y arranca una ejecución a partir de una definición de workfloo. Devuelve 
 * Api Key Authentication (ApiKeyAuth):
 
 ```python
-import kiban.sdk.workfloo
-from kiban.sdk.workfloo.models.controller_workfloo_model_execute import ControllerWorkflooModelExecute
-from kiban.sdk.workfloo.models.controller_workfloo_model_execute_response import ControllerWorkflooModelExecuteResponse
-from kiban.sdk.workfloo.rest import ApiException
+import kiban.workfloo
+from kiban.workfloo.models.controller_workfloo_model_execute import ControllerWorkflooModelExecute
+from kiban.workfloo.models.controller_workfloo_model_execute_response import ControllerWorkflooModelExecuteResponse
+from kiban.workfloo.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to https://workfloo.kiban.com
 # See configuration.py for a list of all supported configuration parameters.
-configuration = kiban.sdk.workfloo.Configuration(
+configuration = kiban.workfloo.Configuration(
     host = "https://workfloo.kiban.com"
 )
 
@@ -57,10 +57,10 @@ configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
 # configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
 
 # Enter a context with an instance of the API client
-with kiban.sdk.workfloo.ApiClient(configuration) as api_client:
+with kiban.workfloo.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = kiban.sdk.workfloo.WorkflooApi(api_client)
-    controller_workfloo_model_execute = kiban.sdk.workfloo.ControllerWorkflooModelExecute() # ControllerWorkflooModelExecute | Definición a ejecutar y datos iniciales
+    api_instance = kiban.workfloo.WorkflooApi(api_client)
+    controller_workfloo_model_execute = kiban.workfloo.ControllerWorkflooModelExecute() # ControllerWorkflooModelExecute | Definición a ejecutar y datos iniciales
     sandbox = True # bool | Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
 
     try:
@@ -122,13 +122,13 @@ Envía los documentos del nodo DOCUMENT actual. El body es un objeto {documentoI
 * Api Key Authentication (ApiKeyAuth):
 
 ```python
-import kiban.sdk.workfloo
-from kiban.sdk.workfloo.rest import ApiException
+import kiban.workfloo
+from kiban.workfloo.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to https://workfloo.kiban.com
 # See configuration.py for a list of all supported configuration parameters.
-configuration = kiban.sdk.workfloo.Configuration(
+configuration = kiban.workfloo.Configuration(
     host = "https://workfloo.kiban.com"
 )
 
@@ -144,9 +144,9 @@ configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
 # configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
 
 # Enter a context with an instance of the API client
-with kiban.sdk.workfloo.ApiClient(configuration) as api_client:
+with kiban.workfloo.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = kiban.sdk.workfloo.WorkflooApi(api_client)
+    api_instance = kiban.workfloo.WorkflooApi(api_client)
     id = 'id_example' # str | Id de la ejecución
     body = None # object | Documentos: {documentoId: base64}
     sandbox = True # bool | Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
@@ -209,13 +209,13 @@ Envía las respuestas del nodo FORM actual de la ejecución. El body es un objet
 * Api Key Authentication (ApiKeyAuth):
 
 ```python
-import kiban.sdk.workfloo
-from kiban.sdk.workfloo.rest import ApiException
+import kiban.workfloo
+from kiban.workfloo.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to https://workfloo.kiban.com
 # See configuration.py for a list of all supported configuration parameters.
-configuration = kiban.sdk.workfloo.Configuration(
+configuration = kiban.workfloo.Configuration(
     host = "https://workfloo.kiban.com"
 )
 
@@ -231,9 +231,9 @@ configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
 # configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
 
 # Enter a context with an instance of the API client
-with kiban.sdk.workfloo.ApiClient(configuration) as api_client:
+with kiban.workfloo.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = kiban.sdk.workfloo.WorkflooApi(api_client)
+    api_instance = kiban.workfloo.WorkflooApi(api_client)
     id = 'id_example' # str | Id de la ejecución
     body = None # object | Campos del formulario: {campoId: valor}
     sandbox = True # bool | Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
@@ -296,13 +296,13 @@ Pide al proveedor una validación nueva (y un código nuevo) para el paso de ver
 * Api Key Authentication (ApiKeyAuth):
 
 ```python
-import kiban.sdk.workfloo
-from kiban.sdk.workfloo.rest import ApiException
+import kiban.workfloo
+from kiban.workfloo.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to https://workfloo.kiban.com
 # See configuration.py for a list of all supported configuration parameters.
-configuration = kiban.sdk.workfloo.Configuration(
+configuration = kiban.workfloo.Configuration(
     host = "https://workfloo.kiban.com"
 )
 
@@ -318,9 +318,9 @@ configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
 # configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
 
 # Enter a context with an instance of the API client
-with kiban.sdk.workfloo.ApiClient(configuration) as api_client:
+with kiban.workfloo.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = kiban.sdk.workfloo.WorkflooApi(api_client)
+    api_instance = kiban.workfloo.WorkflooApi(api_client)
     id = 'id_example' # str | Id de la ejecución
     sandbox = True # bool | Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
 
@@ -380,14 +380,14 @@ Devuelve el historial completo de una ejecución: todos sus nodos con request/re
 * Api Key Authentication (ApiKeyAuth):
 
 ```python
-import kiban.sdk.workfloo
-from kiban.sdk.workfloo.models.controller_workfloo_model_workfloo_resume import ControllerWorkflooModelWorkflooResume
-from kiban.sdk.workfloo.rest import ApiException
+import kiban.workfloo
+from kiban.workfloo.models.controller_workfloo_model_workfloo_resume import ControllerWorkflooModelWorkflooResume
+from kiban.workfloo.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to https://workfloo.kiban.com
 # See configuration.py for a list of all supported configuration parameters.
-configuration = kiban.sdk.workfloo.Configuration(
+configuration = kiban.workfloo.Configuration(
     host = "https://workfloo.kiban.com"
 )
 
@@ -403,9 +403,9 @@ configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
 # configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
 
 # Enter a context with an instance of the API client
-with kiban.sdk.workfloo.ApiClient(configuration) as api_client:
+with kiban.workfloo.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = kiban.sdk.workfloo.WorkflooApi(api_client)
+    api_instance = kiban.workfloo.WorkflooApi(api_client)
     id = 'id_example' # str | Id de la ejecución
     sandbox = True # bool | Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
 
@@ -468,14 +468,14 @@ Devuelve, en base64, un archivo producido/subido en un nodo de la ejecución, id
 * Api Key Authentication (ApiKeyAuth):
 
 ```python
-import kiban.sdk.workfloo
-from kiban.sdk.workfloo.models.controller_workfloo_model_file_response import ControllerWorkflooModelFileResponse
-from kiban.sdk.workfloo.rest import ApiException
+import kiban.workfloo
+from kiban.workfloo.models.controller_workfloo_model_file_response import ControllerWorkflooModelFileResponse
+from kiban.workfloo.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to https://workfloo.kiban.com
 # See configuration.py for a list of all supported configuration parameters.
-configuration = kiban.sdk.workfloo.Configuration(
+configuration = kiban.workfloo.Configuration(
     host = "https://workfloo.kiban.com"
 )
 
@@ -491,9 +491,9 @@ configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
 # configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
 
 # Enter a context with an instance of the API client
-with kiban.sdk.workfloo.ApiClient(configuration) as api_client:
+with kiban.workfloo.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = kiban.sdk.workfloo.WorkflooApi(api_client)
+    api_instance = kiban.workfloo.WorkflooApi(api_client)
     id = 'id_example' # str | Id de la ejecución
     node_id = 'node_id_example' # str | Id del nodo que contiene el archivo
     name = 'name_example' # str | Nombre del archivo
@@ -560,14 +560,14 @@ Cuando el paso está procesando, currentNodeType lleva el sufijo _PROCESSING y e
 * Api Key Authentication (ApiKeyAuth):
 
 ```python
-import kiban.sdk.workfloo
-from kiban.sdk.workfloo.models.controller_workfloo_model_workfloo_status import ControllerWorkflooModelWorkflooStatus
-from kiban.sdk.workfloo.rest import ApiException
+import kiban.workfloo
+from kiban.workfloo.models.controller_workfloo_model_workfloo_status import ControllerWorkflooModelWorkflooStatus
+from kiban.workfloo.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to https://workfloo.kiban.com
 # See configuration.py for a list of all supported configuration parameters.
-configuration = kiban.sdk.workfloo.Configuration(
+configuration = kiban.workfloo.Configuration(
     host = "https://workfloo.kiban.com"
 )
 
@@ -583,9 +583,9 @@ configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
 # configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
 
 # Enter a context with an instance of the API client
-with kiban.sdk.workfloo.ApiClient(configuration) as api_client:
+with kiban.workfloo.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = kiban.sdk.workfloo.WorkflooApi(api_client)
+    api_instance = kiban.workfloo.WorkflooApi(api_client)
     id = 'id_example' # str | Id de la ejecución
     sandbox = True # bool | Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
 
@@ -649,14 +649,14 @@ Cualquier query param adicional no listado aquí se interpreta como filtro de b�
 * Api Key Authentication (ApiKeyAuth):
 
 ```python
-import kiban.sdk.workfloo
-from kiban.sdk.workfloo.models.controller_workfloo_model_workfloo_page import ControllerWorkflooModelWorkflooPage
-from kiban.sdk.workfloo.rest import ApiException
+import kiban.workfloo
+from kiban.workfloo.models.controller_workfloo_model_workfloo_page import ControllerWorkflooModelWorkflooPage
+from kiban.workfloo.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to https://workfloo.kiban.com
 # See configuration.py for a list of all supported configuration parameters.
-configuration = kiban.sdk.workfloo.Configuration(
+configuration = kiban.workfloo.Configuration(
     host = "https://workfloo.kiban.com"
 )
 
@@ -672,9 +672,9 @@ configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
 # configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
 
 # Enter a context with an instance of the API client
-with kiban.sdk.workfloo.ApiClient(configuration) as api_client:
+with kiban.workfloo.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = kiban.sdk.workfloo.WorkflooApi(api_client)
+    api_instance = kiban.workfloo.WorkflooApi(api_client)
     page = 56 # int | Número de página, empieza en 1
     items_per_page = 56 # int | Cantidad de resultados por página
     status = 'status_example' # str | Filtra por estado de la ejecución (optional)
@@ -747,14 +747,14 @@ Cualquier query param adicional no listado aquí se interpreta como filtro de b�
 * Api Key Authentication (ApiKeyAuth):
 
 ```python
-import kiban.sdk.workfloo
-from kiban.sdk.workfloo.models.controller_workfloo_model_workfloo_list_item import ControllerWorkflooModelWorkflooListItem
-from kiban.sdk.workfloo.rest import ApiException
+import kiban.workfloo
+from kiban.workfloo.models.controller_workfloo_model_workfloo_list_item import ControllerWorkflooModelWorkflooListItem
+from kiban.workfloo.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to https://workfloo.kiban.com
 # See configuration.py for a list of all supported configuration parameters.
-configuration = kiban.sdk.workfloo.Configuration(
+configuration = kiban.workfloo.Configuration(
     host = "https://workfloo.kiban.com"
 )
 
@@ -770,9 +770,9 @@ configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
 # configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
 
 # Enter a context with an instance of the API client
-with kiban.sdk.workfloo.ApiClient(configuration) as api_client:
+with kiban.workfloo.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = kiban.sdk.workfloo.WorkflooApi(api_client)
+    api_instance = kiban.workfloo.WorkflooApi(api_client)
     page = 56 # int | Número de página, empieza en 1 (optional)
     items_per_page = 56 # int | Cantidad de resultados por página, entre 1 y 10000 (optional)
     var_from = 'var_from_example' # str | Fecha inicial del rango (ISO 8601) (optional)
@@ -868,15 +868,15 @@ Reenvía el NIP y devuelve el estado del flujo NIP. El body es opcional (teléfo
 * Api Key Authentication (ApiKeyAuth):
 
 ```python
-import kiban.sdk.workfloo
-from kiban.sdk.workfloo.models.controller_workfloo_model_nip_resend_request import ControllerWorkflooModelNipResendRequest
-from kiban.sdk.workfloo.models.controller_workfloo_model_nip_resend_status import ControllerWorkflooModelNipResendStatus
-from kiban.sdk.workfloo.rest import ApiException
+import kiban.workfloo
+from kiban.workfloo.models.controller_workfloo_model_nip_resend_request import ControllerWorkflooModelNipResendRequest
+from kiban.workfloo.models.controller_workfloo_model_nip_resend_status import ControllerWorkflooModelNipResendStatus
+from kiban.workfloo.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to https://workfloo.kiban.com
 # See configuration.py for a list of all supported configuration parameters.
-configuration = kiban.sdk.workfloo.Configuration(
+configuration = kiban.workfloo.Configuration(
     host = "https://workfloo.kiban.com"
 )
 
@@ -892,12 +892,12 @@ configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
 # configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
 
 # Enter a context with an instance of the API client
-with kiban.sdk.workfloo.ApiClient(configuration) as api_client:
+with kiban.workfloo.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = kiban.sdk.workfloo.WorkflooApi(api_client)
+    api_instance = kiban.workfloo.WorkflooApi(api_client)
     id = 'id_example' # str | Id de la ejecución
     sandbox = True # bool | Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
-    controller_workfloo_model_nip_resend_request = kiban.sdk.workfloo.ControllerWorkflooModelNipResendRequest() # ControllerWorkflooModelNipResendRequest | Teléfono al que reenviar (opcional) (optional)
+    controller_workfloo_model_nip_resend_request = kiban.workfloo.ControllerWorkflooModelNipResendRequest() # ControllerWorkflooModelNipResendRequest | Teléfono al que reenviar (opcional) (optional)
 
     try:
         # Reenviar el NIP
@@ -958,14 +958,14 @@ Aplica la decisión del revisor sobre un nodo VALIDATION en estado REVIEW: aprob
 * Api Key Authentication (ApiKeyAuth):
 
 ```python
-import kiban.sdk.workfloo
-from kiban.sdk.workfloo.models.controller_workfloo_model_review_request import ControllerWorkflooModelReviewRequest
-from kiban.sdk.workfloo.rest import ApiException
+import kiban.workfloo
+from kiban.workfloo.models.controller_workfloo_model_review_request import ControllerWorkflooModelReviewRequest
+from kiban.workfloo.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to https://workfloo.kiban.com
 # See configuration.py for a list of all supported configuration parameters.
-configuration = kiban.sdk.workfloo.Configuration(
+configuration = kiban.workfloo.Configuration(
     host = "https://workfloo.kiban.com"
 )
 
@@ -981,11 +981,11 @@ configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
 # configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
 
 # Enter a context with an instance of the API client
-with kiban.sdk.workfloo.ApiClient(configuration) as api_client:
+with kiban.workfloo.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = kiban.sdk.workfloo.WorkflooApi(api_client)
+    api_instance = kiban.workfloo.WorkflooApi(api_client)
     id = 'id_example' # str | Id de la ejecución
-    controller_workfloo_model_review_request = kiban.sdk.workfloo.ControllerWorkflooModelReviewRequest() # ControllerWorkflooModelReviewRequest | Decisión del revisor
+    controller_workfloo_model_review_request = kiban.workfloo.ControllerWorkflooModelReviewRequest() # ControllerWorkflooModelReviewRequest | Decisión del revisor
     sandbox = True # bool | Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
 
     try:
@@ -1046,14 +1046,14 @@ Envía el NIP (código de un solo uso) del nodo NIP actual. El body es opcional;
 * Api Key Authentication (ApiKeyAuth):
 
 ```python
-import kiban.sdk.workfloo
-from kiban.sdk.workfloo.models.controller_workfloo_model_nip_send_request import ControllerWorkflooModelNipSendRequest
-from kiban.sdk.workfloo.rest import ApiException
+import kiban.workfloo
+from kiban.workfloo.models.controller_workfloo_model_nip_send_request import ControllerWorkflooModelNipSendRequest
+from kiban.workfloo.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to https://workfloo.kiban.com
 # See configuration.py for a list of all supported configuration parameters.
-configuration = kiban.sdk.workfloo.Configuration(
+configuration = kiban.workfloo.Configuration(
     host = "https://workfloo.kiban.com"
 )
 
@@ -1069,12 +1069,12 @@ configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
 # configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
 
 # Enter a context with an instance of the API client
-with kiban.sdk.workfloo.ApiClient(configuration) as api_client:
+with kiban.workfloo.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = kiban.sdk.workfloo.WorkflooApi(api_client)
+    api_instance = kiban.workfloo.WorkflooApi(api_client)
     id = 'id_example' # str | Id de la ejecución
     sandbox = True # bool | Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
-    controller_workfloo_model_nip_send_request = kiban.sdk.workfloo.ControllerWorkflooModelNipSendRequest() # ControllerWorkflooModelNipSendRequest | Teléfono al que enviar el NIP (opcional) (optional)
+    controller_workfloo_model_nip_send_request = kiban.workfloo.ControllerWorkflooModelNipSendRequest() # ControllerWorkflooModelNipSendRequest | Teléfono al que enviar el NIP (opcional) (optional)
 
     try:
         # Enviar el NIP
@@ -1133,13 +1133,13 @@ Reenvía los campos corregidos por el prospecto cuando un nodo VALIDATION está 
 * Api Key Authentication (ApiKeyAuth):
 
 ```python
-import kiban.sdk.workfloo
-from kiban.sdk.workfloo.rest import ApiException
+import kiban.workfloo
+from kiban.workfloo.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to https://workfloo.kiban.com
 # See configuration.py for a list of all supported configuration parameters.
-configuration = kiban.sdk.workfloo.Configuration(
+configuration = kiban.workfloo.Configuration(
     host = "https://workfloo.kiban.com"
 )
 
@@ -1155,9 +1155,9 @@ configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
 # configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
 
 # Enter a context with an instance of the API client
-with kiban.sdk.workfloo.ApiClient(configuration) as api_client:
+with kiban.workfloo.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = kiban.sdk.workfloo.WorkflooApi(api_client)
+    api_instance = kiban.workfloo.WorkflooApi(api_client)
     id = 'id_example' # str | Id de la ejecución
     body = None # object | Campos corregidos: {campoId: valor}
     sandbox = True # bool | Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
@@ -1220,15 +1220,15 @@ Valida el NIP capturado por el usuario y devuelve la fase resultante del flujo N
 * Api Key Authentication (ApiKeyAuth):
 
 ```python
-import kiban.sdk.workfloo
-from kiban.sdk.workfloo.models.controller_workfloo_model_nip_validate_request import ControllerWorkflooModelNipValidateRequest
-from kiban.sdk.workfloo.models.controller_workfloo_model_nip_validate_response import ControllerWorkflooModelNipValidateResponse
-from kiban.sdk.workfloo.rest import ApiException
+import kiban.workfloo
+from kiban.workfloo.models.controller_workfloo_model_nip_validate_request import ControllerWorkflooModelNipValidateRequest
+from kiban.workfloo.models.controller_workfloo_model_nip_validate_response import ControllerWorkflooModelNipValidateResponse
+from kiban.workfloo.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to https://workfloo.kiban.com
 # See configuration.py for a list of all supported configuration parameters.
-configuration = kiban.sdk.workfloo.Configuration(
+configuration = kiban.workfloo.Configuration(
     host = "https://workfloo.kiban.com"
 )
 
@@ -1244,11 +1244,11 @@ configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
 # configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
 
 # Enter a context with an instance of the API client
-with kiban.sdk.workfloo.ApiClient(configuration) as api_client:
+with kiban.workfloo.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = kiban.sdk.workfloo.WorkflooApi(api_client)
+    api_instance = kiban.workfloo.WorkflooApi(api_client)
     id = 'id_example' # str | Id de la ejecución
-    controller_workfloo_model_nip_validate_request = kiban.sdk.workfloo.ControllerWorkflooModelNipValidateRequest() # ControllerWorkflooModelNipValidateRequest | El NIP a validar
+    controller_workfloo_model_nip_validate_request = kiban.workfloo.ControllerWorkflooModelNipValidateRequest() # ControllerWorkflooModelNipValidateRequest | El NIP a validar
     sandbox = True # bool | Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
 
     try:
@@ -1310,14 +1310,14 @@ Envía al proveedor el código que tecleó la persona en el paso de verificació
 * Api Key Authentication (ApiKeyAuth):
 
 ```python
-import kiban.sdk.workfloo
-from kiban.sdk.workfloo.models.controller_workfloo_model_otp_validate_request import ControllerWorkflooModelOtpValidateRequest
-from kiban.sdk.workfloo.rest import ApiException
+import kiban.workfloo
+from kiban.workfloo.models.controller_workfloo_model_otp_validate_request import ControllerWorkflooModelOtpValidateRequest
+from kiban.workfloo.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to https://workfloo.kiban.com
 # See configuration.py for a list of all supported configuration parameters.
-configuration = kiban.sdk.workfloo.Configuration(
+configuration = kiban.workfloo.Configuration(
     host = "https://workfloo.kiban.com"
 )
 
@@ -1333,11 +1333,11 @@ configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
 # configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
 
 # Enter a context with an instance of the API client
-with kiban.sdk.workfloo.ApiClient(configuration) as api_client:
+with kiban.workfloo.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = kiban.sdk.workfloo.WorkflooApi(api_client)
+    api_instance = kiban.workfloo.WorkflooApi(api_client)
     id = 'id_example' # str | Id de la ejecución
-    controller_workfloo_model_otp_validate_request = kiban.sdk.workfloo.ControllerWorkflooModelOtpValidateRequest() # ControllerWorkflooModelOtpValidateRequest | El código a validar
+    controller_workfloo_model_otp_validate_request = kiban.workfloo.ControllerWorkflooModelOtpValidateRequest() # ControllerWorkflooModelOtpValidateRequest | El código a validar
     sandbox = True # bool | Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
 
     try:

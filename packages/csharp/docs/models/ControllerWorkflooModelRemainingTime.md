@@ -1,4 +1,4 @@
-# kiban.sdk.workfloo.Model.ControllerWorkflooModelRemainingTime
+# Kiban.Workfloo.Model.ControllerWorkflooModelRemainingTime
 
 ## Properties
 

@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```typescript
-import { ControllerPoolModelExecuteResponse } from 'kiban.sdk.workfloo';
+import { ControllerPoolModelExecuteResponse } from '@kiban/workfloo';
 
 const instance: ControllerPoolModelExecuteResponse = {
     idWorkfloo,

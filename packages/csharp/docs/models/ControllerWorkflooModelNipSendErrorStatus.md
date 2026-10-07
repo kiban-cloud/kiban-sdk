@@ -1,4 +1,4 @@
-# kiban.sdk.workfloo.Model.ControllerWorkflooModelNipSendErrorStatus
+# Kiban.Workfloo.Model.ControllerWorkflooModelNipSendErrorStatus
 
 ## Properties
 

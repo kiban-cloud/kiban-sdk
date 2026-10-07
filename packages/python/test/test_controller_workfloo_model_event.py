@@ -14,7 +14,7 @@
 
 import unittest
 
-from kiban.sdk.workfloo.models.controller_workfloo_model_event import ControllerWorkflooModelEvent
+from kiban.workfloo.models.controller_workfloo_model_event import ControllerWorkflooModelEvent
 
 class TestControllerWorkflooModelEvent(unittest.TestCase):
     """ControllerWorkflooModelEvent unit test stubs"""

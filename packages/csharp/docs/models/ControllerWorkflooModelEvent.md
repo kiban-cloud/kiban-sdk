@@ -1,4 +1,4 @@
-# kiban.sdk.workfloo.Model.ControllerWorkflooModelEvent
+# Kiban.Workfloo.Model.ControllerWorkflooModelEvent
 
 ## Properties
 

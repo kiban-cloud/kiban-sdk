@@ -14,7 +14,7 @@
 
 import unittest
 
-from kiban.sdk.workfloo.models.controller_workfloo_model_file import ControllerWorkflooModelFile
+from kiban.workfloo.models.controller_workfloo_model_file import ControllerWorkflooModelFile
 
 class TestControllerWorkflooModelFile(unittest.TestCase):
     """ControllerWorkflooModelFile unit test stubs"""

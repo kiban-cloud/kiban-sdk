@@ -14,7 +14,7 @@
 
 import unittest
 
-from kiban.sdk.workfloo.models.controller_workfloo_model_timer import ControllerWorkflooModelTimer
+from kiban.workfloo.models.controller_workfloo_model_timer import ControllerWorkflooModelTimer
 
 class TestControllerWorkflooModelTimer(unittest.TestCase):
     """ControllerWorkflooModelTimer unit test stubs"""
@@ -36,7 +36,7 @@ class TestControllerWorkflooModelTimer(unittest.TestCase):
         if include_optional:
             return ControllerWorkflooModelTimer(
                 end_wait_date = '',
-                remaining_time = kiban.sdk.workfloo.models.controller_workfloo_model/remaining_time.controller_workfloo_model.RemainingTime(
+                remaining_time = kiban.workfloo.models.controller_workfloo_model/remaining_time.controller_workfloo_model.RemainingTime(
                     hours = 56, 
                     minutes = 56, 
                     seconds = 56, )

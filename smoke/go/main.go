@@ -29,7 +29,7 @@ func main() {
 	sandbox, _ := strconv.ParseBool(os.Getenv("KIBAN_SANDBOX"))
 
 	if host == "" || apiKey == "" || defID == "" {
-		fmt.Fprintln(os.Stderr, "Faltan KIBAN_HOST / KIBAN_API_KEY / KIBAN_WORKFLOO_DEFINITION_ID (corré resolve-env.sh).")
+		fmt.Fprintln(os.Stderr, "Faltan KIBAN_HOST / KIBAN_API_KEY / KIBAN_WORKFLOO_DEFINITION_ID (corre resolve-env.sh).")
 		os.Exit(1)
 	}
 

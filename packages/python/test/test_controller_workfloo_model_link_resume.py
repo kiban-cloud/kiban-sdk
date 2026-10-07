@@ -14,7 +14,7 @@
 
 import unittest
 
-from kiban.sdk.workfloo.models.controller_workfloo_model_link_resume import ControllerWorkflooModelLinkResume
+from kiban.workfloo.models.controller_workfloo_model_link_resume import ControllerWorkflooModelLinkResume
 
 class TestControllerWorkflooModelLinkResume(unittest.TestCase):
     """ControllerWorkflooModelLinkResume unit test stubs"""
@@ -36,7 +36,7 @@ class TestControllerWorkflooModelLinkResume(unittest.TestCase):
         if include_optional:
             return ControllerWorkflooModelLinkResume(
                 events = [
-                    kiban.sdk.workfloo.models.controller_workfloo_model/event.controller_workfloo_model.Event(
+                    kiban.workfloo.models.controller_workfloo_model/event.controller_workfloo_model.Event(
                         date = '', 
                         error_message = '', 
                         status = '', )

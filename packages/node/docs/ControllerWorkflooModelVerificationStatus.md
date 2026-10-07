@@ -14,7 +14,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```typescript
-import { ControllerWorkflooModelVerificationStatus } from 'kiban.sdk.workfloo';
+import { ControllerWorkflooModelVerificationStatus } from '@kiban/workfloo';
 
 const instance: ControllerWorkflooModelVerificationStatus = {
     channel,

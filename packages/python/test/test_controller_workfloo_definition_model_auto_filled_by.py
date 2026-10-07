@@ -14,7 +14,7 @@
 
 import unittest
 
-from kiban.sdk.workfloo.models.controller_workfloo_definition_model_auto_filled_by import ControllerWorkflooDefinitionModelAutoFilledBy
+from kiban.workfloo.models.controller_workfloo_definition_model_auto_filled_by import ControllerWorkflooDefinitionModelAutoFilledBy
 
 class TestControllerWorkflooDefinitionModelAutoFilledBy(unittest.TestCase):
     """ControllerWorkflooDefinitionModelAutoFilledBy unit test stubs"""

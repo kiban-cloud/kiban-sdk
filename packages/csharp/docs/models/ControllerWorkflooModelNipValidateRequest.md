@@ -1,4 +1,4 @@
-# kiban.sdk.workfloo.Model.ControllerWorkflooModelNipValidateRequest
+# Kiban.Workfloo.Model.ControllerWorkflooModelNipValidateRequest
 
 ## Properties
 

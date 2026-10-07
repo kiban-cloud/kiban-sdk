@@ -14,7 +14,7 @@
 
 import unittest
 
-from kiban.sdk.workfloo.models.controller_workfloo_model_workfloo_page import ControllerWorkflooModelWorkflooPage
+from kiban.workfloo.models.controller_workfloo_model_workfloo_page import ControllerWorkflooModelWorkflooPage
 
 class TestControllerWorkflooModelWorkflooPage(unittest.TestCase):
     """ControllerWorkflooModelWorkflooPage unit test stubs"""
@@ -38,7 +38,7 @@ class TestControllerWorkflooModelWorkflooPage(unittest.TestCase):
                 current_page = 56,
                 has_next_page = True,
                 items = [
-                    kiban.sdk.workfloo.models.controller_workfloo_model/workfloo.controller_workfloo_model.Workfloo(
+                    kiban.workfloo.models.controller_workfloo_model/workfloo.controller_workfloo_model.Workfloo(
                         company_name = '', 
                         created_at = '', 
                         created_by = '', 
@@ -60,10 +60,10 @@ class TestControllerWorkflooModelWorkflooPage(unittest.TestCase):
                         second_name = '', 
                         status = '', 
                         steps = [
-                            kiban.sdk.workfloo.models.controller_workfloo_model/node.controller_workfloo_model.Node(
-                                api = kiban.sdk.workfloo.models.controller_workfloo_model/api.controller_workfloo_model.Api(
+                            kiban.workfloo.models.controller_workfloo_model/node.controller_workfloo_model.Node(
+                                api = kiban.workfloo.models.controller_workfloo_model/api.controller_workfloo_model.Api(
                                     duration = 56, 
-                                    request = kiban.sdk.workfloo.models.controller_workfloo_model/api_http.controller_workfloo_model.ApiHttp(
+                                    request = kiban.workfloo.models.controller_workfloo_model/api_http.controller_workfloo_model.ApiHttp(
                                         body = [
                                             56
                                             ], 
@@ -75,27 +75,27 @@ class TestControllerWorkflooModelWorkflooPage(unittest.TestCase):
                                         query_params = {
                                             'key' : ''
                                             }, ), 
-                                    response = kiban.sdk.workfloo.models.controller_workfloo_model/api_http.controller_workfloo_model.ApiHttp(
+                                    response = kiban.workfloo.models.controller_workfloo_model/api_http.controller_workfloo_model.ApiHttp(
                                         date = '', 
                                         http_code = 56, ), 
                                     url = '', ), 
                                 created = '', 
                                 created_by = '', 
                                 decision_tree = [
-                                    kiban.sdk.workfloo.models.controller_workfloo_model/decision_tree.controller_workfloo_model.DecisionTree(
+                                    kiban.workfloo.models.controller_workfloo_model/decision_tree.controller_workfloo_model.DecisionTree(
                                         message = '', 
                                         name_node = '', 
                                         result = True, )
                                     ], 
-                                form = kiban.sdk.workfloo.models.controller_workfloo_model/form.controller_workfloo_model.Form(
+                                form = kiban.workfloo.models.controller_workfloo_model/form.controller_workfloo_model.Form(
                                     fields = [
-                                        kiban.sdk.workfloo.models.controller_workfloo_model/form_field.controller_workfloo_model.FormField(
+                                        kiban.workfloo.models.controller_workfloo_model/form_field.controller_workfloo_model.FormField(
                                             id = '', 
                                             name = '', 
                                             value = '', )
                                         ], ), 
                                 id = '', 
-                                link = kiban.sdk.workfloo.models.controller_workfloo_model/link.controller_workfloo_model.Link(
+                                link = kiban.workfloo.models.controller_workfloo_model/link.controller_workfloo_model.Link(
                                     data = { }, 
                                     id = '', 
                                     key = '', 
@@ -103,15 +103,15 @@ class TestControllerWorkflooModelWorkflooPage(unittest.TestCase):
                                     sub_service = '', ), 
                                 modified = '', 
                                 name = '', 
-                                ruleset = kiban.sdk.workfloo.models.controller_workfloo_model/ruleset.controller_workfloo_model.Ruleset(
+                                ruleset = kiban.workfloo.models.controller_workfloo_model/ruleset.controller_workfloo_model.Ruleset(
                                     decision = [
-                                        kiban.sdk.workfloo.models.controller_workfloo_model/rules.controller_workfloo_model.Rules(
+                                        kiban.workfloo.models.controller_workfloo_model/rules.controller_workfloo_model.Rules(
                                             message = '', )
                                         ], 
                                     exit = '', ), 
                                 status = '', 
                                 type = '', 
-                                variables = kiban.sdk.workfloo.models.controller_workfloo_model/variables.controller_workfloo_model.Variables(), )
+                                variables = kiban.workfloo.models.controller_workfloo_model/variables.controller_workfloo_model.Variables(), )
                             ], )
                     ]
             )

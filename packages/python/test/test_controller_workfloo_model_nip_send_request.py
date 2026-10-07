@@ -14,7 +14,7 @@
 
 import unittest
 
-from kiban.sdk.workfloo.models.controller_workfloo_model_nip_send_request import ControllerWorkflooModelNipSendRequest
+from kiban.workfloo.models.controller_workfloo_model_nip_send_request import ControllerWorkflooModelNipSendRequest
 
 class TestControllerWorkflooModelNipSendRequest(unittest.TestCase):
     """ControllerWorkflooModelNipSendRequest unit test stubs"""

@@ -22,7 +22,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```typescript
-import { ControllerWorkflooModelNode } from 'kiban.sdk.workfloo';
+import { ControllerWorkflooModelNode } from '@kiban/workfloo';
 
 const instance: ControllerWorkflooModelNode = {
     api,

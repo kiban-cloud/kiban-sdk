@@ -14,7 +14,7 @@
 
 import unittest
 
-from kiban.sdk.workfloo.models.controller_workfloo_definition_model_set_data_document import ControllerWorkflooDefinitionModelSetDataDocument
+from kiban.workfloo.models.controller_workfloo_definition_model_set_data_document import ControllerWorkflooDefinitionModelSetDataDocument
 
 class TestControllerWorkflooDefinitionModelSetDataDocument(unittest.TestCase):
     """ControllerWorkflooDefinitionModelSetDataDocument unit test stubs"""
@@ -36,8 +36,8 @@ class TestControllerWorkflooDefinitionModelSetDataDocument(unittest.TestCase):
         if include_optional:
             return ControllerWorkflooDefinitionModelSetDataDocument(
                 files = [
-                    kiban.sdk.workfloo.models.controller_workfloo_definition_model/file_document_set.controller_workfloo_definition_model.FileDocumentSet(
-                        file_metadata = kiban.sdk.workfloo.models.controller_workfloo_definition_model/file_metadata.controller_workfloo_definition_model.FileMetadata(
+                    kiban.workfloo.models.controller_workfloo_definition_model/file_document_set.controller_workfloo_definition_model.FileDocumentSet(
+                        file_metadata = kiban.workfloo.models.controller_workfloo_definition_model/file_metadata.controller_workfloo_definition_model.FileMetadata(
                             formats = [
                                 ''
                                 ], 

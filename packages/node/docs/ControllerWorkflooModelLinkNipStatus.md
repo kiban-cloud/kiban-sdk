@@ -22,7 +22,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```typescript
-import { ControllerWorkflooModelLinkNipStatus } from 'kiban.sdk.workfloo';
+import { ControllerWorkflooModelLinkNipStatus } from '@kiban/workfloo';
 
 const instance: ControllerWorkflooModelLinkNipStatus = {
     companyName,

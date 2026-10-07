@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```typescript
-import { ControllerWorkflooDefinitionModelAutoFilledBy } from 'kiban.sdk.workfloo';
+import { ControllerWorkflooDefinitionModelAutoFilledBy } from '@kiban/workfloo';
 
 const instance: ControllerWorkflooDefinitionModelAutoFilledBy = {
     nameNode,

@@ -1,7 +1,7 @@
-# openapi-generator · C# (generator: csharp)
+# openapi-generator · C# (generator: csharp, librería generichost)
 # El cliente recibe la API key (x-api-key) por configuración, nunca hardcodeada.
-packageName: kiban.sdk.workfloo
-packageVersion: 0.3.0
+# La versión NO va aquí: sale de config/modules.json (gen-sdks.sh la inyecta).
+packageName: Kiban.Workfloo
 targetFramework: net8.0
 # Metadatos del paquete NuGet (sin esto el .csproj publica placeholders).
 packageDescription: SDK de la API pública de workfloo de kiban cloud.

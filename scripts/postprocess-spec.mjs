@@ -9,7 +9,12 @@
 //
 // Uso: node scripts/postprocess-spec.mjs <ruta-al-openapi.yaml>
 import { readFileSync, writeFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import yaml from 'js-yaml';
+
+const root = join(dirname(fileURLToPath(import.meta.url)), '..');
+const { publisher } = JSON.parse(readFileSync(join(root, 'config/modules.json'), 'utf8'));
 
 const file = process.argv[2];
 if (!file) {
@@ -59,6 +64,16 @@ for (const schema of Object.values(doc.components?.schemas || {})) {
       nullables += 1;
     }
   }
+}
+
+// 4. Contacto y licencia del publicador (config/modules.json → publisher). El
+//    generador de Python los copia al pyproject (autor y licencia que ve PyPI);
+//    sin esto publicaría "OpenAPI Generator Community <team@openapitools.org>".
+doc.info.contact = Object.fromEntries(
+  Object.entries({ name: publisher.name, url: publisher.url, email: publisher.email }).filter(([, v]) => v),
+);
+if (publisher.license) {
+  doc.info.license = { name: publisher.license, url: `https://spdx.org/licenses/${publisher.license}.html` };
 }
 
 writeFileSync(file, yaml.dump(doc, { lineWidth: -1, noRefs: true }));

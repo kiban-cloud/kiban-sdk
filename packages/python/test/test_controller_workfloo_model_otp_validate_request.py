@@ -14,7 +14,7 @@
 
 import unittest
 
-from kiban.sdk.workfloo.models.controller_workfloo_model_otp_validate_request import ControllerWorkflooModelOtpValidateRequest
+from kiban.workfloo.models.controller_workfloo_model_otp_validate_request import ControllerWorkflooModelOtpValidateRequest
 
 class TestControllerWorkflooModelOtpValidateRequest(unittest.TestCase):
     """ControllerWorkflooModelOtpValidateRequest unit test stubs"""

@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```typescript
-import { ControllerWorkflooDefinitionModelShowIf } from 'kiban.sdk.workfloo';
+import { ControllerWorkflooDefinitionModelShowIf } from '@kiban/workfloo';
 
 const instance: ControllerWorkflooDefinitionModelShowIf = {
     field,

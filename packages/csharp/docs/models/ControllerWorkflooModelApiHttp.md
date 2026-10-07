@@ -1,4 +1,4 @@
-# kiban.sdk.workfloo.Model.ControllerWorkflooModelApiHttp
+# Kiban.Workfloo.Model.ControllerWorkflooModelApiHttp
 
 ## Properties
 

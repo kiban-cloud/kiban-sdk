@@ -1,4 +1,4 @@
-# kiban.sdk.workfloo.Model.ControllerWorkflooModelExecute
+# Kiban.Workfloo.Model.ControllerWorkflooModelExecute
 
 ## Properties
 

@@ -1,4 +1,4 @@
-# kiban.sdk.workfloo.Model.ControllerPoolModelExecuteResponse
+# Kiban.Workfloo.Model.ControllerPoolModelExecuteResponse
 
 ## Properties
 

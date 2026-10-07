@@ -3,9 +3,9 @@
 # "workfloo". El path del módulo (gitHost/gitUserId/gitRepoId → go.mod) tiene que
 # coincidir con el directorio donde vive el go.mod dentro del repo, o `go get` no
 # lo resuelve: github.com/kiban-cloud/kiban-sdk/packages/go. Los tags de release
-# llevan el prefijo del directorio: packages/go/v0.2.0.
+# llevan el prefijo del directorio: packages/go/vX.Y.Z (los crea publish.yml).
+# La versión NO va aquí: sale de config/modules.json (gen-sdks.sh la inyecta).
 packageName: workfloo
-packageVersion: 0.3.0
 gitUserId: kiban-cloud
 gitRepoId: kiban-sdk/packages/go
 isGoSubmodule: false

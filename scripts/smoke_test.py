@@ -62,9 +62,9 @@ if not definition_id:
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "packages", "python"))
 
 try:
-    from kiban.sdk.workfloo import ApiClient, Configuration
-    from kiban.sdk.workfloo.api.workfloo_api import WorkflooApi
-    from kiban.sdk.workfloo.models.controller_workfloo_model_execute import (
+    from kiban.workfloo import ApiClient, Configuration
+    from kiban.workfloo.api.workfloo_api import WorkflooApi
+    from kiban.workfloo.models.controller_workfloo_model_execute import (
         ControllerWorkflooModelExecute,
     )
 except ModuleNotFoundError as exc:

@@ -14,7 +14,7 @@
 
 import unittest
 
-from kiban.sdk.workfloo.models.controller_workfloo_definition_model_field import ControllerWorkflooDefinitionModelField
+from kiban.workfloo.models.controller_workfloo_definition_model_field import ControllerWorkflooDefinitionModelField
 
 class TestControllerWorkflooDefinitionModelField(unittest.TestCase):
     """ControllerWorkflooDefinitionModelField unit test stubs"""
@@ -35,9 +35,9 @@ class TestControllerWorkflooDefinitionModelField(unittest.TestCase):
         model = ControllerWorkflooDefinitionModelField()
         if include_optional:
             return ControllerWorkflooDefinitionModelField(
-                field_metadata = kiban.sdk.workfloo.models.controller_workfloo_definition_model/field_metadata.controller_workfloo_definition_model.FieldMetadata(
+                field_metadata = kiban.workfloo.models.controller_workfloo_definition_model/field_metadata.controller_workfloo_definition_model.FieldMetadata(
                     auto_filled_by = [
-                        kiban.sdk.workfloo.models.controller_workfloo_definition_model/auto_filled_by.controller_workfloo_definition_model.AutoFilledBy(
+                        kiban.workfloo.models.controller_workfloo_definition_model/auto_filled_by.controller_workfloo_definition_model.AutoFilledBy(
                             name_node = '', 
                             node_id = '', )
                         ], 
@@ -55,7 +55,7 @@ class TestControllerWorkflooDefinitionModelField(unittest.TestCase):
                     min_val = 1.337, 
                     regex = '', 
                     regex_message = '', 
-                    show = kiban.sdk.workfloo.models.controller_workfloo_definition_model/show.controller_workfloo_definition_model.Show(
+                    show = kiban.workfloo.models.controller_workfloo_definition_model/show.controller_workfloo_definition_model.Show(
                         field = '', 
                         value = '', ), 
                     type = '', ),
@@ -64,12 +64,12 @@ class TestControllerWorkflooDefinitionModelField(unittest.TestCase):
                 predefined = True,
                 required = True,
                 section = '',
-                set = kiban.sdk.workfloo.models.controller_workfloo_definition_model/set_data.controller_workfloo_definition_model.SetData(
+                set = kiban.workfloo.models.controller_workfloo_definition_model/set_data.controller_workfloo_definition_model.SetData(
                     fields = [
-                        kiban.sdk.workfloo.models.controller_workfloo_definition_model/field.controller_workfloo_definition_model.Field(
-                            field_metadata = kiban.sdk.workfloo.models.controller_workfloo_definition_model/field_metadata.controller_workfloo_definition_model.FieldMetadata(
+                        kiban.workfloo.models.controller_workfloo_definition_model/field.controller_workfloo_definition_model.Field(
+                            field_metadata = kiban.workfloo.models.controller_workfloo_definition_model/field_metadata.controller_workfloo_definition_model.FieldMetadata(
                                 auto_filled_by = [
-                                    kiban.sdk.workfloo.models.controller_workfloo_definition_model/auto_filled_by.controller_workfloo_definition_model.AutoFilledBy(
+                                    kiban.workfloo.models.controller_workfloo_definition_model/auto_filled_by.controller_workfloo_definition_model.AutoFilledBy(
                                         name_node = '', 
                                         node_id = '', )
                                     ], 
@@ -87,7 +87,7 @@ class TestControllerWorkflooDefinitionModelField(unittest.TestCase):
                                 min_val = 1.337, 
                                 regex = '', 
                                 regex_message = '', 
-                                show = kiban.sdk.workfloo.models.controller_workfloo_definition_model/show.controller_workfloo_definition_model.Show(
+                                show = kiban.workfloo.models.controller_workfloo_definition_model/show.controller_workfloo_definition_model.Show(
                                     field = '', 
                                     value = '', ), 
                                 type = '', ), 
@@ -96,7 +96,7 @@ class TestControllerWorkflooDefinitionModelField(unittest.TestCase):
                             predefined = True, 
                             required = True, 
                             section = '', 
-                            set = kiban.sdk.workfloo.models.controller_workfloo_definition_model/set_data.controller_workfloo_definition_model.SetData(
+                            set = kiban.workfloo.models.controller_workfloo_definition_model/set_data.controller_workfloo_definition_model.SetData(
                                 optional_at = [
                                     ''
                                     ], 
@@ -104,7 +104,7 @@ class TestControllerWorkflooDefinitionModelField(unittest.TestCase):
                                     ''
                                     ], ), 
                             show_if = [
-                                kiban.sdk.workfloo.models.controller_workfloo_definition_model/show_if.controller_workfloo_definition_model.ShowIf(
+                                kiban.workfloo.models.controller_workfloo_definition_model/show_if.controller_workfloo_definition_model.ShowIf(
                                     field = '', 
                                     required_with_values = [
                                         ''
@@ -121,7 +121,7 @@ class TestControllerWorkflooDefinitionModelField(unittest.TestCase):
                         ''
                         ], ),
                 show_if = [
-                    kiban.sdk.workfloo.models.controller_workfloo_definition_model/show_if.controller_workfloo_definition_model.ShowIf(
+                    kiban.workfloo.models.controller_workfloo_definition_model/show_if.controller_workfloo_definition_model.ShowIf(
                         field = '', 
                         required_with_values = [
                             ''

@@ -14,7 +14,7 @@
 
 import unittest
 
-from kiban.sdk.workfloo.models.controller_workfloo_model_ruleset import ControllerWorkflooModelRuleset
+from kiban.workfloo.models.controller_workfloo_model_ruleset import ControllerWorkflooModelRuleset
 
 class TestControllerWorkflooModelRuleset(unittest.TestCase):
     """ControllerWorkflooModelRuleset unit test stubs"""
@@ -36,7 +36,7 @@ class TestControllerWorkflooModelRuleset(unittest.TestCase):
         if include_optional:
             return ControllerWorkflooModelRuleset(
                 decision = [
-                    kiban.sdk.workfloo.models.controller_workfloo_model/rules.controller_workfloo_model.Rules(
+                    kiban.workfloo.models.controller_workfloo_model/rules.controller_workfloo_model.Rules(
                         message = '', )
                     ],
                 exit = '',

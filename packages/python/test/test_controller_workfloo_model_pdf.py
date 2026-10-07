@@ -14,7 +14,7 @@
 
 import unittest
 
-from kiban.sdk.workfloo.models.controller_workfloo_model_pdf import ControllerWorkflooModelPdf
+from kiban.workfloo.models.controller_workfloo_model_pdf import ControllerWorkflooModelPdf
 
 class TestControllerWorkflooModelPdf(unittest.TestCase):
     """ControllerWorkflooModelPdf unit test stubs"""

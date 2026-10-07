@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```typescript
-import { ControllerWorkflooModelRemainingTime } from 'kiban.sdk.workfloo';
+import { ControllerWorkflooModelRemainingTime } from '@kiban/workfloo';
 
 const instance: ControllerWorkflooModelRemainingTime = {
     hours,

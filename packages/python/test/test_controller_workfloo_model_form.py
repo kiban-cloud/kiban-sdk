@@ -14,7 +14,7 @@
 
 import unittest
 
-from kiban.sdk.workfloo.models.controller_workfloo_model_form import ControllerWorkflooModelForm
+from kiban.workfloo.models.controller_workfloo_model_form import ControllerWorkflooModelForm
 
 class TestControllerWorkflooModelForm(unittest.TestCase):
     """ControllerWorkflooModelForm unit test stubs"""
@@ -36,7 +36,7 @@ class TestControllerWorkflooModelForm(unittest.TestCase):
         if include_optional:
             return ControllerWorkflooModelForm(
                 fields = [
-                    kiban.sdk.workfloo.models.controller_workfloo_model/form_field.controller_workfloo_model.FormField(
+                    kiban.workfloo.models.controller_workfloo_model/form_field.controller_workfloo_model.FormField(
                         id = '', 
                         name = '', 
                         value = '', )

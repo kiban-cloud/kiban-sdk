@@ -17,10 +17,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-using kiban.sdk.workfloo.Api;
-using kiban.sdk.workfloo.Client;
-using kiban.sdk.workfloo.Extensions;
-using kiban.sdk.workfloo.Model;
+using Kiban.Workfloo.Api;
+using Kiban.Workfloo.Client;
+using Kiban.Workfloo.Extensions;
+using Kiban.Workfloo.Model;
 
 var finished = new HashSet<string> { "SUCCESS", "ERROR", "ABANDONED" };
 var nipPhases = new HashSet<string> { "CREATE_ACCOUNT", "VALIDATE", "VALIDATE_2" };

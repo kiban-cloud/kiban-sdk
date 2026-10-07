@@ -14,7 +14,7 @@
 
 import unittest
 
-from kiban.sdk.workfloo.api.workfloo_api import WorkflooApi
+from kiban.workfloo.api.workfloo_api import WorkflooApi
 
 
 class TestWorkflooApi(unittest.TestCase):

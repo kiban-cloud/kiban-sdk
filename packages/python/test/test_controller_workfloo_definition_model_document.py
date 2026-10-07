@@ -14,7 +14,7 @@
 
 import unittest
 
-from kiban.sdk.workfloo.models.controller_workfloo_definition_model_document import ControllerWorkflooDefinitionModelDocument
+from kiban.workfloo.models.controller_workfloo_definition_model_document import ControllerWorkflooDefinitionModelDocument
 
 class TestControllerWorkflooDefinitionModelDocument(unittest.TestCase):
     """ControllerWorkflooDefinitionModelDocument unit test stubs"""
@@ -36,8 +36,8 @@ class TestControllerWorkflooDefinitionModelDocument(unittest.TestCase):
         if include_optional:
             return ControllerWorkflooDefinitionModelDocument(
                 document_field = [
-                    kiban.sdk.workfloo.models.controller_workfloo_definition_model/file_document.controller_workfloo_definition_model.FileDocument(
-                        file_metadata = kiban.sdk.workfloo.models.controller_workfloo_definition_model/file_metadata.controller_workfloo_definition_model.FileMetadata(
+                    kiban.workfloo.models.controller_workfloo_definition_model/file_document.controller_workfloo_definition_model.FileDocument(
+                        file_metadata = kiban.workfloo.models.controller_workfloo_definition_model/file_metadata.controller_workfloo_definition_model.FileMetadata(
                             formats = [
                                 ''
                                 ], 
@@ -48,9 +48,9 @@ class TestControllerWorkflooDefinitionModelDocument(unittest.TestCase):
                         name = '', 
                         predefined = True, 
                         required = True, 
-                        set = kiban.sdk.workfloo.models.controller_workfloo_definition_model/set_data_document.controller_workfloo_definition_model.SetDataDocument(
+                        set = kiban.workfloo.models.controller_workfloo_definition_model/set_data_document.controller_workfloo_definition_model.SetDataDocument(
                             files = [
-                                kiban.sdk.workfloo.models.controller_workfloo_definition_model/file_document_set.controller_workfloo_definition_model.FileDocumentSet(
+                                kiban.workfloo.models.controller_workfloo_definition_model/file_document_set.controller_workfloo_definition_model.FileDocumentSet(
                                     id = '', 
                                     name = '', 
                                     predefined = True, 

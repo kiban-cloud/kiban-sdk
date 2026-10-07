@@ -14,7 +14,7 @@
 
 import unittest
 
-from kiban.sdk.workfloo.models.controller_workfloo_model_remaining_time import ControllerWorkflooModelRemainingTime
+from kiban.workfloo.models.controller_workfloo_model_remaining_time import ControllerWorkflooModelRemainingTime
 
 class TestControllerWorkflooModelRemainingTime(unittest.TestCase):
     """ControllerWorkflooModelRemainingTime unit test stubs"""

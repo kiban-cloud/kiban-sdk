@@ -1,4 +1,4 @@
-# kiban.sdk.workfloo.Api.PoolApi
+# Kiban.Workfloo.Api.PoolApi
 
 All URIs are relative to *https://workfloo.kiban.com*
 

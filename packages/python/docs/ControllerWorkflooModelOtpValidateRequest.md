@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from kiban.sdk.workfloo.models.controller_workfloo_model_otp_validate_request import ControllerWorkflooModelOtpValidateRequest
+from kiban.workfloo.models.controller_workfloo_model_otp_validate_request import ControllerWorkflooModelOtpValidateRequest
 
 # TODO update the JSON string below
 json = "{}"

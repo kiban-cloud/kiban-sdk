@@ -1,4 +1,4 @@
-# kiban.sdk.workfloo.Model.ControllerWorkflooModelVerificationStatus
+# Kiban.Workfloo.Model.ControllerWorkflooModelVerificationStatus
 
 ## Properties
 

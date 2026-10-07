@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```typescript
-import { ControllerWorkflooDefinitionModelSetDataDocument } from 'kiban.sdk.workfloo';
+import { ControllerWorkflooDefinitionModelSetDataDocument } from '@kiban/workfloo';
 
 const instance: ControllerWorkflooDefinitionModelSetDataDocument = {
     files,

@@ -1,4 +1,4 @@
-# kiban.sdk.workfloo.Model.ControllerWorkflooModelOtpValidateRequest
+# Kiban.Workfloo.Model.ControllerWorkflooModelOtpValidateRequest
 
 ## Properties
 

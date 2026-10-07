@@ -1,4 +1,4 @@
-# kiban.sdk.workfloo.Model.ControllerWorkflooDefinitionModelFormFieldSection
+# Kiban.Workfloo.Model.ControllerWorkflooDefinitionModelFormFieldSection
 
 ## Properties
 

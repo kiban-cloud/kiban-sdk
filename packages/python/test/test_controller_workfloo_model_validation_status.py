@@ -14,7 +14,7 @@
 
 import unittest
 
-from kiban.sdk.workfloo.models.controller_workfloo_model_validation_status import ControllerWorkflooModelValidationStatus
+from kiban.workfloo.models.controller_workfloo_model_validation_status import ControllerWorkflooModelValidationStatus
 
 class TestControllerWorkflooModelValidationStatus(unittest.TestCase):
     """ControllerWorkflooModelValidationStatus unit test stubs"""
@@ -36,7 +36,7 @@ class TestControllerWorkflooModelValidationStatus(unittest.TestCase):
         if include_optional:
             return ControllerWorkflooModelValidationStatus(
                 fields = [
-                    kiban.sdk.workfloo.models.controller_workfloo_model/validation_field.controller_workfloo_model.ValidationField(
+                    kiban.workfloo.models.controller_workfloo_model/validation_field.controller_workfloo_model.ValidationField(
                         field_id = '', 
                         message = '', 
                         name = '', 

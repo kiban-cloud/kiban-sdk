@@ -14,7 +14,7 @@
 
 import unittest
 
-from kiban.sdk.workfloo.api.pool_api import PoolApi
+from kiban.workfloo.api.pool_api import PoolApi
 
 
 class TestPoolApi(unittest.TestCase):

@@ -1,0 +1,18 @@
+{
+  "_comment": "Un módulo = una API = un juego de SDKs con su propia versión (semver) y sus propios tags (<módulo>/vX.Y.Z). La versión vive SÓLO aquí: gen-sdks.sh la pasa a los 5 generadores. Para agregar un módulo (p. ej. link): su entrada en modules, sus openapi-generator/<configPrefix><lenguaje>.yaml y su spec. publisher son los metadatos que se publican en los 5 registros; license es el identificador SPDX (el texto vive en LICENSE y el titular del copyright en NOTICE, que gen-sdks.sh copia a cada paquete). publish.yml se niega a publicar si falta alguno.",
+  "publisher": {
+    "name": "kiban",
+    "url": "https://kiban.com",
+    "email": "hola@kiban.com",
+    "license": "Apache-2.0"
+  },
+  "modules": {
+    "workfloo": {
+      "version": "1.0.0",
+      "spec": "specs/workfloo.openapi.yaml",
+      "configPrefix": "config.",
+      "packagesDir": "packages",
+      "goModule": "github.com/kiban-cloud/kiban-sdk/packages/go"
+    }
+  }
+}

@@ -14,7 +14,7 @@
 
 import unittest
 
-from kiban.sdk.workfloo.models.controller_workfloo_model_api_data import ControllerWorkflooModelApiData
+from kiban.workfloo.models.controller_workfloo_model_api_data import ControllerWorkflooModelApiData
 
 class TestControllerWorkflooModelApiData(unittest.TestCase):
     """ControllerWorkflooModelApiData unit test stubs"""
@@ -35,7 +35,7 @@ class TestControllerWorkflooModelApiData(unittest.TestCase):
         model = ControllerWorkflooModelApiData()
         if include_optional:
             return ControllerWorkflooModelApiData(
-                request = kiban.sdk.workfloo.models.controller_workfloo_model/api_data_resume.controller_workfloo_model.ApiDataResume(
+                request = kiban.workfloo.models.controller_workfloo_model/api_data_resume.controller_workfloo_model.ApiDataResume(
                     body = null, 
                     headers = {
                         'key' : ''
@@ -45,7 +45,7 @@ class TestControllerWorkflooModelApiData(unittest.TestCase):
                         'key' : ''
                         }, 
                     url = '', ),
-                response = kiban.sdk.workfloo.models.controller_workfloo_model/api_data_resume.controller_workfloo_model.ApiDataResume(
+                response = kiban.workfloo.models.controller_workfloo_model/api_data_resume.controller_workfloo_model.ApiDataResume(
                     body = null, 
                     headers = {
                         'key' : ''

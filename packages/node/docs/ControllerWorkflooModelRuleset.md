@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```typescript
-import { ControllerWorkflooModelRuleset } from 'kiban.sdk.workfloo';
+import { ControllerWorkflooModelRuleset } from '@kiban/workfloo';
 
 const instance: ControllerWorkflooModelRuleset = {
     decision,

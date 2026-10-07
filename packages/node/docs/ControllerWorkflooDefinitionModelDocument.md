@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```typescript
-import { ControllerWorkflooDefinitionModelDocument } from 'kiban.sdk.workfloo';
+import { ControllerWorkflooDefinitionModelDocument } from '@kiban/workfloo';
 
 const instance: ControllerWorkflooDefinitionModelDocument = {
     documentField,

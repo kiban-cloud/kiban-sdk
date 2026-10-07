@@ -23,7 +23,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```typescript
-import { ControllerWorkflooModelWorkflooStatus } from 'kiban.sdk.workfloo';
+import { ControllerWorkflooModelWorkflooStatus } from '@kiban/workfloo';
 
 const instance: ControllerWorkflooModelWorkflooStatus = {
     cancelledAt,

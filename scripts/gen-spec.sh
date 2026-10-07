@@ -11,7 +11,7 @@
 #
 # En local, para tomar el swagger de un checkout hermano del backend:
 #   ./scripts/gen-spec.sh --from-backend        # ../workfloo-backend o $WORKFLOO_BACKEND
-# Si cambiaste anotaciones, corré antes `swag init -ot json,yaml` en el backend.
+# Si cambiaste anotaciones, corre antes `swag init -ot json,yaml` en el backend.
 #
 # Requiere node + deps de package.json (`npm install` una vez).
 set -euo pipefail
@@ -31,7 +31,7 @@ if [ "${1:-}" = "--from-backend" ]; then
 fi
 
 if [ ! -f "$SOURCE" ]; then
-  echo "Falta $SOURCE. Corré con --from-backend." >&2
+  echo "Falta $SOURCE. Corre con --from-backend." >&2
   exit 1
 fi
 

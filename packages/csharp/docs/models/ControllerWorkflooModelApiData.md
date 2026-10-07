@@ -1,4 +1,4 @@
-# kiban.sdk.workfloo.Model.ControllerWorkflooModelApiData
+# Kiban.Workfloo.Model.ControllerWorkflooModelApiData
 
 ## Properties
 

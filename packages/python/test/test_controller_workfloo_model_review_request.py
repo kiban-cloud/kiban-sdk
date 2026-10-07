@@ -14,7 +14,7 @@
 
 import unittest
 
-from kiban.sdk.workfloo.models.controller_workfloo_model_review_request import ControllerWorkflooModelReviewRequest
+from kiban.workfloo.models.controller_workfloo_model_review_request import ControllerWorkflooModelReviewRequest
 
 class TestControllerWorkflooModelReviewRequest(unittest.TestCase):
     """ControllerWorkflooModelReviewRequest unit test stubs"""
@@ -38,7 +38,7 @@ class TestControllerWorkflooModelReviewRequest(unittest.TestCase):
                 decision = '',
                 reviewer_note = '',
                 reviews = [
-                    kiban.sdk.workfloo.models.controller_workfloo_model/review_field_request.controller_workfloo_model.ReviewFieldRequest(
+                    kiban.workfloo.models.controller_workfloo_model/review_field_request.controller_workfloo_model.ReviewFieldRequest(
                         field_id = '', 
                         message = '', 
                         source_node_id = '', )

@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```typescript
-import { ControllerWorkflooModelNipSendErrorStatus } from 'kiban.sdk.workfloo';
+import { ControllerWorkflooModelNipSendErrorStatus } from '@kiban/workfloo';
 
 const instance: ControllerWorkflooModelNipSendErrorStatus = {
     code,

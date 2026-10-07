@@ -14,7 +14,7 @@
 
 import unittest
 
-from kiban.sdk.workfloo.models.controller_workfloo_model_workfloo_status import ControllerWorkflooModelWorkflooStatus
+from kiban.workfloo.models.controller_workfloo_model_workfloo_status import ControllerWorkflooModelWorkflooStatus
 
 class TestControllerWorkflooModelWorkflooStatus(unittest.TestCase):
     """ControllerWorkflooModelWorkflooStatus unit test stubs"""
@@ -40,10 +40,10 @@ class TestControllerWorkflooModelWorkflooStatus(unittest.TestCase):
                 current_node_id = '',
                 current_node_name = '',
                 current_node_type = '',
-                document = kiban.sdk.workfloo.models.controller_workfloo_definition_model/document.controller_workfloo_definition_model.Document(
+                document = kiban.workfloo.models.controller_workfloo_definition_model/document.controller_workfloo_definition_model.Document(
                     document_field = [
-                        kiban.sdk.workfloo.models.controller_workfloo_definition_model/file_document.controller_workfloo_definition_model.FileDocument(
-                            file_metadata = kiban.sdk.workfloo.models.controller_workfloo_definition_model/file_metadata.controller_workfloo_definition_model.FileMetadata(
+                        kiban.workfloo.models.controller_workfloo_definition_model/file_document.controller_workfloo_definition_model.FileDocument(
+                            file_metadata = kiban.workfloo.models.controller_workfloo_definition_model/file_metadata.controller_workfloo_definition_model.FileMetadata(
                                 formats = [
                                     ''
                                     ], 
@@ -54,9 +54,9 @@ class TestControllerWorkflooModelWorkflooStatus(unittest.TestCase):
                             name = '', 
                             predefined = True, 
                             required = True, 
-                            set = kiban.sdk.workfloo.models.controller_workfloo_definition_model/set_data_document.controller_workfloo_definition_model.SetDataDocument(
+                            set = kiban.workfloo.models.controller_workfloo_definition_model/set_data_document.controller_workfloo_definition_model.SetDataDocument(
                                 files = [
-                                    kiban.sdk.workfloo.models.controller_workfloo_definition_model/file_document_set.controller_workfloo_definition_model.FileDocumentSet(
+                                    kiban.workfloo.models.controller_workfloo_definition_model/file_document_set.controller_workfloo_definition_model.FileDocumentSet(
                                         id = '', 
                                         name = '', 
                                         predefined = True, 
@@ -70,14 +70,14 @@ class TestControllerWorkflooModelWorkflooStatus(unittest.TestCase):
                                     ], ), 
                             source_pdf_node_id = '', )
                         ], ),
-                form = kiban.sdk.workfloo.models.controller_workfloo_definition_model/form.controller_workfloo_definition_model.Form(
+                form = kiban.workfloo.models.controller_workfloo_definition_model/form.controller_workfloo_definition_model.Form(
                     form_field_section = [
-                        kiban.sdk.workfloo.models.controller_workfloo_definition_model/form_field_section.controller_workfloo_definition_model.FormFieldSection(
+                        kiban.workfloo.models.controller_workfloo_definition_model/form_field_section.controller_workfloo_definition_model.FormFieldSection(
                             fields = [
-                                kiban.sdk.workfloo.models.controller_workfloo_definition_model/field.controller_workfloo_definition_model.Field(
-                                    field_metadata = kiban.sdk.workfloo.models.controller_workfloo_definition_model/field_metadata.controller_workfloo_definition_model.FieldMetadata(
+                                kiban.workfloo.models.controller_workfloo_definition_model/field.controller_workfloo_definition_model.Field(
+                                    field_metadata = kiban.workfloo.models.controller_workfloo_definition_model/field_metadata.controller_workfloo_definition_model.FieldMetadata(
                                         auto_filled_by = [
-                                            kiban.sdk.workfloo.models.controller_workfloo_definition_model/auto_filled_by.controller_workfloo_definition_model.AutoFilledBy(
+                                            kiban.workfloo.models.controller_workfloo_definition_model/auto_filled_by.controller_workfloo_definition_model.AutoFilledBy(
                                                 name_node = '', 
                                                 node_id = '', )
                                             ], 
@@ -95,7 +95,7 @@ class TestControllerWorkflooModelWorkflooStatus(unittest.TestCase):
                                         min_val = 1.337, 
                                         regex = '', 
                                         regex_message = '', 
-                                        show = kiban.sdk.workfloo.models.controller_workfloo_definition_model/show.controller_workfloo_definition_model.Show(
+                                        show = kiban.workfloo.models.controller_workfloo_definition_model/show.controller_workfloo_definition_model.Show(
                                             field = '', 
                                             value = '', ), 
                                         type = '', ), 
@@ -104,7 +104,7 @@ class TestControllerWorkflooModelWorkflooStatus(unittest.TestCase):
                                     predefined = True, 
                                     required = True, 
                                     section = '', 
-                                    set = kiban.sdk.workfloo.models.controller_workfloo_definition_model/set_data.controller_workfloo_definition_model.SetData(
+                                    set = kiban.workfloo.models.controller_workfloo_definition_model/set_data.controller_workfloo_definition_model.SetData(
                                         optional_at = [
                                             ''
                                             ], 
@@ -112,7 +112,7 @@ class TestControllerWorkflooModelWorkflooStatus(unittest.TestCase):
                                             ''
                                             ], ), 
                                     show_if = [
-                                        kiban.sdk.workfloo.models.controller_workfloo_definition_model/show_if.controller_workfloo_definition_model.ShowIf(
+                                        kiban.workfloo.models.controller_workfloo_definition_model/show_if.controller_workfloo_definition_model.ShowIf(
                                             field = '', 
                                             required_with_values = [
                                                 ''
@@ -125,12 +125,12 @@ class TestControllerWorkflooModelWorkflooStatus(unittest.TestCase):
                             section = '', )
                         ], ),
                 id = '',
-                link = kiban.sdk.workfloo.models.controller_workfloo_model/link_nip_status.controller_workfloo_model.LinkNipStatus(
+                link = kiban.workfloo.models.controller_workfloo_model/link_nip_status.controller_workfloo_model.LinkNipStatus(
                     company_name = '', 
                     country_code = '', 
                     email = '', 
                     events = [
-                        kiban.sdk.workfloo.models.controller_workfloo_model/event.controller_workfloo_model.Event(
+                        kiban.workfloo.models.controller_workfloo_model/event.controller_workfloo_model.Event(
                             date = '', 
                             error_message = '', 
                             status = '', )
@@ -141,22 +141,22 @@ class TestControllerWorkflooModelWorkflooStatus(unittest.TestCase):
                     phase = '', 
                     phone_number = '', 
                     privacy_notice = '', 
-                    send_error = kiban.sdk.workfloo.models.controller_workfloo_model/nip_send_error_status.controller_workfloo_model.NipSendErrorStatus(
+                    send_error = kiban.workfloo.models.controller_workfloo_model/nip_send_error_status.controller_workfloo_model.NipSendErrorStatus(
                         code = '', 
                         recoverable = True, ), 
                     terms = '', 
                     widget = null, ),
                 name = '',
                 status = '',
-                timer = kiban.sdk.workfloo.models.controller_workfloo_model/timer.controller_workfloo_model.Timer(
+                timer = kiban.workfloo.models.controller_workfloo_model/timer.controller_workfloo_model.Timer(
                     end_wait_date = '', 
-                    remaining_time = kiban.sdk.workfloo.models.controller_workfloo_model/remaining_time.controller_workfloo_model.RemainingTime(
+                    remaining_time = kiban.workfloo.models.controller_workfloo_model/remaining_time.controller_workfloo_model.RemainingTime(
                         hours = 56, 
                         minutes = 56, 
                         seconds = 56, ), ),
-                validation = kiban.sdk.workfloo.models.controller_workfloo_model/validation_status.controller_workfloo_model.ValidationStatus(
+                validation = kiban.workfloo.models.controller_workfloo_model/validation_status.controller_workfloo_model.ValidationStatus(
                     fields = [
-                        kiban.sdk.workfloo.models.controller_workfloo_model/validation_field.controller_workfloo_model.ValidationField(
+                        kiban.workfloo.models.controller_workfloo_model/validation_field.controller_workfloo_model.ValidationField(
                             field_id = '', 
                             message = '', 
                             name = '', 
@@ -166,7 +166,7 @@ class TestControllerWorkflooModelWorkflooStatus(unittest.TestCase):
                     instruction = '', 
                     reviewer_note = '', 
                     state = '', ),
-                verification = kiban.sdk.workfloo.models.controller_workfloo_model/verification_status.controller_workfloo_model.VerificationStatus(
+                verification = kiban.workfloo.models.controller_workfloo_model/verification_status.controller_workfloo_model.VerificationStatus(
                     channel = '', 
                     masked_destination = '', 
                     remaining_retries = 56, 

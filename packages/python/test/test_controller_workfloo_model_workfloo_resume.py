@@ -14,7 +14,7 @@
 
 import unittest
 
-from kiban.sdk.workfloo.models.controller_workfloo_model_workfloo_resume import ControllerWorkflooModelWorkflooResume
+from kiban.workfloo.models.controller_workfloo_model_workfloo_resume import ControllerWorkflooModelWorkflooResume
 
 class TestControllerWorkflooModelWorkflooResume(unittest.TestCase):
     """ControllerWorkflooModelWorkflooResume unit test stubs"""
@@ -47,9 +47,9 @@ class TestControllerWorkflooModelWorkflooResume(unittest.TestCase):
                 modified = '',
                 name = '',
                 nodes = [
-                    kiban.sdk.workfloo.models.controller_workfloo_model/node_resume.controller_workfloo_model.NodeResume(
-                        api_data = kiban.sdk.workfloo.models.controller_workfloo_model/api_data.controller_workfloo_model.ApiData(
-                            request = kiban.sdk.workfloo.models.controller_workfloo_model/api_data_resume.controller_workfloo_model.ApiDataResume(
+                    kiban.workfloo.models.controller_workfloo_model/node_resume.controller_workfloo_model.NodeResume(
+                        api_data = kiban.workfloo.models.controller_workfloo_model/api_data.controller_workfloo_model.ApiData(
+                            request = kiban.workfloo.models.controller_workfloo_model/api_data_resume.controller_workfloo_model.ApiDataResume(
                                 body = null, 
                                 headers = {
                                     'key' : ''
@@ -59,13 +59,13 @@ class TestControllerWorkflooModelWorkflooResume(unittest.TestCase):
                                     'key' : ''
                                     }, 
                                 url = '', ), 
-                            response = kiban.sdk.workfloo.models.controller_workfloo_model/api_data_resume.controller_workfloo_model.ApiDataResume(
+                            response = kiban.workfloo.models.controller_workfloo_model/api_data_resume.controller_workfloo_model.ApiDataResume(
                                 body = null, 
                                 http_code = 56, 
                                 url = '', ), ), 
                         created = '', 
                         data = [
-                            kiban.sdk.workfloo.models.controller_workfloo_model/data.controller_workfloo_model.Data(
+                            kiban.workfloo.models.controller_workfloo_model/data.controller_workfloo_model.Data(
                                 fields = [
                                     { }
                                     ], 
@@ -74,12 +74,12 @@ class TestControllerWorkflooModelWorkflooResume(unittest.TestCase):
                                     }, )
                             ], 
                         decision_tree = [
-                            kiban.sdk.workfloo.models.controller_workfloo_model/decision_tree.controller_workfloo_model.DecisionTree(
+                            kiban.workfloo.models.controller_workfloo_model/decision_tree.controller_workfloo_model.DecisionTree(
                                 message = '', 
                                 name_node = '', 
                                 result = True, )
                             ], 
-                        detail = kiban.sdk.workfloo.models.controller_workfloo_model/node_detail.controller_workfloo_model.NodeDetail(
+                        detail = kiban.workfloo.models.controller_workfloo_model/node_detail.controller_workfloo_model.NodeDetail(
                             created_by = '', 
                             date_found = '', 
                             error_message = '', 
@@ -90,27 +90,27 @@ class TestControllerWorkflooModelWorkflooResume(unittest.TestCase):
                             response_time = 56, 
                             status = '', ), 
                         documents = {
-                            'key' : kiban.sdk.workfloo.models.controller_workfloo_model/documents_resume.controller_workfloo_model.DocumentsResume(
+                            'key' : kiban.workfloo.models.controller_workfloo_model/documents_resume.controller_workfloo_model.DocumentsResume(
                                 name = '', 
                                 size = '', 
                                 value = null, )
                             }, 
                         files = [
-                            kiban.sdk.workfloo.models.controller_workfloo_model/file.controller_workfloo_model.File(
+                            kiban.workfloo.models.controller_workfloo_model/file.controller_workfloo_model.File(
                                 name = {
                                     'key' : ''
                                     }, 
                                 value = '', )
                             ], 
-                        form = kiban.sdk.workfloo.models.controller_workfloo_model/form_resume.controller_workfloo_model.FormResume(), 
+                        form = kiban.workfloo.models.controller_workfloo_model/form_resume.controller_workfloo_model.FormResume(), 
                         id = '', 
-                        label = kiban.sdk.workfloo.models.controller_workfloo_model/label.controller_workfloo_model.Label(
+                        label = kiban.workfloo.models.controller_workfloo_model/label.controller_workfloo_model.Label(
                             labels = [
                                 ''
                                 ], ), 
-                        link = kiban.sdk.workfloo.models.controller_workfloo_model/link_resume.controller_workfloo_model.LinkResume(
+                        link = kiban.workfloo.models.controller_workfloo_model/link_resume.controller_workfloo_model.LinkResume(
                             events = [
-                                kiban.sdk.workfloo.models.controller_workfloo_model/event.controller_workfloo_model.Event(
+                                kiban.workfloo.models.controller_workfloo_model/event.controller_workfloo_model.Event(
                                     date = '', 
                                     error_message = '', 
                                     status = '', )
@@ -119,36 +119,36 @@ class TestControllerWorkflooModelWorkflooResume(unittest.TestCase):
                             phase = '', ), 
                         modified = '', 
                         name = '', 
-                        pdf = kiban.sdk.workfloo.models.controller_workfloo_model/pdf.controller_workfloo_model.Pdf(
+                        pdf = kiban.workfloo.models.controller_workfloo_model/pdf.controller_workfloo_model.Pdf(
                             error_message = '', 
                             pdf_base64 = '', ), 
                         request = null, 
                         response = null, 
-                        ruleset = kiban.sdk.workfloo.models.controller_workfloo_model/ruleset.controller_workfloo_model.Ruleset(
+                        ruleset = kiban.workfloo.models.controller_workfloo_model/ruleset.controller_workfloo_model.Ruleset(
                             decision = [
-                                kiban.sdk.workfloo.models.controller_workfloo_model/rules.controller_workfloo_model.Rules(
+                                kiban.workfloo.models.controller_workfloo_model/rules.controller_workfloo_model.Rules(
                                     message = '', )
                                 ], 
                             exit = '', ), 
-                        timer = kiban.sdk.workfloo.models.controller_workfloo_model/timer.controller_workfloo_model.Timer(
+                        timer = kiban.workfloo.models.controller_workfloo_model/timer.controller_workfloo_model.Timer(
                             end_wait_date = '', 
-                            remaining_time = kiban.sdk.workfloo.models.controller_workfloo_model/remaining_time.controller_workfloo_model.RemainingTime(
+                            remaining_time = kiban.workfloo.models.controller_workfloo_model/remaining_time.controller_workfloo_model.RemainingTime(
                                 hours = 56, 
                                 minutes = 56, 
                                 seconds = 56, ), ), 
                         type = '', 
-                        validation = kiban.sdk.workfloo.models.controller_workfloo_model/validation_resume.controller_workfloo_model.ValidationResume(
+                        validation = kiban.workfloo.models.controller_workfloo_model/validation_resume.controller_workfloo_model.ValidationResume(
                             reviewed_at = '', 
                             reviewed_by = '', 
                             reviewer_note = '', 
                             reviews = [
-                                kiban.sdk.workfloo.models.controller_workfloo_model/review_resume.controller_workfloo_model.ReviewResume(
+                                kiban.workfloo.models.controller_workfloo_model/review_resume.controller_workfloo_model.ReviewResume(
                                     field_id = '', 
                                     message = '', 
                                     source_node_id = '', )
                                 ], ), 
                         variables = [
-                            kiban.sdk.workfloo.models.controller_workfloo_model/variable.controller_workfloo_model.Variable(
+                            kiban.workfloo.models.controller_workfloo_model/variable.controller_workfloo_model.Variable(
                                 value = null, )
                             ], )
                     ],

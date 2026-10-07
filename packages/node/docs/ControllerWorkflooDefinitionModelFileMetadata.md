@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```typescript
-import { ControllerWorkflooDefinitionModelFileMetadata } from 'kiban.sdk.workfloo';
+import { ControllerWorkflooDefinitionModelFileMetadata } from '@kiban/workfloo';
 
 const instance: ControllerWorkflooDefinitionModelFileMetadata = {
     formats,

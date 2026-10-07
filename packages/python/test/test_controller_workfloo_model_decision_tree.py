@@ -14,7 +14,7 @@
 
 import unittest
 
-from kiban.sdk.workfloo.models.controller_workfloo_model_decision_tree import ControllerWorkflooModelDecisionTree
+from kiban.workfloo.models.controller_workfloo_model_decision_tree import ControllerWorkflooModelDecisionTree
 
 class TestControllerWorkflooModelDecisionTree(unittest.TestCase):
     """ControllerWorkflooModelDecisionTree unit test stubs"""

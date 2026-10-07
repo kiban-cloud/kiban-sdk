@@ -1,4 +1,4 @@
-# kiban.sdk.workfloo.Model.ControllerWorkflooDefinitionModelFileMetadata
+# Kiban.Workfloo.Model.ControllerWorkflooDefinitionModelFileMetadata
 
 ## Properties
 

@@ -12,10 +12,10 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-using kiban.sdk.workfloo.Api;
-using kiban.sdk.workfloo.Client;
-using kiban.sdk.workfloo.Extensions;
-using kiban.sdk.workfloo.Model;
+using Kiban.Workfloo.Api;
+using Kiban.Workfloo.Client;
+using Kiban.Workfloo.Extensions;
+using Kiban.Workfloo.Model;
 
 string? hostUrl = Environment.GetEnvironmentVariable("KIBAN_HOST");
 string? apiKey = Environment.GetEnvironmentVariable("KIBAN_API_KEY");
@@ -25,7 +25,7 @@ bool sandbox = Environment.GetEnvironmentVariable("KIBAN_SANDBOX") == "true";
 
 if (string.IsNullOrEmpty(hostUrl) || string.IsNullOrEmpty(apiKey) || string.IsNullOrEmpty(defId))
 {
-    Console.Error.WriteLine("Faltan KIBAN_HOST / KIBAN_API_KEY / KIBAN_WORKFLOO_DEFINITION_ID (corré resolve-env.sh).");
+    Console.Error.WriteLine("Faltan KIBAN_HOST / KIBAN_API_KEY / KIBAN_WORKFLOO_DEFINITION_ID (corre resolve-env.sh).");
     Environment.Exit(1);
 }
 

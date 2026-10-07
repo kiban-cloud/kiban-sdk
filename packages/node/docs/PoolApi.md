@@ -18,7 +18,7 @@ import {
     PoolApi,
     Configuration,
     ControllerPoolModelExecute
-} from 'kiban.sdk.workfloo';
+} from '@kiban/workfloo';
 
 const configuration = new Configuration();
 const apiInstance = new PoolApi(configuration);

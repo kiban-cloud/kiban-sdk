@@ -13,15 +13,15 @@
 // KIBAN_SCENARIO_ID (opcional).
 import java.util.List;
 
-import kiban.sdk.workfloo.ApiClient;
-import kiban.sdk.workfloo.Configuration;
-import kiban.sdk.workfloo.auth.ApiKeyAuth;
-import kiban.sdk.workfloo.api.WorkflooApi;
-import kiban.sdk.workfloo.model.ControllerWorkflooModelExecute;
-import kiban.sdk.workfloo.model.ControllerWorkflooModelExecuteResponse;
-import kiban.sdk.workfloo.model.ControllerWorkflooModelWorkflooListItem;
-import kiban.sdk.workfloo.model.ControllerWorkflooModelWorkflooPage;
-import kiban.sdk.workfloo.model.ControllerWorkflooModelWorkflooStatus;
+import com.kiban.workfloo.ApiClient;
+import com.kiban.workfloo.Configuration;
+import com.kiban.workfloo.auth.ApiKeyAuth;
+import com.kiban.workfloo.api.WorkflooApi;
+import com.kiban.workfloo.model.ControllerWorkflooModelExecute;
+import com.kiban.workfloo.model.ControllerWorkflooModelExecuteResponse;
+import com.kiban.workfloo.model.ControllerWorkflooModelWorkflooListItem;
+import com.kiban.workfloo.model.ControllerWorkflooModelWorkflooPage;
+import com.kiban.workfloo.model.ControllerWorkflooModelWorkflooStatus;
 
 public class Smoke {
     public static void main(String[] args) throws Exception {
@@ -32,7 +32,7 @@ public class Smoke {
         boolean sandbox = "true".equals(System.getenv("KIBAN_SANDBOX"));
 
         if (host == null || apiKey == null || defId == null) {
-            System.err.println("Faltan KIBAN_HOST / KIBAN_API_KEY / KIBAN_WORKFLOO_DEFINITION_ID (corré resolve-env.sh).");
+            System.err.println("Faltan KIBAN_HOST / KIBAN_API_KEY / KIBAN_WORKFLOO_DEFINITION_ID (corre resolve-env.sh).");
             System.exit(1);
         }
 
@@ -48,7 +48,7 @@ public class Smoke {
         if (scenario != null && !scenario.isEmpty()) {
             body.scenarioId(scenario);
         }
-        ControllerWorkflooModelExecuteResponse created = api.executeWorkfloo(body, sandbox);
+        ControllerWorkflooModelExecuteResponse created = api.executeWorkfloo(body).sandbox(sandbox).execute();
         String id = created.getId();
         System.out.println("    id=" + id + " idUnykoo=" + created.getIdUnykoo());
         if (id == null || id.isEmpty()) {
@@ -59,15 +59,15 @@ public class Smoke {
         Thread.sleep(2000);
 
         System.out.println("2/3 getWorkflooStatus …");
-        ControllerWorkflooModelWorkflooStatus status = api.getWorkflooStatus(id, sandbox);
+        ControllerWorkflooModelWorkflooStatus status = api.getWorkflooStatus(id).sandbox(sandbox).execute();
         System.out.println("    status=" + status.getStatus() + " nodo=" + status.getCurrentNodeName());
 
         System.out.println("3/3 listWorkfloos (v1) …");
-        ControllerWorkflooModelWorkflooPage page = api.listWorkfloos(1, 5, null, null, null, sandbox);
+        ControllerWorkflooModelWorkflooPage page = api.listWorkfloos(1, 5).sandbox(sandbox).execute();
         System.out.println("    items=" + (page.getItems() == null ? 0 : page.getItems().size()));
 
         System.out.println("    listWorkfloosV2 …");
-        List<ControllerWorkflooModelWorkflooListItem> items = api.listWorkfloosV2(1, 5, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, sandbox);
+        List<ControllerWorkflooModelWorkflooListItem> items = api.listWorkfloosV2().page(1).itemsPerPage(5).sandbox(sandbox).execute();
         System.out.println("    v2 devolvió " + (items == null ? 0 : items.size()) + " items (arreglo plano)");
 
         System.out.println("\nSMOKE TEST OK");

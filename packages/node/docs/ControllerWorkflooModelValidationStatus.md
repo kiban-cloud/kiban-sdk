@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```typescript
-import { ControllerWorkflooModelValidationStatus } from 'kiban.sdk.workfloo';
+import { ControllerWorkflooModelValidationStatus } from '@kiban/workfloo';
 
 const instance: ControllerWorkflooModelValidationStatus = {
     fields,

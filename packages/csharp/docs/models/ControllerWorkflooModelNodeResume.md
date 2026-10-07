@@ -1,4 +1,4 @@
-# kiban.sdk.workfloo.Model.ControllerWorkflooModelNodeResume
+# Kiban.Workfloo.Model.ControllerWorkflooModelNodeResume
 
 ## Properties
 

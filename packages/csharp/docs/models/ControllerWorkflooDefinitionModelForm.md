@@ -1,4 +1,4 @@
-# kiban.sdk.workfloo.Model.ControllerWorkflooDefinitionModelForm
+# Kiban.Workfloo.Model.ControllerWorkflooDefinitionModelForm
 
 ## Properties
 

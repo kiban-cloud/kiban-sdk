@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```typescript
-import { ControllerWorkflooModelEvent } from 'kiban.sdk.workfloo';
+import { ControllerWorkflooModelEvent } from '@kiban/workfloo';
 
 const instance: ControllerWorkflooModelEvent = {
     date,

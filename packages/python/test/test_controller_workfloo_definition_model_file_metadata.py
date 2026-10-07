@@ -14,7 +14,7 @@
 
 import unittest
 
-from kiban.sdk.workfloo.models.controller_workfloo_definition_model_file_metadata import ControllerWorkflooDefinitionModelFileMetadata
+from kiban.workfloo.models.controller_workfloo_definition_model_file_metadata import ControllerWorkflooDefinitionModelFileMetadata
 
 class TestControllerWorkflooDefinitionModelFileMetadata(unittest.TestCase):
     """ControllerWorkflooDefinitionModelFileMetadata unit test stubs"""

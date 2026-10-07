@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from kiban.sdk.workfloo.models.controller_workfloo_model_link_resume import ControllerWorkflooModelLinkResume
+from kiban.workfloo.models.controller_workfloo_model_link_resume import ControllerWorkflooModelLinkResume
 
 # TODO update the JSON string below
 json = "{}"

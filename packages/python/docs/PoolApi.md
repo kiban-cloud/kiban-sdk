@@ -1,4 +1,4 @@
-# kiban.sdk.workfloo.PoolApi
+# kiban.workfloo.PoolApi
 
 All URIs are relative to *https://workfloo.kiban.com*
 
@@ -19,15 +19,15 @@ Ejecuta un pool de workfloos a partir de su definición. En sandbox, sceneries m
 * Api Key Authentication (ApiKeyAuth):
 
 ```python
-import kiban.sdk.workfloo
-from kiban.sdk.workfloo.models.controller_pool_model_execute import ControllerPoolModelExecute
-from kiban.sdk.workfloo.models.controller_pool_model_execute_response import ControllerPoolModelExecuteResponse
-from kiban.sdk.workfloo.rest import ApiException
+import kiban.workfloo
+from kiban.workfloo.models.controller_pool_model_execute import ControllerPoolModelExecute
+from kiban.workfloo.models.controller_pool_model_execute_response import ControllerPoolModelExecuteResponse
+from kiban.workfloo.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to https://workfloo.kiban.com
 # See configuration.py for a list of all supported configuration parameters.
-configuration = kiban.sdk.workfloo.Configuration(
+configuration = kiban.workfloo.Configuration(
     host = "https://workfloo.kiban.com"
 )
 
@@ -43,10 +43,10 @@ configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
 # configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
 
 # Enter a context with an instance of the API client
-with kiban.sdk.workfloo.ApiClient(configuration) as api_client:
+with kiban.workfloo.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = kiban.sdk.workfloo.PoolApi(api_client)
-    controller_pool_model_execute = kiban.sdk.workfloo.ControllerPoolModelExecute() # ControllerPoolModelExecute | Definición del pool y escenarios
+    api_instance = kiban.workfloo.PoolApi(api_client)
+    controller_pool_model_execute = kiban.workfloo.ControllerPoolModelExecute() # ControllerPoolModelExecute | Definición del pool y escenarios
     sandbox = True # bool | Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
 
     try:

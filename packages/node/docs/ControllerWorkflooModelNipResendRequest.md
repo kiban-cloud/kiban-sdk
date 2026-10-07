@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```typescript
-import { ControllerWorkflooModelNipResendRequest } from 'kiban.sdk.workfloo';
+import { ControllerWorkflooModelNipResendRequest } from '@kiban/workfloo';
 
 const instance: ControllerWorkflooModelNipResendRequest = {
     countryCode,

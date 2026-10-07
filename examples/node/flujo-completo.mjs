@@ -22,7 +22,7 @@ import { fileURLToPath } from 'node:url';
 
 const require = createRequire(import.meta.url);
 const examplesDir = join(dirname(fileURLToPath(import.meta.url)), '..');
-// En tu proyecto: import { Configuration, WorkflooApi } from 'kiban.sdk.workfloo';
+// En tu proyecto: import { Configuration, WorkflooApi } from '@kiban/workfloo';
 const { Configuration, WorkflooApi } = require(join(examplesDir, '../packages/node'));
 
 const FINISHED = new Set(['SUCCESS', 'ERROR', 'ABANDONED']);
@@ -91,7 +91,7 @@ async function validateOtp(api, id, verification, sandbox) {
   for (;;) {
     const token = await ask('Código recibido');
     try {
-      await api.validateWorkflooOtp(id, { token }, sandbox);
+      await api.validateWorkflooOtp({ id, controllerWorkflooModelOtpValidateRequest: { token }, sandbox });
       return;
     } catch (err) {
       // 400 = código incorrecto con intentos restantes; la ejecución sigue viva.
@@ -112,7 +112,7 @@ const api = new WorkflooApi(new Configuration({ apiKey: env('KIBAN_API_KEY'), ba
 
 const body = { idWorkflooDefinition: definitionId };
 if (process.env.KIBAN_SCENARIO_ID) body.scenarioId = process.env.KIBAN_SCENARIO_ID;
-const { data: created } = await api.executeWorkfloo(body, sandbox);
+const { data: created } = await api.executeWorkfloo({ controllerWorkflooModelExecute: body, sandbox });
 const id = created.id;
 console.log(`Ejecución ${id}`);
 
@@ -121,7 +121,7 @@ console.log(`Ejecución ${id}`);
 let lastStep = null;
 let status;
 for (;;) {
-  ({ data: status } = await api.getWorkflooStatus(id, sandbox));
+  ({ data: status } = await api.getWorkflooStatus({ id, sandbox }));
   if (FINISHED.has(status.status)) break;
 
   const nodeType = status.currentNodeType ?? '';
@@ -141,19 +141,19 @@ for (;;) {
   console.log(`Paso: ${status.currentNodeName} (${nodeType})`);
 
   if (nodeType === 'FORM') {
-    await api.executeWorkflooForm(id, formValues(status, answers), sandbox);
+    await api.executeWorkflooForm({ id, body: formValues(status, answers), sandbox });
   } else if (nodeType === 'DOCUMENT') {
-    await api.executeWorkflooDocument(id, documentValues(status, answers), sandbox);
+    await api.executeWorkflooDocument({ id, body: documentValues(status, answers), sandbox });
   } else if (nodeType === 'LINK' && status.verification) {
     // El código de un proveedor externo se reconoce por `verification`, que va
     // antes que la fase: también se estaciona en VALIDATE.
     await validateOtp(api, id, status.verification, sandbox);
   } else if (nodeType === 'LINK' && phase === 'CREATE_ACCOUNT') {
-    await api.sendWorkflooNip(id, sandbox);
+    await api.sendWorkflooNip({ id, sandbox });
     console.log('    NIP enviado');
   } else if (nodeType === 'LINK' && NIP_PHASES.has(phase)) {
     const nip = await ask('NIP recibido');
-    const { data: result } = await api.validateWorkflooNip(id, { nip }, sandbox);
+    const { data: result } = await api.validateWorkflooNip({ id, controllerWorkflooModelNipValidateRequest: { nip }, sandbox });
     console.log(`    Fase: ${result.phase}`);
   } else if (nodeType === 'LINK' && status.link?.widget) {
     console.log(`    La persona debe completar el widget: ${JSON.stringify(status.link.widget)}`);
@@ -163,7 +163,7 @@ for (;;) {
     for (const field of status.validation.fields ?? []) {
       corrected[field.fieldId] = await ask(`${field.name || field.fieldId} (${field.message})`);
     }
-    await api.submitWorkflooCorrection(id, corrected, sandbox);
+    await api.submitWorkflooCorrection({ id, body: corrected, sandbox });
   } else if (nodeType === 'VALIDATION') {
     console.log('    Esperando la revisión interna');
   } else if (nodeType === 'TIMER') {
@@ -174,6 +174,6 @@ for (;;) {
 }
 
 console.log(`Terminó en ${status.status}`);
-const { data: detail } = await api.getWorkfloo(id, sandbox);
+const { data: detail } = await api.getWorkfloo({ id, sandbox });
 for (const node of detail.nodes ?? []) console.log(`  - ${node.name} (${node.type})`);
 rl.close();

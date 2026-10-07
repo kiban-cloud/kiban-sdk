@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from kiban.sdk.workfloo.models.controller_workfloo_model_file_response import ControllerWorkflooModelFileResponse
+from kiban.workfloo.models.controller_workfloo_model_file_response import ControllerWorkflooModelFileResponse
 
 # TODO update the JSON string below
 json = "{}"

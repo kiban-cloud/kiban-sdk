@@ -27,21 +27,21 @@ import java.util.Set;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
-import kiban.sdk.workfloo.ApiClient;
-import kiban.sdk.workfloo.ApiException;
-import kiban.sdk.workfloo.Configuration;
-import kiban.sdk.workfloo.api.WorkflooApi;
-import kiban.sdk.workfloo.auth.ApiKeyAuth;
-import kiban.sdk.workfloo.model.ControllerWorkflooDefinitionModelField;
-import kiban.sdk.workfloo.model.ControllerWorkflooDefinitionModelFileDocument;
-import kiban.sdk.workfloo.model.ControllerWorkflooDefinitionModelFormFieldSection;
-import kiban.sdk.workfloo.model.ControllerWorkflooModelExecute;
-import kiban.sdk.workfloo.model.ControllerWorkflooModelNipValidateRequest;
-import kiban.sdk.workfloo.model.ControllerWorkflooModelNodeResume;
-import kiban.sdk.workfloo.model.ControllerWorkflooModelOtpValidateRequest;
-import kiban.sdk.workfloo.model.ControllerWorkflooModelValidationField;
-import kiban.sdk.workfloo.model.ControllerWorkflooModelVerificationStatus;
-import kiban.sdk.workfloo.model.ControllerWorkflooModelWorkflooStatus;
+import com.kiban.workfloo.ApiClient;
+import com.kiban.workfloo.ApiException;
+import com.kiban.workfloo.Configuration;
+import com.kiban.workfloo.api.WorkflooApi;
+import com.kiban.workfloo.auth.ApiKeyAuth;
+import com.kiban.workfloo.model.ControllerWorkflooDefinitionModelField;
+import com.kiban.workfloo.model.ControllerWorkflooDefinitionModelFileDocument;
+import com.kiban.workfloo.model.ControllerWorkflooDefinitionModelFormFieldSection;
+import com.kiban.workfloo.model.ControllerWorkflooModelExecute;
+import com.kiban.workfloo.model.ControllerWorkflooModelNipValidateRequest;
+import com.kiban.workfloo.model.ControllerWorkflooModelNodeResume;
+import com.kiban.workfloo.model.ControllerWorkflooModelOtpValidateRequest;
+import com.kiban.workfloo.model.ControllerWorkflooModelValidationField;
+import com.kiban.workfloo.model.ControllerWorkflooModelVerificationStatus;
+import com.kiban.workfloo.model.ControllerWorkflooModelWorkflooStatus;
 
 public class FlujoCompleto {
     private static final Set<String> FINISHED = Set.of("SUCCESS", "ERROR", "ABANDONED");
@@ -74,7 +74,7 @@ public class FlujoCompleto {
         if (scenario != null && !scenario.isEmpty()) {
             body.scenarioId(scenario);
         }
-        String id = api.executeWorkfloo(body, sandbox).getId();
+        String id = api.executeWorkfloo(body).sandbox(sandbox).execute().getId();
         System.out.println("Ejecución " + id);
 
         // Cada paso estacionado se atiende una vez; si el motor pasa por otro
@@ -82,7 +82,7 @@ public class FlujoCompleto {
         String lastStep = null;
         ControllerWorkflooModelWorkflooStatus status;
         while (true) {
-            status = api.getWorkflooStatus(id, sandbox);
+            status = api.getWorkflooStatus(id).sandbox(sandbox).execute();
             if (FINISHED.contains(status.getStatus())) {
                 break;
             }
@@ -104,19 +104,19 @@ public class FlujoCompleto {
             System.out.println("Paso: " + status.getCurrentNodeName() + " (" + nodeType + ")");
 
             if (nodeType.equals("FORM")) {
-                api.executeWorkflooForm(id, formValues(status, answers), sandbox);
+                api.executeWorkflooForm(id, formValues(status, answers)).sandbox(sandbox).execute();
             } else if (nodeType.equals("DOCUMENT")) {
-                api.executeWorkflooDocument(id, documentValues(status, answers), sandbox);
+                api.executeWorkflooDocument(id, documentValues(status, answers)).sandbox(sandbox).execute();
             } else if (nodeType.equals("LINK") && status.getVerification() != null) {
                 // El código de un proveedor externo se reconoce por `verification`,
                 // que va antes que la fase: también se estaciona en VALIDATE.
                 validateOtp(api, id, status.getVerification(), sandbox);
             } else if (nodeType.equals("LINK") && phase.equals("CREATE_ACCOUNT")) {
-                api.sendWorkflooNip(id, sandbox, null);
+                api.sendWorkflooNip(id).sandbox(sandbox).execute();
                 System.out.println("    NIP enviado");
             } else if (nodeType.equals("LINK") && NIP_PHASES.contains(phase)) {
                 String nip = ask("NIP recibido");
-                String result = api.validateWorkflooNip(id, new ControllerWorkflooModelNipValidateRequest().nip(nip), sandbox)
+                String result = api.validateWorkflooNip(id, new ControllerWorkflooModelNipValidateRequest().nip(nip)).sandbox(sandbox).execute()
                         .getPhase();
                 System.out.println("    Fase: " + result);
             } else if (nodeType.equals("LINK") && status.getLink().getWidget() != null) {
@@ -128,7 +128,7 @@ public class FlujoCompleto {
                     String label = orEmpty(field.getName()).isEmpty() ? field.getFieldId() : field.getName();
                     corrected.put(field.getFieldId(), ask(label + " (" + field.getMessage() + ")"));
                 }
-                api.submitWorkflooCorrection(id, corrected, sandbox);
+                api.submitWorkflooCorrection(id, corrected).sandbox(sandbox).execute();
             } else if (nodeType.equals("VALIDATION")) {
                 System.out.println("    Esperando la revisión interna");
             } else if (nodeType.equals("TIMER") && status.getTimer() != null) {
@@ -139,7 +139,7 @@ public class FlujoCompleto {
         }
 
         System.out.println("Terminó en " + status.getStatus());
-        List<ControllerWorkflooModelNodeResume> nodes = api.getWorkfloo(id, sandbox).getNodes();
+        List<ControllerWorkflooModelNodeResume> nodes = api.getWorkfloo(id).sandbox(sandbox).execute().getNodes();
         if (nodes != null) {
             for (ControllerWorkflooModelNodeResume node : nodes) {
                 System.out.println("  - " + node.getName() + " (" + node.getType() + ")");
@@ -198,7 +198,7 @@ public class FlujoCompleto {
         while (true) {
             String token = ask("Código recibido");
             try {
-                api.validateWorkflooOtp(id, new ControllerWorkflooModelOtpValidateRequest().token(token), sandbox);
+                api.validateWorkflooOtp(id, new ControllerWorkflooModelOtpValidateRequest().token(token)).sandbox(sandbox).execute();
                 return;
             } catch (ApiException e) {
                 // 400 = código incorrecto con intentos restantes; la ejecución sigue viva.

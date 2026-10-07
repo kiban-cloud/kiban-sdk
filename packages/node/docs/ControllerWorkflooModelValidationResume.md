@@ -14,7 +14,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```typescript
-import { ControllerWorkflooModelValidationResume } from 'kiban.sdk.workfloo';
+import { ControllerWorkflooModelValidationResume } from '@kiban/workfloo';
 
 const instance: ControllerWorkflooModelValidationResume = {
     decision,

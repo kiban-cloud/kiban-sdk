@@ -32,7 +32,7 @@ import {
     WorkflooApi,
     Configuration,
     ControllerWorkflooModelExecute
-} from 'kiban.sdk.workfloo';
+} from '@kiban/workfloo';
 
 const configuration = new Configuration();
 const apiInstance = new WorkflooApi(configuration);
@@ -93,7 +93,7 @@ Envía los documentos del nodo DOCUMENT actual. El body es un objeto {documentoI
 import {
     WorkflooApi,
     Configuration
-} from 'kiban.sdk.workfloo';
+} from '@kiban/workfloo';
 
 const configuration = new Configuration();
 const apiInstance = new WorkflooApi(configuration);
@@ -157,7 +157,7 @@ Envía las respuestas del nodo FORM actual de la ejecución. El body es un objet
 import {
     WorkflooApi,
     Configuration
-} from 'kiban.sdk.workfloo';
+} from '@kiban/workfloo';
 
 const configuration = new Configuration();
 const apiInstance = new WorkflooApi(configuration);
@@ -221,7 +221,7 @@ Pide al proveedor una validación nueva (y un código nuevo) para el paso de ver
 import {
     WorkflooApi,
     Configuration
-} from 'kiban.sdk.workfloo';
+} from '@kiban/workfloo';
 
 const configuration = new Configuration();
 const apiInstance = new WorkflooApi(configuration);
@@ -281,7 +281,7 @@ Devuelve el historial completo de una ejecución: todos sus nodos con request/re
 import {
     WorkflooApi,
     Configuration
-} from 'kiban.sdk.workfloo';
+} from '@kiban/workfloo';
 
 const configuration = new Configuration();
 const apiInstance = new WorkflooApi(configuration);
@@ -342,7 +342,7 @@ Devuelve, en base64, un archivo producido/subido en un nodo de la ejecución, id
 import {
     WorkflooApi,
     Configuration
-} from 'kiban.sdk.workfloo';
+} from '@kiban/workfloo';
 
 const configuration = new Configuration();
 const apiInstance = new WorkflooApi(configuration);
@@ -408,7 +408,7 @@ Devuelve el estado actual de la ejecución y el paso en el que está parada, con
 import {
     WorkflooApi,
     Configuration
-} from 'kiban.sdk.workfloo';
+} from '@kiban/workfloo';
 
 const configuration = new Configuration();
 const apiInstance = new WorkflooApi(configuration);
@@ -469,7 +469,7 @@ Devuelve una página de ejecuciones envuelta en un objeto con currentPage/hasNex
 import {
     WorkflooApi,
     Configuration
-} from 'kiban.sdk.workfloo';
+} from '@kiban/workfloo';
 
 const configuration = new Configuration();
 const apiInstance = new WorkflooApi(configuration);
@@ -541,7 +541,7 @@ Devuelve el arreglo de ejecuciones directo, sin envoltorio. La paginación viaja
 import {
     WorkflooApi,
     Configuration
-} from 'kiban.sdk.workfloo';
+} from '@kiban/workfloo';
 
 const configuration = new Configuration();
 const apiInstance = new WorkflooApi(configuration);
@@ -653,7 +653,7 @@ import {
     WorkflooApi,
     Configuration,
     ControllerWorkflooModelNipResendRequest
-} from 'kiban.sdk.workfloo';
+} from '@kiban/workfloo';
 
 const configuration = new Configuration();
 const apiInstance = new WorkflooApi(configuration);
@@ -717,7 +717,7 @@ import {
     WorkflooApi,
     Configuration,
     ControllerWorkflooModelReviewRequest
-} from 'kiban.sdk.workfloo';
+} from '@kiban/workfloo';
 
 const configuration = new Configuration();
 const apiInstance = new WorkflooApi(configuration);
@@ -782,7 +782,7 @@ import {
     WorkflooApi,
     Configuration,
     ControllerWorkflooModelNipSendRequest
-} from 'kiban.sdk.workfloo';
+} from '@kiban/workfloo';
 
 const configuration = new Configuration();
 const apiInstance = new WorkflooApi(configuration);
@@ -845,7 +845,7 @@ Reenvía los campos corregidos por el prospecto cuando un nodo VALIDATION está 
 import {
     WorkflooApi,
     Configuration
-} from 'kiban.sdk.workfloo';
+} from '@kiban/workfloo';
 
 const configuration = new Configuration();
 const apiInstance = new WorkflooApi(configuration);
@@ -910,7 +910,7 @@ import {
     WorkflooApi,
     Configuration,
     ControllerWorkflooModelNipValidateRequest
-} from 'kiban.sdk.workfloo';
+} from '@kiban/workfloo';
 
 const configuration = new Configuration();
 const apiInstance = new WorkflooApi(configuration);
@@ -974,7 +974,7 @@ import {
     WorkflooApi,
     Configuration,
     ControllerWorkflooModelOtpValidateRequest
-} from 'kiban.sdk.workfloo';
+} from '@kiban/workfloo';
 
 const configuration = new Configuration();
 const apiInstance = new WorkflooApi(configuration);

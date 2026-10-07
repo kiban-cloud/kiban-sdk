@@ -1,4 +1,4 @@
-# kiban.sdk.workfloo.Model.ControllerWorkflooModelLinkNipStatus
+# Kiban.Workfloo.Model.ControllerWorkflooModelLinkNipStatus
 
 ## Properties
 

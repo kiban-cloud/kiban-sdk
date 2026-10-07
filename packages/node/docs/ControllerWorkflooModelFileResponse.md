@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```typescript
-import { ControllerWorkflooModelFileResponse } from 'kiban.sdk.workfloo';
+import { ControllerWorkflooModelFileResponse } from '@kiban/workfloo';
 
 const instance: ControllerWorkflooModelFileResponse = {
     fileBase64,

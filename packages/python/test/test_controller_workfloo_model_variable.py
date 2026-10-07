@@ -14,7 +14,7 @@
 
 import unittest
 
-from kiban.sdk.workfloo.models.controller_workfloo_model_variable import ControllerWorkflooModelVariable
+from kiban.workfloo.models.controller_workfloo_model_variable import ControllerWorkflooModelVariable
 
 class TestControllerWorkflooModelVariable(unittest.TestCase):
     """ControllerWorkflooModelVariable unit test stubs"""

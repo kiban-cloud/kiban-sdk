@@ -21,7 +21,7 @@ import os
 import sys
 import time
 
-from kiban.sdk.workfloo import (
+from kiban.workfloo import (
     ApiClient,
     Configuration,
     ControllerWorkflooModelExecute,
@@ -29,7 +29,7 @@ from kiban.sdk.workfloo import (
     ControllerWorkflooModelOtpValidateRequest,
     WorkflooApi,
 )
-from kiban.sdk.workfloo.exceptions import ApiException
+from kiban.workfloo.exceptions import ApiException
 
 FINISHED = {"SUCCESS", "ERROR", "ABANDONED"}
 NIP_PHASES = {"CREATE_ACCOUNT", "VALIDATE", "VALIDATE_2"}

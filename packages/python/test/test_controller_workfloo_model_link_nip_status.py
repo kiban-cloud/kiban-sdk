@@ -14,7 +14,7 @@
 
 import unittest
 
-from kiban.sdk.workfloo.models.controller_workfloo_model_link_nip_status import ControllerWorkflooModelLinkNipStatus
+from kiban.workfloo.models.controller_workfloo_model_link_nip_status import ControllerWorkflooModelLinkNipStatus
 
 class TestControllerWorkflooModelLinkNipStatus(unittest.TestCase):
     """ControllerWorkflooModelLinkNipStatus unit test stubs"""
@@ -39,7 +39,7 @@ class TestControllerWorkflooModelLinkNipStatus(unittest.TestCase):
                 country_code = '',
                 email = '',
                 events = [
-                    kiban.sdk.workfloo.models.controller_workfloo_model/event.controller_workfloo_model.Event(
+                    kiban.workfloo.models.controller_workfloo_model/event.controller_workfloo_model.Event(
                         date = '', 
                         error_message = '', 
                         status = '', )
@@ -50,7 +50,7 @@ class TestControllerWorkflooModelLinkNipStatus(unittest.TestCase):
                 phase = '',
                 phone_number = '',
                 privacy_notice = '',
-                send_error = kiban.sdk.workfloo.models.controller_workfloo_model/nip_send_error_status.controller_workfloo_model.NipSendErrorStatus(
+                send_error = kiban.workfloo.models.controller_workfloo_model/nip_send_error_status.controller_workfloo_model.NipSendErrorStatus(
                     code = '', 
                     recoverable = True, ),
                 terms = '',

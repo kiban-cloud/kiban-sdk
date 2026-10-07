@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```typescript
-import { ControllerWorkflooModelApi } from 'kiban.sdk.workfloo';
+import { ControllerWorkflooModelApi } from '@kiban/workfloo';
 
 const instance: ControllerWorkflooModelApi = {
     duration,

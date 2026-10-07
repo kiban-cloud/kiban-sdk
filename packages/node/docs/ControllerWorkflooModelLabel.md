@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```typescript
-import { ControllerWorkflooModelLabel } from 'kiban.sdk.workfloo';
+import { ControllerWorkflooModelLabel } from '@kiban/workfloo';
 
 const instance: ControllerWorkflooModelLabel = {
     labels,

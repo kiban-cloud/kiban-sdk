@@ -9,9 +9,9 @@
 # de KIBAN_API_KEY_PROD, o del genérico KIBAN_API_KEY).
 #
 # Este SDK usa SIEMPRE producción. El modo es real (sandbox=false) por defecto;
-# forzá modo sandbox con KIBAN_SANDBOX=true antes de sourcear.
+# fuerza el modo sandbox con KIBAN_SANDBOX=true antes de sourcear.
 #
-# Cargá primero tus secretos:  set -a; source .env.local; set +a
+# Carga primero tus secretos:  set -a; source .env.local; set +a
 
 _root="$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")/.." && pwd)"
 
@@ -29,6 +29,6 @@ export KIBAN_API_KEY="$_key"
 echo "Ambiente: $_env ($_host) sandbox=$KIBAN_SANDBOX"
 
 if [ -z "$_key" ]; then
-  echo "Falta la API key: exportá $_keyvar (o KIBAN_API_KEY) en .env.local." >&2
+  echo "Falta la API key: exporta $_keyvar (o KIBAN_API_KEY) en .env.local." >&2
   return 1 2>/dev/null || exit 1
 fi

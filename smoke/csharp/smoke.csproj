@@ -11,7 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../packages/csharp/src/kiban.sdk.workfloo/kiban.sdk.workfloo.csproj" />
+    <ProjectReference Include="../../packages/csharp/src/Kiban.Workfloo/Kiban.Workfloo.csproj" />
   </ItemGroup>
 
 </Project>

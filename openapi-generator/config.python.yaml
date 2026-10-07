@@ -1,6 +1,8 @@
 # openapi-generator · Python (generator: python)
-# packageName con puntos → paquete namespaced importable como kiban.sdk.workfloo.
-# projectName es el nombre de distribución en PyPI (guiones, no puntos).
-packageName: kiban.sdk.workfloo
-projectName: kiban-sdk-workfloo
-packageVersion: 0.3.0
+# Se importa como `kiban.workfloo` y se instala como `kiban-workfloo`.
+# La versión NO va aquí: sale de config/modules.json (gen-sdks.sh la inyecta).
+packageName: kiban.workfloo
+projectName: kiban-workfloo
+packageUrl: https://github.com/kiban-cloud/kiban-sdk
+gitUserId: kiban-cloud
+gitRepoId: kiban-sdk

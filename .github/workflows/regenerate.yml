@@ -4,8 +4,8 @@
 # workfloo-backend (.github/workflows/sdk-sync.yml): al cambiar su
 # docs/swagger.yaml en master, copia el archivo a specs/source/ de esta rama.
 # También corre si una persona empuja a la rama, por ejemplo para subir la
-# versión en openapi-generator/config.*.yaml: el commit regenerado sale ya con
-# la versión nueva.
+# versión en config/modules.json: el commit regenerado sale ya con la versión
+# nueva.
 #
 # Este repo es PÚBLICO y no tiene credenciales hacia nada privado: no lee código
 # del backend, sólo el swagger que el backend decidió publicar. Todo lo hace con
@@ -14,9 +14,10 @@
 #
 # Nadie edita packages/** a mano: si el PR trae algo raro, se corrige la
 # anotación swaggo en el backend, no el SDK generado. El PR NO sube la versión
-# solo: el bump de semver se decide al revisarlo (ver README → Publicar). Un bump
-# empujado a esta rama sobrevive a los syncs siguientes: el backend construye
-# encima de la rama existente, sin force-push.
+# solo: el bump de semver se decide al revisarlo (ver README → Versionado), y el
+# commit status "semver" dice cuál exige el cambio. Un bump empujado a esta rama
+# sobrevive a los syncs siguientes: el backend construye encima de la rama
+# existente, sin force-push.
 #
 # Requisito: Settings → Actions → General → "Allow GitHub Actions to create and
 # approve pull requests".
@@ -30,6 +31,7 @@ on:
 permissions:
   contents: write
   pull-requests: write
+  statuses: write
 
 concurrency:
   group: regenerate-workfloo
@@ -46,10 +48,14 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ env.BRANCH }}
+          fetch-depth: 0 # los tags de release son la base del check de semver
 
       - uses: actions/setup-go@v5
         with:
           go-version: stable
+
+      - name: Instalar oasdiff
+        run: go install github.com/oasdiff/oasdiff@v1.33.0
 
       - uses: actions/setup-node@v4
         with:
@@ -115,11 +121,19 @@ jobs:
           (copiado a `specs/source/workfloo.swagger.yaml`).
 
           - [ ] Revisar el diff de `specs/workfloo.openapi.yaml` (es el contrato).
-          - [ ] Subir la versión en `openapi-generator/config.*.yaml` según semver
-                (campo/endpoint nuevo → minor; algo quitado o renombrado → major)
-                y empujar a esta rama: el workflow regenera con la versión nueva.
+          - [ ] Subir la versión en `config/modules.json` según semver. El status
+                **semver** de este PR dice cuál exige el cambio (incompatible → major;
+                cualquier otro cambio en el contrato → minor). Empujar a esta rama:
+                el workflow regenera con la versión nueva.
           - [ ] Compilar Java y C# (README → Verificar).
 
           `packages/**` es 100% generado: no se edita a mano.
           BODY
           )"
+
+      # Al final: el commit del bot no dispara semver.yml, así que el status se
+      # publica aquí, sobre el último commit de la rama.
+      - name: Versión según semver
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: bash scripts/semver-status.sh "$(git rev-parse HEAD)"

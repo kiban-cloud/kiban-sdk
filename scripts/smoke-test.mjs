@@ -68,7 +68,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 console.log('1/3 executeWorkfloo …');
 const executeBody = { idWorkflooDefinition: definitionId };
 if (scenarioId) executeBody.scenarioId = scenarioId;
-const { data: created } = await api.executeWorkfloo(executeBody, sandboxFlag);
+const { data: created } = await api.executeWorkfloo({ controllerWorkflooModelExecute: executeBody, sandbox: sandboxFlag });
 console.log(`    id=${created.id} idUnykoo=${created.idUnykoo ?? '-'}`);
 if (!created.id) {
   console.error('La ejecución no devolvió id.');
@@ -78,20 +78,15 @@ if (!created.id) {
 await sleep(2000); // deja que el primer nodo arranque
 
 console.log('2/3 getWorkflooStatus …');
-const { data: status } = await api.getWorkflooStatus(created.id, sandboxFlag);
+const { data: status } = await api.getWorkflooStatus({ id: created.id, sandbox: sandboxFlag });
 console.log(`    status=${status.status} nodo=${status.currentNodeName} tipo=${status.currentNodeType}`);
 
 console.log('3/3 listWorkfloos (v1) …');
-// listWorkfloos(page, itemsPerPage, status?, from?, to?, sandbox?)
-const { data: page } = await api.listWorkfloos(1, 5, undefined, undefined, undefined, sandboxFlag);
+const { data: page } = await api.listWorkfloos({ page: 1, itemsPerPage: 5, sandbox: sandboxFlag });
 console.log(`    currentPage=${page.currentPage} hasNextPage=${page.hasNextPage} items=${(page.items ?? []).length}`);
 
 console.log('    listWorkfloosV2 …');
-// listWorkfloosV2 tiene 19 parámetros posicionales (filtros, format, content…)
-// y sandbox es el último.
-const v2Args = Array(19).fill(undefined);
-v2Args[0] = 1; v2Args[1] = 5; v2Args[18] = sandboxFlag;
-const { data: items } = await api.listWorkfloosV2(...v2Args);
+const { data: items } = await api.listWorkfloosV2({ page: 1, itemsPerPage: 5, sandbox: sandboxFlag });
 console.log(`    v2 devolvió ${(items ?? []).length} items (arreglo plano)`);
 
 console.log('\nSMOKE TEST OK');
