@@ -1,0 +1,44 @@
+# Check de versión en cada PR: compara el spec de cada módulo contra su último
+# release (tag <módulo>/vX.Y.Z) con oasdiff y exige que config/modules.json
+# declare la versión que pide semver (major si hay cambios incompatibles, minor
+# si hay cualquier otro cambio en el contrato). El resultado se publica como
+# commit status "semver"; para bloquear el merge, márcalo como check requerido
+# en el ruleset de la rama por defecto. Lógica en scripts/semver-status.sh.
+name: semver
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+  statuses: write
+
+concurrency:
+  group: semver-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  semver:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0 # los tags de release son la base de la comparación
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: stable
+
+      - name: Instalar oasdiff
+        run: go install github.com/oasdiff/oasdiff@v1.33.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Versión según semver
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: bash scripts/semver-status.sh "${{ github.event.pull_request.head.sha }}"

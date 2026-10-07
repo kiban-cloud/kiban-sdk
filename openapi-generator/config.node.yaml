@@ -1,0 +1,13 @@
+# openapi-generator · Node/TypeScript (generator: typescript-axios)
+# typescript-axios y no typescript-node: éste depende de `request` (deprecado,
+# con vulnerabilidades altas); axios no tiene vulnerabilidades y corre también
+# en el navegador.
+# La versión NO va aquí: sale de config/modules.json (gen-sdks.sh la inyecta).
+npmName: '@kiban/workfloo'
+supportsES6: true
+withSeparateModelsAndApi: false
+# Un solo objeto de parámetros por método: agregar un parámetro opcional en el
+# futuro no rompe a nadie (con parámetros posicionales sería un major).
+useSingleRequestParameter: true
+gitUserId: kiban-cloud
+gitRepoId: kiban-sdk

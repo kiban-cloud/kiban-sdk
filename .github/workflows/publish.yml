@@ -1,0 +1,324 @@
+# Publica un release de un módulo en los 5 registros. Se dispara con un tag
+# <módulo>/vX.Y.Z (p. ej. workfloo/v1.2.0) sobre un commit de la rama por defecto
+# cuya config/modules.json declare esa versión.
+#
+#   preflight → npm · PyPI · Maven Central · NuGet · Go → GitHub Release
+#
+# Cada versión publicada es inmutable en su registro: el cliente fija la suya y
+# migra cuando quiera. Por lo mismo, cada job se salta lo que ya esté publicado:
+# si un registro falla, "Re-run failed jobs" sólo publica lo que falta.
+#
+# Credenciales:
+#   - npm y PyPI: trusted publishing (OIDC). Sin secretos; se registra este repo
+#     y este workflow como publicador de confianza en cada registro.
+#   - Maven Central y NuGet: token, llave GPG y API key en Secret Manager
+#     (proyecto kiban-cloud), leídos por WIF con la identidad gha-sdk-release.
+#     Todo lo de GCP vive en kiban-infra: stacks/kibancloud/shared-prod/github-sdk-ci.tf.
+#   - Go: sólo un tag en este repo (GITHUB_TOKEN).
+#
+# Todos los jobs que publican corren en el environment "release": en Settings →
+# Environments se le pone aprobación manual, y la identidad de GCP sólo se
+# entrega a jobs de ese environment.
+name: publish
+
+on:
+  push:
+    tags: ['*/v*']
+
+permissions:
+  contents: read
+
+concurrency:
+  group: publish-${{ github.ref_name }}
+  cancel-in-progress: false
+
+env:
+  WIF_PROVIDER: projects/901130743507/locations/global/workloadIdentityPools/github/providers/kiban-sdk
+  RELEASE_SA: gha-sdk-release@kiban-cloud.iam.gserviceaccount.com
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      module: ${{ steps.check.outputs.module }}
+      version: ${{ steps.check.outputs.version }}
+      packages_dir: ${{ steps.check.outputs.packages_dir }}
+      npm_name: ${{ steps.check.outputs.npm_name }}
+      pypi_name: ${{ steps.check.outputs.pypi_name }}
+      maven_group: ${{ steps.check.outputs.maven_group }}
+      maven_artifact: ${{ steps.check.outputs.maven_artifact }}
+      nuget_id: ${{ steps.check.outputs.nuget_id }}
+      csharp_project: ${{ steps.check.outputs.csharp_project }}
+      go_tag: ${{ steps.check.outputs.go_tag }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: El commit está en la rama por defecto
+        env:
+          DEFAULT: ${{ github.event.repository.default_branch }}
+        run: |
+          git fetch --quiet origin "$DEFAULT"
+          if ! git merge-base --is-ancestor "$GITHUB_SHA" "origin/$DEFAULT"; then
+            echo "::error::El tag $GITHUB_REF_NAME apunta a un commit que no está en $DEFAULT. Sólo se publica lo que ya se mergeó."
+            exit 1
+          fi
+
+      - name: Chequeos previos
+        id: check
+        run: node scripts/release-preflight.mjs "$GITHUB_REF_NAME"
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: stable
+
+      - name: Versión según semver y notas del release
+        run: |
+          go install github.com/oasdiff/oasdiff@v1.33.0
+          MODULE="${{ steps.check.outputs.module }}" RELEASE_TAG="$GITHUB_REF_NAME" \
+            node scripts/check-version.mjs --notes release-notes.md
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: release-notes
+          path: release-notes.md
+
+  npm:
+    needs: preflight
+    runs-on: ubuntu-latest
+    environment: release
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      id-token: write # trusted publishing + provenance
+    defaults:
+      run:
+        working-directory: ${{ needs.preflight.outputs.packages_dir }}/node
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24 # trae npm 11, que soporta trusted publishing
+          registry-url: https://registry.npmjs.org
+
+      - name: Publicar
+        env:
+          NAME: ${{ needs.preflight.outputs.npm_name }}
+          VERSION: ${{ needs.preflight.outputs.version }}
+        run: |
+          if npm view "$NAME@$VERSION" version >/dev/null 2>&1; then
+            echo "$NAME@$VERSION ya está publicado; nada que hacer."
+            exit 0
+          fi
+          npm ci
+          npm publish --access public --provenance
+
+  pypi:
+    needs: preflight
+    runs-on: ubuntu-latest
+    environment: release
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      id-token: write # trusted publishing
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Construir
+        run: |
+          python -m pip install --quiet build
+          python -m build "${{ needs.preflight.outputs.packages_dir }}/python" --outdir dist
+
+      - uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: dist
+          skip-existing: true
+
+  maven:
+    needs: preflight
+    runs-on: ubuntu-latest
+    environment: release
+    timeout-minutes: 45
+    permissions:
+      contents: read
+      id-token: write # WIF hacia Secret Manager
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: ¿Ya está publicado?
+        id: exists
+        env:
+          GROUP: ${{ needs.preflight.outputs.maven_group }}
+          ARTIFACT: ${{ needs.preflight.outputs.maven_artifact }}
+          VERSION: ${{ needs.preflight.outputs.version }}
+        run: |
+          url="https://repo1.maven.org/maven2/${GROUP//.//}/$ARTIFACT/$VERSION/$ARTIFACT-$VERSION.pom"
+          if curl -sfI "$url" >/dev/null; then
+            echo "$GROUP:$ARTIFACT:$VERSION ya está en Maven Central; nada que hacer."
+            echo "published=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: google-github-actions/auth@v2
+        if: steps.exists.outputs.published != 'true'
+        with:
+          workload_identity_provider: ${{ env.WIF_PROVIDER }}
+          service_account: ${{ env.RELEASE_SA }}
+
+      - id: secrets
+        if: steps.exists.outputs.published != 'true'
+        uses: google-github-actions/get-secretmanager-secrets@v2
+        with:
+          secrets: |-
+            token:kiban-cloud/maven-central-token
+            gpg_key:kiban-cloud/maven-gpg-private-key
+            gpg_passphrase:kiban-cloud/maven-gpg-passphrase
+
+      - uses: actions/setup-java@v4
+        if: steps.exists.outputs.published != 'true'
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Armar el bundle firmado
+        if: steps.exists.outputs.published != 'true'
+        env:
+          MAVEN_GPG_KEY: ${{ steps.secrets.outputs.gpg_key }}
+          MAVEN_GPG_PASSPHRASE: ${{ steps.secrets.outputs.gpg_passphrase }}
+        run: bash scripts/maven-bundle.sh "${{ needs.preflight.outputs.packages_dir }}/java" bundle.zip
+
+      # Central Portal: se sube el bundle con publicación automática y se espera
+      # a que termine la validación (falla si Central lo rechaza).
+      - name: Publicar en Maven Central
+        if: steps.exists.outputs.published != 'true'
+        env:
+          TOKEN: ${{ steps.secrets.outputs.token }} # formato usuario:contraseña del token de usuario
+          NAME: ${{ needs.preflight.outputs.maven_group }}:${{ needs.preflight.outputs.maven_artifact }}:${{ needs.preflight.outputs.version }}
+        run: |
+          auth="Authorization: Bearer $(printf '%s' "$TOKEN" | base64 -w0)"
+          id="$(curl -sf -X POST -H "$auth" -F bundle=@bundle.zip \
+            "https://central.sonatype.com/api/v1/publisher/upload?publishingType=AUTOMATIC&name=$NAME")"
+          echo "deployment $id"
+          for _ in $(seq 1 60); do
+            state="$(curl -sf -X POST -H "$auth" "https://central.sonatype.com/api/v1/publisher/status?id=$id" | jq -r .deploymentState)"
+            echo "estado: $state"
+            case "$state" in
+              PUBLISHING|PUBLISHED) exit 0 ;;
+              FAILED)
+                curl -sf -X POST -H "$auth" "https://central.sonatype.com/api/v1/publisher/status?id=$id" | jq .errors
+                exit 1 ;;
+            esac
+            sleep 30
+          done
+          echo "::error::Central no terminó de validar en 30 min (deployment $id)."
+          exit 1
+
+  nuget:
+    needs: preflight
+    runs-on: ubuntu-latest
+    environment: release
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      id-token: write # WIF hacia Secret Manager
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ env.WIF_PROVIDER }}
+          service_account: ${{ env.RELEASE_SA }}
+
+      - id: secrets
+        uses: google-github-actions/get-secretmanager-secrets@v2
+        with:
+          secrets: |-
+            api_key:kiban-cloud/nuget-api-key
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Empaquetar y publicar
+        env:
+          API_KEY: ${{ steps.secrets.outputs.api_key }}
+        run: |
+          dotnet pack "${{ needs.preflight.outputs.csharp_project }}" -c Release -o nupkg
+          # --skip-duplicate: una versión ya publicada no es un error.
+          dotnet nuget push "nupkg/*.nupkg" --api-key "$API_KEY" \
+            --source https://api.nuget.org/v3/index.json --skip-duplicate
+
+  go:
+    needs: preflight
+    runs-on: ubuntu-latest
+    environment: release
+    timeout-minutes: 5
+    permissions:
+      contents: write # crear el tag del módulo de Go
+    steps:
+      - uses: actions/checkout@v4
+
+      # Go se publica con un tag que lleva el prefijo del directorio del módulo
+      # (packages/go/vX.Y.Z); proxy.golang.org y pkg.go.dev lo toman solos.
+      - name: Tag del módulo de Go
+        env:
+          GO_TAG: ${{ needs.preflight.outputs.go_tag }}
+        run: |
+          if git ls-remote --exit-code --tags origin "refs/tags/$GO_TAG" >/dev/null; then
+            echo "$GO_TAG ya existe; nada que hacer."
+            exit 0
+          fi
+          git tag "$GO_TAG" "$GITHUB_SHA"
+          git push origin "refs/tags/$GO_TAG"
+
+  release:
+    needs: [preflight, npm, pypi, maven, nuget, go]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: release-notes
+
+      - name: GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          MODULE: ${{ needs.preflight.outputs.module }}
+          VERSION: ${{ needs.preflight.outputs.version }}
+          NPM: ${{ needs.preflight.outputs.npm_name }}
+          PYPI: ${{ needs.preflight.outputs.pypi_name }}
+          MAVEN: ${{ needs.preflight.outputs.maven_group }}:${{ needs.preflight.outputs.maven_artifact }}
+          NUGET: ${{ needs.preflight.outputs.nuget_id }}
+          GO_TAG: ${{ needs.preflight.outputs.go_tag }}
+        run: |
+          {
+            cat release-notes.md
+            echo
+            echo "## Instalación"
+            echo
+            echo "| SDK | Paquete |"
+            echo "|---|---|"
+            echo "| Node | \`npm install $NPM@$VERSION\` |"
+            echo "| Python | \`pip install $PYPI==$VERSION\` |"
+            echo "| Java | \`$MAVEN:$VERSION\` |"
+            echo "| C# | \`dotnet add package $NUGET --version $VERSION\` |"
+            echo "| Go | \`go get github.com/kiban-cloud/kiban-sdk/${GO_TAG%/v*}@v$VERSION\` |"
+          } > notes.md
+          if gh release view "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            gh release edit "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" --notes-file notes.md
+          else
+            gh release create "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" \
+              --title "$MODULE $VERSION" --notes-file notes.md --verify-tag
+          fi
