@@ -391,7 +391,8 @@ aprobación del environment `release` y luego:
    tokens); npm con provenance.
 3. **Maven Central**: bundle firmado con GPG (`maven-bundle.sh`) subido al
    Central Portal; el token y la llave salen de Secret Manager vía WIF.
-4. **NuGet**: `dotnet pack` + push con la API key de Secret Manager.
+4. **NuGet**: `dotnet pack` + push con trusted publishing (`NuGet/login`
+   cambia la identidad de GitHub por una API key temporal; sin secretos).
 5. **Go**: crea el tag `packages/go/vX.Y.Z` (Go publica por tag).
 6. **GitHub Release** con las notas y cómo instalar en cada lenguaje.
 
@@ -404,12 +405,13 @@ puede reemplazar: si salió mal, se publica la siguiente patch.
 - Cuentas en los registros con los nombres reservados (`@kiban` en npm,
   `kiban-workfloo` en PyPI, namespace `com.kiban` verificado en Central,
   prefijo `Kiban.*` en NuGet).
-- Trusted publisher en npm y PyPI: repo `kiban-cloud/kiban-sdk`, workflow
-  `publish.yml`, environment `release`.
+- Trusted publisher en npm, PyPI y NuGet: repo `kiban-cloud/kiban-sdk`,
+  workflow `publish.yml`, environment `release` (en NuGet, además, paquetes
+  `Kiban.*` y el usuario de nuget.org en `NUGET_USER` de `publish.yml`).
 - Environment `release` en GitHub (Settings → Environments) con revisores y
   restringido a tags `*/v*`.
 - `semver` como status requerido en el ruleset de la rama por defecto.
-- Credenciales de Maven Central y NuGet cargadas en Secret Manager (el provider
+- Credenciales de Maven Central cargadas en Secret Manager (el provider
   WIF, la service account y el runbook están en kiban-infra:
   `stacks/kibancloud/shared-prod/github-sdk-ci.tf`).
 

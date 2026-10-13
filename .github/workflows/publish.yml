@@ -9,11 +9,12 @@
 # si un registro falla, "Re-run failed jobs" sólo publica lo que falta.
 #
 # Credenciales:
-#   - npm y PyPI: trusted publishing (OIDC). Sin secretos; se registra este repo
-#     y este workflow como publicador de confianza en cada registro.
-#   - Maven Central y NuGet: token, llave GPG y API key en Secret Manager
-#     (proyecto kiban-cloud), leídos por WIF con la identidad gha-sdk-release.
-#     Todo lo de GCP vive en kiban-infra: stacks/kibancloud/shared-prod/github-sdk-ci.tf.
+#   - npm, PyPI y NuGet: trusted publishing (OIDC). Sin secretos; se registra este
+#     repo, este workflow y el environment "release" como publicador de confianza
+#     en cada registro.
+#   - Maven Central: token y llave GPG en Secret Manager (proyecto kiban-cloud),
+#     leídos por WIF con la identidad gha-sdk-release. Todo lo de GCP vive en
+#     kiban-infra: stacks/kibancloud/shared-prod/github-sdk-ci.tf.
 #   - Go: sólo un tag en este repo (GITHUB_TOKEN).
 #
 # Todos los jobs que publican corren en el environment "release": en Settings →
@@ -230,28 +231,29 @@ jobs:
     timeout-minutes: 15
     permissions:
       contents: read
-      id-token: write # WIF hacia Secret Manager
+      id-token: write # trusted publishing de NuGet
+    env:
+      # Usuario de nuget.org (nombre de perfil, no correo) que creó la política
+      # de trusted publishing de la organización `kiban` (repo kiban-cloud/kiban-sdk,
+      # workflow publish.yml, paquetes Kiban.*). No es secreto. Si esa persona
+      # deja la organización, otro miembro crea la política y se cambia aquí.
+      NUGET_USER: MauricioMondragon
     steps:
       - uses: actions/checkout@v4
-
-      - uses: google-github-actions/auth@v2
-        with:
-          workload_identity_provider: ${{ env.WIF_PROVIDER }}
-          service_account: ${{ env.RELEASE_SA }}
-
-      - id: secrets
-        uses: google-github-actions/get-secretmanager-secrets@v2
-        with:
-          secrets: |-
-            api_key:kiban-cloud/nuget-api-key
 
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 8.0.x
 
+      # Cambia el token OIDC de GitHub por una API key temporal de un solo uso.
+      - id: nuget
+        uses: NuGet/login@v1
+        with:
+          user: ${{ env.NUGET_USER }}
+
       - name: Empaquetar y publicar
         env:
-          API_KEY: ${{ steps.secrets.outputs.api_key }}
+          API_KEY: ${{ steps.nuget.outputs.NUGET_API_KEY }}
         run: |
           dotnet pack "${{ needs.preflight.outputs.csharp_project }}" -c Release -o nupkg
           # --skip-duplicate: una versión ya publicada no es un error.
