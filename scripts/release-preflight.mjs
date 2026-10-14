@@ -52,7 +52,7 @@ const csproj = findCsproj(join(pkgDir, 'csharp/src'));
 metadata[relative(pkgDir, csproj)] = readFileSync(csproj, 'utf8');
 
 for (const [file, text] of Object.entries(metadata)) {
-  for (const placeholder of ['openapitools.org', 'GIT_USER_ID', 'GIT_REPO_ID', '"Unlicense"', 'OpenAPI-Generator Contributors']) {
+  for (const placeholder of ['openapitools.org', 'GIT_USER_ID', 'GIT_REPO_ID', '"Unlicense"', 'OpenAPI-Generator Contributors', 'No Copyright', 'Minor update', 'OpenAPI Library']) {
     if (text.includes(placeholder)) problems.push(`${mod.packagesDir}/${file} todavía contiene "${placeholder}" (relleno del generador). Regenera con gen-sdks.sh después de completar publisher.`);
   }
   if (!text.includes(version)) problems.push(`${mod.packagesDir}/${file} no tiene la versión ${version}: regenera con gen-sdks.sh.`);

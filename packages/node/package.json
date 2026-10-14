@@ -8,11 +8,11 @@
     "url": "https://github.com/kiban-cloud/kiban-sdk.git"
   },
   "keywords": [
-    "axios",
-    "typescript",
-    "openapi-client",
-    "openapi-generator",
-    "@kiban/workfloo"
+    "kiban",
+    "workfloo",
+    "sdk",
+    "api",
+    "typescript"
   ],
   "license": "Apache-2.0",
   "main": "./dist/index.js",

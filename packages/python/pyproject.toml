@@ -1,5 +1,5 @@
 [project]
-name = "kiban.workfloo"
+name = "kiban-workfloo"
 version = "1.0.0"
 description = "Workfloo API"
 authors = [
@@ -7,7 +7,7 @@ authors = [
 ]
 license = "Apache-2.0"
 readme = "README.md"
-keywords = ["OpenAPI", "OpenAPI-Generator", "Workfloo API"]
+keywords = ["kiban", "workfloo", "sdk", "api"]
 requires-python = ">=3.9"
 
 dependencies = [
