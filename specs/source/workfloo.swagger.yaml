@@ -88,6 +88,22 @@ definitions:
         $ref: '#/definitions/controller_workfloo_definition_model.Show'
       type:
         type: string
+      validator:
+        allOf:
+        - $ref: '#/definitions/controller_workfloo_definition_model.FieldValidator'
+        description: |-
+          Validator sale en la consulta de estado para que un canal (portal, chat,
+          integrador) sepa qué campos validar al capturarlos y qué rellenan. La
+          configuración (credenciales de vault) no se expone.
+    type: object
+  controller_workfloo_definition_model.FieldValidator:
+    properties:
+      fill:
+        items:
+          type: string
+        type: array
+      nodeKey:
+        type: string
     type: object
   controller_workfloo_definition_model.FileDocument:
     properties:
@@ -330,6 +346,20 @@ definitions:
   controller_workfloo_model.FileResponse:
     properties:
       fileBase64:
+        type: string
+    type: object
+  controller_workfloo_model.FileResponseV2:
+    properties:
+      fileBase64:
+        description: FileBase64 es el archivo en base64; sólo viene en el 200.
+        type: string
+      retryAfter:
+        description: |-
+          RetryAfter son los segundos a esperar antes de volver a pedirlo; sólo
+          viene en el 202 (y también en el header Retry-After).
+        type: integer
+      status:
+        description: Status es "PROCESSING"; sólo viene en el 202.
         type: string
     type: object
   controller_workfloo_model.Form:
@@ -644,6 +674,52 @@ definitions:
         type: string
       remainingTime:
         $ref: '#/definitions/controller_workfloo_model.RemainingTime'
+    type: object
+  controller_workfloo_model.ValidateFieldRequest:
+    properties:
+      values:
+        additionalProperties: true
+        type: object
+    type: object
+  controller_workfloo_model.ValidateFieldResponse:
+    properties:
+      checkId:
+        description: CheckId identifica la validación ejecutada.
+        type: string
+      errors:
+        additionalProperties:
+          type: string
+        description: Errors trae, por campo, el código de formato o el mensaje del
+          servicio.
+        type: object
+      filled:
+        additionalProperties: true
+        description: Filled son los campos que el validador rellenó.
+        type: object
+      missingInputs:
+        description: |-
+          MissingInputs son los campos que faltan capturar para poder validar
+          (status PENDING_INPUTS).
+        items:
+          type: string
+        type: array
+      options:
+        additionalProperties:
+          items:
+            type: string
+          type: array
+        description: |-
+          Options son los campos con varios candidatos (p. ej. las colonias de un
+          código postal): campo → candidatos. Al entregar el formulario sólo se
+          acepta uno de ellos.
+        type: object
+      reused:
+        description: Reused indica que se reusó una validación anterior con los mismos
+          datos.
+        type: boolean
+      status:
+        description: Status es VALID, INVALID, FORMAT_ERROR o PENDING_INPUTS.
+        type: string
     type: object
   controller_workfloo_model.ValidationField:
     properties:
@@ -1212,6 +1288,63 @@ paths:
       summary: Enviar los documentos de un paso
       tags:
       - workfloo
+  /api/v1/workfloo/{id}/field/{fieldId}/validate:
+    post:
+      consumes:
+      - application/json
+      description: 'Revisa un campo del nodo FORM actual con el validador que declaró
+        la definición (p. ej. un código postal contra SEPOMEX), sin entregar el formulario.
+        Responde 200 aunque el dato sea inválido: el resultado viene en status (VALID,
+        INVALID, FORMAT_ERROR, PENDING_INPUTS), con los campos que rellenó el validador
+        (filled) y, cuando hay varios candidatos, las opciones a elegir (options).'
+      operationId: validateWorkflooField
+      parameters:
+      - description: Id de la ejecución
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Id del campo a validar
+        in: path
+        name: fieldId
+        required: true
+        type: string
+      - description: Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde
+          ya es implícito
+        in: query
+        name: sandbox
+        type: boolean
+      - description: 'Valores capturados hasta ahora: {values: {campoId: valor}}'
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/controller_workfloo_model.ValidateFieldRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Resultado de la validación
+          schema:
+            $ref: '#/definitions/controller_workfloo_model.ValidateFieldResponse'
+        "400":
+          description: Body inválido
+        "401":
+          description: API key ausente o inválida
+        "403":
+          description: Sin acceso a ese paso, o cuenta suspendida o inactiva
+        "404":
+          description: La ejecución o el campo no existen
+        "409":
+          description: La ejecución no está esperando un formulario, o el campo no
+            tiene validador
+        "500":
+          description: Error interno
+      security:
+      - ApiKeyAuth: []
+      summary: Validar un campo del formulario
+      tags:
+      - workfloo
   /api/v1/workfloo/{id}/file:
     get:
       description: Devuelve, en base64, un archivo producido/subido en un nodo de
@@ -1256,7 +1389,14 @@ paths:
         "500":
           description: Error interno
         "503":
-          description: Servicio dependiente no disponible
+          description: 'El archivo se está generando (body {message, retryAfter}):
+            reintentar después de Retry-After, sin lanzar otra generación. También
+            servicio dependiente no disponible'
+          headers:
+            Retry-After:
+              description: Segundos a esperar antes de reintentar, cuando el archivo
+                se está generando
+              type: integer
       security:
       - ApiKeyAuth: []
       summary: Descargar un archivo de un nodo
@@ -1749,6 +1889,66 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: Historial de ejecuciones (v2)
+      tags:
+      - workfloo
+  /api/v2/workfloo/{id}/file:
+    get:
+      description: |-
+        Igual que getWorkflooFile, pero si el archivo (p. ej. un PDF pesado) todavía se está generando responde 202 con status PROCESSING y retryAfter, en lugar de un 503.
+        Reintentar después de Retry-After no lanza otra generación: cuando el archivo esté listo responde 200 con fileBase64.
+      operationId: getWorkflooFileV2
+      parameters:
+      - description: Id de la ejecución
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Id del nodo que contiene el archivo
+        in: query
+        name: nodeId
+        required: true
+        type: string
+      - description: Nombre del archivo
+        in: query
+        name: name
+        required: true
+        type: string
+      - description: Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde
+          ya es implícito
+        in: query
+        name: sandbox
+        type: boolean
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'Archivo listo: fileBase64'
+          schema:
+            $ref: '#/definitions/controller_workfloo_model.FileResponseV2'
+        "202":
+          description: 'El archivo se está generando: status PROCESSING y retryAfter
+            (segundos)'
+          headers:
+            Retry-After:
+              description: Segundos a esperar antes de reintentar
+              type: integer
+          schema:
+            $ref: '#/definitions/controller_workfloo_model.FileResponseV2'
+        "400":
+          description: Parámetros ausentes o mal formados
+        "401":
+          description: API key ausente o inválida
+        "403":
+          description: Sin acceso a esa ejecución
+        "404":
+          description: La ejecución, el nodo o el archivo no existe
+        "500":
+          description: Error interno
+        "503":
+          description: Servicio dependiente no disponible
+      security:
+      - ApiKeyAuth: []
+      summary: Descargar un archivo de un nodo (v2)
       tags:
       - workfloo
 schemes:
