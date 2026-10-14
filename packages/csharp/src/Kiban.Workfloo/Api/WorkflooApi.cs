@@ -198,6 +198,35 @@ namespace Kiban.Workfloo.Api
         Task<IGetWorkflooFileApiResponse?> GetWorkflooFileOrDefaultAsync(string id, string nodeId, string name, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
+        /// Descargar un archivo de un nodo (v2)
+        /// </summary>
+        /// <remarks>
+        /// Igual que getWorkflooFile, pero si el archivo (p. ej. un PDF pesado) todavía se está generando responde 202 con status PROCESSING y retryAfter, en lugar de un 503. Reintentar después de Retry-After no lanza otra generación: cuando el archivo esté listo responde 200 con fileBase64.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="id">Id de la ejecución</param>
+        /// <param name="nodeId">Id del nodo que contiene el archivo</param>
+        /// <param name="name">Nombre del archivo</param>
+        /// <param name="sandbox">Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="IGetWorkflooFileV2ApiResponse"/>&gt;</returns>
+        Task<IGetWorkflooFileV2ApiResponse> GetWorkflooFileV2Async(string id, string nodeId, string name, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Descargar un archivo de un nodo (v2)
+        /// </summary>
+        /// <remarks>
+        /// Igual que getWorkflooFile, pero si el archivo (p. ej. un PDF pesado) todavía se está generando responde 202 con status PROCESSING y retryAfter, en lugar de un 503. Reintentar después de Retry-After no lanza otra generación: cuando el archivo esté listo responde 200 con fileBase64.
+        /// </remarks>
+        /// <param name="id">Id de la ejecución</param>
+        /// <param name="nodeId">Id del nodo que contiene el archivo</param>
+        /// <param name="name">Nombre del archivo</param>
+        /// <param name="sandbox">Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="IGetWorkflooFileV2ApiResponse"/>?&gt;</returns>
+        Task<IGetWorkflooFileV2ApiResponse?> GetWorkflooFileV2OrDefaultAsync(string id, string nodeId, string name, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default);
+
+        /// <summary>
         /// Estatus de una ejecución
         /// </summary>
         /// <remarks>
@@ -421,6 +450,35 @@ namespace Kiban.Workfloo.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ISubmitWorkflooCorrectionApiResponse"/>?&gt;</returns>
         Task<ISubmitWorkflooCorrectionApiResponse?> SubmitWorkflooCorrectionOrDefaultAsync(string id, Object body, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Validar un campo del formulario
+        /// </summary>
+        /// <remarks>
+        /// Revisa un campo del nodo FORM actual con el validador que declaró la definición (p. ej. un código postal contra SEPOMEX), sin entregar el formulario. Responde 200 aunque el dato sea inválido: el resultado viene en status (VALID, INVALID, FORMAT_ERROR, PENDING_INPUTS), con los campos que rellenó el validador (filled) y, cuando hay varios candidatos, las opciones a elegir (options).
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="id">Id de la ejecución</param>
+        /// <param name="fieldId">Id del campo a validar</param>
+        /// <param name="controllerWorkflooModelValidateFieldRequest">Valores capturados hasta ahora: {values: {campoId: valor}}</param>
+        /// <param name="sandbox">Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="IValidateWorkflooFieldApiResponse"/>&gt;</returns>
+        Task<IValidateWorkflooFieldApiResponse> ValidateWorkflooFieldAsync(string id, string fieldId, ControllerWorkflooModelValidateFieldRequest controllerWorkflooModelValidateFieldRequest, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Validar un campo del formulario
+        /// </summary>
+        /// <remarks>
+        /// Revisa un campo del nodo FORM actual con el validador que declaró la definición (p. ej. un código postal contra SEPOMEX), sin entregar el formulario. Responde 200 aunque el dato sea inválido: el resultado viene en status (VALID, INVALID, FORMAT_ERROR, PENDING_INPUTS), con los campos que rellenó el validador (filled) y, cuando hay varios candidatos, las opciones a elegir (options).
+        /// </remarks>
+        /// <param name="id">Id de la ejecución</param>
+        /// <param name="fieldId">Id del campo a validar</param>
+        /// <param name="controllerWorkflooModelValidateFieldRequest">Valores capturados hasta ahora: {values: {campoId: valor}}</param>
+        /// <param name="sandbox">Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="IValidateWorkflooFieldApiResponse"/>?&gt;</returns>
+        Task<IValidateWorkflooFieldApiResponse?> ValidateWorkflooFieldOrDefaultAsync(string id, string fieldId, ControllerWorkflooModelValidateFieldRequest controllerWorkflooModelValidateFieldRequest, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Validar el NIP
@@ -751,6 +809,60 @@ namespace Kiban.Workfloo.Api
         /// </summary>
         /// <returns></returns>
         bool IsOk { get; }
+
+        /// <summary>
+        /// Returns true if the response is 400 BadRequest
+        /// </summary>
+        /// <returns></returns>
+        bool IsBadRequest { get; }
+
+        /// <summary>
+        /// Returns true if the response is 401 Unauthorized
+        /// </summary>
+        /// <returns></returns>
+        bool IsUnauthorized { get; }
+
+        /// <summary>
+        /// Returns true if the response is 403 Forbidden
+        /// </summary>
+        /// <returns></returns>
+        bool IsForbidden { get; }
+
+        /// <summary>
+        /// Returns true if the response is 404 NotFound
+        /// </summary>
+        /// <returns></returns>
+        bool IsNotFound { get; }
+
+        /// <summary>
+        /// Returns true if the response is 500 InternalServerError
+        /// </summary>
+        /// <returns></returns>
+        bool IsInternalServerError { get; }
+
+        /// <summary>
+        /// Returns true if the response is 503 ServiceUnavailable
+        /// </summary>
+        /// <returns></returns>
+        bool IsServiceUnavailable { get; }
+    }
+
+    /// <summary>
+    /// The <see cref="IGetWorkflooFileV2ApiResponse"/>
+    /// </summary>
+    public interface IGetWorkflooFileV2ApiResponse : Kiban.Workfloo.Client.IApiResponse, IOk<Kiban.Workfloo.Model.ControllerWorkflooModelFileResponseV2?>, IAccepted<Kiban.Workfloo.Model.ControllerWorkflooModelFileResponseV2?>
+    {
+        /// <summary>
+        /// Returns true if the response is 200 Ok
+        /// </summary>
+        /// <returns></returns>
+        bool IsOk { get; }
+
+        /// <summary>
+        /// Returns true if the response is 202 Accepted
+        /// </summary>
+        /// <returns></returns>
+        bool IsAccepted { get; }
 
         /// <summary>
         /// Returns true if the response is 400 BadRequest
@@ -1144,6 +1256,54 @@ namespace Kiban.Workfloo.Api
     }
 
     /// <summary>
+    /// The <see cref="IValidateWorkflooFieldApiResponse"/>
+    /// </summary>
+    public interface IValidateWorkflooFieldApiResponse : Kiban.Workfloo.Client.IApiResponse, IOk<Kiban.Workfloo.Model.ControllerWorkflooModelValidateFieldResponse?>
+    {
+        /// <summary>
+        /// Returns true if the response is 200 Ok
+        /// </summary>
+        /// <returns></returns>
+        bool IsOk { get; }
+
+        /// <summary>
+        /// Returns true if the response is 400 BadRequest
+        /// </summary>
+        /// <returns></returns>
+        bool IsBadRequest { get; }
+
+        /// <summary>
+        /// Returns true if the response is 401 Unauthorized
+        /// </summary>
+        /// <returns></returns>
+        bool IsUnauthorized { get; }
+
+        /// <summary>
+        /// Returns true if the response is 403 Forbidden
+        /// </summary>
+        /// <returns></returns>
+        bool IsForbidden { get; }
+
+        /// <summary>
+        /// Returns true if the response is 404 NotFound
+        /// </summary>
+        /// <returns></returns>
+        bool IsNotFound { get; }
+
+        /// <summary>
+        /// Returns true if the response is 409 Conflict
+        /// </summary>
+        /// <returns></returns>
+        bool IsConflict { get; }
+
+        /// <summary>
+        /// Returns true if the response is 500 InternalServerError
+        /// </summary>
+        /// <returns></returns>
+        bool IsInternalServerError { get; }
+    }
+
+    /// <summary>
     /// The <see cref="IValidateWorkflooNipApiResponse"/>
     /// </summary>
     public interface IValidateWorkflooNipApiResponse : Kiban.Workfloo.Client.IApiResponse, IOk<Kiban.Workfloo.Model.ControllerWorkflooModelNipValidateResponse?>
@@ -1367,6 +1527,26 @@ namespace Kiban.Workfloo.Api
         /// <summary>
         /// The event raised after the server response
         /// </summary>
+        public event EventHandler<ApiResponseEventArgs>? OnGetWorkflooFileV2;
+
+        /// <summary>
+        /// The event raised after an error querying the server
+        /// </summary>
+        public event EventHandler<ExceptionEventArgs>? OnErrorGetWorkflooFileV2;
+
+        internal void ExecuteOnGetWorkflooFileV2(WorkflooApi.GetWorkflooFileV2ApiResponse apiResponse)
+        {
+            OnGetWorkflooFileV2?.Invoke(this, new ApiResponseEventArgs(apiResponse));
+        }
+
+        internal void ExecuteOnErrorGetWorkflooFileV2(Exception exception)
+        {
+            OnErrorGetWorkflooFileV2?.Invoke(this, new ExceptionEventArgs(exception));
+        }
+
+        /// <summary>
+        /// The event raised after the server response
+        /// </summary>
         public event EventHandler<ApiResponseEventArgs>? OnGetWorkflooStatus;
 
         /// <summary>
@@ -1502,6 +1682,26 @@ namespace Kiban.Workfloo.Api
         internal void ExecuteOnErrorSubmitWorkflooCorrection(Exception exception)
         {
             OnErrorSubmitWorkflooCorrection?.Invoke(this, new ExceptionEventArgs(exception));
+        }
+
+        /// <summary>
+        /// The event raised after the server response
+        /// </summary>
+        public event EventHandler<ApiResponseEventArgs>? OnValidateWorkflooField;
+
+        /// <summary>
+        /// The event raised after an error querying the server
+        /// </summary>
+        public event EventHandler<ExceptionEventArgs>? OnErrorValidateWorkflooField;
+
+        internal void ExecuteOnValidateWorkflooField(WorkflooApi.ValidateWorkflooFieldApiResponse apiResponse)
+        {
+            OnValidateWorkflooField?.Invoke(this, new ApiResponseEventArgs(apiResponse));
+        }
+
+        internal void ExecuteOnErrorValidateWorkflooField(Exception exception)
+        {
+            OnErrorValidateWorkflooField?.Invoke(this, new ExceptionEventArgs(exception));
         }
 
         /// <summary>
@@ -3310,6 +3510,366 @@ namespace Kiban.Workfloo.Api
                 } catch (Exception e)
                 {
                     OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)200);
+                }
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 400 BadRequest
+            /// </summary>
+            /// <returns></returns>
+            public bool IsBadRequest => 400 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 401 Unauthorized
+            /// </summary>
+            /// <returns></returns>
+            public bool IsUnauthorized => 401 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 403 Forbidden
+            /// </summary>
+            /// <returns></returns>
+            public bool IsForbidden => 403 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 404 NotFound
+            /// </summary>
+            /// <returns></returns>
+            public bool IsNotFound => 404 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 500 InternalServerError
+            /// </summary>
+            /// <returns></returns>
+            public bool IsInternalServerError => 500 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 503 ServiceUnavailable
+            /// </summary>
+            /// <returns></returns>
+            public bool IsServiceUnavailable => 503 == (int)StatusCode;
+
+            private void OnDeserializationErrorDefaultImplementation(Exception exception, HttpStatusCode httpStatusCode)
+            {
+                bool suppressDefaultLog = false;
+                OnDeserializationError(ref suppressDefaultLog, exception, httpStatusCode);
+                if (!suppressDefaultLog)
+                    Logger.LogError(RestLogEvents.ApiDeserializationFailed, exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
+            }
+
+            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+        }
+
+        partial void FormatGetWorkflooFileV2(ref string id, ref string nodeId, ref string name, ref Option<bool> sandbox);
+
+        /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="nodeId"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        private void ValidateGetWorkflooFileV2(string id, string nodeId, string name)
+        {
+            if (id == null)
+                throw new ArgumentNullException(nameof(id));
+
+            if (nodeId == null)
+                throw new ArgumentNullException(nameof(nodeId));
+
+            if (name == null)
+                throw new ArgumentNullException(nameof(name));
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="id"></param>
+        /// <param name="nodeId"></param>
+        /// <param name="name"></param>
+        /// <param name="sandbox"></param>
+        private void AfterGetWorkflooFileV2DefaultImplementation(IGetWorkflooFileV2ApiResponse apiResponseLocalVar, string id, string nodeId, string name, Option<bool> sandbox)
+        {
+            bool suppressDefaultLog = false;
+            AfterGetWorkflooFileV2(ref suppressDefaultLog, apiResponseLocalVar, id, nodeId, name, sandbox);
+            if (!suppressDefaultLog)
+                Logger.LogInformation(RestLogEvents.ApiRequestCompleted, "{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="suppressDefaultLog"></param>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="id"></param>
+        /// <param name="nodeId"></param>
+        /// <param name="name"></param>
+        /// <param name="sandbox"></param>
+        partial void AfterGetWorkflooFileV2(ref bool suppressDefaultLog, IGetWorkflooFileV2ApiResponse apiResponseLocalVar, string id, string nodeId, string name, Option<bool> sandbox);
+
+        /// <summary>
+        /// Logs exceptions that occur while retrieving the server response
+        /// </summary>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
+        /// <param name="id"></param>
+        /// <param name="nodeId"></param>
+        /// <param name="name"></param>
+        /// <param name="sandbox"></param>
+        private void OnErrorGetWorkflooFileV2DefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string id, string nodeId, string name, Option<bool> sandbox)
+        {
+            bool suppressDefaultLogLocalVar = false;
+            OnErrorGetWorkflooFileV2(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, id, nodeId, name, sandbox);
+            if (!suppressDefaultLogLocalVar)
+                Logger.LogError(RestLogEvents.ApiRequestFailed, exceptionLocalVar, "An error occurred while sending the request to the server.");
+        }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
+        /// <param name="id"></param>
+        /// <param name="nodeId"></param>
+        /// <param name="name"></param>
+        /// <param name="sandbox"></param>
+        partial void OnErrorGetWorkflooFileV2(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string id, string nodeId, string name, Option<bool> sandbox);
+
+        /// <summary>
+        /// Descargar un archivo de un nodo (v2) Igual que getWorkflooFile, pero si el archivo (p. ej. un PDF pesado) todavía se está generando responde 202 con status PROCESSING y retryAfter, en lugar de un 503. Reintentar después de Retry-After no lanza otra generación: cuando el archivo esté listo responde 200 con fileBase64.
+        /// </summary>
+        /// <param name="id">Id de la ejecución</param>
+        /// <param name="nodeId">Id del nodo que contiene el archivo</param>
+        /// <param name="name">Nombre del archivo</param>
+        /// <param name="sandbox">Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="IGetWorkflooFileV2ApiResponse"/>&gt;</returns>
+        public async Task<IGetWorkflooFileV2ApiResponse?> GetWorkflooFileV2OrDefaultAsync(string id, string nodeId, string name, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                return await GetWorkflooFileV2Async(id, nodeId, name, sandbox, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Descargar un archivo de un nodo (v2) Igual que getWorkflooFile, pero si el archivo (p. ej. un PDF pesado) todavía se está generando responde 202 con status PROCESSING y retryAfter, en lugar de un 503. Reintentar después de Retry-After no lanza otra generación: cuando el archivo esté listo responde 200 con fileBase64.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="id">Id de la ejecución</param>
+        /// <param name="nodeId">Id del nodo que contiene el archivo</param>
+        /// <param name="name">Nombre del archivo</param>
+        /// <param name="sandbox">Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="IGetWorkflooFileV2ApiResponse"/>&gt;</returns>
+        public async Task<IGetWorkflooFileV2ApiResponse> GetWorkflooFileV2Async(string id, string nodeId, string name, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default)
+        {
+            UriBuilder uriBuilderLocalVar = new UriBuilder();
+
+            try
+            {
+                ValidateGetWorkflooFileV2(id, nodeId, name);
+
+                FormatGetWorkflooFileV2(ref id, ref nodeId, ref name, ref sandbox);
+
+                using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
+                {
+                    uriBuilderLocalVar.Host = HttpClient.BaseAddress!.Host;
+                    uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
+                    uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
+                    uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
+                        ? "/api/v2/workfloo/{id}/file"
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/api/v2/workfloo/{id}/file");
+                    uriBuilderLocalVar.Path = uriBuilderLocalVar.Path.Replace("%7Bid%7D", Uri.EscapeDataString(id.ToString()));
+
+                    System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
+
+                    parseQueryStringLocalVar["nodeId"] = ClientUtils.ParameterToString(nodeId);
+                    parseQueryStringLocalVar["name"] = ClientUtils.ParameterToString(name);
+
+                    if (sandbox.IsSet)
+                        parseQueryStringLocalVar["sandbox"] = ClientUtils.ParameterToString(sandbox.Value);
+
+                    uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
+
+                    List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
+                    ApiKeyToken apiKeyTokenLocalVar1 = (ApiKeyToken) await ApiKeyProvider.GetAsync("x-api-key", cancellationToken).ConfigureAwait(false);
+                    tokenBaseLocalVars.Add(apiKeyTokenLocalVar1);
+                    apiKeyTokenLocalVar1.UseInHeader(httpRequestMessageLocalVar);
+
+                    httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
+
+                    string[] acceptLocalVars = new string[] {
+                        "application/json"
+                    };
+
+                    IEnumerable<MediaTypeWithQualityHeaderValue> acceptHeaderValuesLocalVar = ClientUtils.SelectHeaderAcceptArray(acceptLocalVars);
+
+                    foreach (var acceptLocalVar in acceptHeaderValuesLocalVar)
+                        httpRequestMessageLocalVar.Headers.Accept.Add(acceptLocalVar);
+
+                    httpRequestMessageLocalVar.Method = HttpMethod.Get;
+
+                    DateTime requestedAtLocalVar = DateTime.UtcNow;
+
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
+                    {
+                        GetWorkflooFileV2ApiResponse apiResponseLocalVar;
+
+                        switch ((int)httpResponseMessageLocalVar.StatusCode) {
+                            default: {
+                                string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                                apiResponseLocalVar = new(Logger, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/api/v2/workfloo/{id}/file", requestedAtLocalVar, _jsonSerializerOptions);
+
+                                break;
+                            }
+                        }
+
+                        AfterGetWorkflooFileV2DefaultImplementation(apiResponseLocalVar, id, nodeId, name, sandbox);
+
+                        Events.ExecuteOnGetWorkflooFileV2(apiResponseLocalVar);
+
+                        if (apiResponseLocalVar.StatusCode == (HttpStatusCode) 429)
+                            foreach(TokenBase tokenBaseLocalVar in tokenBaseLocalVars)
+                                tokenBaseLocalVar.BeginRateLimit();
+
+                        return apiResponseLocalVar;
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                OnErrorGetWorkflooFileV2DefaultImplementation(e, "/api/v2/workfloo/{id}/file", uriBuilderLocalVar.Path, id, nodeId, name, sandbox);
+                Events.ExecuteOnErrorGetWorkflooFileV2(e);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// The <see cref="GetWorkflooFileV2ApiResponse"/>
+        /// </summary>
+        public partial class GetWorkflooFileV2ApiResponse : Kiban.Workfloo.Client.ApiResponse, IGetWorkflooFileV2ApiResponse
+        {
+            /// <summary>
+            /// The logger
+            /// </summary>
+            public ILogger<WorkflooApi> Logger { get; }
+
+            /// <summary>
+            /// The <see cref="GetWorkflooFileV2ApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="rawContent"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public GetWorkflooFileV2ApiResponse(ILogger<WorkflooApi> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            /// <summary>
+            /// The <see cref="GetWorkflooFileV2ApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="contentStream"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public GetWorkflooFileV2ApiResponse(ILogger<WorkflooApi> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, System.IO.Stream contentStream, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, contentStream, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOk => 200 == (int)StatusCode;
+
+            /// <summary>
+            /// Deserializes the response if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public Kiban.Workfloo.Model.ControllerWorkflooModelFileResponseV2? Ok()
+            {
+                // This logic may be modified with the AsModel.mustache template
+                return IsOk
+                    ? System.Text.Json.JsonSerializer.Deserialize<Kiban.Workfloo.Model.ControllerWorkflooModelFileResponseV2>(RawContent, _jsonSerializerOptions)
+                    : null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryOk([NotNullWhen(true)]out Kiban.Workfloo.Model.ControllerWorkflooModelFileResponseV2? result)
+            {
+                result = null;
+
+                try
+                {
+                    result = Ok();
+                } catch (Exception e)
+                {
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)200);
+                }
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 202 Accepted
+            /// </summary>
+            /// <returns></returns>
+            public bool IsAccepted => 202 == (int)StatusCode;
+
+            /// <summary>
+            /// Deserializes the response if the response is 202 Accepted
+            /// </summary>
+            /// <returns></returns>
+            public Kiban.Workfloo.Model.ControllerWorkflooModelFileResponseV2? Accepted()
+            {
+                // This logic may be modified with the AsModel.mustache template
+                return IsAccepted
+                    ? System.Text.Json.JsonSerializer.Deserialize<Kiban.Workfloo.Model.ControllerWorkflooModelFileResponseV2>(RawContent, _jsonSerializerOptions)
+                    : null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 202 Accepted and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryAccepted([NotNullWhen(true)]out Kiban.Workfloo.Model.ControllerWorkflooModelFileResponseV2? result)
+            {
+                result = null;
+
+                try
+                {
+                    result = Accepted();
+                } catch (Exception e)
+                {
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)202);
                 }
 
                 return result != null;
@@ -5691,6 +6251,339 @@ namespace Kiban.Workfloo.Api
             /// </summary>
             /// <returns></returns>
             public bool IsServiceUnavailable => 503 == (int)StatusCode;
+
+            private void OnDeserializationErrorDefaultImplementation(Exception exception, HttpStatusCode httpStatusCode)
+            {
+                bool suppressDefaultLog = false;
+                OnDeserializationError(ref suppressDefaultLog, exception, httpStatusCode);
+                if (!suppressDefaultLog)
+                    Logger.LogError(RestLogEvents.ApiDeserializationFailed, exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
+            }
+
+            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+        }
+
+        partial void FormatValidateWorkflooField(ref string id, ref string fieldId, ControllerWorkflooModelValidateFieldRequest controllerWorkflooModelValidateFieldRequest, ref Option<bool> sandbox);
+
+        /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="fieldId"></param>
+        /// <param name="controllerWorkflooModelValidateFieldRequest"></param>
+        /// <returns></returns>
+        private void ValidateValidateWorkflooField(string id, string fieldId, ControllerWorkflooModelValidateFieldRequest controllerWorkflooModelValidateFieldRequest)
+        {
+            if (id == null)
+                throw new ArgumentNullException(nameof(id));
+
+            if (fieldId == null)
+                throw new ArgumentNullException(nameof(fieldId));
+
+            if (controllerWorkflooModelValidateFieldRequest == null)
+                throw new ArgumentNullException(nameof(controllerWorkflooModelValidateFieldRequest));
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="id"></param>
+        /// <param name="fieldId"></param>
+        /// <param name="controllerWorkflooModelValidateFieldRequest"></param>
+        /// <param name="sandbox"></param>
+        private void AfterValidateWorkflooFieldDefaultImplementation(IValidateWorkflooFieldApiResponse apiResponseLocalVar, string id, string fieldId, ControllerWorkflooModelValidateFieldRequest controllerWorkflooModelValidateFieldRequest, Option<bool> sandbox)
+        {
+            bool suppressDefaultLog = false;
+            AfterValidateWorkflooField(ref suppressDefaultLog, apiResponseLocalVar, id, fieldId, controllerWorkflooModelValidateFieldRequest, sandbox);
+            if (!suppressDefaultLog)
+                Logger.LogInformation(RestLogEvents.ApiRequestCompleted, "{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="suppressDefaultLog"></param>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="id"></param>
+        /// <param name="fieldId"></param>
+        /// <param name="controllerWorkflooModelValidateFieldRequest"></param>
+        /// <param name="sandbox"></param>
+        partial void AfterValidateWorkflooField(ref bool suppressDefaultLog, IValidateWorkflooFieldApiResponse apiResponseLocalVar, string id, string fieldId, ControllerWorkflooModelValidateFieldRequest controllerWorkflooModelValidateFieldRequest, Option<bool> sandbox);
+
+        /// <summary>
+        /// Logs exceptions that occur while retrieving the server response
+        /// </summary>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
+        /// <param name="id"></param>
+        /// <param name="fieldId"></param>
+        /// <param name="controllerWorkflooModelValidateFieldRequest"></param>
+        /// <param name="sandbox"></param>
+        private void OnErrorValidateWorkflooFieldDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string id, string fieldId, ControllerWorkflooModelValidateFieldRequest controllerWorkflooModelValidateFieldRequest, Option<bool> sandbox)
+        {
+            bool suppressDefaultLogLocalVar = false;
+            OnErrorValidateWorkflooField(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, id, fieldId, controllerWorkflooModelValidateFieldRequest, sandbox);
+            if (!suppressDefaultLogLocalVar)
+                Logger.LogError(RestLogEvents.ApiRequestFailed, exceptionLocalVar, "An error occurred while sending the request to the server.");
+        }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
+        /// <param name="id"></param>
+        /// <param name="fieldId"></param>
+        /// <param name="controllerWorkflooModelValidateFieldRequest"></param>
+        /// <param name="sandbox"></param>
+        partial void OnErrorValidateWorkflooField(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string id, string fieldId, ControllerWorkflooModelValidateFieldRequest controllerWorkflooModelValidateFieldRequest, Option<bool> sandbox);
+
+        /// <summary>
+        /// Validar un campo del formulario Revisa un campo del nodo FORM actual con el validador que declaró la definición (p. ej. un código postal contra SEPOMEX), sin entregar el formulario. Responde 200 aunque el dato sea inválido: el resultado viene en status (VALID, INVALID, FORMAT_ERROR, PENDING_INPUTS), con los campos que rellenó el validador (filled) y, cuando hay varios candidatos, las opciones a elegir (options).
+        /// </summary>
+        /// <param name="id">Id de la ejecución</param>
+        /// <param name="fieldId">Id del campo a validar</param>
+        /// <param name="controllerWorkflooModelValidateFieldRequest">Valores capturados hasta ahora: {values: {campoId: valor}}</param>
+        /// <param name="sandbox">Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="IValidateWorkflooFieldApiResponse"/>&gt;</returns>
+        public async Task<IValidateWorkflooFieldApiResponse?> ValidateWorkflooFieldOrDefaultAsync(string id, string fieldId, ControllerWorkflooModelValidateFieldRequest controllerWorkflooModelValidateFieldRequest, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                return await ValidateWorkflooFieldAsync(id, fieldId, controllerWorkflooModelValidateFieldRequest, sandbox, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Validar un campo del formulario Revisa un campo del nodo FORM actual con el validador que declaró la definición (p. ej. un código postal contra SEPOMEX), sin entregar el formulario. Responde 200 aunque el dato sea inválido: el resultado viene en status (VALID, INVALID, FORMAT_ERROR, PENDING_INPUTS), con los campos que rellenó el validador (filled) y, cuando hay varios candidatos, las opciones a elegir (options).
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="id">Id de la ejecución</param>
+        /// <param name="fieldId">Id del campo a validar</param>
+        /// <param name="controllerWorkflooModelValidateFieldRequest">Valores capturados hasta ahora: {values: {campoId: valor}}</param>
+        /// <param name="sandbox">Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="IValidateWorkflooFieldApiResponse"/>&gt;</returns>
+        public async Task<IValidateWorkflooFieldApiResponse> ValidateWorkflooFieldAsync(string id, string fieldId, ControllerWorkflooModelValidateFieldRequest controllerWorkflooModelValidateFieldRequest, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default)
+        {
+            UriBuilder uriBuilderLocalVar = new UriBuilder();
+
+            try
+            {
+                ValidateValidateWorkflooField(id, fieldId, controllerWorkflooModelValidateFieldRequest);
+
+                FormatValidateWorkflooField(ref id, ref fieldId, controllerWorkflooModelValidateFieldRequest, ref sandbox);
+
+                using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
+                {
+                    uriBuilderLocalVar.Host = HttpClient.BaseAddress!.Host;
+                    uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
+                    uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
+                    uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
+                        ? "/api/v1/workfloo/{id}/field/{fieldId}/validate"
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/api/v1/workfloo/{id}/field/{fieldId}/validate");
+                    uriBuilderLocalVar.Path = uriBuilderLocalVar.Path.Replace("%7Bid%7D", Uri.EscapeDataString(id.ToString()));
+                    uriBuilderLocalVar.Path = uriBuilderLocalVar.Path.Replace("%7BfieldId%7D", Uri.EscapeDataString(fieldId.ToString()));
+
+                    System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
+
+                    if (sandbox.IsSet)
+                        parseQueryStringLocalVar["sandbox"] = ClientUtils.ParameterToString(sandbox.Value);
+
+                    uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
+
+                    httpRequestMessageLocalVar.Content = (controllerWorkflooModelValidateFieldRequest as object) is Kiban.Workfloo.Client.FileParameter fileParameterLocalVar
+                        ? httpRequestMessageLocalVar.Content = new StreamContent(fileParameterLocalVar.Content)
+                        : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(controllerWorkflooModelValidateFieldRequest, _jsonSerializerOptions));
+
+                    List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
+                    ApiKeyToken apiKeyTokenLocalVar1 = (ApiKeyToken) await ApiKeyProvider.GetAsync("x-api-key", cancellationToken).ConfigureAwait(false);
+                    tokenBaseLocalVars.Add(apiKeyTokenLocalVar1);
+                    apiKeyTokenLocalVar1.UseInHeader(httpRequestMessageLocalVar);
+
+                    httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
+
+                    string[] contentTypes = new string[] {
+                        "application/json"
+                    };
+
+                    string? contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
+
+                    if (contentTypeLocalVar != null && httpRequestMessageLocalVar.Content != null)
+                        httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
+
+                    string[] acceptLocalVars = new string[] {
+                        "application/json"
+                    };
+
+                    IEnumerable<MediaTypeWithQualityHeaderValue> acceptHeaderValuesLocalVar = ClientUtils.SelectHeaderAcceptArray(acceptLocalVars);
+
+                    foreach (var acceptLocalVar in acceptHeaderValuesLocalVar)
+                        httpRequestMessageLocalVar.Headers.Accept.Add(acceptLocalVar);
+
+                    httpRequestMessageLocalVar.Method = HttpMethod.Post;
+
+                    DateTime requestedAtLocalVar = DateTime.UtcNow;
+
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
+                    {
+                        ValidateWorkflooFieldApiResponse apiResponseLocalVar;
+
+                        switch ((int)httpResponseMessageLocalVar.StatusCode) {
+                            default: {
+                                string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                                apiResponseLocalVar = new(Logger, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/api/v1/workfloo/{id}/field/{fieldId}/validate", requestedAtLocalVar, _jsonSerializerOptions);
+
+                                break;
+                            }
+                        }
+
+                        AfterValidateWorkflooFieldDefaultImplementation(apiResponseLocalVar, id, fieldId, controllerWorkflooModelValidateFieldRequest, sandbox);
+
+                        Events.ExecuteOnValidateWorkflooField(apiResponseLocalVar);
+
+                        if (apiResponseLocalVar.StatusCode == (HttpStatusCode) 429)
+                            foreach(TokenBase tokenBaseLocalVar in tokenBaseLocalVars)
+                                tokenBaseLocalVar.BeginRateLimit();
+
+                        return apiResponseLocalVar;
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                OnErrorValidateWorkflooFieldDefaultImplementation(e, "/api/v1/workfloo/{id}/field/{fieldId}/validate", uriBuilderLocalVar.Path, id, fieldId, controllerWorkflooModelValidateFieldRequest, sandbox);
+                Events.ExecuteOnErrorValidateWorkflooField(e);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// The <see cref="ValidateWorkflooFieldApiResponse"/>
+        /// </summary>
+        public partial class ValidateWorkflooFieldApiResponse : Kiban.Workfloo.Client.ApiResponse, IValidateWorkflooFieldApiResponse
+        {
+            /// <summary>
+            /// The logger
+            /// </summary>
+            public ILogger<WorkflooApi> Logger { get; }
+
+            /// <summary>
+            /// The <see cref="ValidateWorkflooFieldApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="rawContent"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public ValidateWorkflooFieldApiResponse(ILogger<WorkflooApi> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            /// <summary>
+            /// The <see cref="ValidateWorkflooFieldApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="contentStream"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public ValidateWorkflooFieldApiResponse(ILogger<WorkflooApi> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, System.IO.Stream contentStream, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, contentStream, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOk => 200 == (int)StatusCode;
+
+            /// <summary>
+            /// Deserializes the response if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public Kiban.Workfloo.Model.ControllerWorkflooModelValidateFieldResponse? Ok()
+            {
+                // This logic may be modified with the AsModel.mustache template
+                return IsOk
+                    ? System.Text.Json.JsonSerializer.Deserialize<Kiban.Workfloo.Model.ControllerWorkflooModelValidateFieldResponse>(RawContent, _jsonSerializerOptions)
+                    : null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryOk([NotNullWhen(true)]out Kiban.Workfloo.Model.ControllerWorkflooModelValidateFieldResponse? result)
+            {
+                result = null;
+
+                try
+                {
+                    result = Ok();
+                } catch (Exception e)
+                {
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)200);
+                }
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 400 BadRequest
+            /// </summary>
+            /// <returns></returns>
+            public bool IsBadRequest => 400 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 401 Unauthorized
+            /// </summary>
+            /// <returns></returns>
+            public bool IsUnauthorized => 401 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 403 Forbidden
+            /// </summary>
+            /// <returns></returns>
+            public bool IsForbidden => 403 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 404 NotFound
+            /// </summary>
+            /// <returns></returns>
+            public bool IsNotFound => 404 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 409 Conflict
+            /// </summary>
+            /// <returns></returns>
+            public bool IsConflict => 409 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 500 InternalServerError
+            /// </summary>
+            /// <returns></returns>
+            public bool IsInternalServerError => 500 == (int)StatusCode;
 
             private void OnDeserializationErrorDefaultImplementation(Exception exception, HttpStatusCode httpStatusCode)
             {

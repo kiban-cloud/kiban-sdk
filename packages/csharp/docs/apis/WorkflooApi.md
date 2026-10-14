@@ -10,6 +10,7 @@ All URIs are relative to *https://workfloo.kiban.com*
 | [**FallbackWorkflooOtp**](WorkflooApi.md#fallbackworkfloootp) | **PATCH** /api/v1/workfloo/{id}/otp/fallback | Reenviar el código de verificación (OTP) |
 | [**GetWorkfloo**](WorkflooApi.md#getworkfloo) | **GET** /api/v1/workfloo/{id} | Detalle de una ejecución |
 | [**GetWorkflooFile**](WorkflooApi.md#getworkfloofile) | **GET** /api/v1/workfloo/{id}/file | Descargar un archivo de un nodo |
+| [**GetWorkflooFileV2**](WorkflooApi.md#getworkfloofilev2) | **GET** /api/v2/workfloo/{id}/file | Descargar un archivo de un nodo (v2) |
 | [**GetWorkflooStatus**](WorkflooApi.md#getworkfloostatus) | **GET** /api/v1/workfloo/status/{id} | Estatus de una ejecución |
 | [**ListWorkfloos**](WorkflooApi.md#listworkfloos) | **GET** /api/v1/workfloo | Historial de ejecuciones (v1) |
 | [**ListWorkfloosV2**](WorkflooApi.md#listworkfloosv2) | **GET** /api/v2/workfloo | Historial de ejecuciones (v2) |
@@ -17,6 +18,7 @@ All URIs are relative to *https://workfloo.kiban.com*
 | [**ReviewWorkflooValidation**](WorkflooApi.md#reviewworkfloovalidation) | **POST** /api/v1/workfloo/{id}/review | Revisar un paso de validación |
 | [**SendWorkflooNip**](WorkflooApi.md#sendworkfloonip) | **PATCH** /api/v1/workfloo/{id}/nip/send | Enviar el NIP |
 | [**SubmitWorkflooCorrection**](WorkflooApi.md#submitworkfloocorrection) | **POST** /api/v1/workfloo/{id}/correction | Enviar la corrección de un paso de validación |
+| [**ValidateWorkflooField**](WorkflooApi.md#validateworkfloofield) | **POST** /api/v1/workfloo/{id}/field/{fieldId}/validate | Validar un campo del formulario |
 | [**ValidateWorkflooNip**](WorkflooApi.md#validateworkfloonip) | **PATCH** /api/v1/workfloo/{id}/nip/validate | Validar el NIP |
 | [**ValidateWorkflooOtp**](WorkflooApi.md#validateworkfloootp) | **PATCH** /api/v1/workfloo/{id}/otp/validate | Validar el código de verificación (OTP) |
 
@@ -277,6 +279,52 @@ Devuelve, en base64, un archivo producido/subido en un nodo de la ejecución, id
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Archivo en base64 |  -  |
+| **400** | Parámetros ausentes o mal formados |  -  |
+| **401** | API key ausente o inválida |  -  |
+| **403** | Sin acceso a esa ejecución |  -  |
+| **404** | La ejecución, el nodo o el archivo no existe |  -  |
+| **500** | Error interno |  -  |
+| **503** | El archivo se está generando (body {message, retryAfter}): reintentar después de Retry-After, sin lanzar otra generación. También servicio dependiente no disponible |  * Retry-After - Segundos a esperar antes de reintentar <br>  |
+
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+
+<a id="getworkfloofilev2"></a>
+# **GetWorkflooFileV2**
+> ControllerWorkflooModelFileResponseV2 GetWorkflooFileV2 (string id, string nodeId, string name, bool sandbox = null)
+
+Descargar un archivo de un nodo (v2)
+
+Igual que getWorkflooFile, pero si el archivo (p. ej. un PDF pesado) todavía se está generando responde 202 con status PROCESSING y retryAfter, en lugar de un 503. Reintentar después de Retry-After no lanza otra generación: cuando el archivo esté listo responde 200 con fileBase64.
+
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **id** | **string** | Id de la ejecución |  |
+| **nodeId** | **string** | Id del nodo que contiene el archivo |  |
+| **name** | **string** | Nombre del archivo |  |
+| **sandbox** | **bool** | Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito | [optional]  |
+
+### Return type
+
+[**ControllerWorkflooModelFileResponseV2**](ControllerWorkflooModelFileResponseV2.md)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Archivo listo: fileBase64 |  -  |
+| **202** | El archivo se está generando: status PROCESSING y retryAfter (segundos) |  * Retry-After - Segundos a esperar antes de reintentar <br>  |
 | **400** | Parámetros ausentes o mal formados |  -  |
 | **401** | API key ausente o inválida |  -  |
 | **403** | Sin acceso a esa ejecución |  -  |
@@ -612,6 +660,51 @@ void (empty response body)
 | **409** | El paso no está en estado de corrección |  -  |
 | **500** | Error interno |  -  |
 | **503** | Servicio dependiente no disponible |  -  |
+
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+
+<a id="validateworkfloofield"></a>
+# **ValidateWorkflooField**
+> ControllerWorkflooModelValidateFieldResponse ValidateWorkflooField (string id, string fieldId, ControllerWorkflooModelValidateFieldRequest controllerWorkflooModelValidateFieldRequest, bool sandbox = null)
+
+Validar un campo del formulario
+
+Revisa un campo del nodo FORM actual con el validador que declaró la definición (p. ej. un código postal contra SEPOMEX), sin entregar el formulario. Responde 200 aunque el dato sea inválido: el resultado viene en status (VALID, INVALID, FORMAT_ERROR, PENDING_INPUTS), con los campos que rellenó el validador (filled) y, cuando hay varios candidatos, las opciones a elegir (options).
+
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **id** | **string** | Id de la ejecución |  |
+| **fieldId** | **string** | Id del campo a validar |  |
+| **controllerWorkflooModelValidateFieldRequest** | [**ControllerWorkflooModelValidateFieldRequest**](ControllerWorkflooModelValidateFieldRequest.md) | Valores capturados hasta ahora: {values: {campoId: valor}} |  |
+| **sandbox** | **bool** | Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito | [optional]  |
+
+### Return type
+
+[**ControllerWorkflooModelValidateFieldResponse**](ControllerWorkflooModelValidateFieldResponse.md)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Resultado de la validación |  -  |
+| **400** | Body inválido |  -  |
+| **401** | API key ausente o inválida |  -  |
+| **403** | Sin acceso a ese paso, o cuenta suspendida o inactiva |  -  |
+| **404** | La ejecución o el campo no existen |  -  |
+| **409** | La ejecución no está esperando un formulario, o el campo no tiene validador |  -  |
+| **500** | Error interno |  -  |
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 

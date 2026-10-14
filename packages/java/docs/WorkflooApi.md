@@ -10,6 +10,7 @@ All URIs are relative to *https://workfloo.kiban.com*
 | [**fallbackWorkflooOtp**](WorkflooApi.md#fallbackWorkflooOtp) | **PATCH** /api/v1/workfloo/{id}/otp/fallback | Reenviar el código de verificación (OTP) |
 | [**getWorkfloo**](WorkflooApi.md#getWorkfloo) | **GET** /api/v1/workfloo/{id} | Detalle de una ejecución |
 | [**getWorkflooFile**](WorkflooApi.md#getWorkflooFile) | **GET** /api/v1/workfloo/{id}/file | Descargar un archivo de un nodo |
+| [**getWorkflooFileV2**](WorkflooApi.md#getWorkflooFileV2) | **GET** /api/v2/workfloo/{id}/file | Descargar un archivo de un nodo (v2) |
 | [**getWorkflooStatus**](WorkflooApi.md#getWorkflooStatus) | **GET** /api/v1/workfloo/status/{id} | Estatus de una ejecución |
 | [**listWorkfloos**](WorkflooApi.md#listWorkfloos) | **GET** /api/v1/workfloo | Historial de ejecuciones (v1) |
 | [**listWorkfloosV2**](WorkflooApi.md#listWorkfloosV2) | **GET** /api/v2/workfloo | Historial de ejecuciones (v2) |
@@ -17,6 +18,7 @@ All URIs are relative to *https://workfloo.kiban.com*
 | [**reviewWorkflooValidation**](WorkflooApi.md#reviewWorkflooValidation) | **POST** /api/v1/workfloo/{id}/review | Revisar un paso de validación |
 | [**sendWorkflooNip**](WorkflooApi.md#sendWorkflooNip) | **PATCH** /api/v1/workfloo/{id}/nip/send | Enviar el NIP |
 | [**submitWorkflooCorrection**](WorkflooApi.md#submitWorkflooCorrection) | **POST** /api/v1/workfloo/{id}/correction | Enviar la corrección de un paso de validación |
+| [**validateWorkflooField**](WorkflooApi.md#validateWorkflooField) | **POST** /api/v1/workfloo/{id}/field/{fieldId}/validate | Validar un campo del formulario |
 | [**validateWorkflooNip**](WorkflooApi.md#validateWorkflooNip) | **PATCH** /api/v1/workfloo/{id}/nip/validate | Validar el NIP |
 | [**validateWorkflooOtp**](WorkflooApi.md#validateWorkflooOtp) | **PATCH** /api/v1/workfloo/{id}/otp/validate | Validar el código de verificación (OTP) |
 
@@ -497,6 +499,90 @@ public class Example {
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Archivo en base64 |  -  |
+| **400** | Parámetros ausentes o mal formados |  -  |
+| **401** | API key ausente o inválida |  -  |
+| **403** | Sin acceso a esa ejecución |  -  |
+| **404** | La ejecución, el nodo o el archivo no existe |  -  |
+| **500** | Error interno |  -  |
+| **503** | El archivo se está generando (body {message, retryAfter}): reintentar después de Retry-After, sin lanzar otra generación. También servicio dependiente no disponible |  * Retry-After - Segundos a esperar antes de reintentar <br>  |
+
+<a id="getWorkflooFileV2"></a>
+# **getWorkflooFileV2**
+> ControllerWorkflooModelFileResponseV2 getWorkflooFileV2(id, nodeId, name).sandbox(sandbox).execute();
+
+Descargar un archivo de un nodo (v2)
+
+Igual que getWorkflooFile, pero si el archivo (p. ej. un PDF pesado) todavía se está generando responde 202 con status PROCESSING y retryAfter, en lugar de un 503. Reintentar después de Retry-After no lanza otra generación: cuando el archivo esté listo responde 200 con fileBase64.
+
+### Example
+```java
+// Import classes:
+import com.kiban.workfloo.ApiClient;
+import com.kiban.workfloo.ApiException;
+import com.kiban.workfloo.Configuration;
+import com.kiban.workfloo.auth.*;
+import com.kiban.workfloo.models.*;
+import com.kiban.workfloo.api.WorkflooApi;
+
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("https://workfloo.kiban.com");
+    
+    // Configure API key authorization: ApiKeyAuth
+    ApiKeyAuth ApiKeyAuth = (ApiKeyAuth) defaultClient.getAuthentication("ApiKeyAuth");
+    ApiKeyAuth.setApiKey("YOUR API KEY");
+    // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+    //ApiKeyAuth.setApiKeyPrefix("Token");
+
+    WorkflooApi apiInstance = new WorkflooApi(defaultClient);
+    String id = "id_example"; // String | Id de la ejecución
+    String nodeId = "nodeId_example"; // String | Id del nodo que contiene el archivo
+    String name = "name_example"; // String | Nombre del archivo
+    Boolean sandbox = true; // Boolean | Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+    try {
+      ControllerWorkflooModelFileResponseV2 result = apiInstance.getWorkflooFileV2(id, nodeId, name)
+            .sandbox(sandbox)
+            .execute();
+      System.out.println(result);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling WorkflooApi#getWorkflooFileV2");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **id** | **String**| Id de la ejecución | |
+| **nodeId** | **String**| Id del nodo que contiene el archivo | |
+| **name** | **String**| Nombre del archivo | |
+| **sandbox** | **Boolean**| Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito | [optional] |
+
+### Return type
+
+[**ControllerWorkflooModelFileResponseV2**](ControllerWorkflooModelFileResponseV2.md)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Archivo listo: fileBase64 |  -  |
+| **202** | El archivo se está generando: status PROCESSING y retryAfter (segundos) |  * Retry-After - Segundos a esperar antes de reintentar <br>  |
 | **400** | Parámetros ausentes o mal formados |  -  |
 | **401** | API key ausente o inválida |  -  |
 | **403** | Sin acceso a esa ejecución |  -  |
@@ -1129,6 +1215,89 @@ null (empty response body)
 | **409** | El paso no está en estado de corrección |  -  |
 | **500** | Error interno |  -  |
 | **503** | Servicio dependiente no disponible |  -  |
+
+<a id="validateWorkflooField"></a>
+# **validateWorkflooField**
+> ControllerWorkflooModelValidateFieldResponse validateWorkflooField(id, fieldId, controllerWorkflooModelValidateFieldRequest).sandbox(sandbox).execute();
+
+Validar un campo del formulario
+
+Revisa un campo del nodo FORM actual con el validador que declaró la definición (p. ej. un código postal contra SEPOMEX), sin entregar el formulario. Responde 200 aunque el dato sea inválido: el resultado viene en status (VALID, INVALID, FORMAT_ERROR, PENDING_INPUTS), con los campos que rellenó el validador (filled) y, cuando hay varios candidatos, las opciones a elegir (options).
+
+### Example
+```java
+// Import classes:
+import com.kiban.workfloo.ApiClient;
+import com.kiban.workfloo.ApiException;
+import com.kiban.workfloo.Configuration;
+import com.kiban.workfloo.auth.*;
+import com.kiban.workfloo.models.*;
+import com.kiban.workfloo.api.WorkflooApi;
+
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("https://workfloo.kiban.com");
+    
+    // Configure API key authorization: ApiKeyAuth
+    ApiKeyAuth ApiKeyAuth = (ApiKeyAuth) defaultClient.getAuthentication("ApiKeyAuth");
+    ApiKeyAuth.setApiKey("YOUR API KEY");
+    // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+    //ApiKeyAuth.setApiKeyPrefix("Token");
+
+    WorkflooApi apiInstance = new WorkflooApi(defaultClient);
+    String id = "id_example"; // String | Id de la ejecución
+    String fieldId = "fieldId_example"; // String | Id del campo a validar
+    ControllerWorkflooModelValidateFieldRequest controllerWorkflooModelValidateFieldRequest = new ControllerWorkflooModelValidateFieldRequest(); // ControllerWorkflooModelValidateFieldRequest | Valores capturados hasta ahora: {values: {campoId: valor}}
+    Boolean sandbox = true; // Boolean | Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+    try {
+      ControllerWorkflooModelValidateFieldResponse result = apiInstance.validateWorkflooField(id, fieldId, controllerWorkflooModelValidateFieldRequest)
+            .sandbox(sandbox)
+            .execute();
+      System.out.println(result);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling WorkflooApi#validateWorkflooField");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **id** | **String**| Id de la ejecución | |
+| **fieldId** | **String**| Id del campo a validar | |
+| **controllerWorkflooModelValidateFieldRequest** | [**ControllerWorkflooModelValidateFieldRequest**](ControllerWorkflooModelValidateFieldRequest.md)| Valores capturados hasta ahora: {values: {campoId: valor}} | |
+| **sandbox** | **Boolean**| Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito | [optional] |
+
+### Return type
+
+[**ControllerWorkflooModelValidateFieldResponse**](ControllerWorkflooModelValidateFieldResponse.md)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Resultado de la validación |  -  |
+| **400** | Body inválido |  -  |
+| **401** | API key ausente o inválida |  -  |
+| **403** | Sin acceso a ese paso, o cuenta suspendida o inactiva |  -  |
+| **404** | La ejecución o el campo no existen |  -  |
+| **409** | La ejecución no está esperando un formulario, o el campo no tiene validador |  -  |
+| **500** | Error interno |  -  |
 
 <a id="validateWorkflooNip"></a>
 # **validateWorkflooNip**

@@ -19,6 +19,7 @@ Name | Type | Description | Notes
 **RegexMessage** | Pointer to **string** |  | [optional] 
 **Show** | Pointer to [**ControllerWorkflooDefinitionModelShow**](ControllerWorkflooDefinitionModelShow.md) |  | [optional] 
 **Type** | Pointer to **string** |  | [optional] 
+**Validator** | Pointer to [**ControllerWorkflooDefinitionModelFieldValidator**](ControllerWorkflooDefinitionModelFieldValidator.md) | Validator sale en la consulta de estado para que un canal (portal, chat, integrador) sepa qué campos validar al capturarlos y qué rellenan. La configuración (credenciales de vault) no se expone. | [optional] 
 
 ## Methods
 
@@ -443,6 +444,31 @@ SetType sets Type field to given value.
 `func (o *ControllerWorkflooDefinitionModelFieldMetadata) HasType() bool`
 
 HasType returns a boolean if a field has been set.
+
+### GetValidator
+
+`func (o *ControllerWorkflooDefinitionModelFieldMetadata) GetValidator() ControllerWorkflooDefinitionModelFieldValidator`
+
+GetValidator returns the Validator field if non-nil, zero value otherwise.
+
+### GetValidatorOk
+
+`func (o *ControllerWorkflooDefinitionModelFieldMetadata) GetValidatorOk() (*ControllerWorkflooDefinitionModelFieldValidator, bool)`
+
+GetValidatorOk returns a tuple with the Validator field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetValidator
+
+`func (o *ControllerWorkflooDefinitionModelFieldMetadata) SetValidator(v ControllerWorkflooDefinitionModelFieldValidator)`
+
+SetValidator sets Validator field to given value.
+
+### HasValidator
+
+`func (o *ControllerWorkflooDefinitionModelFieldMetadata) HasValidator() bool`
+
+HasValidator returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

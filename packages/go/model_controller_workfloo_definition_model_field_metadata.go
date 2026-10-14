@@ -35,6 +35,8 @@ type ControllerWorkflooDefinitionModelFieldMetadata struct {
 	RegexMessage *string `json:"regexMessage,omitempty"`
 	Show *ControllerWorkflooDefinitionModelShow `json:"show,omitempty"`
 	Type *string `json:"type,omitempty"`
+	// Validator sale en la consulta de estado para que un canal (portal, chat, integrador) sepa qué campos validar al capturarlos y qué rellenan. La configuración (credenciales de vault) no se expone.
+	Validator *ControllerWorkflooDefinitionModelFieldValidator `json:"validator,omitempty"`
 }
 
 // NewControllerWorkflooDefinitionModelFieldMetadata instantiates a new ControllerWorkflooDefinitionModelFieldMetadata object
@@ -537,6 +539,38 @@ func (o *ControllerWorkflooDefinitionModelFieldMetadata) SetType(v string) {
 	o.Type = &v
 }
 
+// GetValidator returns the Validator field value if set, zero value otherwise.
+func (o *ControllerWorkflooDefinitionModelFieldMetadata) GetValidator() ControllerWorkflooDefinitionModelFieldValidator {
+	if o == nil || IsNil(o.Validator) {
+		var ret ControllerWorkflooDefinitionModelFieldValidator
+		return ret
+	}
+	return *o.Validator
+}
+
+// GetValidatorOk returns a tuple with the Validator field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ControllerWorkflooDefinitionModelFieldMetadata) GetValidatorOk() (*ControllerWorkflooDefinitionModelFieldValidator, bool) {
+	if o == nil || IsNil(o.Validator) {
+		return nil, false
+	}
+	return o.Validator, true
+}
+
+// HasValidator returns a boolean if a field has been set.
+func (o *ControllerWorkflooDefinitionModelFieldMetadata) HasValidator() bool {
+	if o != nil && !IsNil(o.Validator) {
+		return true
+	}
+
+	return false
+}
+
+// SetValidator gets a reference to the given ControllerWorkflooDefinitionModelFieldValidator and assigns it to the Validator field.
+func (o *ControllerWorkflooDefinitionModelFieldMetadata) SetValidator(v ControllerWorkflooDefinitionModelFieldValidator) {
+	o.Validator = &v
+}
+
 func (o ControllerWorkflooDefinitionModelFieldMetadata) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -591,6 +625,9 @@ func (o ControllerWorkflooDefinitionModelFieldMetadata) ToMap() (map[string]inte
 	}
 	if !IsNil(o.Type) {
 		toSerialize["type"] = o.Type
+	}
+	if !IsNil(o.Validator) {
+		toSerialize["validator"] = o.Validator
 	}
 	return toSerialize, nil
 }

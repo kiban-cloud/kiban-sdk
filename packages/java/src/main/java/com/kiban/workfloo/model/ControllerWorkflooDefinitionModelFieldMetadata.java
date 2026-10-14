@@ -20,6 +20,7 @@ import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import com.kiban.workfloo.model.ControllerWorkflooDefinitionModelAutoFilledBy;
+import com.kiban.workfloo.model.ControllerWorkflooDefinitionModelFieldValidator;
 import com.kiban.workfloo.model.ControllerWorkflooDefinitionModelShow;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -132,6 +133,11 @@ public class ControllerWorkflooDefinitionModelFieldMetadata {
   @SerializedName(SERIALIZED_NAME_TYPE)
   @javax.annotation.Nullable
   private String type;
+
+  public static final String SERIALIZED_NAME_VALIDATOR = "validator";
+  @SerializedName(SERIALIZED_NAME_VALIDATOR)
+  @javax.annotation.Nullable
+  private ControllerWorkflooDefinitionModelFieldValidator validator;
 
   public ControllerWorkflooDefinitionModelFieldMetadata() {
   }
@@ -437,6 +443,25 @@ public class ControllerWorkflooDefinitionModelFieldMetadata {
   }
 
 
+  public ControllerWorkflooDefinitionModelFieldMetadata validator(@javax.annotation.Nullable ControllerWorkflooDefinitionModelFieldValidator validator) {
+    this.validator = validator;
+    return this;
+  }
+
+  /**
+   * Validator sale en la consulta de estado para que un canal (portal, chat, integrador) sepa qué campos validar al capturarlos y qué rellenan. La configuración (credenciales de vault) no se expone.
+   * @return validator
+   */
+  @javax.annotation.Nullable
+  public ControllerWorkflooDefinitionModelFieldValidator getValidator() {
+    return validator;
+  }
+
+  public void setValidator(@javax.annotation.Nullable ControllerWorkflooDefinitionModelFieldValidator validator) {
+    this.validator = validator;
+  }
+
+
 
   @Override
   public boolean equals(Object o) {
@@ -461,7 +486,8 @@ public class ControllerWorkflooDefinitionModelFieldMetadata {
         Objects.equals(this.regex, controllerWorkflooDefinitionModelFieldMetadata.regex) &&
         Objects.equals(this.regexMessage, controllerWorkflooDefinitionModelFieldMetadata.regexMessage) &&
         Objects.equals(this.show, controllerWorkflooDefinitionModelFieldMetadata.show) &&
-        Objects.equals(this.type, controllerWorkflooDefinitionModelFieldMetadata.type);
+        Objects.equals(this.type, controllerWorkflooDefinitionModelFieldMetadata.type) &&
+        Objects.equals(this.validator, controllerWorkflooDefinitionModelFieldMetadata.validator);
   }
 
   private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
@@ -470,7 +496,7 @@ public class ControllerWorkflooDefinitionModelFieldMetadata {
 
   @Override
   public int hashCode() {
-    return Objects.hash(autoFilledBy, autofillNodeId, defaultValue, html, map, max, maxLength, maxVal, min, minLength, minVal, regex, regexMessage, show, type);
+    return Objects.hash(autoFilledBy, autofillNodeId, defaultValue, html, map, max, maxLength, maxVal, min, minLength, minVal, regex, regexMessage, show, type, validator);
   }
 
   private static <T> int hashCodeNullable(JsonNullable<T> a) {
@@ -499,6 +525,7 @@ public class ControllerWorkflooDefinitionModelFieldMetadata {
     sb.append("    regexMessage: ").append(toIndentedString(regexMessage)).append("\n");
     sb.append("    show: ").append(toIndentedString(show)).append("\n");
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
+    sb.append("    validator: ").append(toIndentedString(validator)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -517,7 +544,7 @@ public class ControllerWorkflooDefinitionModelFieldMetadata {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("autoFilledBy", "autofillNodeId", "defaultValue", "html", "map", "max", "maxLength", "maxVal", "min", "minLength", "minVal", "regex", "regexMessage", "show", "type"));
+    openapiFields = new HashSet<String>(Arrays.asList("autoFilledBy", "autofillNodeId", "defaultValue", "html", "map", "max", "maxLength", "maxVal", "min", "minLength", "minVal", "regex", "regexMessage", "show", "type", "validator"));
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>(0);
@@ -576,6 +603,10 @@ public class ControllerWorkflooDefinitionModelFieldMetadata {
       }
       if ((jsonObj.get("type") != null && !jsonObj.get("type").isJsonNull()) && !jsonObj.get("type").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `type` to be a primitive type in the JSON string but got `%s`", jsonObj.get("type").toString()));
+      }
+      // validate the optional field `validator`
+      if (jsonObj.get("validator") != null && !jsonObj.get("validator").isJsonNull()) {
+        ControllerWorkflooDefinitionModelFieldValidator.validateJsonElement(jsonObj.get("validator"));
       }
   }
 

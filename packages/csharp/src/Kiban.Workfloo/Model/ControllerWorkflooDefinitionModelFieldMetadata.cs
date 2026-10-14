@@ -49,8 +49,9 @@ namespace Kiban.Workfloo.Model
         /// <param name="regexMessage">regexMessage</param>
         /// <param name="show">show</param>
         /// <param name="type">type</param>
+        /// <param name="validator">Validator sale en la consulta de estado para que un canal (portal, chat, integrador) sepa qué campos validar al capturarlos y qué rellenan. La configuración (credenciales de vault) no se expone.</param>
         [JsonConstructor]
-        public ControllerWorkflooDefinitionModelFieldMetadata(Option<List<ControllerWorkflooDefinitionModelAutoFilledBy>?> autoFilledBy = default, Option<string?> autofillNodeId = default, Option<Object?> defaultValue = default, Option<string?> html = default, Option<Dictionary<string, string>?> map = default, Option<int?> max = default, Option<int?> maxLength = default, Option<decimal?> maxVal = default, Option<int?> min = default, Option<int?> minLength = default, Option<decimal?> minVal = default, Option<string?> regex = default, Option<string?> regexMessage = default, Option<ControllerWorkflooDefinitionModelShow?> show = default, Option<string?> type = default)
+        public ControllerWorkflooDefinitionModelFieldMetadata(Option<List<ControllerWorkflooDefinitionModelAutoFilledBy>?> autoFilledBy = default, Option<string?> autofillNodeId = default, Option<Object?> defaultValue = default, Option<string?> html = default, Option<Dictionary<string, string>?> map = default, Option<int?> max = default, Option<int?> maxLength = default, Option<decimal?> maxVal = default, Option<int?> min = default, Option<int?> minLength = default, Option<decimal?> minVal = default, Option<string?> regex = default, Option<string?> regexMessage = default, Option<ControllerWorkflooDefinitionModelShow?> show = default, Option<string?> type = default, Option<ControllerWorkflooDefinitionModelFieldValidator?> validator = default)
         {
             AutoFilledByOption = autoFilledBy;
             AutofillNodeIdOption = autofillNodeId;
@@ -67,6 +68,7 @@ namespace Kiban.Workfloo.Model
             RegexMessageOption = regexMessage;
             ShowOption = show;
             TypeOption = type;
+            ValidatorOption = validator;
             OnCreated();
         }
 
@@ -268,6 +270,20 @@ namespace Kiban.Workfloo.Model
         public string? Type { get { return this.TypeOption.Value; } set { this.TypeOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of Validator
+        /// </summary>
+        [JsonIgnore]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<ControllerWorkflooDefinitionModelFieldValidator?> ValidatorOption { get; private set; }
+
+        /// <summary>
+        /// Validator sale en la consulta de estado para que un canal (portal, chat, integrador) sepa qué campos validar al capturarlos y qué rellenan. La configuración (credenciales de vault) no se expone.
+        /// </summary>
+        /// <value>Validator sale en la consulta de estado para que un canal (portal, chat, integrador) sepa qué campos validar al capturarlos y qué rellenan. La configuración (credenciales de vault) no se expone.</value>
+        [JsonPropertyName("validator")]
+        public ControllerWorkflooDefinitionModelFieldValidator? Validator { get { return this.ValidatorOption.Value; } set { this.ValidatorOption = new(value); } }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -290,6 +306,7 @@ namespace Kiban.Workfloo.Model
             sb.Append("  RegexMessage: ").Append(RegexMessage).Append("\n");
             sb.Append("  Show: ").Append(Show).Append("\n");
             sb.Append("  Type: ").Append(Type).Append("\n");
+            sb.Append("  Validator: ").Append(Validator).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -352,6 +369,7 @@ namespace Kiban.Workfloo.Model
             Option<string?> regexMessage = default;
             Option<ControllerWorkflooDefinitionModelShow?> show = default;
             Option<string?> type = default;
+            Option<ControllerWorkflooDefinitionModelFieldValidator?> validator = default;
 
             while (utf8JsonReader.Read())
             {
@@ -413,6 +431,9 @@ namespace Kiban.Workfloo.Model
                         case "type":
                             type = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
+                        case "validator":
+                            validator = new Option<ControllerWorkflooDefinitionModelFieldValidator?>(JsonSerializer.Deserialize<ControllerWorkflooDefinitionModelFieldValidator>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            break;
                         default:
                             break;
                     }
@@ -455,7 +476,10 @@ namespace Kiban.Workfloo.Model
             if (type.IsSet && type.Value == null)
                 throw new ArgumentNullException(nameof(type), "Property is not nullable for class ControllerWorkflooDefinitionModelFieldMetadata.");
 
-            return new ControllerWorkflooDefinitionModelFieldMetadata(autoFilledBy, autofillNodeId, defaultValue, html, map, max, maxLength, maxVal, min, minLength, minVal, regex, regexMessage, show, type);
+            if (validator.IsSet && validator.Value == null)
+                throw new ArgumentNullException(nameof(validator), "Property is not nullable for class ControllerWorkflooDefinitionModelFieldMetadata.");
+
+            return new ControllerWorkflooDefinitionModelFieldMetadata(autoFilledBy, autofillNodeId, defaultValue, html, map, max, maxLength, maxVal, min, minLength, minVal, regex, regexMessage, show, type, validator);
         }
 
         /// <summary>
@@ -499,6 +523,9 @@ namespace Kiban.Workfloo.Model
 
             if (controllerWorkflooDefinitionModelFieldMetadata.TypeOption.IsSet && controllerWorkflooDefinitionModelFieldMetadata.Type == null)
                 throw new ArgumentNullException(nameof(controllerWorkflooDefinitionModelFieldMetadata.Type), "Property is required for class ControllerWorkflooDefinitionModelFieldMetadata.");
+
+            if (controllerWorkflooDefinitionModelFieldMetadata.ValidatorOption.IsSet && controllerWorkflooDefinitionModelFieldMetadata.Validator == null)
+                throw new ArgumentNullException(nameof(controllerWorkflooDefinitionModelFieldMetadata.Validator), "Property is required for class ControllerWorkflooDefinitionModelFieldMetadata.");
 
             if (controllerWorkflooDefinitionModelFieldMetadata.AutoFilledByOption.IsSet)
                 if (controllerWorkflooDefinitionModelFieldMetadata.AutoFilledByOption.Value != null)
@@ -561,6 +588,12 @@ namespace Kiban.Workfloo.Model
             }
             if (controllerWorkflooDefinitionModelFieldMetadata.TypeOption.IsSet)
                 writer.WriteString("type", controllerWorkflooDefinitionModelFieldMetadata.Type);
+
+            if (controllerWorkflooDefinitionModelFieldMetadata.ValidatorOption.IsSet)
+            {
+                writer.WritePropertyName("validator");
+                JsonSerializer.Serialize(writer, controllerWorkflooDefinitionModelFieldMetadata.Validator, jsonSerializerOptions);
+            }
         }
     }
 }

@@ -20,6 +20,7 @@ Name | Type | Description | Notes
 **regexMessage** | **string** |  | [optional] [default to undefined]
 **show** | [**ControllerWorkflooDefinitionModelShow**](ControllerWorkflooDefinitionModelShow.md) |  | [optional] [default to undefined]
 **type** | **string** |  | [optional] [default to undefined]
+**validator** | [**ControllerWorkflooDefinitionModelFieldValidator**](ControllerWorkflooDefinitionModelFieldValidator.md) | Validator sale en la consulta de estado para que un canal (portal, chat, integrador) sepa qué campos validar al capturarlos y qué rellenan. La configuración (credenciales de vault) no se expone. | [optional] [default to undefined]
 
 ## Example
 
@@ -42,6 +43,7 @@ const instance: ControllerWorkflooDefinitionModelFieldMetadata = {
     regexMessage,
     show,
     type,
+    validator,
 };
 ```
 

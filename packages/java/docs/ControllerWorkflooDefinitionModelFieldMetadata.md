@@ -22,6 +22,7 @@
 |**regexMessage** | **String** |  |  [optional] |
 |**show** | [**ControllerWorkflooDefinitionModelShow**](ControllerWorkflooDefinitionModelShow.md) |  |  [optional] |
 |**type** | **String** |  |  [optional] |
+|**validator** | [**ControllerWorkflooDefinitionModelFieldValidator**](ControllerWorkflooDefinitionModelFieldValidator.md) | Validator sale en la consulta de estado para que un canal (portal, chat, integrador) sepa qué campos validar al capturarlos y qué rellenan. La configuración (credenciales de vault) no se expone. |  [optional] |
 
 
 

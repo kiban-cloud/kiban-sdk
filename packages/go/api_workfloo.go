@@ -807,6 +807,156 @@ func (a *WorkflooAPIService) GetWorkflooFileExecute(r ApiGetWorkflooFileRequest)
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+type ApiGetWorkflooFileV2Request struct {
+	ctx context.Context
+	ApiService *WorkflooAPIService
+	id string
+	nodeId *string
+	name *string
+	sandbox *bool
+}
+
+// Id del nodo que contiene el archivo
+func (r ApiGetWorkflooFileV2Request) NodeId(nodeId string) ApiGetWorkflooFileV2Request {
+	r.nodeId = &nodeId
+	return r
+}
+
+// Nombre del archivo
+func (r ApiGetWorkflooFileV2Request) Name(name string) ApiGetWorkflooFileV2Request {
+	r.name = &name
+	return r
+}
+
+// Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+func (r ApiGetWorkflooFileV2Request) Sandbox(sandbox bool) ApiGetWorkflooFileV2Request {
+	r.sandbox = &sandbox
+	return r
+}
+
+func (r ApiGetWorkflooFileV2Request) Execute() (*ControllerWorkflooModelFileResponseV2, *http.Response, error) {
+	return r.ApiService.GetWorkflooFileV2Execute(r)
+}
+
+/*
+GetWorkflooFileV2 Descargar un archivo de un nodo (v2)
+
+Igual que getWorkflooFile, pero si el archivo (p. ej. un PDF pesado) todavía se está generando responde 202 con status PROCESSING y retryAfter, en lugar de un 503.
+Reintentar después de Retry-After no lanza otra generación: cuando el archivo esté listo responde 200 con fileBase64.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param id Id de la ejecución
+ @return ApiGetWorkflooFileV2Request
+*/
+func (a *WorkflooAPIService) GetWorkflooFileV2(ctx context.Context, id string) ApiGetWorkflooFileV2Request {
+	return ApiGetWorkflooFileV2Request{
+		ApiService: a,
+		ctx: ctx,
+		id: id,
+	}
+}
+
+// Execute executes the request
+//  @return ControllerWorkflooModelFileResponseV2
+func (a *WorkflooAPIService) GetWorkflooFileV2Execute(r ApiGetWorkflooFileV2Request) (*ControllerWorkflooModelFileResponseV2, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *ControllerWorkflooModelFileResponseV2
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "WorkflooAPIService.GetWorkflooFileV2")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v2/workfloo/{id}/file"
+	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", url.PathEscape(parameterValueToString(r.id, "id")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.nodeId == nil {
+		return localVarReturnValue, nil, reportError("nodeId is required and must be specified")
+	}
+	if r.name == nil {
+		return localVarReturnValue, nil, reportError("name is required and must be specified")
+	}
+
+	parameterAddToHeaderOrQuery(localVarQueryParams, "nodeId", r.nodeId, "form", "")
+	parameterAddToHeaderOrQuery(localVarQueryParams, "name", r.name, "form", "")
+	if r.sandbox != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "sandbox", r.sandbox, "form", "")
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiKeyAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["x-api-key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 type ApiGetWorkflooStatusRequest struct {
 	ctx context.Context
 	ApiService *WorkflooAPIService
@@ -1932,6 +2082,149 @@ func (a *WorkflooAPIService) SubmitWorkflooCorrectionExecute(r ApiSubmitWorkfloo
 	}
 
 	return localVarHTTPResponse, nil
+}
+
+type ApiValidateWorkflooFieldRequest struct {
+	ctx context.Context
+	ApiService *WorkflooAPIService
+	id string
+	fieldId string
+	controllerWorkflooModelValidateFieldRequest *ControllerWorkflooModelValidateFieldRequest
+	sandbox *bool
+}
+
+// Valores capturados hasta ahora: {values: {campoId: valor}}
+func (r ApiValidateWorkflooFieldRequest) ControllerWorkflooModelValidateFieldRequest(controllerWorkflooModelValidateFieldRequest ControllerWorkflooModelValidateFieldRequest) ApiValidateWorkflooFieldRequest {
+	r.controllerWorkflooModelValidateFieldRequest = &controllerWorkflooModelValidateFieldRequest
+	return r
+}
+
+// Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+func (r ApiValidateWorkflooFieldRequest) Sandbox(sandbox bool) ApiValidateWorkflooFieldRequest {
+	r.sandbox = &sandbox
+	return r
+}
+
+func (r ApiValidateWorkflooFieldRequest) Execute() (*ControllerWorkflooModelValidateFieldResponse, *http.Response, error) {
+	return r.ApiService.ValidateWorkflooFieldExecute(r)
+}
+
+/*
+ValidateWorkflooField Validar un campo del formulario
+
+Revisa un campo del nodo FORM actual con el validador que declaró la definición (p. ej. un código postal contra SEPOMEX), sin entregar el formulario. Responde 200 aunque el dato sea inválido: el resultado viene en status (VALID, INVALID, FORMAT_ERROR, PENDING_INPUTS), con los campos que rellenó el validador (filled) y, cuando hay varios candidatos, las opciones a elegir (options).
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param id Id de la ejecución
+ @param fieldId Id del campo a validar
+ @return ApiValidateWorkflooFieldRequest
+*/
+func (a *WorkflooAPIService) ValidateWorkflooField(ctx context.Context, id string, fieldId string) ApiValidateWorkflooFieldRequest {
+	return ApiValidateWorkflooFieldRequest{
+		ApiService: a,
+		ctx: ctx,
+		id: id,
+		fieldId: fieldId,
+	}
+}
+
+// Execute executes the request
+//  @return ControllerWorkflooModelValidateFieldResponse
+func (a *WorkflooAPIService) ValidateWorkflooFieldExecute(r ApiValidateWorkflooFieldRequest) (*ControllerWorkflooModelValidateFieldResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPost
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *ControllerWorkflooModelValidateFieldResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "WorkflooAPIService.ValidateWorkflooField")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/workfloo/{id}/field/{fieldId}/validate"
+	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", url.PathEscape(parameterValueToString(r.id, "id")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"fieldId"+"}", url.PathEscape(parameterValueToString(r.fieldId, "fieldId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.controllerWorkflooModelValidateFieldRequest == nil {
+		return localVarReturnValue, nil, reportError("controllerWorkflooModelValidateFieldRequest is required and must be specified")
+	}
+
+	if r.sandbox != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "sandbox", r.sandbox, "form", "")
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.controllerWorkflooModelValidateFieldRequest
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiKeyAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["x-api-key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
 type ApiValidateWorkflooNipRequest struct {

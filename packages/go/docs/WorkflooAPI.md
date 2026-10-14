@@ -10,6 +10,7 @@ Method | HTTP request | Description
 [**FallbackWorkflooOtp**](WorkflooAPI.md#FallbackWorkflooOtp) | **Patch** /api/v1/workfloo/{id}/otp/fallback | Reenviar el código de verificación (OTP)
 [**GetWorkfloo**](WorkflooAPI.md#GetWorkfloo) | **Get** /api/v1/workfloo/{id} | Detalle de una ejecución
 [**GetWorkflooFile**](WorkflooAPI.md#GetWorkflooFile) | **Get** /api/v1/workfloo/{id}/file | Descargar un archivo de un nodo
+[**GetWorkflooFileV2**](WorkflooAPI.md#GetWorkflooFileV2) | **Get** /api/v2/workfloo/{id}/file | Descargar un archivo de un nodo (v2)
 [**GetWorkflooStatus**](WorkflooAPI.md#GetWorkflooStatus) | **Get** /api/v1/workfloo/status/{id} | Estatus de una ejecución
 [**ListWorkfloos**](WorkflooAPI.md#ListWorkfloos) | **Get** /api/v1/workfloo | Historial de ejecuciones (v1)
 [**ListWorkfloosV2**](WorkflooAPI.md#ListWorkfloosV2) | **Get** /api/v2/workfloo | Historial de ejecuciones (v2)
@@ -17,6 +18,7 @@ Method | HTTP request | Description
 [**ReviewWorkflooValidation**](WorkflooAPI.md#ReviewWorkflooValidation) | **Post** /api/v1/workfloo/{id}/review | Revisar un paso de validación
 [**SendWorkflooNip**](WorkflooAPI.md#SendWorkflooNip) | **Patch** /api/v1/workfloo/{id}/nip/send | Enviar el NIP
 [**SubmitWorkflooCorrection**](WorkflooAPI.md#SubmitWorkflooCorrection) | **Post** /api/v1/workfloo/{id}/correction | Enviar la corrección de un paso de validación
+[**ValidateWorkflooField**](WorkflooAPI.md#ValidateWorkflooField) | **Post** /api/v1/workfloo/{id}/field/{fieldId}/validate | Validar un campo del formulario
 [**ValidateWorkflooNip**](WorkflooAPI.md#ValidateWorkflooNip) | **Patch** /api/v1/workfloo/{id}/nip/validate | Validar el NIP
 [**ValidateWorkflooOtp**](WorkflooAPI.md#ValidateWorkflooOtp) | **Patch** /api/v1/workfloo/{id}/otp/validate | Validar el código de verificación (OTP)
 
@@ -437,6 +439,82 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**ControllerWorkflooModelFileResponse**](ControllerWorkflooModelFileResponse.md)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## GetWorkflooFileV2
+
+> ControllerWorkflooModelFileResponseV2 GetWorkflooFileV2(ctx, id).NodeId(nodeId).Name(name).Sandbox(sandbox).Execute()
+
+Descargar un archivo de un nodo (v2)
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/kiban-cloud/kiban-sdk/packages/go"
+)
+
+func main() {
+	id := "id_example" // string | Id de la ejecución
+	nodeId := "nodeId_example" // string | Id del nodo que contiene el archivo
+	name := "name_example" // string | Nombre del archivo
+	sandbox := true // bool | Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.WorkflooAPI.GetWorkflooFileV2(context.Background(), id).NodeId(nodeId).Name(name).Sandbox(sandbox).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `WorkflooAPI.GetWorkflooFileV2``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `GetWorkflooFileV2`: ControllerWorkflooModelFileResponseV2
+	fmt.Fprintf(os.Stdout, "Response from `WorkflooAPI.GetWorkflooFileV2`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**id** | **string** | Id de la ejecución | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetWorkflooFileV2Request struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **nodeId** | **string** | Id del nodo que contiene el archivo | 
+ **name** | **string** | Nombre del archivo | 
+ **sandbox** | **bool** | Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito | 
+
+### Return type
+
+[**ControllerWorkflooModelFileResponseV2**](ControllerWorkflooModelFileResponseV2.md)
 
 ### Authorization
 
@@ -986,6 +1064,83 @@ Name | Type | Description  | Notes
 
 - **Content-Type**: application/json
 - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## ValidateWorkflooField
+
+> ControllerWorkflooModelValidateFieldResponse ValidateWorkflooField(ctx, id, fieldId).ControllerWorkflooModelValidateFieldRequest(controllerWorkflooModelValidateFieldRequest).Sandbox(sandbox).Execute()
+
+Validar un campo del formulario
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/kiban-cloud/kiban-sdk/packages/go"
+)
+
+func main() {
+	id := "id_example" // string | Id de la ejecución
+	fieldId := "fieldId_example" // string | Id del campo a validar
+	controllerWorkflooModelValidateFieldRequest := *openapiclient.NewControllerWorkflooModelValidateFieldRequest() // ControllerWorkflooModelValidateFieldRequest | Valores capturados hasta ahora: {values: {campoId: valor}}
+	sandbox := true // bool | Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.WorkflooAPI.ValidateWorkflooField(context.Background(), id, fieldId).ControllerWorkflooModelValidateFieldRequest(controllerWorkflooModelValidateFieldRequest).Sandbox(sandbox).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `WorkflooAPI.ValidateWorkflooField``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `ValidateWorkflooField`: ControllerWorkflooModelValidateFieldResponse
+	fmt.Fprintf(os.Stdout, "Response from `WorkflooAPI.ValidateWorkflooField`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**id** | **string** | Id de la ejecución | 
+**fieldId** | **string** | Id del campo a validar | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiValidateWorkflooFieldRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+ **controllerWorkflooModelValidateFieldRequest** | [**ControllerWorkflooModelValidateFieldRequest**](ControllerWorkflooModelValidateFieldRequest.md) | Valores capturados hasta ahora: {values: {campoId: valor}} | 
+ **sandbox** | **bool** | Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito | 
+
+### Return type
+
+[**ControllerWorkflooModelValidateFieldResponse**](ControllerWorkflooModelValidateFieldResponse.md)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
