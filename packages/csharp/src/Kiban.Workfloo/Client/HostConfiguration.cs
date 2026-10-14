@@ -50,6 +50,7 @@ namespace Kiban.Workfloo.Client
             _jsonOptions.Converters.Add(new ControllerWorkflooDefinitionModelDocumentJsonConverter());
             _jsonOptions.Converters.Add(new ControllerWorkflooDefinitionModelFieldJsonConverter());
             _jsonOptions.Converters.Add(new ControllerWorkflooDefinitionModelFieldMetadataJsonConverter());
+            _jsonOptions.Converters.Add(new ControllerWorkflooDefinitionModelFieldValidatorJsonConverter());
             _jsonOptions.Converters.Add(new ControllerWorkflooDefinitionModelFileDocumentJsonConverter());
             _jsonOptions.Converters.Add(new ControllerWorkflooDefinitionModelFileDocumentSetJsonConverter());
             _jsonOptions.Converters.Add(new ControllerWorkflooDefinitionModelFileMetadataJsonConverter());
@@ -71,6 +72,7 @@ namespace Kiban.Workfloo.Client
             _jsonOptions.Converters.Add(new ControllerWorkflooModelExecuteResponseJsonConverter());
             _jsonOptions.Converters.Add(new ControllerWorkflooModelFileJsonConverter());
             _jsonOptions.Converters.Add(new ControllerWorkflooModelFileResponseJsonConverter());
+            _jsonOptions.Converters.Add(new ControllerWorkflooModelFileResponseV2JsonConverter());
             _jsonOptions.Converters.Add(new ControllerWorkflooModelFormJsonConverter());
             _jsonOptions.Converters.Add(new ControllerWorkflooModelFormFieldJsonConverter());
             _jsonOptions.Converters.Add(new ControllerWorkflooModelFormResumeJsonConverter());
@@ -96,6 +98,8 @@ namespace Kiban.Workfloo.Client
             _jsonOptions.Converters.Add(new ControllerWorkflooModelRulesJsonConverter());
             _jsonOptions.Converters.Add(new ControllerWorkflooModelRulesetJsonConverter());
             _jsonOptions.Converters.Add(new ControllerWorkflooModelTimerJsonConverter());
+            _jsonOptions.Converters.Add(new ControllerWorkflooModelValidateFieldRequestJsonConverter());
+            _jsonOptions.Converters.Add(new ControllerWorkflooModelValidateFieldResponseJsonConverter());
             _jsonOptions.Converters.Add(new ControllerWorkflooModelValidationFieldJsonConverter());
             _jsonOptions.Converters.Add(new ControllerWorkflooModelValidationResumeJsonConverter());
             _jsonOptions.Converters.Add(new ControllerWorkflooModelValidationStatusJsonConverter());

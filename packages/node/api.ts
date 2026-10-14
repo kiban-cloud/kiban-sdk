@@ -64,6 +64,14 @@ export interface ControllerWorkflooDefinitionModelFieldMetadata {
     'regexMessage'?: string;
     'show'?: ControllerWorkflooDefinitionModelShow;
     'type'?: string;
+    /**
+     * Validator sale en la consulta de estado para que un canal (portal, chat, integrador) sepa qué campos validar al capturarlos y qué rellenan. La configuración (credenciales de vault) no se expone.
+     */
+    'validator'?: ControllerWorkflooDefinitionModelFieldValidator;
+}
+export interface ControllerWorkflooDefinitionModelFieldValidator {
+    'fill'?: Array<string> | null;
+    'nodeKey'?: string;
 }
 export interface ControllerWorkflooDefinitionModelFileDocument {
     'fileMetadata'?: ControllerWorkflooDefinitionModelFileMetadata;
@@ -177,6 +185,20 @@ export interface ControllerWorkflooModelFile {
 }
 export interface ControllerWorkflooModelFileResponse {
     'fileBase64'?: string;
+}
+export interface ControllerWorkflooModelFileResponseV2 {
+    /**
+     * FileBase64 es el archivo en base64; sólo viene en el 200.
+     */
+    'fileBase64'?: string;
+    /**
+     * RetryAfter son los segundos a esperar antes de volver a pedirlo; sólo viene en el 202 (y también en el header Retry-After).
+     */
+    'retryAfter'?: number;
+    /**
+     * Status es \"PROCESSING\"; sólo viene en el 202.
+     */
+    'status'?: string;
 }
 export interface ControllerWorkflooModelForm {
     'fields'?: Array<ControllerWorkflooModelFormField> | null;
@@ -334,6 +356,39 @@ export interface ControllerWorkflooModelRuleset {
 export interface ControllerWorkflooModelTimer {
     'endWaitDate'?: string;
     'remainingTime'?: ControllerWorkflooModelRemainingTime;
+}
+export interface ControllerWorkflooModelValidateFieldRequest {
+    'values'?: { [key: string]: any; } | null;
+}
+export interface ControllerWorkflooModelValidateFieldResponse {
+    /**
+     * CheckId identifica la validación ejecutada.
+     */
+    'checkId'?: string;
+    /**
+     * Errors trae, por campo, el código de formato o el mensaje del servicio.
+     */
+    'errors'?: { [key: string]: string; } | null;
+    /**
+     * Filled son los campos que el validador rellenó.
+     */
+    'filled'?: { [key: string]: any; } | null;
+    /**
+     * MissingInputs son los campos que faltan capturar para poder validar (status PENDING_INPUTS).
+     */
+    'missingInputs'?: Array<string> | null;
+    /**
+     * Options son los campos con varios candidatos (p. ej. las colonias de un código postal): campo → candidatos. Al entregar el formulario sólo se acepta uno de ellos.
+     */
+    'options'?: { [key: string]: Array<string>; } | null;
+    /**
+     * Reused indica que se reusó una validación anterior con los mismos datos.
+     */
+    'reused'?: boolean;
+    /**
+     * Status es VALID, INVALID, FORMAT_ERROR o PENDING_INPUTS.
+     */
+    'status'?: string;
 }
 export interface ControllerWorkflooModelValidationField {
     'fieldId'?: string;
@@ -880,6 +935,62 @@ export const WorkflooApiAxiosParamCreator = function (configuration?: Configurat
             };
         },
         /**
+         * Igual que getWorkflooFile, pero si el archivo (p. ej. un PDF pesado) todavía se está generando responde 202 con status PROCESSING y retryAfter, en lugar de un 503. Reintentar después de Retry-After no lanza otra generación: cuando el archivo esté listo responde 200 con fileBase64.
+         * @summary Descargar un archivo de un nodo (v2)
+         * @param {string} id Id de la ejecución
+         * @param {string} nodeId Id del nodo que contiene el archivo
+         * @param {string} name Nombre del archivo
+         * @param {boolean} [sandbox] Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getWorkflooFileV2: async (id: string, nodeId: string, name: string, sandbox?: boolean, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('getWorkflooFileV2', 'id', id)
+            // verify required parameter 'nodeId' is not null or undefined
+            assertParamExists('getWorkflooFileV2', 'nodeId', nodeId)
+            // verify required parameter 'name' is not null or undefined
+            assertParamExists('getWorkflooFileV2', 'name', name)
+            const localVarPath = `/api/v2/workfloo/{id}/file`
+                .replace('{id}', encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication ApiKeyAuth required
+            await setApiKeyToObject(localVarHeaderParameter, "x-api-key", configuration)
+
+            if (nodeId !== undefined) {
+                localVarQueryParameter['nodeId'] = nodeId;
+            }
+
+            if (name !== undefined) {
+                localVarQueryParameter['name'] = name;
+            }
+
+            if (sandbox !== undefined) {
+                localVarQueryParameter['sandbox'] = sandbox;
+            }
+
+            localVarHeaderParameter['Accept'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * Devuelve el estado actual de la ejecución y el paso en el que está parada, con el payload que ese paso espera (formulario, documento, NIP, timer o corrección). Cuando el paso está procesando, currentNodeType lleva el sufijo _PROCESSING y el payload se omite.
          * @summary Estatus de una ejecución
          * @param {string} id Id de la ejecución
@@ -1298,6 +1409,57 @@ export const WorkflooApiAxiosParamCreator = function (configuration?: Configurat
             };
         },
         /**
+         * Revisa un campo del nodo FORM actual con el validador que declaró la definición (p. ej. un código postal contra SEPOMEX), sin entregar el formulario. Responde 200 aunque el dato sea inválido: el resultado viene en status (VALID, INVALID, FORMAT_ERROR, PENDING_INPUTS), con los campos que rellenó el validador (filled) y, cuando hay varios candidatos, las opciones a elegir (options).
+         * @summary Validar un campo del formulario
+         * @param {string} id Id de la ejecución
+         * @param {string} fieldId Id del campo a validar
+         * @param {ControllerWorkflooModelValidateFieldRequest} controllerWorkflooModelValidateFieldRequest Valores capturados hasta ahora: {values: {campoId: valor}}
+         * @param {boolean} [sandbox] Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        validateWorkflooField: async (id: string, fieldId: string, controllerWorkflooModelValidateFieldRequest: ControllerWorkflooModelValidateFieldRequest, sandbox?: boolean, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('validateWorkflooField', 'id', id)
+            // verify required parameter 'fieldId' is not null or undefined
+            assertParamExists('validateWorkflooField', 'fieldId', fieldId)
+            // verify required parameter 'controllerWorkflooModelValidateFieldRequest' is not null or undefined
+            assertParamExists('validateWorkflooField', 'controllerWorkflooModelValidateFieldRequest', controllerWorkflooModelValidateFieldRequest)
+            const localVarPath = `/api/v1/workfloo/{id}/field/{fieldId}/validate`
+                .replace('{id}', encodeURIComponent(String(id)))
+                .replace('{fieldId}', encodeURIComponent(String(fieldId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication ApiKeyAuth required
+            await setApiKeyToObject(localVarHeaderParameter, "x-api-key", configuration)
+
+            if (sandbox !== undefined) {
+                localVarQueryParameter['sandbox'] = sandbox;
+            }
+
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+            localVarHeaderParameter['Accept'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(controllerWorkflooModelValidateFieldRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * Valida el NIP capturado por el usuario y devuelve la fase resultante del flujo NIP.
          * @summary Validar el NIP
          * @param {string} id Id de la ejecución
@@ -1488,6 +1650,22 @@ export const WorkflooApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
+         * Igual que getWorkflooFile, pero si el archivo (p. ej. un PDF pesado) todavía se está generando responde 202 con status PROCESSING y retryAfter, en lugar de un 503. Reintentar después de Retry-After no lanza otra generación: cuando el archivo esté listo responde 200 con fileBase64.
+         * @summary Descargar un archivo de un nodo (v2)
+         * @param {string} id Id de la ejecución
+         * @param {string} nodeId Id del nodo que contiene el archivo
+         * @param {string} name Nombre del archivo
+         * @param {boolean} [sandbox] Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getWorkflooFileV2(id: string, nodeId: string, name: string, sandbox?: boolean, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ControllerWorkflooModelFileResponseV2>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getWorkflooFileV2(id, nodeId, name, sandbox, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['WorkflooApi.getWorkflooFileV2']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
          * Devuelve el estado actual de la ejecución y el paso en el que está parada, con el payload que ese paso espera (formulario, documento, NIP, timer o corrección). Cuando el paso está procesando, currentNodeType lleva el sufijo _PROCESSING y el payload se omite.
          * @summary Estatus de una ejecución
          * @param {string} id Id de la ejecución
@@ -1611,6 +1789,22 @@ export const WorkflooApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
+         * Revisa un campo del nodo FORM actual con el validador que declaró la definición (p. ej. un código postal contra SEPOMEX), sin entregar el formulario. Responde 200 aunque el dato sea inválido: el resultado viene en status (VALID, INVALID, FORMAT_ERROR, PENDING_INPUTS), con los campos que rellenó el validador (filled) y, cuando hay varios candidatos, las opciones a elegir (options).
+         * @summary Validar un campo del formulario
+         * @param {string} id Id de la ejecución
+         * @param {string} fieldId Id del campo a validar
+         * @param {ControllerWorkflooModelValidateFieldRequest} controllerWorkflooModelValidateFieldRequest Valores capturados hasta ahora: {values: {campoId: valor}}
+         * @param {boolean} [sandbox] Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async validateWorkflooField(id: string, fieldId: string, controllerWorkflooModelValidateFieldRequest: ControllerWorkflooModelValidateFieldRequest, sandbox?: boolean, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ControllerWorkflooModelValidateFieldResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.validateWorkflooField(id, fieldId, controllerWorkflooModelValidateFieldRequest, sandbox, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['WorkflooApi.validateWorkflooField']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
          * Valida el NIP capturado por el usuario y devuelve la fase resultante del flujo NIP.
          * @summary Validar el NIP
          * @param {string} id Id de la ejecución
@@ -1710,6 +1904,16 @@ export const WorkflooApiFactory = function (configuration?: Configuration, baseP
             return localVarFp.getWorkflooFile(requestParameters.id, requestParameters.nodeId, requestParameters.name, requestParameters.sandbox, options).then((request) => request(axios, basePath));
         },
         /**
+         * Igual que getWorkflooFile, pero si el archivo (p. ej. un PDF pesado) todavía se está generando responde 202 con status PROCESSING y retryAfter, en lugar de un 503. Reintentar después de Retry-After no lanza otra generación: cuando el archivo esté listo responde 200 con fileBase64.
+         * @summary Descargar un archivo de un nodo (v2)
+         * @param {WorkflooApiGetWorkflooFileV2Request} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getWorkflooFileV2(requestParameters: WorkflooApiGetWorkflooFileV2Request, options?: RawAxiosRequestConfig): AxiosPromise<ControllerWorkflooModelFileResponseV2> {
+            return localVarFp.getWorkflooFileV2(requestParameters.id, requestParameters.nodeId, requestParameters.name, requestParameters.sandbox, options).then((request) => request(axios, basePath));
+        },
+        /**
          * Devuelve el estado actual de la ejecución y el paso en el que está parada, con el payload que ese paso espera (formulario, documento, NIP, timer o corrección). Cuando el paso está procesando, currentNodeType lleva el sufijo _PROCESSING y el payload se omite.
          * @summary Estatus de una ejecución
          * @param {WorkflooApiGetWorkflooStatusRequest} requestParameters Request parameters.
@@ -1778,6 +1982,16 @@ export const WorkflooApiFactory = function (configuration?: Configuration, baseP
          */
         submitWorkflooCorrection(requestParameters: WorkflooApiSubmitWorkflooCorrectionRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
             return localVarFp.submitWorkflooCorrection(requestParameters.id, requestParameters.body, requestParameters.sandbox, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Revisa un campo del nodo FORM actual con el validador que declaró la definición (p. ej. un código postal contra SEPOMEX), sin entregar el formulario. Responde 200 aunque el dato sea inválido: el resultado viene en status (VALID, INVALID, FORMAT_ERROR, PENDING_INPUTS), con los campos que rellenó el validador (filled) y, cuando hay varios candidatos, las opciones a elegir (options).
+         * @summary Validar un campo del formulario
+         * @param {WorkflooApiValidateWorkflooFieldRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        validateWorkflooField(requestParameters: WorkflooApiValidateWorkflooFieldRequest, options?: RawAxiosRequestConfig): AxiosPromise<ControllerWorkflooModelValidateFieldResponse> {
+            return localVarFp.validateWorkflooField(requestParameters.id, requestParameters.fieldId, requestParameters.controllerWorkflooModelValidateFieldRequest, requestParameters.sandbox, options).then((request) => request(axios, basePath));
         },
         /**
          * Valida el NIP capturado por el usuario y devuelve la fase resultante del flujo NIP.
@@ -1891,6 +2105,31 @@ export interface WorkflooApiGetWorkflooRequest {
  * Request parameters for getWorkflooFile operation in WorkflooApi.
  */
 export interface WorkflooApiGetWorkflooFileRequest {
+    /**
+     * Id de la ejecución
+     */
+    readonly id: string
+
+    /**
+     * Id del nodo que contiene el archivo
+     */
+    readonly nodeId: string
+
+    /**
+     * Nombre del archivo
+     */
+    readonly name: string
+
+    /**
+     * Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+     */
+    readonly sandbox?: boolean
+}
+
+/**
+ * Request parameters for getWorkflooFileV2 operation in WorkflooApi.
+ */
+export interface WorkflooApiGetWorkflooFileV2Request {
     /**
      * Id de la ejecución
      */
@@ -2143,6 +2382,31 @@ export interface WorkflooApiSubmitWorkflooCorrectionRequest {
 }
 
 /**
+ * Request parameters for validateWorkflooField operation in WorkflooApi.
+ */
+export interface WorkflooApiValidateWorkflooFieldRequest {
+    /**
+     * Id de la ejecución
+     */
+    readonly id: string
+
+    /**
+     * Id del campo a validar
+     */
+    readonly fieldId: string
+
+    /**
+     * Valores capturados hasta ahora: {values: {campoId: valor}}
+     */
+    readonly controllerWorkflooModelValidateFieldRequest: ControllerWorkflooModelValidateFieldRequest
+
+    /**
+     * Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito
+     */
+    readonly sandbox?: boolean
+}
+
+/**
  * Request parameters for validateWorkflooNip operation in WorkflooApi.
  */
 export interface WorkflooApiValidateWorkflooNipRequest {
@@ -2253,6 +2517,17 @@ export class WorkflooApi extends BaseAPI {
     }
 
     /**
+     * Igual que getWorkflooFile, pero si el archivo (p. ej. un PDF pesado) todavía se está generando responde 202 con status PROCESSING y retryAfter, en lugar de un 503. Reintentar después de Retry-After no lanza otra generación: cuando el archivo esté listo responde 200 con fileBase64.
+     * @summary Descargar un archivo de un nodo (v2)
+     * @param {WorkflooApiGetWorkflooFileV2Request} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    public getWorkflooFileV2(requestParameters: WorkflooApiGetWorkflooFileV2Request, options?: RawAxiosRequestConfig) {
+        return WorkflooApiFp(this.configuration).getWorkflooFileV2(requestParameters.id, requestParameters.nodeId, requestParameters.name, requestParameters.sandbox, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
      * Devuelve el estado actual de la ejecución y el paso en el que está parada, con el payload que ese paso espera (formulario, documento, NIP, timer o corrección). Cuando el paso está procesando, currentNodeType lleva el sufijo _PROCESSING y el payload se omite.
      * @summary Estatus de una ejecución
      * @param {WorkflooApiGetWorkflooStatusRequest} requestParameters Request parameters.
@@ -2327,6 +2602,17 @@ export class WorkflooApi extends BaseAPI {
      */
     public submitWorkflooCorrection(requestParameters: WorkflooApiSubmitWorkflooCorrectionRequest, options?: RawAxiosRequestConfig) {
         return WorkflooApiFp(this.configuration).submitWorkflooCorrection(requestParameters.id, requestParameters.body, requestParameters.sandbox, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Revisa un campo del nodo FORM actual con el validador que declaró la definición (p. ej. un código postal contra SEPOMEX), sin entregar el formulario. Responde 200 aunque el dato sea inválido: el resultado viene en status (VALID, INVALID, FORMAT_ERROR, PENDING_INPUTS), con los campos que rellenó el validador (filled) y, cuando hay varios candidatos, las opciones a elegir (options).
+     * @summary Validar un campo del formulario
+     * @param {WorkflooApiValidateWorkflooFieldRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    public validateWorkflooField(requestParameters: WorkflooApiValidateWorkflooFieldRequest, options?: RawAxiosRequestConfig) {
+        return WorkflooApiFp(this.configuration).validateWorkflooField(requestParameters.id, requestParameters.fieldId, requestParameters.controllerWorkflooModelValidateFieldRequest, requestParameters.sandbox, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

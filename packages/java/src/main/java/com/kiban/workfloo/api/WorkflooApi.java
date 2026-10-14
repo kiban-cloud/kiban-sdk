@@ -30,6 +30,7 @@ import java.io.IOException;
 import com.kiban.workfloo.model.ControllerWorkflooModelExecute;
 import com.kiban.workfloo.model.ControllerWorkflooModelExecuteResponse;
 import com.kiban.workfloo.model.ControllerWorkflooModelFileResponse;
+import com.kiban.workfloo.model.ControllerWorkflooModelFileResponseV2;
 import com.kiban.workfloo.model.ControllerWorkflooModelNipResendRequest;
 import com.kiban.workfloo.model.ControllerWorkflooModelNipResendStatus;
 import com.kiban.workfloo.model.ControllerWorkflooModelNipSendRequest;
@@ -37,6 +38,8 @@ import com.kiban.workfloo.model.ControllerWorkflooModelNipValidateRequest;
 import com.kiban.workfloo.model.ControllerWorkflooModelNipValidateResponse;
 import com.kiban.workfloo.model.ControllerWorkflooModelOtpValidateRequest;
 import com.kiban.workfloo.model.ControllerWorkflooModelReviewRequest;
+import com.kiban.workfloo.model.ControllerWorkflooModelValidateFieldRequest;
+import com.kiban.workfloo.model.ControllerWorkflooModelValidateFieldResponse;
 import com.kiban.workfloo.model.ControllerWorkflooModelWorkflooListItem;
 import com.kiban.workfloo.model.ControllerWorkflooModelWorkflooPage;
 import com.kiban.workfloo.model.ControllerWorkflooModelWorkflooResume;
@@ -1264,7 +1267,7 @@ public class WorkflooApi {
             <tr><td> 403 </td><td> Sin acceso a esa ejecución </td><td>  -  </td></tr>
             <tr><td> 404 </td><td> La ejecución, el nodo o el archivo no existe </td><td>  -  </td></tr>
             <tr><td> 500 </td><td> Error interno </td><td>  -  </td></tr>
-            <tr><td> 503 </td><td> Servicio dependiente no disponible </td><td>  -  </td></tr>
+            <tr><td> 503 </td><td> El archivo se está generando (body {message, retryAfter}): reintentar después de Retry-After, sin lanzar otra generación. También servicio dependiente no disponible </td><td>  * Retry-After - Segundos a esperar antes de reintentar <br>  </td></tr>
          </table>
          */
         public okhttp3.Call buildCall(final ApiCallback _callback) throws ApiException {
@@ -1285,7 +1288,7 @@ public class WorkflooApi {
             <tr><td> 403 </td><td> Sin acceso a esa ejecución </td><td>  -  </td></tr>
             <tr><td> 404 </td><td> La ejecución, el nodo o el archivo no existe </td><td>  -  </td></tr>
             <tr><td> 500 </td><td> Error interno </td><td>  -  </td></tr>
-            <tr><td> 503 </td><td> Servicio dependiente no disponible </td><td>  -  </td></tr>
+            <tr><td> 503 </td><td> El archivo se está generando (body {message, retryAfter}): reintentar después de Retry-After, sin lanzar otra generación. También servicio dependiente no disponible </td><td>  * Retry-After - Segundos a esperar antes de reintentar <br>  </td></tr>
          </table>
          */
         public ControllerWorkflooModelFileResponse execute() throws ApiException {
@@ -1307,7 +1310,7 @@ public class WorkflooApi {
             <tr><td> 403 </td><td> Sin acceso a esa ejecución </td><td>  -  </td></tr>
             <tr><td> 404 </td><td> La ejecución, el nodo o el archivo no existe </td><td>  -  </td></tr>
             <tr><td> 500 </td><td> Error interno </td><td>  -  </td></tr>
-            <tr><td> 503 </td><td> Servicio dependiente no disponible </td><td>  -  </td></tr>
+            <tr><td> 503 </td><td> El archivo se está generando (body {message, retryAfter}): reintentar después de Retry-After, sin lanzar otra generación. También servicio dependiente no disponible </td><td>  * Retry-After - Segundos a esperar antes de reintentar <br>  </td></tr>
          </table>
          */
         public ApiResponse<ControllerWorkflooModelFileResponse> executeWithHttpInfo() throws ApiException {
@@ -1329,7 +1332,7 @@ public class WorkflooApi {
             <tr><td> 403 </td><td> Sin acceso a esa ejecución </td><td>  -  </td></tr>
             <tr><td> 404 </td><td> La ejecución, el nodo o el archivo no existe </td><td>  -  </td></tr>
             <tr><td> 500 </td><td> Error interno </td><td>  -  </td></tr>
-            <tr><td> 503 </td><td> Servicio dependiente no disponible </td><td>  -  </td></tr>
+            <tr><td> 503 </td><td> El archivo se está generando (body {message, retryAfter}): reintentar después de Retry-After, sin lanzar otra generación. También servicio dependiente no disponible </td><td>  * Retry-After - Segundos a esperar antes de reintentar <br>  </td></tr>
          </table>
          */
         public okhttp3.Call executeAsync(final ApiCallback<ControllerWorkflooModelFileResponse> _callback) throws ApiException {
@@ -1354,11 +1357,246 @@ public class WorkflooApi {
         <tr><td> 403 </td><td> Sin acceso a esa ejecución </td><td>  -  </td></tr>
         <tr><td> 404 </td><td> La ejecución, el nodo o el archivo no existe </td><td>  -  </td></tr>
         <tr><td> 500 </td><td> Error interno </td><td>  -  </td></tr>
-        <tr><td> 503 </td><td> Servicio dependiente no disponible </td><td>  -  </td></tr>
+        <tr><td> 503 </td><td> El archivo se está generando (body {message, retryAfter}): reintentar después de Retry-After, sin lanzar otra generación. También servicio dependiente no disponible </td><td>  * Retry-After - Segundos a esperar antes de reintentar <br>  </td></tr>
      </table>
      */
     public APIgetWorkflooFileRequest getWorkflooFile(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull String nodeId, @javax.annotation.Nonnull String name) {
         return new APIgetWorkflooFileRequest(id, nodeId, name);
+    }
+    private okhttp3.Call getWorkflooFileV2Call(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull String nodeId, @javax.annotation.Nonnull String name, @javax.annotation.Nullable Boolean sandbox, final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] {  };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
+        Object localVarPostBody = null;
+
+        // create path and map variables
+        String localVarPath = "/api/v2/workfloo/{id}/file"
+            .replace("{" + "id" + "}", localVarApiClient.escapeString(id.toString()));
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        if (nodeId != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("nodeId", nodeId));
+        }
+
+        if (name != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("name", name));
+        }
+
+        if (sandbox != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("sandbox", sandbox));
+        }
+
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        if (localVarContentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarContentType);
+        }
+
+        String[] localVarAuthNames = new String[] { "ApiKeyAuth" };
+        return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call getWorkflooFileV2ValidateBeforeCall(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull String nodeId, @javax.annotation.Nonnull String name, @javax.annotation.Nullable Boolean sandbox, final ApiCallback _callback) throws ApiException {
+        // verify the required parameter 'id' is set
+        if (id == null) {
+            throw new ApiException("Missing the required parameter 'id' when calling getWorkflooFileV2(Async)");
+        }
+
+        // verify the required parameter 'nodeId' is set
+        if (nodeId == null) {
+            throw new ApiException("Missing the required parameter 'nodeId' when calling getWorkflooFileV2(Async)");
+        }
+
+        // verify the required parameter 'name' is set
+        if (name == null) {
+            throw new ApiException("Missing the required parameter 'name' when calling getWorkflooFileV2(Async)");
+        }
+
+        return getWorkflooFileV2Call(id, nodeId, name, sandbox, _callback);
+
+    }
+
+
+    private ApiResponse<ControllerWorkflooModelFileResponseV2> getWorkflooFileV2WithHttpInfo(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull String nodeId, @javax.annotation.Nonnull String name, @javax.annotation.Nullable Boolean sandbox) throws ApiException {
+        okhttp3.Call localVarCall = getWorkflooFileV2ValidateBeforeCall(id, nodeId, name, sandbox, null);
+        Type localVarReturnType = new TypeToken<ControllerWorkflooModelFileResponseV2>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    private okhttp3.Call getWorkflooFileV2Async(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull String nodeId, @javax.annotation.Nonnull String name, @javax.annotation.Nullable Boolean sandbox, final ApiCallback<ControllerWorkflooModelFileResponseV2> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = getWorkflooFileV2ValidateBeforeCall(id, nodeId, name, sandbox, _callback);
+        Type localVarReturnType = new TypeToken<ControllerWorkflooModelFileResponseV2>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+
+    public class APIgetWorkflooFileV2Request {
+        @javax.annotation.Nonnull
+        private final String id;
+        @javax.annotation.Nonnull
+        private final String nodeId;
+        @javax.annotation.Nonnull
+        private final String name;
+        @javax.annotation.Nullable
+        private Boolean sandbox;
+
+        private APIgetWorkflooFileV2Request(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull String nodeId, @javax.annotation.Nonnull String name) {
+            this.id = id;
+            this.nodeId = nodeId;
+            this.name = name;
+        }
+
+        /**
+         * Set sandbox
+         * @param sandbox Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+         * @return APIgetWorkflooFileV2Request
+         */
+        public APIgetWorkflooFileV2Request sandbox(@javax.annotation.Nullable Boolean sandbox) {
+            this.sandbox = sandbox;
+            return this;
+        }
+
+        /**
+         * Build call for getWorkflooFileV2
+         * @param _callback ApiCallback API callback
+         * @return Call to execute
+         * @throws ApiException If fail to serialize the request body object
+         * @http.response.details
+         <table border="1">
+       <caption>Response Details</caption>
+            <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+            <tr><td> 200 </td><td> Archivo listo: fileBase64 </td><td>  -  </td></tr>
+            <tr><td> 202 </td><td> El archivo se está generando: status PROCESSING y retryAfter (segundos) </td><td>  * Retry-After - Segundos a esperar antes de reintentar <br>  </td></tr>
+            <tr><td> 400 </td><td> Parámetros ausentes o mal formados </td><td>  -  </td></tr>
+            <tr><td> 401 </td><td> API key ausente o inválida </td><td>  -  </td></tr>
+            <tr><td> 403 </td><td> Sin acceso a esa ejecución </td><td>  -  </td></tr>
+            <tr><td> 404 </td><td> La ejecución, el nodo o el archivo no existe </td><td>  -  </td></tr>
+            <tr><td> 500 </td><td> Error interno </td><td>  -  </td></tr>
+            <tr><td> 503 </td><td> Servicio dependiente no disponible </td><td>  -  </td></tr>
+         </table>
+         */
+        public okhttp3.Call buildCall(final ApiCallback _callback) throws ApiException {
+            return getWorkflooFileV2Call(id, nodeId, name, sandbox, _callback);
+        }
+
+        /**
+         * Execute getWorkflooFileV2 request
+         * @return ControllerWorkflooModelFileResponseV2
+         * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+         * @http.response.details
+         <table border="1">
+       <caption>Response Details</caption>
+            <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+            <tr><td> 200 </td><td> Archivo listo: fileBase64 </td><td>  -  </td></tr>
+            <tr><td> 202 </td><td> El archivo se está generando: status PROCESSING y retryAfter (segundos) </td><td>  * Retry-After - Segundos a esperar antes de reintentar <br>  </td></tr>
+            <tr><td> 400 </td><td> Parámetros ausentes o mal formados </td><td>  -  </td></tr>
+            <tr><td> 401 </td><td> API key ausente o inválida </td><td>  -  </td></tr>
+            <tr><td> 403 </td><td> Sin acceso a esa ejecución </td><td>  -  </td></tr>
+            <tr><td> 404 </td><td> La ejecución, el nodo o el archivo no existe </td><td>  -  </td></tr>
+            <tr><td> 500 </td><td> Error interno </td><td>  -  </td></tr>
+            <tr><td> 503 </td><td> Servicio dependiente no disponible </td><td>  -  </td></tr>
+         </table>
+         */
+        public ControllerWorkflooModelFileResponseV2 execute() throws ApiException {
+            ApiResponse<ControllerWorkflooModelFileResponseV2> localVarResp = getWorkflooFileV2WithHttpInfo(id, nodeId, name, sandbox);
+            return localVarResp.getData();
+        }
+
+        /**
+         * Execute getWorkflooFileV2 request with HTTP info returned
+         * @return ApiResponse&lt;ControllerWorkflooModelFileResponseV2&gt;
+         * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+         * @http.response.details
+         <table border="1">
+       <caption>Response Details</caption>
+            <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+            <tr><td> 200 </td><td> Archivo listo: fileBase64 </td><td>  -  </td></tr>
+            <tr><td> 202 </td><td> El archivo se está generando: status PROCESSING y retryAfter (segundos) </td><td>  * Retry-After - Segundos a esperar antes de reintentar <br>  </td></tr>
+            <tr><td> 400 </td><td> Parámetros ausentes o mal formados </td><td>  -  </td></tr>
+            <tr><td> 401 </td><td> API key ausente o inválida </td><td>  -  </td></tr>
+            <tr><td> 403 </td><td> Sin acceso a esa ejecución </td><td>  -  </td></tr>
+            <tr><td> 404 </td><td> La ejecución, el nodo o el archivo no existe </td><td>  -  </td></tr>
+            <tr><td> 500 </td><td> Error interno </td><td>  -  </td></tr>
+            <tr><td> 503 </td><td> Servicio dependiente no disponible </td><td>  -  </td></tr>
+         </table>
+         */
+        public ApiResponse<ControllerWorkflooModelFileResponseV2> executeWithHttpInfo() throws ApiException {
+            return getWorkflooFileV2WithHttpInfo(id, nodeId, name, sandbox);
+        }
+
+        /**
+         * Execute getWorkflooFileV2 request (asynchronously)
+         * @param _callback The callback to be executed when the API call finishes
+         * @return The request call
+         * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+         * @http.response.details
+         <table border="1">
+       <caption>Response Details</caption>
+            <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+            <tr><td> 200 </td><td> Archivo listo: fileBase64 </td><td>  -  </td></tr>
+            <tr><td> 202 </td><td> El archivo se está generando: status PROCESSING y retryAfter (segundos) </td><td>  * Retry-After - Segundos a esperar antes de reintentar <br>  </td></tr>
+            <tr><td> 400 </td><td> Parámetros ausentes o mal formados </td><td>  -  </td></tr>
+            <tr><td> 401 </td><td> API key ausente o inválida </td><td>  -  </td></tr>
+            <tr><td> 403 </td><td> Sin acceso a esa ejecución </td><td>  -  </td></tr>
+            <tr><td> 404 </td><td> La ejecución, el nodo o el archivo no existe </td><td>  -  </td></tr>
+            <tr><td> 500 </td><td> Error interno </td><td>  -  </td></tr>
+            <tr><td> 503 </td><td> Servicio dependiente no disponible </td><td>  -  </td></tr>
+         </table>
+         */
+        public okhttp3.Call executeAsync(final ApiCallback<ControllerWorkflooModelFileResponseV2> _callback) throws ApiException {
+            return getWorkflooFileV2Async(id, nodeId, name, sandbox, _callback);
+        }
+    }
+
+    /**
+     * Descargar un archivo de un nodo (v2)
+     * Igual que getWorkflooFile, pero si el archivo (p. ej. un PDF pesado) todavía se está generando responde 202 con status PROCESSING y retryAfter, en lugar de un 503. Reintentar después de Retry-After no lanza otra generación: cuando el archivo esté listo responde 200 con fileBase64.
+     * @param id Id de la ejecución (required)
+     * @param nodeId Id del nodo que contiene el archivo (required)
+     * @param name Nombre del archivo (required)
+     * @return APIgetWorkflooFileV2Request
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Archivo listo: fileBase64 </td><td>  -  </td></tr>
+        <tr><td> 202 </td><td> El archivo se está generando: status PROCESSING y retryAfter (segundos) </td><td>  * Retry-After - Segundos a esperar antes de reintentar <br>  </td></tr>
+        <tr><td> 400 </td><td> Parámetros ausentes o mal formados </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> API key ausente o inválida </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> Sin acceso a esa ejecución </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> La ejecución, el nodo o el archivo no existe </td><td>  -  </td></tr>
+        <tr><td> 500 </td><td> Error interno </td><td>  -  </td></tr>
+        <tr><td> 503 </td><td> Servicio dependiente no disponible </td><td>  -  </td></tr>
+     </table>
+     */
+    public APIgetWorkflooFileV2Request getWorkflooFileV2(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull String nodeId, @javax.annotation.Nonnull String name) {
+        return new APIgetWorkflooFileV2Request(id, nodeId, name);
     }
     private okhttp3.Call getWorkflooStatusCall(@javax.annotation.Nonnull String id, @javax.annotation.Nullable Boolean sandbox, final ApiCallback _callback) throws ApiException {
         String basePath = null;
@@ -3176,6 +3414,230 @@ public class WorkflooApi {
      */
     public APIsubmitWorkflooCorrectionRequest submitWorkflooCorrection(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull Object body) {
         return new APIsubmitWorkflooCorrectionRequest(id, body);
+    }
+    private okhttp3.Call validateWorkflooFieldCall(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull String fieldId, @javax.annotation.Nonnull ControllerWorkflooModelValidateFieldRequest controllerWorkflooModelValidateFieldRequest, @javax.annotation.Nullable Boolean sandbox, final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] {  };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
+        Object localVarPostBody = controllerWorkflooModelValidateFieldRequest;
+
+        // create path and map variables
+        String localVarPath = "/api/v1/workfloo/{id}/field/{fieldId}/validate"
+            .replace("{" + "id" + "}", localVarApiClient.escapeString(id.toString()))
+            .replace("{" + "fieldId" + "}", localVarApiClient.escapeString(fieldId.toString()));
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        if (sandbox != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("sandbox", sandbox));
+        }
+
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+            "application/json"
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        if (localVarContentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarContentType);
+        }
+
+        String[] localVarAuthNames = new String[] { "ApiKeyAuth" };
+        return localVarApiClient.buildCall(basePath, localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call validateWorkflooFieldValidateBeforeCall(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull String fieldId, @javax.annotation.Nonnull ControllerWorkflooModelValidateFieldRequest controllerWorkflooModelValidateFieldRequest, @javax.annotation.Nullable Boolean sandbox, final ApiCallback _callback) throws ApiException {
+        // verify the required parameter 'id' is set
+        if (id == null) {
+            throw new ApiException("Missing the required parameter 'id' when calling validateWorkflooField(Async)");
+        }
+
+        // verify the required parameter 'fieldId' is set
+        if (fieldId == null) {
+            throw new ApiException("Missing the required parameter 'fieldId' when calling validateWorkflooField(Async)");
+        }
+
+        // verify the required parameter 'controllerWorkflooModelValidateFieldRequest' is set
+        if (controllerWorkflooModelValidateFieldRequest == null) {
+            throw new ApiException("Missing the required parameter 'controllerWorkflooModelValidateFieldRequest' when calling validateWorkflooField(Async)");
+        }
+
+        return validateWorkflooFieldCall(id, fieldId, controllerWorkflooModelValidateFieldRequest, sandbox, _callback);
+
+    }
+
+
+    private ApiResponse<ControllerWorkflooModelValidateFieldResponse> validateWorkflooFieldWithHttpInfo(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull String fieldId, @javax.annotation.Nonnull ControllerWorkflooModelValidateFieldRequest controllerWorkflooModelValidateFieldRequest, @javax.annotation.Nullable Boolean sandbox) throws ApiException {
+        okhttp3.Call localVarCall = validateWorkflooFieldValidateBeforeCall(id, fieldId, controllerWorkflooModelValidateFieldRequest, sandbox, null);
+        Type localVarReturnType = new TypeToken<ControllerWorkflooModelValidateFieldResponse>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    private okhttp3.Call validateWorkflooFieldAsync(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull String fieldId, @javax.annotation.Nonnull ControllerWorkflooModelValidateFieldRequest controllerWorkflooModelValidateFieldRequest, @javax.annotation.Nullable Boolean sandbox, final ApiCallback<ControllerWorkflooModelValidateFieldResponse> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = validateWorkflooFieldValidateBeforeCall(id, fieldId, controllerWorkflooModelValidateFieldRequest, sandbox, _callback);
+        Type localVarReturnType = new TypeToken<ControllerWorkflooModelValidateFieldResponse>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+
+    public class APIvalidateWorkflooFieldRequest {
+        @javax.annotation.Nonnull
+        private final String id;
+        @javax.annotation.Nonnull
+        private final String fieldId;
+        @javax.annotation.Nonnull
+        private final ControllerWorkflooModelValidateFieldRequest controllerWorkflooModelValidateFieldRequest;
+        @javax.annotation.Nullable
+        private Boolean sandbox;
+
+        private APIvalidateWorkflooFieldRequest(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull String fieldId, @javax.annotation.Nonnull ControllerWorkflooModelValidateFieldRequest controllerWorkflooModelValidateFieldRequest) {
+            this.id = id;
+            this.fieldId = fieldId;
+            this.controllerWorkflooModelValidateFieldRequest = controllerWorkflooModelValidateFieldRequest;
+        }
+
+        /**
+         * Set sandbox
+         * @param sandbox Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+         * @return APIvalidateWorkflooFieldRequest
+         */
+        public APIvalidateWorkflooFieldRequest sandbox(@javax.annotation.Nullable Boolean sandbox) {
+            this.sandbox = sandbox;
+            return this;
+        }
+
+        /**
+         * Build call for validateWorkflooField
+         * @param _callback ApiCallback API callback
+         * @return Call to execute
+         * @throws ApiException If fail to serialize the request body object
+         * @http.response.details
+         <table border="1">
+       <caption>Response Details</caption>
+            <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+            <tr><td> 200 </td><td> Resultado de la validación </td><td>  -  </td></tr>
+            <tr><td> 400 </td><td> Body inválido </td><td>  -  </td></tr>
+            <tr><td> 401 </td><td> API key ausente o inválida </td><td>  -  </td></tr>
+            <tr><td> 403 </td><td> Sin acceso a ese paso, o cuenta suspendida o inactiva </td><td>  -  </td></tr>
+            <tr><td> 404 </td><td> La ejecución o el campo no existen </td><td>  -  </td></tr>
+            <tr><td> 409 </td><td> La ejecución no está esperando un formulario, o el campo no tiene validador </td><td>  -  </td></tr>
+            <tr><td> 500 </td><td> Error interno </td><td>  -  </td></tr>
+         </table>
+         */
+        public okhttp3.Call buildCall(final ApiCallback _callback) throws ApiException {
+            return validateWorkflooFieldCall(id, fieldId, controllerWorkflooModelValidateFieldRequest, sandbox, _callback);
+        }
+
+        /**
+         * Execute validateWorkflooField request
+         * @return ControllerWorkflooModelValidateFieldResponse
+         * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+         * @http.response.details
+         <table border="1">
+       <caption>Response Details</caption>
+            <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+            <tr><td> 200 </td><td> Resultado de la validación </td><td>  -  </td></tr>
+            <tr><td> 400 </td><td> Body inválido </td><td>  -  </td></tr>
+            <tr><td> 401 </td><td> API key ausente o inválida </td><td>  -  </td></tr>
+            <tr><td> 403 </td><td> Sin acceso a ese paso, o cuenta suspendida o inactiva </td><td>  -  </td></tr>
+            <tr><td> 404 </td><td> La ejecución o el campo no existen </td><td>  -  </td></tr>
+            <tr><td> 409 </td><td> La ejecución no está esperando un formulario, o el campo no tiene validador </td><td>  -  </td></tr>
+            <tr><td> 500 </td><td> Error interno </td><td>  -  </td></tr>
+         </table>
+         */
+        public ControllerWorkflooModelValidateFieldResponse execute() throws ApiException {
+            ApiResponse<ControllerWorkflooModelValidateFieldResponse> localVarResp = validateWorkflooFieldWithHttpInfo(id, fieldId, controllerWorkflooModelValidateFieldRequest, sandbox);
+            return localVarResp.getData();
+        }
+
+        /**
+         * Execute validateWorkflooField request with HTTP info returned
+         * @return ApiResponse&lt;ControllerWorkflooModelValidateFieldResponse&gt;
+         * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+         * @http.response.details
+         <table border="1">
+       <caption>Response Details</caption>
+            <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+            <tr><td> 200 </td><td> Resultado de la validación </td><td>  -  </td></tr>
+            <tr><td> 400 </td><td> Body inválido </td><td>  -  </td></tr>
+            <tr><td> 401 </td><td> API key ausente o inválida </td><td>  -  </td></tr>
+            <tr><td> 403 </td><td> Sin acceso a ese paso, o cuenta suspendida o inactiva </td><td>  -  </td></tr>
+            <tr><td> 404 </td><td> La ejecución o el campo no existen </td><td>  -  </td></tr>
+            <tr><td> 409 </td><td> La ejecución no está esperando un formulario, o el campo no tiene validador </td><td>  -  </td></tr>
+            <tr><td> 500 </td><td> Error interno </td><td>  -  </td></tr>
+         </table>
+         */
+        public ApiResponse<ControllerWorkflooModelValidateFieldResponse> executeWithHttpInfo() throws ApiException {
+            return validateWorkflooFieldWithHttpInfo(id, fieldId, controllerWorkflooModelValidateFieldRequest, sandbox);
+        }
+
+        /**
+         * Execute validateWorkflooField request (asynchronously)
+         * @param _callback The callback to be executed when the API call finishes
+         * @return The request call
+         * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+         * @http.response.details
+         <table border="1">
+       <caption>Response Details</caption>
+            <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+            <tr><td> 200 </td><td> Resultado de la validación </td><td>  -  </td></tr>
+            <tr><td> 400 </td><td> Body inválido </td><td>  -  </td></tr>
+            <tr><td> 401 </td><td> API key ausente o inválida </td><td>  -  </td></tr>
+            <tr><td> 403 </td><td> Sin acceso a ese paso, o cuenta suspendida o inactiva </td><td>  -  </td></tr>
+            <tr><td> 404 </td><td> La ejecución o el campo no existen </td><td>  -  </td></tr>
+            <tr><td> 409 </td><td> La ejecución no está esperando un formulario, o el campo no tiene validador </td><td>  -  </td></tr>
+            <tr><td> 500 </td><td> Error interno </td><td>  -  </td></tr>
+         </table>
+         */
+        public okhttp3.Call executeAsync(final ApiCallback<ControllerWorkflooModelValidateFieldResponse> _callback) throws ApiException {
+            return validateWorkflooFieldAsync(id, fieldId, controllerWorkflooModelValidateFieldRequest, sandbox, _callback);
+        }
+    }
+
+    /**
+     * Validar un campo del formulario
+     * Revisa un campo del nodo FORM actual con el validador que declaró la definición (p. ej. un código postal contra SEPOMEX), sin entregar el formulario. Responde 200 aunque el dato sea inválido: el resultado viene en status (VALID, INVALID, FORMAT_ERROR, PENDING_INPUTS), con los campos que rellenó el validador (filled) y, cuando hay varios candidatos, las opciones a elegir (options).
+     * @param id Id de la ejecución (required)
+     * @param fieldId Id del campo a validar (required)
+     * @param controllerWorkflooModelValidateFieldRequest Valores capturados hasta ahora: {values: {campoId: valor}} (required)
+     * @return APIvalidateWorkflooFieldRequest
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Resultado de la validación </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Body inválido </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> API key ausente o inválida </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> Sin acceso a ese paso, o cuenta suspendida o inactiva </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> La ejecución o el campo no existen </td><td>  -  </td></tr>
+        <tr><td> 409 </td><td> La ejecución no está esperando un formulario, o el campo no tiene validador </td><td>  -  </td></tr>
+        <tr><td> 500 </td><td> Error interno </td><td>  -  </td></tr>
+     </table>
+     */
+    public APIvalidateWorkflooFieldRequest validateWorkflooField(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull String fieldId, @javax.annotation.Nonnull ControllerWorkflooModelValidateFieldRequest controllerWorkflooModelValidateFieldRequest) {
+        return new APIvalidateWorkflooFieldRequest(id, fieldId, controllerWorkflooModelValidateFieldRequest);
     }
     private okhttp3.Call validateWorkflooNipCall(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull ControllerWorkflooModelNipValidateRequest controllerWorkflooModelNipValidateRequest, @javax.annotation.Nullable Boolean sandbox, final ApiCallback _callback) throws ApiException {
         String basePath = null;

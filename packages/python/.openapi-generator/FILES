@@ -9,6 +9,7 @@ docs/ControllerWorkflooDefinitionModelAutoFilledBy.md
 docs/ControllerWorkflooDefinitionModelDocument.md
 docs/ControllerWorkflooDefinitionModelField.md
 docs/ControllerWorkflooDefinitionModelFieldMetadata.md
+docs/ControllerWorkflooDefinitionModelFieldValidator.md
 docs/ControllerWorkflooDefinitionModelFileDocument.md
 docs/ControllerWorkflooDefinitionModelFileDocumentSet.md
 docs/ControllerWorkflooDefinitionModelFileMetadata.md
@@ -30,6 +31,7 @@ docs/ControllerWorkflooModelExecute.md
 docs/ControllerWorkflooModelExecuteResponse.md
 docs/ControllerWorkflooModelFile.md
 docs/ControllerWorkflooModelFileResponse.md
+docs/ControllerWorkflooModelFileResponseV2.md
 docs/ControllerWorkflooModelForm.md
 docs/ControllerWorkflooModelFormField.md
 docs/ControllerWorkflooModelFormResume.md
@@ -55,6 +57,8 @@ docs/ControllerWorkflooModelReviewResume.md
 docs/ControllerWorkflooModelRules.md
 docs/ControllerWorkflooModelRuleset.md
 docs/ControllerWorkflooModelTimer.md
+docs/ControllerWorkflooModelValidateFieldRequest.md
+docs/ControllerWorkflooModelValidateFieldResponse.md
 docs/ControllerWorkflooModelValidationField.md
 docs/ControllerWorkflooModelValidationResume.md
 docs/ControllerWorkflooModelValidationStatus.md
@@ -85,6 +89,7 @@ kiban/workfloo/models/controller_workfloo_definition_model_auto_filled_by.py
 kiban/workfloo/models/controller_workfloo_definition_model_document.py
 kiban/workfloo/models/controller_workfloo_definition_model_field.py
 kiban/workfloo/models/controller_workfloo_definition_model_field_metadata.py
+kiban/workfloo/models/controller_workfloo_definition_model_field_validator.py
 kiban/workfloo/models/controller_workfloo_definition_model_file_document.py
 kiban/workfloo/models/controller_workfloo_definition_model_file_document_set.py
 kiban/workfloo/models/controller_workfloo_definition_model_file_metadata.py
@@ -106,6 +111,7 @@ kiban/workfloo/models/controller_workfloo_model_execute.py
 kiban/workfloo/models/controller_workfloo_model_execute_response.py
 kiban/workfloo/models/controller_workfloo_model_file.py
 kiban/workfloo/models/controller_workfloo_model_file_response.py
+kiban/workfloo/models/controller_workfloo_model_file_response_v2.py
 kiban/workfloo/models/controller_workfloo_model_form.py
 kiban/workfloo/models/controller_workfloo_model_form_field.py
 kiban/workfloo/models/controller_workfloo_model_form_resume.py
@@ -131,6 +137,8 @@ kiban/workfloo/models/controller_workfloo_model_review_resume.py
 kiban/workfloo/models/controller_workfloo_model_rules.py
 kiban/workfloo/models/controller_workfloo_model_ruleset.py
 kiban/workfloo/models/controller_workfloo_model_timer.py
+kiban/workfloo/models/controller_workfloo_model_validate_field_request.py
+kiban/workfloo/models/controller_workfloo_model_validate_field_response.py
 kiban/workfloo/models/controller_workfloo_model_validation_field.py
 kiban/workfloo/models/controller_workfloo_model_validation_resume.py
 kiban/workfloo/models/controller_workfloo_model_validation_status.py
@@ -150,4 +158,8 @@ setup.cfg
 setup.py
 test-requirements.txt
 test/__init__.py
+test/test_controller_workfloo_definition_model_field_validator.py
+test/test_controller_workfloo_model_file_response_v2.py
+test/test_controller_workfloo_model_validate_field_request.py
+test/test_controller_workfloo_model_validate_field_response.py
 tox.ini

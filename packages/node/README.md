@@ -58,6 +58,7 @@ Class | Method | HTTP request | Description
 *WorkflooApi* | [**fallbackWorkflooOtp**](docs/WorkflooApi.md#fallbackworkfloootp) | **PATCH** /api/v1/workfloo/{id}/otp/fallback | Reenviar el código de verificación (OTP)
 *WorkflooApi* | [**getWorkfloo**](docs/WorkflooApi.md#getworkfloo) | **GET** /api/v1/workfloo/{id} | Detalle de una ejecución
 *WorkflooApi* | [**getWorkflooFile**](docs/WorkflooApi.md#getworkfloofile) | **GET** /api/v1/workfloo/{id}/file | Descargar un archivo de un nodo
+*WorkflooApi* | [**getWorkflooFileV2**](docs/WorkflooApi.md#getworkfloofilev2) | **GET** /api/v2/workfloo/{id}/file | Descargar un archivo de un nodo (v2)
 *WorkflooApi* | [**getWorkflooStatus**](docs/WorkflooApi.md#getworkfloostatus) | **GET** /api/v1/workfloo/status/{id} | Estatus de una ejecución
 *WorkflooApi* | [**listWorkfloos**](docs/WorkflooApi.md#listworkfloos) | **GET** /api/v1/workfloo | Historial de ejecuciones (v1)
 *WorkflooApi* | [**listWorkfloosV2**](docs/WorkflooApi.md#listworkfloosv2) | **GET** /api/v2/workfloo | Historial de ejecuciones (v2)
@@ -65,6 +66,7 @@ Class | Method | HTTP request | Description
 *WorkflooApi* | [**reviewWorkflooValidation**](docs/WorkflooApi.md#reviewworkfloovalidation) | **POST** /api/v1/workfloo/{id}/review | Revisar un paso de validación
 *WorkflooApi* | [**sendWorkflooNip**](docs/WorkflooApi.md#sendworkfloonip) | **PATCH** /api/v1/workfloo/{id}/nip/send | Enviar el NIP
 *WorkflooApi* | [**submitWorkflooCorrection**](docs/WorkflooApi.md#submitworkfloocorrection) | **POST** /api/v1/workfloo/{id}/correction | Enviar la corrección de un paso de validación
+*WorkflooApi* | [**validateWorkflooField**](docs/WorkflooApi.md#validateworkfloofield) | **POST** /api/v1/workfloo/{id}/field/{fieldId}/validate | Validar un campo del formulario
 *WorkflooApi* | [**validateWorkflooNip**](docs/WorkflooApi.md#validateworkfloonip) | **PATCH** /api/v1/workfloo/{id}/nip/validate | Validar el NIP
 *WorkflooApi* | [**validateWorkflooOtp**](docs/WorkflooApi.md#validateworkfloootp) | **PATCH** /api/v1/workfloo/{id}/otp/validate | Validar el código de verificación (OTP)
 
@@ -77,6 +79,7 @@ Class | Method | HTTP request | Description
  - [ControllerWorkflooDefinitionModelDocument](docs/ControllerWorkflooDefinitionModelDocument.md)
  - [ControllerWorkflooDefinitionModelField](docs/ControllerWorkflooDefinitionModelField.md)
  - [ControllerWorkflooDefinitionModelFieldMetadata](docs/ControllerWorkflooDefinitionModelFieldMetadata.md)
+ - [ControllerWorkflooDefinitionModelFieldValidator](docs/ControllerWorkflooDefinitionModelFieldValidator.md)
  - [ControllerWorkflooDefinitionModelFileDocument](docs/ControllerWorkflooDefinitionModelFileDocument.md)
  - [ControllerWorkflooDefinitionModelFileDocumentSet](docs/ControllerWorkflooDefinitionModelFileDocumentSet.md)
  - [ControllerWorkflooDefinitionModelFileMetadata](docs/ControllerWorkflooDefinitionModelFileMetadata.md)
@@ -98,6 +101,7 @@ Class | Method | HTTP request | Description
  - [ControllerWorkflooModelExecuteResponse](docs/ControllerWorkflooModelExecuteResponse.md)
  - [ControllerWorkflooModelFile](docs/ControllerWorkflooModelFile.md)
  - [ControllerWorkflooModelFileResponse](docs/ControllerWorkflooModelFileResponse.md)
+ - [ControllerWorkflooModelFileResponseV2](docs/ControllerWorkflooModelFileResponseV2.md)
  - [ControllerWorkflooModelForm](docs/ControllerWorkflooModelForm.md)
  - [ControllerWorkflooModelFormField](docs/ControllerWorkflooModelFormField.md)
  - [ControllerWorkflooModelFormResume](docs/ControllerWorkflooModelFormResume.md)
@@ -123,6 +127,8 @@ Class | Method | HTTP request | Description
  - [ControllerWorkflooModelRules](docs/ControllerWorkflooModelRules.md)
  - [ControllerWorkflooModelRuleset](docs/ControllerWorkflooModelRuleset.md)
  - [ControllerWorkflooModelTimer](docs/ControllerWorkflooModelTimer.md)
+ - [ControllerWorkflooModelValidateFieldRequest](docs/ControllerWorkflooModelValidateFieldRequest.md)
+ - [ControllerWorkflooModelValidateFieldResponse](docs/ControllerWorkflooModelValidateFieldResponse.md)
  - [ControllerWorkflooModelValidationField](docs/ControllerWorkflooModelValidationField.md)
  - [ControllerWorkflooModelValidationResume](docs/ControllerWorkflooModelValidationResume.md)
  - [ControllerWorkflooModelValidationStatus](docs/ControllerWorkflooModelValidationStatus.md)

@@ -10,6 +10,7 @@ Method | HTTP request | Description
 [**fallback_workfloo_otp**](WorkflooApi.md#fallback_workfloo_otp) | **PATCH** /api/v1/workfloo/{id}/otp/fallback | Reenviar el código de verificación (OTP)
 [**get_workfloo**](WorkflooApi.md#get_workfloo) | **GET** /api/v1/workfloo/{id} | Detalle de una ejecución
 [**get_workfloo_file**](WorkflooApi.md#get_workfloo_file) | **GET** /api/v1/workfloo/{id}/file | Descargar un archivo de un nodo
+[**get_workfloo_file_v2**](WorkflooApi.md#get_workfloo_file_v2) | **GET** /api/v2/workfloo/{id}/file | Descargar un archivo de un nodo (v2)
 [**get_workfloo_status**](WorkflooApi.md#get_workfloo_status) | **GET** /api/v1/workfloo/status/{id} | Estatus de una ejecución
 [**list_workfloos**](WorkflooApi.md#list_workfloos) | **GET** /api/v1/workfloo | Historial de ejecuciones (v1)
 [**list_workfloos_v2**](WorkflooApi.md#list_workfloos_v2) | **GET** /api/v2/workfloo | Historial de ejecuciones (v2)
@@ -17,6 +18,7 @@ Method | HTTP request | Description
 [**review_workfloo_validation**](WorkflooApi.md#review_workfloo_validation) | **POST** /api/v1/workfloo/{id}/review | Revisar un paso de validación
 [**send_workfloo_nip**](WorkflooApi.md#send_workfloo_nip) | **PATCH** /api/v1/workfloo/{id}/nip/send | Enviar el NIP
 [**submit_workfloo_correction**](WorkflooApi.md#submit_workfloo_correction) | **POST** /api/v1/workfloo/{id}/correction | Enviar la corrección de un paso de validación
+[**validate_workfloo_field**](WorkflooApi.md#validate_workfloo_field) | **POST** /api/v1/workfloo/{id}/field/{fieldId}/validate | Validar un campo del formulario
 [**validate_workfloo_nip**](WorkflooApi.md#validate_workfloo_nip) | **PATCH** /api/v1/workfloo/{id}/nip/validate | Validar el NIP
 [**validate_workfloo_otp**](WorkflooApi.md#validate_workfloo_otp) | **PATCH** /api/v1/workfloo/{id}/otp/validate | Validar el código de verificación (OTP)
 
@@ -538,6 +540,99 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Archivo en base64 |  -  |
+**400** | Parámetros ausentes o mal formados |  -  |
+**401** | API key ausente o inválida |  -  |
+**403** | Sin acceso a esa ejecución |  -  |
+**404** | La ejecución, el nodo o el archivo no existe |  -  |
+**500** | Error interno |  -  |
+**503** | El archivo se está generando (body {message, retryAfter}): reintentar después de Retry-After, sin lanzar otra generación. También servicio dependiente no disponible |  * Retry-After - Segundos a esperar antes de reintentar <br>  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **get_workfloo_file_v2**
+> ControllerWorkflooModelFileResponseV2 get_workfloo_file_v2(id, node_id, name, sandbox=sandbox)
+
+Descargar un archivo de un nodo (v2)
+
+Igual que getWorkflooFile, pero si el archivo (p. ej. un PDF pesado) todavía se está generando responde 202 con status PROCESSING y retryAfter, en lugar de un 503.
+Reintentar después de Retry-After no lanza otra generación: cuando el archivo esté listo responde 200 con fileBase64.
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import kiban.workfloo
+from kiban.workfloo.models.controller_workfloo_model_file_response_v2 import ControllerWorkflooModelFileResponseV2
+from kiban.workfloo.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://workfloo.kiban.com
+# See configuration.py for a list of all supported configuration parameters.
+configuration = kiban.workfloo.Configuration(
+    host = "https://workfloo.kiban.com"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with kiban.workfloo.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = kiban.workfloo.WorkflooApi(api_client)
+    id = 'id_example' # str | Id de la ejecución
+    node_id = 'node_id_example' # str | Id del nodo que contiene el archivo
+    name = 'name_example' # str | Nombre del archivo
+    sandbox = True # bool | Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+
+    try:
+        # Descargar un archivo de un nodo (v2)
+        api_response = api_instance.get_workfloo_file_v2(id, node_id, name, sandbox=sandbox)
+        print("The response of WorkflooApi->get_workfloo_file_v2:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling WorkflooApi->get_workfloo_file_v2: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **str**| Id de la ejecución | 
+ **node_id** | **str**| Id del nodo que contiene el archivo | 
+ **name** | **str**| Nombre del archivo | 
+ **sandbox** | **bool**| Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito | [optional] 
+
+### Return type
+
+[**ControllerWorkflooModelFileResponseV2**](ControllerWorkflooModelFileResponseV2.md)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Archivo listo: fileBase64 |  -  |
+**202** | El archivo se está generando: status PROCESSING y retryAfter (segundos) |  * Retry-After - Segundos a esperar antes de reintentar <br>  |
 **400** | Parámetros ausentes o mal formados |  -  |
 **401** | API key ausente o inválida |  -  |
 **403** | Sin acceso a esa ejecución |  -  |
@@ -1205,6 +1300,98 @@ void (empty response body)
 **409** | El paso no está en estado de corrección |  -  |
 **500** | Error interno |  -  |
 **503** | Servicio dependiente no disponible |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **validate_workfloo_field**
+> ControllerWorkflooModelValidateFieldResponse validate_workfloo_field(id, field_id, controller_workfloo_model_validate_field_request, sandbox=sandbox)
+
+Validar un campo del formulario
+
+Revisa un campo del nodo FORM actual con el validador que declaró la definición (p. ej. un código postal contra SEPOMEX), sin entregar el formulario. Responde 200 aunque el dato sea inválido: el resultado viene en status (VALID, INVALID, FORMAT_ERROR, PENDING_INPUTS), con los campos que rellenó el validador (filled) y, cuando hay varios candidatos, las opciones a elegir (options).
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import kiban.workfloo
+from kiban.workfloo.models.controller_workfloo_model_validate_field_request import ControllerWorkflooModelValidateFieldRequest
+from kiban.workfloo.models.controller_workfloo_model_validate_field_response import ControllerWorkflooModelValidateFieldResponse
+from kiban.workfloo.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://workfloo.kiban.com
+# See configuration.py for a list of all supported configuration parameters.
+configuration = kiban.workfloo.Configuration(
+    host = "https://workfloo.kiban.com"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with kiban.workfloo.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = kiban.workfloo.WorkflooApi(api_client)
+    id = 'id_example' # str | Id de la ejecución
+    field_id = 'field_id_example' # str | Id del campo a validar
+    controller_workfloo_model_validate_field_request = kiban.workfloo.ControllerWorkflooModelValidateFieldRequest() # ControllerWorkflooModelValidateFieldRequest | Valores capturados hasta ahora: {values: {campoId: valor}}
+    sandbox = True # bool | Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+
+    try:
+        # Validar un campo del formulario
+        api_response = api_instance.validate_workfloo_field(id, field_id, controller_workfloo_model_validate_field_request, sandbox=sandbox)
+        print("The response of WorkflooApi->validate_workfloo_field:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling WorkflooApi->validate_workfloo_field: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **str**| Id de la ejecución | 
+ **field_id** | **str**| Id del campo a validar | 
+ **controller_workfloo_model_validate_field_request** | [**ControllerWorkflooModelValidateFieldRequest**](ControllerWorkflooModelValidateFieldRequest.md)| Valores capturados hasta ahora: {values: {campoId: valor}} | 
+ **sandbox** | **bool**| Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde ya es implícito | [optional] 
+
+### Return type
+
+[**ControllerWorkflooModelValidateFieldResponse**](ControllerWorkflooModelValidateFieldResponse.md)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Resultado de la validación |  -  |
+**400** | Body inválido |  -  |
+**401** | API key ausente o inválida |  -  |
+**403** | Sin acceso a ese paso, o cuenta suspendida o inactiva |  -  |
+**404** | La ejecución o el campo no existen |  -  |
+**409** | La ejecución no está esperando un formulario, o el campo no tiene validador |  -  |
+**500** | Error interno |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

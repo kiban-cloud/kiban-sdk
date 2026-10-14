@@ -354,6 +354,73 @@ paths:
       summary: Enviar los documentos de un paso
       tags:
       - workfloo
+  /api/v1/workfloo/{id}/field/{fieldId}/validate:
+    post:
+      description: "Revisa un campo del nodo FORM actual con el validador que declaró\
+        \ la definición (p. ej. un código postal contra SEPOMEX), sin entregar el\
+        \ formulario. Responde 200 aunque el dato sea inválido: el resultado viene\
+        \ en status (VALID, INVALID, FORMAT_ERROR, PENDING_INPUTS), con los campos\
+        \ que rellenó el validador (filled) y, cuando hay varios candidatos, las opciones\
+        \ a elegir (options)."
+      operationId: validateWorkflooField
+      parameters:
+      - description: Id de la ejecución
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Id del campo a validar
+        explode: false
+        in: path
+        name: fieldId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: "Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde\
+          \ ya es implícito"
+        explode: true
+        in: query
+        name: sandbox
+        required: false
+        schema:
+          type: boolean
+        style: form
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/controller_workfloo_model.ValidateFieldRequest"
+        description: "Valores capturados hasta ahora: {values: {campoId: valor}}"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/controller_workfloo_model.ValidateFieldResponse"
+          description: Resultado de la validación
+        "400":
+          description: Body inválido
+        "401":
+          description: API key ausente o inválida
+        "403":
+          description: "Sin acceso a ese paso, o cuenta suspendida o inactiva"
+        "404":
+          description: La ejecución o el campo no existen
+        "409":
+          description: "La ejecución no está esperando un formulario, o el campo no\
+            \ tiene validador"
+        "500":
+          description: Error interno
+      security:
+      - ApiKeyAuth: []
+      summary: Validar un campo del formulario
+      tags:
+      - workfloo
   /api/v1/workfloo/{id}/file:
     get:
       description: "Devuelve, en base64, un archivo producido/subido en un nodo de\
@@ -411,7 +478,17 @@ paths:
         "500":
           description: Error interno
         "503":
-          description: Servicio dependiente no disponible
+          description: "El archivo se está generando (body {message, retryAfter}):\
+            \ reintentar después de Retry-After, sin lanzar otra generación. Tambié\
+            n servicio dependiente no disponible"
+          headers:
+            Retry-After:
+              description: "Segundos a esperar antes de reintentar, cuando el archivo\
+                \ se está generando"
+              explode: false
+              schema:
+                type: integer
+              style: simple
       security:
       - ApiKeyAuth: []
       summary: Descargar un archivo de un nodo
@@ -1036,6 +1113,84 @@ paths:
       summary: Historial de ejecuciones (v2)
       tags:
       - workfloo
+  /api/v2/workfloo/{id}/file:
+    get:
+      description: |-
+        Igual que getWorkflooFile, pero si el archivo (p. ej. un PDF pesado) todavía se está generando responde 202 con status PROCESSING y retryAfter, en lugar de un 503.
+        Reintentar después de Retry-After no lanza otra generación: cuando el archivo esté listo responde 200 con fileBase64.
+      operationId: getWorkflooFileV2
+      parameters:
+      - description: Id de la ejecución
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Id del nodo que contiene el archivo
+        explode: true
+        in: query
+        name: nodeId
+        required: true
+        schema:
+          type: string
+        style: form
+      - description: Nombre del archivo
+        explode: true
+        in: query
+        name: name
+        required: true
+        schema:
+          type: string
+        style: form
+      - description: "Fuerza el ambiente sandbox. Se ignora en el host sandbox, donde\
+          \ ya es implícito"
+        explode: true
+        in: query
+        name: sandbox
+        required: false
+        schema:
+          type: boolean
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/controller_workfloo_model.FileResponseV2"
+          description: "Archivo listo: fileBase64"
+        "202":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/controller_workfloo_model.FileResponseV2"
+          description: "El archivo se está generando: status PROCESSING y retryAfter\
+            \ (segundos)"
+          headers:
+            Retry-After:
+              description: Segundos a esperar antes de reintentar
+              explode: false
+              schema:
+                type: integer
+              style: simple
+        "400":
+          description: Parámetros ausentes o mal formados
+        "401":
+          description: API key ausente o inválida
+        "403":
+          description: Sin acceso a esa ejecución
+        "404":
+          description: "La ejecución, el nodo o el archivo no existe"
+        "500":
+          description: Error interno
+        "503":
+          description: Servicio dependiente no disponible
+      security:
+      - ApiKeyAuth: []
+      summary: Descargar un archivo de un nodo (v2)
+      tags:
+      - workfloo
 components:
   schemas:
     controller_pool_model.Execute:
@@ -1189,6 +1344,7 @@ components:
             field: field
             value: value
           type: type
+          validator: ""
         id: id
         name: name
         predefined: true
@@ -1264,6 +1420,7 @@ components:
           field: field
           value: value
         type: type
+        validator: ""
       properties:
         autoFilledBy:
           items:
@@ -1299,6 +1456,23 @@ components:
         show:
           $ref: "#/components/schemas/controller_workfloo_definition_model.Show"
         type:
+          type: string
+        validator:
+          allOf:
+          - $ref: "#/components/schemas/controller_workfloo_definition_model.FieldValidator"
+          description: |-
+            Validator sale en la consulta de estado para que un canal (portal, chat,
+            integrador) sepa qué campos validar al capturarlos y qué rellenan. La
+            configuración (credenciales de vault) no se expone.
+      type: object
+    controller_workfloo_definition_model.FieldValidator:
+      properties:
+        fill:
+          items:
+            type: string
+          nullable: true
+          type: array
+        nodeKey:
           type: string
       type: object
     controller_workfloo_definition_model.FileDocument:
@@ -1437,6 +1611,7 @@ components:
                 field: field
                 value: value
               type: type
+              validator: ""
             id: id
             name: name
             predefined: true
@@ -1490,6 +1665,7 @@ components:
                 field: field
                 value: value
               type: type
+              validator: ""
             id: id
             name: name
             predefined: true
@@ -1545,6 +1721,7 @@ components:
                 field: field
                 value: value
               type: type
+              validator: ""
             id: id
             name: name
             predefined: true
@@ -1598,6 +1775,7 @@ components:
                 field: field
                 value: value
               type: type
+              validator: ""
             id: id
             name: name
             predefined: true
@@ -1662,6 +1840,7 @@ components:
               field: field
               value: value
             type: type
+            validator: ""
           id: id
           name: name
           predefined: true
@@ -1715,6 +1894,7 @@ components:
               field: field
               value: value
             type: type
+            validator: ""
           id: id
           name: name
           predefined: true
@@ -2088,6 +2268,24 @@ components:
         fileBase64: fileBase64
       properties:
         fileBase64:
+          type: string
+      type: object
+    controller_workfloo_model.FileResponseV2:
+      example:
+        fileBase64: fileBase64
+        retryAfter: 0
+        status: status
+      properties:
+        fileBase64:
+          description: FileBase64 es el archivo en base64; sólo viene en el 200.
+          type: string
+        retryAfter:
+          description: |-
+            RetryAfter son los segundos a esperar antes de volver a pedirlo; sólo
+            viene en el 202 (y también en el header Retry-After).
+          type: integer
+        status:
+          description: Status es "PROCESSING"; sólo viene en el 202.
           type: string
       type: object
     controller_workfloo_model.Form:
@@ -2702,6 +2900,72 @@ components:
           type: string
         remainingTime:
           $ref: "#/components/schemas/controller_workfloo_model.RemainingTime"
+      type: object
+    controller_workfloo_model.ValidateFieldRequest:
+      properties:
+        values:
+          additionalProperties: true
+          nullable: true
+          type: object
+      type: object
+    controller_workfloo_model.ValidateFieldResponse:
+      example:
+        checkId: checkId
+        errors:
+          key: errors
+        filled:
+          key: ""
+        missingInputs:
+        - missingInputs
+        - missingInputs
+        options:
+          key:
+          - options
+          - options
+        reused: true
+        status: status
+      properties:
+        checkId:
+          description: CheckId identifica la validación ejecutada.
+          type: string
+        errors:
+          additionalProperties:
+            type: string
+          description: "Errors trae, por campo, el código de formato o el mensaje\
+            \ del servicio."
+          nullable: true
+          type: object
+        filled:
+          additionalProperties: true
+          description: Filled son los campos que el validador rellenó.
+          nullable: true
+          type: object
+        missingInputs:
+          description: |-
+            MissingInputs son los campos que faltan capturar para poder validar
+            (status PENDING_INPUTS).
+          items:
+            type: string
+          nullable: true
+          type: array
+        options:
+          additionalProperties:
+            items:
+              type: string
+            type: array
+          description: |-
+            Options son los campos con varios candidatos (p. ej. las colonias de un
+            código postal): campo → candidatos. Al entregar el formulario sólo se
+            acepta uno de ellos.
+          nullable: true
+          type: object
+        reused:
+          description: Reused indica que se reusó una validación anterior con los
+            mismos datos.
+          type: boolean
+        status:
+          description: "Status es VALID, INVALID, FORMAT_ERROR o PENDING_INPUTS."
+          type: string
       type: object
     controller_workfloo_model.ValidationField:
       example:
@@ -4166,6 +4430,7 @@ components:
                   field: field
                   value: value
                 type: type
+                validator: ""
               id: id
               name: name
               predefined: true
@@ -4219,6 +4484,7 @@ components:
                   field: field
                   value: value
                 type: type
+                validator: ""
               id: id
               name: name
               predefined: true
@@ -4274,6 +4540,7 @@ components:
                   field: field
                   value: value
                 type: type
+                validator: ""
               id: id
               name: name
               predefined: true
@@ -4327,6 +4594,7 @@ components:
                   field: field
                   value: value
                 type: type
+                validator: ""
               id: id
               name: name
               predefined: true

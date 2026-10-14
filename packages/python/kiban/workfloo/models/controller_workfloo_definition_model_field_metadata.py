@@ -21,6 +21,7 @@ import json
 from pydantic import BaseModel, ConfigDict, Field, StrictFloat, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional, Union
 from kiban.workfloo.models.controller_workfloo_definition_model_auto_filled_by import ControllerWorkflooDefinitionModelAutoFilledBy
+from kiban.workfloo.models.controller_workfloo_definition_model_field_validator import ControllerWorkflooDefinitionModelFieldValidator
 from kiban.workfloo.models.controller_workfloo_definition_model_show import ControllerWorkflooDefinitionModelShow
 from typing import Optional, Set
 from typing_extensions import Self
@@ -45,7 +46,8 @@ class ControllerWorkflooDefinitionModelFieldMetadata(BaseModel):
     regex_message: Optional[StrictStr] = Field(default=None, alias="regexMessage")
     show: Optional[ControllerWorkflooDefinitionModelShow] = None
     type: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["autoFilledBy", "autofillNodeId", "defaultValue", "html", "map", "max", "maxLength", "maxVal", "min", "minLength", "minVal", "regex", "regexMessage", "show", "type"]
+    validator: Optional[ControllerWorkflooDefinitionModelFieldValidator] = Field(default=None, description="Validator sale en la consulta de estado para que un canal (portal, chat, integrador) sepa qué campos validar al capturarlos y qué rellenan. La configuración (credenciales de vault) no se expone.")
+    __properties: ClassVar[List[str]] = ["autoFilledBy", "autofillNodeId", "defaultValue", "html", "map", "max", "maxLength", "maxVal", "min", "minLength", "minVal", "regex", "regexMessage", "show", "type", "validator"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -96,6 +98,9 @@ class ControllerWorkflooDefinitionModelFieldMetadata(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of show
         if self.show:
             _dict['show'] = self.show.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of validator
+        if self.validator:
+            _dict['validator'] = self.validator.to_dict()
         # set to None if auto_filled_by (nullable) is None
         # and model_fields_set contains the field
         if self.auto_filled_by is None and "auto_filled_by" in self.model_fields_set:
@@ -137,7 +142,8 @@ class ControllerWorkflooDefinitionModelFieldMetadata(BaseModel):
             "regex": obj.get("regex"),
             "regexMessage": obj.get("regexMessage"),
             "show": ControllerWorkflooDefinitionModelShow.from_dict(obj["show"]) if obj.get("show") is not None else None,
-            "type": obj.get("type")
+            "type": obj.get("type"),
+            "validator": ControllerWorkflooDefinitionModelFieldValidator.from_dict(obj["validator"]) if obj.get("validator") is not None else None
         })
         return _obj
 
