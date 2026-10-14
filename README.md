@@ -428,10 +428,10 @@ separado (`link/v1.0.0`).
 
 ## Flujo de actualización de la API
 
-1. En `workfloo-backend`, quien toque un endpoint público actualiza su anotación
+1. En el backend (`kiban-cloud/workfloo`), quien toque un endpoint público actualiza su anotación
    swaggo y regenera `docs/swagger.yaml` en el mismo PR. Su check `swagger.yml`
    no deja mergear si el archivo no coincide con las anotaciones.
-2. Cuando un cambio en `docs/swagger.yaml` llega a `master`, el workflow
+2. Cuando un cambio en `docs/swagger.yaml` llega a `main`, el workflow
    `sdk-sync.yml` del backend lo copia a `specs/source/workfloo.swagger.yaml` en
    la rama `regenerate/workfloo` de este repo.
 3. Ese push corre [`.github/workflows/regenerate.yml`](.github/workflows/regenerate.yml):
@@ -449,7 +449,7 @@ El único secreto del flujo es el token con el que el backend escribe aquí
 (`github-token-kiban-sdk-sync`, solo con `Contents: Read and write` sobre este
 repo). No está en GitHub Secrets: vive en Secret Manager (proyecto
 `kiban-cloud`), y el backend lo lee entrando a GCP por Workload Identity
-Federation, una identidad que solo obtiene `workfloo-backend` en `master`. El
+Federation, una identidad que solo obtiene `kiban-cloud/workfloo` en `main`. El
 provider WIF, la service account, el secreto y el runbook para cargarlo o
 rotarlo están en kiban-infra: `stacks/kibancloud/shared-prod/github-sdk-ci.tf`.
 

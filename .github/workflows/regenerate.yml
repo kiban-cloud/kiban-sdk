@@ -1,8 +1,8 @@
 # Regenera el spec, los 5 SDKs y las docs, y abre (o actualiza) el PR.
 #
 # Corre cuando llega un push a la rama regenerate/workfloo. Ese push lo hace
-# workfloo-backend (.github/workflows/sdk-sync.yml): al cambiar su
-# docs/swagger.yaml en master, copia el archivo a specs/source/ de esta rama.
+# el backend kiban-cloud/workfloo (.github/workflows/sdk-sync.yml): al cambiar su
+# docs/swagger.yaml en main, copia el archivo a specs/source/ de esta rama.
 # También corre si una persona empuja a la rama, por ejemplo para subir la
 # versión en config/modules.json: el commit regenerado sale ya con la versión
 # nueva.
@@ -117,7 +117,7 @@ jobs:
           gh pr create --base "$BASE" --head "$BRANCH" \
             --title "chore(workfloo): regenerar spec y SDKs" \
             --body "$(cat <<'BODY'
-          Regeneración automática a partir del `docs/swagger.yaml` de `kiban-cloud/workfloo-backend@master`
+          Regeneración automática a partir del `docs/swagger.yaml` de `kiban-cloud/workfloo@main`
           (copiado a `specs/source/workfloo.swagger.yaml`).
 
           - [ ] Revisar el diff de `specs/workfloo.openapi.yaml` (es el contrato).
