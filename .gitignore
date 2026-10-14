@@ -29,3 +29,7 @@ examples/java/target/
 examples/csharp/bin/
 examples/csharp/obj/
 examples/**/__pycache__/
+
+# Compilados de Python en cualquier carpeta (scripts/, smoke/…)
+__pycache__/
+*.pyc
