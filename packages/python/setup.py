@@ -36,7 +36,7 @@ setup(
     author="kiban",
     author_email="hola@kiban.com",
     url="https://github.com/kiban-cloud/kiban-sdk",
-    keywords=["OpenAPI", "OpenAPI-Generator", "Workfloo API"],
+    keywords=["kiban", "workfloo", "sdk", "api"],
     install_requires=REQUIRES,
     packages=find_namespace_packages(include=["kiban.*"]),
     include_package_data=True,

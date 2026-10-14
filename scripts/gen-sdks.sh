@@ -120,11 +120,14 @@ for lang in $langs; do
       const p = require(modulesPath).publisher;
       pkg.author = p.email ? `${p.name} <${p.email}> (${p.url})` : `${p.name} (${p.url})`;
       pkg.homepage = "https://github.com/kiban-cloud/kiban-sdk";
+      // La plantilla pone axios/openapi-generator: palabras del generador, no
+      // del producto. Son las que indexa la búsqueda de npm.
+      pkg.keywords = ["kiban", process.argv[3], "sdk", "api", "typescript"];
       // Sin licencia definida la plantilla pone "Unlicense" (dominio público).
       // UNLICENSED es el valor de npm para "no se otorga licencia".
       if (!p.license) pkg.license = "UNLICENSED";
       fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + "\n");
-    ' "$outdir/package.json" "$ROOT/config/modules.json"
+    ' "$outdir/package.json" "$ROOT/config/modules.json" "$MODULE"
   fi
 
   # Python: `kiban` es un namespace compartido entre módulos (kiban.workfloo,
@@ -140,6 +143,17 @@ for lang in $langs; do
     # La plantilla escribe la licencia como tabla (`{ text = "…" }`), formato
     # que setuptools depreca a favor del identificador SPDX plano (PEP 639).
     sed -i.bak -e 's/^license = { text = \("[^"]*"\) }$/license = \1/' "$outdir/pyproject.toml"
+    # El nombre de la distribución es projectName (kiban-workfloo), no el paquete
+    # importable (kiban.workfloo): pyproject manda sobre setup.py, y el primer
+    # upload fija el título que muestra PyPI. Las keywords de la plantilla son
+    # del generador (OpenAPI-Generator), no del producto.
+    py_project="$(sed -n 's/^projectName: *//p' "$config")"
+    py_keywords="[\"kiban\", \"$MODULE\", \"sdk\", \"api\"]"
+    sed -i.bak \
+      -e "s/^name = \".*\"$/name = \"$py_project\"/" \
+      -e "s/^keywords = .*/keywords = $py_keywords/" \
+      "$outdir/pyproject.toml"
+    sed -i.bak -e "s/^    keywords=\[.*\],$/    keywords=$py_keywords,/" "$outdir/setup.py"
     rm -f "$outdir/setup.py.bak" "$outdir/pyproject.toml.bak"
   fi
 
@@ -163,6 +177,33 @@ for lang in $langs; do
     cs_package="$(sed -n 's/^packageName: *//p' "$config")"
     printf '%s\n' "# $cs_package" "" "Ver [README](../../README.md)." \
       > "$outdir/src/$cs_package/README.md"
+    # Metadatos de NuGet: la plantilla deja rellenos que nuget.org muestra tal
+    # cual (Copyright "No Copyright", notas "Minor update", título "OpenAPI
+    # Library") y no empaca README, URL del proyecto ni tags.
+    node -e '
+      const fs = require("fs");
+      const [csproj, pkg, notice, module] = process.argv.slice(1);
+      const copyright = fs.readFileSync(notice, "utf8").split("\n").find((l) => l.startsWith("Copyright"));
+      let x = fs.readFileSync(csproj, "utf8")
+        .replace("<AssemblyTitle>OpenAPI Library</AssemblyTitle>", `<AssemblyTitle>${pkg}</AssemblyTitle>`)
+        .replace("<Copyright>No Copyright</Copyright>", `<Copyright>${copyright}</Copyright>`)
+        .replace("<PackageReleaseNotes>Minor update</PackageReleaseNotes>",
+          "<PackageReleaseNotes>https://github.com/kiban-cloud/kiban-sdk/releases</PackageReleaseNotes>")
+        .replace("<RepositoryType>git</RepositoryType>", [
+          "<RepositoryType>git</RepositoryType>",
+          "    <PackageProjectUrl>https://github.com/kiban-cloud/kiban-sdk</PackageProjectUrl>",
+          `    <PackageTags>kiban;${module};sdk;api</PackageTags>`,
+          "    <PackageReadmeFile>README.md</PackageReadmeFile>",
+        ].join("\n"))
+        .replace("</Project>", [
+          "  <ItemGroup>",
+          "    <None Include=\"../../README.md\" Pack=\"true\" PackagePath=\"\\\" Visible=\"false\" />",
+          "  </ItemGroup>",
+          "",
+          "</Project>",
+        ].join("\n"));
+      fs.writeFileSync(csproj, x);
+    ' "$outdir/src/$cs_package/$cs_package.csproj" "$cs_package" "$ROOT/NOTICE" "$MODULE"
   fi
 done
 
