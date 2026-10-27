@@ -612,6 +612,44 @@ definitions:
       pdfBase64:
         type: string
     type: object
+  controller_workfloo_model.RejectedField:
+    properties:
+      code:
+        type: string
+      detail:
+        items:
+          type: string
+        type: array
+      id:
+        type: string
+      label:
+        type: string
+      reason:
+        type: string
+    type: object
+  controller_workfloo_model.Rejection:
+    properties:
+      at:
+        type: string
+      fields:
+        items:
+          $ref: '#/definitions/controller_workfloo_model.RejectedField'
+        type: array
+      httpCode:
+        type: integer
+      nodeId:
+        type: string
+      nodeName:
+        type: string
+      nodeType:
+        type: string
+      raw:
+        additionalProperties:
+          type: string
+        type: object
+      reason:
+        type: string
+    type: object
   controller_workfloo_model.RemainingTime:
     properties:
       hours:
@@ -930,6 +968,8 @@ definitions:
         items:
           type: string
         type: array
+      lastRejection:
+        $ref: '#/definitions/controller_workfloo_model.Rejection'
       modified:
         type: string
       name:
@@ -969,6 +1009,12 @@ definitions:
         $ref: '#/definitions/controller_workfloo_definition_model.Form'
       id:
         type: string
+      lastRejection:
+        allOf:
+        - $ref: '#/definitions/controller_workfloo_model.Rejection'
+        description: |-
+          LastRejection sólo aparece mientras el paso actual tenga un rechazo
+          vigente: su ausencia dice que nada está esperando una corrección.
       link:
         $ref: '#/definitions/controller_workfloo_model.LinkNipStatus'
       name:
