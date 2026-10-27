@@ -13,6 +13,7 @@ Name | Type | Description | Notes
 **document** | [**ControllerWorkflooDefinitionModelDocument**](ControllerWorkflooDefinitionModelDocument.md) |  | [optional] [default to undefined]
 **form** | [**ControllerWorkflooDefinitionModelForm**](ControllerWorkflooDefinitionModelForm.md) |  | [optional] [default to undefined]
 **id** | **string** |  | [optional] [default to undefined]
+**lastRejection** | [**ControllerWorkflooModelRejection**](ControllerWorkflooModelRejection.md) | LastRejection sólo aparece mientras el paso actual tenga un rechazo vigente: su ausencia dice que nada está esperando una corrección. | [optional] [default to undefined]
 **link** | [**ControllerWorkflooModelLinkNipStatus**](ControllerWorkflooModelLinkNipStatus.md) |  | [optional] [default to undefined]
 **name** | **string** |  | [optional] [default to undefined]
 **status** | **string** |  | [optional] [default to undefined]
@@ -34,6 +35,7 @@ const instance: ControllerWorkflooModelWorkflooStatus = {
     document,
     form,
     id,
+    lastRejection,
     link,
     name,
     status,

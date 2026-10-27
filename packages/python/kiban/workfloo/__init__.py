@@ -77,6 +77,8 @@ __all__ = [
     "ControllerWorkflooModelNodeResume",
     "ControllerWorkflooModelOtpValidateRequest",
     "ControllerWorkflooModelPdf",
+    "ControllerWorkflooModelRejectedField",
+    "ControllerWorkflooModelRejection",
     "ControllerWorkflooModelRemainingTime",
     "ControllerWorkflooModelReviewFieldRequest",
     "ControllerWorkflooModelReviewRequest",
@@ -162,6 +164,8 @@ from kiban.workfloo.models.controller_workfloo_model_node_detail import Controll
 from kiban.workfloo.models.controller_workfloo_model_node_resume import ControllerWorkflooModelNodeResume as ControllerWorkflooModelNodeResume
 from kiban.workfloo.models.controller_workfloo_model_otp_validate_request import ControllerWorkflooModelOtpValidateRequest as ControllerWorkflooModelOtpValidateRequest
 from kiban.workfloo.models.controller_workfloo_model_pdf import ControllerWorkflooModelPdf as ControllerWorkflooModelPdf
+from kiban.workfloo.models.controller_workfloo_model_rejected_field import ControllerWorkflooModelRejectedField as ControllerWorkflooModelRejectedField
+from kiban.workfloo.models.controller_workfloo_model_rejection import ControllerWorkflooModelRejection as ControllerWorkflooModelRejection
 from kiban.workfloo.models.controller_workfloo_model_remaining_time import ControllerWorkflooModelRemainingTime as ControllerWorkflooModelRemainingTime
 from kiban.workfloo.models.controller_workfloo_model_review_field_request import ControllerWorkflooModelReviewFieldRequest as ControllerWorkflooModelReviewFieldRequest
 from kiban.workfloo.models.controller_workfloo_model_review_request import ControllerWorkflooModelReviewRequest as ControllerWorkflooModelReviewRequest

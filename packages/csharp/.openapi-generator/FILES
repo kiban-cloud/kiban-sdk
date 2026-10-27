@@ -52,6 +52,8 @@ docs/models/ControllerWorkflooModelNodeDetail.md
 docs/models/ControllerWorkflooModelNodeResume.md
 docs/models/ControllerWorkflooModelOtpValidateRequest.md
 docs/models/ControllerWorkflooModelPdf.md
+docs/models/ControllerWorkflooModelRejectedField.md
+docs/models/ControllerWorkflooModelRejection.md
 docs/models/ControllerWorkflooModelRemainingTime.md
 docs/models/ControllerWorkflooModelReviewFieldRequest.md
 docs/models/ControllerWorkflooModelReviewRequest.md
@@ -76,10 +78,8 @@ docs/scripts/git_push.ps1
 docs/scripts/git_push.sh
 src/Kiban.Workfloo.Test/Api/DependencyInjectionTests.cs
 src/Kiban.Workfloo.Test/Kiban.Workfloo.Test.csproj
-src/Kiban.Workfloo.Test/Model/ControllerWorkflooDefinitionModelFieldValidatorTests.cs
-src/Kiban.Workfloo.Test/Model/ControllerWorkflooModelFileResponseV2Tests.cs
-src/Kiban.Workfloo.Test/Model/ControllerWorkflooModelValidateFieldRequestTests.cs
-src/Kiban.Workfloo.Test/Model/ControllerWorkflooModelValidateFieldResponseTests.cs
+src/Kiban.Workfloo.Test/Model/ControllerWorkflooModelRejectedFieldTests.cs
+src/Kiban.Workfloo.Test/Model/ControllerWorkflooModelRejectionTests.cs
 src/Kiban.Workfloo.Test/README.md
 src/Kiban.Workfloo/Api/IApi.cs
 src/Kiban.Workfloo/Api/PoolApi.cs
@@ -156,6 +156,8 @@ src/Kiban.Workfloo/Model/ControllerWorkflooModelNodeDetail.cs
 src/Kiban.Workfloo/Model/ControllerWorkflooModelNodeResume.cs
 src/Kiban.Workfloo/Model/ControllerWorkflooModelOtpValidateRequest.cs
 src/Kiban.Workfloo/Model/ControllerWorkflooModelPdf.cs
+src/Kiban.Workfloo/Model/ControllerWorkflooModelRejectedField.cs
+src/Kiban.Workfloo/Model/ControllerWorkflooModelRejection.cs
 src/Kiban.Workfloo/Model/ControllerWorkflooModelRemainingTime.cs
 src/Kiban.Workfloo/Model/ControllerWorkflooModelReviewFieldRequest.cs
 src/Kiban.Workfloo/Model/ControllerWorkflooModelReviewRequest.cs

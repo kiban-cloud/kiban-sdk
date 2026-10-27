@@ -21,6 +21,7 @@ import json
 from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from kiban.workfloo.models.controller_workfloo_model_node_resume import ControllerWorkflooModelNodeResume
+from kiban.workfloo.models.controller_workfloo_model_rejection import ControllerWorkflooModelRejection
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
@@ -36,6 +37,7 @@ class ControllerWorkflooModelWorkflooResume(BaseModel):
     id_unykoo: Optional[StrictInt] = Field(default=None, alias="idUnykoo")
     ip_origin: Optional[StrictStr] = Field(default=None, alias="ipOrigin")
     labels: Optional[List[StrictStr]] = None
+    last_rejection: Optional[ControllerWorkflooModelRejection] = Field(default=None, alias="lastRejection")
     modified: Optional[StrictStr] = None
     name: Optional[StrictStr] = None
     nodes: Optional[List[ControllerWorkflooModelNodeResume]] = None
@@ -43,7 +45,7 @@ class ControllerWorkflooModelWorkflooResume(BaseModel):
     scenery_id: Optional[StrictStr] = Field(default=None, alias="sceneryId")
     scenery_name: Optional[StrictStr] = Field(default=None, alias="sceneryName")
     status: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["cancelledAt", "cancelledBy", "created", "id", "idUnykoo", "ipOrigin", "labels", "modified", "name", "nodes", "origin", "sceneryId", "sceneryName", "status"]
+    __properties: ClassVar[List[str]] = ["cancelledAt", "cancelledBy", "created", "id", "idUnykoo", "ipOrigin", "labels", "lastRejection", "modified", "name", "nodes", "origin", "sceneryId", "sceneryName", "status"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -84,6 +86,9 @@ class ControllerWorkflooModelWorkflooResume(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of last_rejection
+        if self.last_rejection:
+            _dict['lastRejection'] = self.last_rejection.to_dict()
         # override the default output from pydantic by calling `to_dict()` of each item in nodes (list)
         _items = []
         if self.nodes:
@@ -120,6 +125,7 @@ class ControllerWorkflooModelWorkflooResume(BaseModel):
             "idUnykoo": obj.get("idUnykoo"),
             "ipOrigin": obj.get("ipOrigin"),
             "labels": obj.get("labels"),
+            "lastRejection": ControllerWorkflooModelRejection.from_dict(obj["lastRejection"]) if obj.get("lastRejection") is not None else None,
             "modified": obj.get("modified"),
             "name": obj.get("name"),
             "nodes": [ControllerWorkflooModelNodeResume.from_dict(_item) for _item in obj["nodes"]] if obj.get("nodes") is not None else None,

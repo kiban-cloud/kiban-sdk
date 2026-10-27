@@ -146,6 +146,8 @@ Class | Method | HTTP request | Description
  - [ControllerWorkflooModelNodeResume](docs/ControllerWorkflooModelNodeResume.md)
  - [ControllerWorkflooModelOtpValidateRequest](docs/ControllerWorkflooModelOtpValidateRequest.md)
  - [ControllerWorkflooModelPdf](docs/ControllerWorkflooModelPdf.md)
+ - [ControllerWorkflooModelRejectedField](docs/ControllerWorkflooModelRejectedField.md)
+ - [ControllerWorkflooModelRejection](docs/ControllerWorkflooModelRejection.md)
  - [ControllerWorkflooModelRemainingTime](docs/ControllerWorkflooModelRemainingTime.md)
  - [ControllerWorkflooModelReviewFieldRequest](docs/ControllerWorkflooModelReviewFieldRequest.md)
  - [ControllerWorkflooModelReviewRequest](docs/ControllerWorkflooModelReviewRequest.md)

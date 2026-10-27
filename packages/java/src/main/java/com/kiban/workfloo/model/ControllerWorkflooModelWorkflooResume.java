@@ -20,6 +20,7 @@ import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import com.kiban.workfloo.model.ControllerWorkflooModelNodeResume;
+import com.kiban.workfloo.model.ControllerWorkflooModelRejection;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -88,6 +89,11 @@ public class ControllerWorkflooModelWorkflooResume {
   @SerializedName(SERIALIZED_NAME_LABELS)
   @javax.annotation.Nullable
   private List<String> labels;
+
+  public static final String SERIALIZED_NAME_LAST_REJECTION = "lastRejection";
+  @SerializedName(SERIALIZED_NAME_LAST_REJECTION)
+  @javax.annotation.Nullable
+  private ControllerWorkflooModelRejection lastRejection;
 
   public static final String SERIALIZED_NAME_MODIFIED = "modified";
   @SerializedName(SERIALIZED_NAME_MODIFIED)
@@ -268,6 +274,25 @@ public class ControllerWorkflooModelWorkflooResume {
   }
 
 
+  public ControllerWorkflooModelWorkflooResume lastRejection(@javax.annotation.Nullable ControllerWorkflooModelRejection lastRejection) {
+    this.lastRejection = lastRejection;
+    return this;
+  }
+
+  /**
+   * Get lastRejection
+   * @return lastRejection
+   */
+  @javax.annotation.Nullable
+  public ControllerWorkflooModelRejection getLastRejection() {
+    return lastRejection;
+  }
+
+  public void setLastRejection(@javax.annotation.Nullable ControllerWorkflooModelRejection lastRejection) {
+    this.lastRejection = lastRejection;
+  }
+
+
   public ControllerWorkflooModelWorkflooResume modified(@javax.annotation.Nullable String modified) {
     this.modified = modified;
     return this;
@@ -426,6 +451,7 @@ public class ControllerWorkflooModelWorkflooResume {
         Objects.equals(this.idUnykoo, controllerWorkflooModelWorkflooResume.idUnykoo) &&
         Objects.equals(this.ipOrigin, controllerWorkflooModelWorkflooResume.ipOrigin) &&
         Objects.equals(this.labels, controllerWorkflooModelWorkflooResume.labels) &&
+        Objects.equals(this.lastRejection, controllerWorkflooModelWorkflooResume.lastRejection) &&
         Objects.equals(this.modified, controllerWorkflooModelWorkflooResume.modified) &&
         Objects.equals(this.name, controllerWorkflooModelWorkflooResume.name) &&
         Objects.equals(this.nodes, controllerWorkflooModelWorkflooResume.nodes) &&
@@ -441,7 +467,7 @@ public class ControllerWorkflooModelWorkflooResume {
 
   @Override
   public int hashCode() {
-    return Objects.hash(cancelledAt, cancelledBy, created, id, idUnykoo, ipOrigin, labels, modified, name, nodes, origin, sceneryId, sceneryName, status);
+    return Objects.hash(cancelledAt, cancelledBy, created, id, idUnykoo, ipOrigin, labels, lastRejection, modified, name, nodes, origin, sceneryId, sceneryName, status);
   }
 
   private static <T> int hashCodeNullable(JsonNullable<T> a) {
@@ -462,6 +488,7 @@ public class ControllerWorkflooModelWorkflooResume {
     sb.append("    idUnykoo: ").append(toIndentedString(idUnykoo)).append("\n");
     sb.append("    ipOrigin: ").append(toIndentedString(ipOrigin)).append("\n");
     sb.append("    labels: ").append(toIndentedString(labels)).append("\n");
+    sb.append("    lastRejection: ").append(toIndentedString(lastRejection)).append("\n");
     sb.append("    modified: ").append(toIndentedString(modified)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    nodes: ").append(toIndentedString(nodes)).append("\n");
@@ -487,7 +514,7 @@ public class ControllerWorkflooModelWorkflooResume {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("cancelledAt", "cancelledBy", "created", "id", "idUnykoo", "ipOrigin", "labels", "modified", "name", "nodes", "origin", "sceneryId", "sceneryName", "status"));
+    openapiFields = new HashSet<String>(Arrays.asList("cancelledAt", "cancelledBy", "created", "id", "idUnykoo", "ipOrigin", "labels", "lastRejection", "modified", "name", "nodes", "origin", "sceneryId", "sceneryName", "status"));
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>(0);
@@ -532,6 +559,10 @@ public class ControllerWorkflooModelWorkflooResume {
       // ensure the optional json data is an array if present
       if (jsonObj.get("labels") != null && !jsonObj.get("labels").isJsonNull() && !jsonObj.get("labels").isJsonArray()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `labels` to be an array in the JSON string but got `%s`", jsonObj.get("labels").toString()));
+      }
+      // validate the optional field `lastRejection`
+      if (jsonObj.get("lastRejection") != null && !jsonObj.get("lastRejection").isJsonNull()) {
+        ControllerWorkflooModelRejection.validateJsonElement(jsonObj.get("lastRejection"));
       }
       if ((jsonObj.get("modified") != null && !jsonObj.get("modified").isJsonNull()) && !jsonObj.get("modified").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `modified` to be a primitive type in the JSON string but got `%s`", jsonObj.get("modified").toString()));

@@ -14,6 +14,7 @@
 |**idUnykoo** | **Integer** |  |  [optional] |
 |**ipOrigin** | **String** |  |  [optional] |
 |**labels** | **List&lt;String&gt;** |  |  [optional] |
+|**lastRejection** | [**ControllerWorkflooModelRejection**](ControllerWorkflooModelRejection.md) |  |  [optional] |
 |**modified** | **String** |  |  [optional] |
 |**name** | **String** |  |  [optional] |
 |**nodes** | [**List&lt;ControllerWorkflooModelNodeResume&gt;**](ControllerWorkflooModelNodeResume.md) |  |  [optional] |

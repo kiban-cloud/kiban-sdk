@@ -42,6 +42,7 @@ namespace Kiban.Workfloo.Model
         /// <param name="document">document</param>
         /// <param name="form">form</param>
         /// <param name="id">id</param>
+        /// <param name="lastRejection">LastRejection sólo aparece mientras el paso actual tenga un rechazo vigente: su ausencia dice que nada está esperando una corrección.</param>
         /// <param name="link">link</param>
         /// <param name="name">name</param>
         /// <param name="status">status</param>
@@ -49,7 +50,7 @@ namespace Kiban.Workfloo.Model
         /// <param name="validation">validation</param>
         /// <param name="verification">Verification aparece SÓLO cuando la ejecución está esperando que alguien teclee un código. Su ausencia es lo que le dice al integrador que no hay nada pendiente de ese lado.</param>
         [JsonConstructor]
-        public ControllerWorkflooModelWorkflooStatus(Option<string?> cancelledAt = default, Option<string?> cancelledBy = default, Option<string?> currentNodeId = default, Option<string?> currentNodeName = default, Option<string?> currentNodeType = default, Option<ControllerWorkflooDefinitionModelDocument?> document = default, Option<ControllerWorkflooDefinitionModelForm?> form = default, Option<string?> id = default, Option<ControllerWorkflooModelLinkNipStatus?> link = default, Option<string?> name = default, Option<string?> status = default, Option<ControllerWorkflooModelTimer?> timer = default, Option<ControllerWorkflooModelValidationStatus?> validation = default, Option<ControllerWorkflooModelVerificationStatus?> verification = default)
+        public ControllerWorkflooModelWorkflooStatus(Option<string?> cancelledAt = default, Option<string?> cancelledBy = default, Option<string?> currentNodeId = default, Option<string?> currentNodeName = default, Option<string?> currentNodeType = default, Option<ControllerWorkflooDefinitionModelDocument?> document = default, Option<ControllerWorkflooDefinitionModelForm?> form = default, Option<string?> id = default, Option<ControllerWorkflooModelRejection?> lastRejection = default, Option<ControllerWorkflooModelLinkNipStatus?> link = default, Option<string?> name = default, Option<string?> status = default, Option<ControllerWorkflooModelTimer?> timer = default, Option<ControllerWorkflooModelValidationStatus?> validation = default, Option<ControllerWorkflooModelVerificationStatus?> verification = default)
         {
             CancelledAtOption = cancelledAt;
             CancelledByOption = cancelledBy;
@@ -59,6 +60,7 @@ namespace Kiban.Workfloo.Model
             DocumentOption = document;
             FormOption = form;
             IdOption = id;
+            LastRejectionOption = lastRejection;
             LinkOption = link;
             NameOption = name;
             StatusOption = status;
@@ -176,6 +178,20 @@ namespace Kiban.Workfloo.Model
         public string? Id { get { return this.IdOption.Value; } set { this.IdOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of LastRejection
+        /// </summary>
+        [JsonIgnore]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<ControllerWorkflooModelRejection?> LastRejectionOption { get; private set; }
+
+        /// <summary>
+        /// LastRejection sólo aparece mientras el paso actual tenga un rechazo vigente: su ausencia dice que nada está esperando una corrección.
+        /// </summary>
+        /// <value>LastRejection sólo aparece mientras el paso actual tenga un rechazo vigente: su ausencia dice que nada está esperando una corrección.</value>
+        [JsonPropertyName("lastRejection")]
+        public ControllerWorkflooModelRejection? LastRejection { get { return this.LastRejectionOption.Value; } set { this.LastRejectionOption = new(value); } }
+
+        /// <summary>
         /// Used to track the state of Link
         /// </summary>
         [JsonIgnore]
@@ -270,6 +286,7 @@ namespace Kiban.Workfloo.Model
             sb.Append("  Document: ").Append(Document).Append("\n");
             sb.Append("  Form: ").Append(Form).Append("\n");
             sb.Append("  Id: ").Append(Id).Append("\n");
+            sb.Append("  LastRejection: ").Append(LastRejection).Append("\n");
             sb.Append("  Link: ").Append(Link).Append("\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
             sb.Append("  Status: ").Append(Status).Append("\n");
@@ -331,6 +348,7 @@ namespace Kiban.Workfloo.Model
             Option<ControllerWorkflooDefinitionModelDocument?> document = default;
             Option<ControllerWorkflooDefinitionModelForm?> form = default;
             Option<string?> id = default;
+            Option<ControllerWorkflooModelRejection?> lastRejection = default;
             Option<ControllerWorkflooModelLinkNipStatus?> link = default;
             Option<string?> name = default;
             Option<string?> status = default;
@@ -376,6 +394,9 @@ namespace Kiban.Workfloo.Model
                             break;
                         case "id":
                             id = new Option<string?>(utf8JsonReader.GetString()!);
+                            break;
+                        case "lastRejection":
+                            lastRejection = new Option<ControllerWorkflooModelRejection?>(JsonSerializer.Deserialize<ControllerWorkflooModelRejection>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         case "link":
                             link = new Option<ControllerWorkflooModelLinkNipStatus?>(JsonSerializer.Deserialize<ControllerWorkflooModelLinkNipStatus>(ref utf8JsonReader, jsonSerializerOptions)!);
@@ -425,6 +446,9 @@ namespace Kiban.Workfloo.Model
             if (id.IsSet && id.Value == null)
                 throw new ArgumentNullException(nameof(id), "Property is not nullable for class ControllerWorkflooModelWorkflooStatus.");
 
+            if (lastRejection.IsSet && lastRejection.Value == null)
+                throw new ArgumentNullException(nameof(lastRejection), "Property is not nullable for class ControllerWorkflooModelWorkflooStatus.");
+
             if (link.IsSet && link.Value == null)
                 throw new ArgumentNullException(nameof(link), "Property is not nullable for class ControllerWorkflooModelWorkflooStatus.");
 
@@ -443,7 +467,7 @@ namespace Kiban.Workfloo.Model
             if (verification.IsSet && verification.Value == null)
                 throw new ArgumentNullException(nameof(verification), "Property is not nullable for class ControllerWorkflooModelWorkflooStatus.");
 
-            return new ControllerWorkflooModelWorkflooStatus(cancelledAt, cancelledBy, currentNodeId, currentNodeName, currentNodeType, document, form, id, link, name, status, timer, validation, verification);
+            return new ControllerWorkflooModelWorkflooStatus(cancelledAt, cancelledBy, currentNodeId, currentNodeName, currentNodeType, document, form, id, lastRejection, link, name, status, timer, validation, verification);
         }
 
         /// <summary>
@@ -494,6 +518,9 @@ namespace Kiban.Workfloo.Model
             if (controllerWorkflooModelWorkflooStatus.IdOption.IsSet && controllerWorkflooModelWorkflooStatus.Id == null)
                 throw new ArgumentNullException(nameof(controllerWorkflooModelWorkflooStatus.Id), "Property is required for class ControllerWorkflooModelWorkflooStatus.");
 
+            if (controllerWorkflooModelWorkflooStatus.LastRejectionOption.IsSet && controllerWorkflooModelWorkflooStatus.LastRejection == null)
+                throw new ArgumentNullException(nameof(controllerWorkflooModelWorkflooStatus.LastRejection), "Property is required for class ControllerWorkflooModelWorkflooStatus.");
+
             if (controllerWorkflooModelWorkflooStatus.LinkOption.IsSet && controllerWorkflooModelWorkflooStatus.Link == null)
                 throw new ArgumentNullException(nameof(controllerWorkflooModelWorkflooStatus.Link), "Property is required for class ControllerWorkflooModelWorkflooStatus.");
 
@@ -540,6 +567,11 @@ namespace Kiban.Workfloo.Model
             if (controllerWorkflooModelWorkflooStatus.IdOption.IsSet)
                 writer.WriteString("id", controllerWorkflooModelWorkflooStatus.Id);
 
+            if (controllerWorkflooModelWorkflooStatus.LastRejectionOption.IsSet)
+            {
+                writer.WritePropertyName("lastRejection");
+                JsonSerializer.Serialize(writer, controllerWorkflooModelWorkflooStatus.LastRejection, jsonSerializerOptions);
+            }
             if (controllerWorkflooModelWorkflooStatus.LinkOption.IsSet)
             {
                 writer.WritePropertyName("link");

@@ -29,6 +29,8 @@ type ControllerWorkflooModelWorkflooStatus struct {
 	Document *ControllerWorkflooDefinitionModelDocument `json:"document,omitempty"`
 	Form *ControllerWorkflooDefinitionModelForm `json:"form,omitempty"`
 	Id *string `json:"id,omitempty"`
+	// LastRejection sólo aparece mientras el paso actual tenga un rechazo vigente: su ausencia dice que nada está esperando una corrección.
+	LastRejection *ControllerWorkflooModelRejection `json:"lastRejection,omitempty"`
 	Link *ControllerWorkflooModelLinkNipStatus `json:"link,omitempty"`
 	Name *string `json:"name,omitempty"`
 	Status *string `json:"status,omitempty"`
@@ -311,6 +313,38 @@ func (o *ControllerWorkflooModelWorkflooStatus) SetId(v string) {
 	o.Id = &v
 }
 
+// GetLastRejection returns the LastRejection field value if set, zero value otherwise.
+func (o *ControllerWorkflooModelWorkflooStatus) GetLastRejection() ControllerWorkflooModelRejection {
+	if o == nil || IsNil(o.LastRejection) {
+		var ret ControllerWorkflooModelRejection
+		return ret
+	}
+	return *o.LastRejection
+}
+
+// GetLastRejectionOk returns a tuple with the LastRejection field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ControllerWorkflooModelWorkflooStatus) GetLastRejectionOk() (*ControllerWorkflooModelRejection, bool) {
+	if o == nil || IsNil(o.LastRejection) {
+		return nil, false
+	}
+	return o.LastRejection, true
+}
+
+// HasLastRejection returns a boolean if a field has been set.
+func (o *ControllerWorkflooModelWorkflooStatus) HasLastRejection() bool {
+	if o != nil && !IsNil(o.LastRejection) {
+		return true
+	}
+
+	return false
+}
+
+// SetLastRejection gets a reference to the given ControllerWorkflooModelRejection and assigns it to the LastRejection field.
+func (o *ControllerWorkflooModelWorkflooStatus) SetLastRejection(v ControllerWorkflooModelRejection) {
+	o.LastRejection = &v
+}
+
 // GetLink returns the Link field value if set, zero value otherwise.
 func (o *ControllerWorkflooModelWorkflooStatus) GetLink() ControllerWorkflooModelLinkNipStatus {
 	if o == nil || IsNil(o.Link) {
@@ -536,6 +570,9 @@ func (o ControllerWorkflooModelWorkflooStatus) ToMap() (map[string]interface{}, 
 	}
 	if !IsNil(o.Id) {
 		toSerialize["id"] = o.Id
+	}
+	if !IsNil(o.LastRejection) {
+		toSerialize["lastRejection"] = o.LastRejection
 	}
 	if !IsNil(o.Link) {
 		toSerialize["link"] = o.Link

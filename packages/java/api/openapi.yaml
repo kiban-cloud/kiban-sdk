@@ -2132,7 +2132,7 @@ components:
           body: ""
           headers:
             key: headers
-          httpCode: 6
+          httpCode: 1
           queryParams:
             key: queryParams
           url: url
@@ -2140,7 +2140,7 @@ components:
           body: ""
           headers:
             key: headers
-          httpCode: 6
+          httpCode: 1
           queryParams:
             key: queryParams
           url: url
@@ -2155,7 +2155,7 @@ components:
         body: ""
         headers:
           key: headers
-        httpCode: 6
+        httpCode: 1
         queryParams:
           key: queryParams
         url: url
@@ -2642,7 +2642,7 @@ components:
         createdBy: createdBy
         dateFound: dateFound
         errorMessage: errorMessage
-        httpCode: 1
+        httpCode: 5
         idLink: idLink
         idWorkfloo: idWorkfloo
         origin: origin
@@ -2675,7 +2675,7 @@ components:
             body: ""
             headers:
               key: headers
-            httpCode: 6
+            httpCode: 1
             queryParams:
               key: queryParams
             url: url
@@ -2683,7 +2683,7 @@ components:
             body: ""
             headers:
               key: headers
-            httpCode: 6
+            httpCode: 1
             queryParams:
               key: queryParams
             url: url
@@ -2710,7 +2710,7 @@ components:
           createdBy: createdBy
           dateFound: dateFound
           errorMessage: errorMessage
-          httpCode: 1
+          httpCode: 5
           idLink: idLink
           idWorkfloo: idWorkfloo
           origin: origin
@@ -2764,9 +2764,9 @@ components:
         timer:
           endWaitDate: endWaitDate
           remainingTime:
-            hours: 5
-            minutes: 2
-            seconds: 7
+            hours: 2
+            minutes: 7
+            seconds: 9
         type: type
         validation:
           decision: decision
@@ -2859,11 +2859,84 @@ components:
         pdfBase64:
           type: string
       type: object
+    controller_workfloo_model.RejectedField:
+      example:
+        code: code
+        detail:
+        - detail
+        - detail
+        id: id
+        label: label
+        reason: reason
+      properties:
+        code:
+          type: string
+        detail:
+          items:
+            type: string
+          nullable: true
+          type: array
+        id:
+          type: string
+        label:
+          type: string
+        reason:
+          type: string
+      type: object
+    controller_workfloo_model.Rejection:
+      example:
+        at: at
+        fields:
+        - code: code
+          detail:
+          - detail
+          - detail
+          id: id
+          label: label
+          reason: reason
+        - code: code
+          detail:
+          - detail
+          - detail
+          id: id
+          label: label
+          reason: reason
+        httpCode: 6
+        nodeId: nodeId
+        nodeName: nodeName
+        nodeType: nodeType
+        raw:
+          key: raw
+        reason: reason
+      properties:
+        at:
+          type: string
+        fields:
+          items:
+            $ref: "#/components/schemas/controller_workfloo_model.RejectedField"
+          nullable: true
+          type: array
+        httpCode:
+          type: integer
+        nodeId:
+          type: string
+        nodeName:
+          type: string
+        nodeType:
+          type: string
+        raw:
+          additionalProperties:
+            type: string
+          nullable: true
+          type: object
+        reason:
+          type: string
+      type: object
     controller_workfloo_model.RemainingTime:
       example:
-        hours: 5
-        minutes: 2
-        seconds: 7
+        hours: 2
+        minutes: 7
+        seconds: 9
       properties:
         hours:
           type: integer
@@ -2940,9 +3013,9 @@ components:
       example:
         endWaitDate: endWaitDate
         remainingTime:
-          hours: 5
-          minutes: 2
-          seconds: 7
+          hours: 2
+          minutes: 7
+          seconds: 9
       properties:
         endWaitDate:
           type: string
@@ -3339,7 +3412,7 @@ components:
               body: ""
               headers:
                 key: headers
-              httpCode: 6
+              httpCode: 1
               queryParams:
                 key: queryParams
               url: url
@@ -3347,7 +3420,7 @@ components:
               body: ""
               headers:
                 key: headers
-              httpCode: 6
+              httpCode: 1
               queryParams:
                 key: queryParams
               url: url
@@ -3374,7 +3447,7 @@ components:
             createdBy: createdBy
             dateFound: dateFound
             errorMessage: errorMessage
-            httpCode: 1
+            httpCode: 5
             idLink: idLink
             idWorkfloo: idWorkfloo
             origin: origin
@@ -3428,9 +3501,9 @@ components:
           timer:
             endWaitDate: endWaitDate
             remainingTime:
-              hours: 5
-              minutes: 2
-              seconds: 7
+              hours: 2
+              minutes: 7
+              seconds: 9
           type: type
           validation:
             decision: decision
@@ -3454,7 +3527,7 @@ components:
               body: ""
               headers:
                 key: headers
-              httpCode: 6
+              httpCode: 1
               queryParams:
                 key: queryParams
               url: url
@@ -3462,7 +3535,7 @@ components:
               body: ""
               headers:
                 key: headers
-              httpCode: 6
+              httpCode: 1
               queryParams:
                 key: queryParams
               url: url
@@ -3489,7 +3562,7 @@ components:
             createdBy: createdBy
             dateFound: dateFound
             errorMessage: errorMessage
-            httpCode: 1
+            httpCode: 5
             idLink: idLink
             idWorkfloo: idWorkfloo
             origin: origin
@@ -3543,9 +3616,9 @@ components:
           timer:
             endWaitDate: endWaitDate
             remainingTime:
-              hours: 5
-              minutes: 2
-              seconds: 7
+              hours: 2
+              minutes: 7
+              seconds: 9
           type: type
           validation:
             decision: decision
@@ -4079,6 +4152,30 @@ components:
         labels:
         - labels
         - labels
+        lastRejection:
+          at: at
+          fields:
+          - code: code
+            detail:
+            - detail
+            - detail
+            id: id
+            label: label
+            reason: reason
+          - code: code
+            detail:
+            - detail
+            - detail
+            id: id
+            label: label
+            reason: reason
+          httpCode: 6
+          nodeId: nodeId
+          nodeName: nodeName
+          nodeType: nodeType
+          raw:
+            key: raw
+          reason: reason
         modified: modified
         name: name
         nodes:
@@ -4087,7 +4184,7 @@ components:
               body: ""
               headers:
                 key: headers
-              httpCode: 6
+              httpCode: 1
               queryParams:
                 key: queryParams
               url: url
@@ -4095,7 +4192,7 @@ components:
               body: ""
               headers:
                 key: headers
-              httpCode: 6
+              httpCode: 1
               queryParams:
                 key: queryParams
               url: url
@@ -4122,7 +4219,7 @@ components:
             createdBy: createdBy
             dateFound: dateFound
             errorMessage: errorMessage
-            httpCode: 1
+            httpCode: 5
             idLink: idLink
             idWorkfloo: idWorkfloo
             origin: origin
@@ -4176,9 +4273,9 @@ components:
           timer:
             endWaitDate: endWaitDate
             remainingTime:
-              hours: 5
-              minutes: 2
-              seconds: 7
+              hours: 2
+              minutes: 7
+              seconds: 9
           type: type
           validation:
             decision: decision
@@ -4202,7 +4299,7 @@ components:
               body: ""
               headers:
                 key: headers
-              httpCode: 6
+              httpCode: 1
               queryParams:
                 key: queryParams
               url: url
@@ -4210,7 +4307,7 @@ components:
               body: ""
               headers:
                 key: headers
-              httpCode: 6
+              httpCode: 1
               queryParams:
                 key: queryParams
               url: url
@@ -4237,7 +4334,7 @@ components:
             createdBy: createdBy
             dateFound: dateFound
             errorMessage: errorMessage
-            httpCode: 1
+            httpCode: 5
             idLink: idLink
             idWorkfloo: idWorkfloo
             origin: origin
@@ -4291,9 +4388,9 @@ components:
           timer:
             endWaitDate: endWaitDate
             remainingTime:
-              hours: 5
-              minutes: 2
-              seconds: 7
+              hours: 2
+              minutes: 7
+              seconds: 9
           type: type
           validation:
             decision: decision
@@ -4341,6 +4438,8 @@ components:
             type: string
           nullable: true
           type: array
+        lastRejection:
+          $ref: "#/components/schemas/controller_workfloo_model.Rejection"
         modified:
           type: string
         name:
@@ -4675,6 +4774,7 @@ components:
                 - values
             section: section
         id: id
+        lastRejection: ""
         link:
           companyName: companyName
           countryCode: countryCode
@@ -4702,9 +4802,9 @@ components:
         timer:
           endWaitDate: endWaitDate
           remainingTime:
-            hours: 5
-            minutes: 2
-            seconds: 7
+            hours: 2
+            minutes: 7
+            seconds: 9
         validation:
           fields:
           - fieldId: fieldId
@@ -4742,6 +4842,12 @@ components:
           $ref: "#/components/schemas/controller_workfloo_definition_model.Form"
         id:
           type: string
+        lastRejection:
+          allOf:
+          - $ref: "#/components/schemas/controller_workfloo_model.Rejection"
+          description: |-
+            LastRejection sólo aparece mientras el paso actual tenga un rechazo
+            vigente: su ausencia dice que nada está esperando una corrección.
         link:
           $ref: "#/components/schemas/controller_workfloo_model.LinkNipStatus"
         name:
