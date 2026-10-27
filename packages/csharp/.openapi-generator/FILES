@@ -78,8 +78,6 @@ docs/scripts/git_push.ps1
 docs/scripts/git_push.sh
 src/Kiban.Workfloo.Test/Api/DependencyInjectionTests.cs
 src/Kiban.Workfloo.Test/Kiban.Workfloo.Test.csproj
-src/Kiban.Workfloo.Test/Model/ControllerWorkflooModelRejectedFieldTests.cs
-src/Kiban.Workfloo.Test/Model/ControllerWorkflooModelRejectionTests.cs
 src/Kiban.Workfloo.Test/README.md
 src/Kiban.Workfloo/Api/IApi.cs
 src/Kiban.Workfloo/Api/PoolApi.cs

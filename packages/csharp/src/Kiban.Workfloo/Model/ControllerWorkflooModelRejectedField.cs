@@ -39,14 +39,16 @@ namespace Kiban.Workfloo.Model
         /// <param name="id">id</param>
         /// <param name="label">label</param>
         /// <param name="reason">reason</param>
+        /// <param name="value">value</param>
         [JsonConstructor]
-        public ControllerWorkflooModelRejectedField(Option<string?> code = default, Option<List<string>?> detail = default, Option<string?> id = default, Option<string?> label = default, Option<string?> reason = default)
+        public ControllerWorkflooModelRejectedField(Option<string?> code = default, Option<List<string>?> detail = default, Option<string?> id = default, Option<string?> label = default, Option<string?> reason = default, Option<string?> value = default)
         {
             CodeOption = code;
             DetailOption = detail;
             IdOption = id;
             LabelOption = label;
             ReasonOption = reason;
+            ValueOption = value;
             OnCreated();
         }
 
@@ -118,6 +120,19 @@ namespace Kiban.Workfloo.Model
         public string? Reason { get { return this.ReasonOption.Value; } set { this.ReasonOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of Value
+        /// </summary>
+        [JsonIgnore]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<string?> ValueOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets Value
+        /// </summary>
+        [JsonPropertyName("value")]
+        public string? Value { get { return this.ValueOption.Value; } set { this.ValueOption = new(value); } }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -130,6 +145,7 @@ namespace Kiban.Workfloo.Model
             sb.Append("  Id: ").Append(Id).Append("\n");
             sb.Append("  Label: ").Append(Label).Append("\n");
             sb.Append("  Reason: ").Append(Reason).Append("\n");
+            sb.Append("  Value: ").Append(Value).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -182,6 +198,7 @@ namespace Kiban.Workfloo.Model
             Option<string?> id = default;
             Option<string?> label = default;
             Option<string?> reason = default;
+            Option<string?> value = default;
 
             while (utf8JsonReader.Read())
             {
@@ -213,6 +230,9 @@ namespace Kiban.Workfloo.Model
                         case "reason":
                             reason = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
+                        case "value":
+                            value = new Option<string?>(utf8JsonReader.GetString()!);
+                            break;
                         default:
                             break;
                     }
@@ -231,7 +251,10 @@ namespace Kiban.Workfloo.Model
             if (reason.IsSet && reason.Value == null)
                 throw new ArgumentNullException(nameof(reason), "Property is not nullable for class ControllerWorkflooModelRejectedField.");
 
-            return new ControllerWorkflooModelRejectedField(code, detail, id, label, reason);
+            if (value.IsSet && value.Value == null)
+                throw new ArgumentNullException(nameof(value), "Property is not nullable for class ControllerWorkflooModelRejectedField.");
+
+            return new ControllerWorkflooModelRejectedField(code, detail, id, label, reason, value);
         }
 
         /// <summary>
@@ -270,6 +293,9 @@ namespace Kiban.Workfloo.Model
             if (controllerWorkflooModelRejectedField.ReasonOption.IsSet && controllerWorkflooModelRejectedField.Reason == null)
                 throw new ArgumentNullException(nameof(controllerWorkflooModelRejectedField.Reason), "Property is required for class ControllerWorkflooModelRejectedField.");
 
+            if (controllerWorkflooModelRejectedField.ValueOption.IsSet && controllerWorkflooModelRejectedField.Value == null)
+                throw new ArgumentNullException(nameof(controllerWorkflooModelRejectedField.Value), "Property is required for class ControllerWorkflooModelRejectedField.");
+
             if (controllerWorkflooModelRejectedField.CodeOption.IsSet)
                 writer.WriteString("code", controllerWorkflooModelRejectedField.Code);
 
@@ -289,6 +315,9 @@ namespace Kiban.Workfloo.Model
 
             if (controllerWorkflooModelRejectedField.ReasonOption.IsSet)
                 writer.WriteString("reason", controllerWorkflooModelRejectedField.Reason);
+
+            if (controllerWorkflooModelRejectedField.ValueOption.IsSet)
+                writer.WriteString("value", controllerWorkflooModelRejectedField.Value);
         }
     }
 }

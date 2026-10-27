@@ -10,6 +10,7 @@ Name | Type | Description | Notes
 **id** | **str** |  | [optional] 
 **label** | **str** |  | [optional] 
 **reason** | **str** |  | [optional] 
+**value** | **str** |  | [optional] 
 
 ## Example
 

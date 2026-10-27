@@ -331,6 +331,7 @@ export interface ControllerWorkflooModelRejectedField {
     'id'?: string;
     'label'?: string;
     'reason'?: string;
+    'value'?: string;
 }
 export interface ControllerWorkflooModelRejection {
     'at'?: string;

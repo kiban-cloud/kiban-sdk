@@ -2820,6 +2820,7 @@ components:
         id: id
         label: label
         reason: reason
+        value: value
       properties:
         code:
           type: string
@@ -2834,6 +2835,8 @@ components:
           type: string
         reason:
           type: string
+        value:
+          type: string
       type: object
     controller_workfloo_model.Rejection:
       example:
@@ -2846,6 +2849,7 @@ components:
           id: id
           label: label
           reason: reason
+          value: value
         - code: code
           detail:
           - detail
@@ -2853,6 +2857,7 @@ components:
           id: id
           label: label
           reason: reason
+          value: value
         httpCode: 6
         nodeId: nodeId
         nodeName: nodeName
@@ -4114,6 +4119,7 @@ components:
             id: id
             label: label
             reason: reason
+            value: value
           - code: code
             detail:
             - detail
@@ -4121,6 +4127,7 @@ components:
             id: id
             label: label
             reason: reason
+            value: value
           httpCode: 6
           nodeId: nodeId
           nodeName: nodeName

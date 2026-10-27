@@ -78,6 +78,11 @@ public class ControllerWorkflooModelRejectedField {
   @javax.annotation.Nullable
   private String reason;
 
+  public static final String SERIALIZED_NAME_VALUE = "value";
+  @SerializedName(SERIALIZED_NAME_VALUE)
+  @javax.annotation.Nullable
+  private String value;
+
   public ControllerWorkflooModelRejectedField() {
   }
 
@@ -184,6 +189,25 @@ public class ControllerWorkflooModelRejectedField {
   }
 
 
+  public ControllerWorkflooModelRejectedField value(@javax.annotation.Nullable String value) {
+    this.value = value;
+    return this;
+  }
+
+  /**
+   * Get value
+   * @return value
+   */
+  @javax.annotation.Nullable
+  public String getValue() {
+    return value;
+  }
+
+  public void setValue(@javax.annotation.Nullable String value) {
+    this.value = value;
+  }
+
+
 
   @Override
   public boolean equals(Object o) {
@@ -198,7 +222,8 @@ public class ControllerWorkflooModelRejectedField {
         Objects.equals(this.detail, controllerWorkflooModelRejectedField.detail) &&
         Objects.equals(this.id, controllerWorkflooModelRejectedField.id) &&
         Objects.equals(this.label, controllerWorkflooModelRejectedField.label) &&
-        Objects.equals(this.reason, controllerWorkflooModelRejectedField.reason);
+        Objects.equals(this.reason, controllerWorkflooModelRejectedField.reason) &&
+        Objects.equals(this.value, controllerWorkflooModelRejectedField.value);
   }
 
   private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
@@ -207,7 +232,7 @@ public class ControllerWorkflooModelRejectedField {
 
   @Override
   public int hashCode() {
-    return Objects.hash(code, detail, id, label, reason);
+    return Objects.hash(code, detail, id, label, reason, value);
   }
 
   private static <T> int hashCodeNullable(JsonNullable<T> a) {
@@ -226,6 +251,7 @@ public class ControllerWorkflooModelRejectedField {
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    label: ").append(toIndentedString(label)).append("\n");
     sb.append("    reason: ").append(toIndentedString(reason)).append("\n");
+    sb.append("    value: ").append(toIndentedString(value)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -244,7 +270,7 @@ public class ControllerWorkflooModelRejectedField {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("code", "detail", "id", "label", "reason"));
+    openapiFields = new HashSet<String>(Arrays.asList("code", "detail", "id", "label", "reason", "value"));
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>(0);
@@ -286,6 +312,9 @@ public class ControllerWorkflooModelRejectedField {
       }
       if ((jsonObj.get("reason") != null && !jsonObj.get("reason").isJsonNull()) && !jsonObj.get("reason").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `reason` to be a primitive type in the JSON string but got `%s`", jsonObj.get("reason").toString()));
+      }
+      if ((jsonObj.get("value") != null && !jsonObj.get("value").isJsonNull()) && !jsonObj.get("value").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `value` to be a primitive type in the JSON string but got `%s`", jsonObj.get("value").toString()));
       }
   }
 

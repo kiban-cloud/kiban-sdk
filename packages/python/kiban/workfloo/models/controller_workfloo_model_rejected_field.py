@@ -33,7 +33,8 @@ class ControllerWorkflooModelRejectedField(BaseModel):
     id: Optional[StrictStr] = None
     label: Optional[StrictStr] = None
     reason: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["code", "detail", "id", "label", "reason"]
+    value: Optional[StrictStr] = None
+    __properties: ClassVar[List[str]] = ["code", "detail", "id", "label", "reason", "value"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -95,7 +96,8 @@ class ControllerWorkflooModelRejectedField(BaseModel):
             "detail": obj.get("detail"),
             "id": obj.get("id"),
             "label": obj.get("label"),
-            "reason": obj.get("reason")
+            "reason": obj.get("reason"),
+            "value": obj.get("value")
         })
         return _obj
 

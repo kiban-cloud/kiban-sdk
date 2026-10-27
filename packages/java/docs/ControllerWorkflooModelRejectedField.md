@@ -12,6 +12,7 @@
 |**id** | **String** |  |  [optional] |
 |**label** | **String** |  |  [optional] |
 |**reason** | **String** |  |  [optional] |
+|**value** | **String** |  |  [optional] |
 
 
 

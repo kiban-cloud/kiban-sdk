@@ -162,6 +162,4 @@ setup.cfg
 setup.py
 test-requirements.txt
 test/__init__.py
-test/test_controller_workfloo_model_rejected_field.py
-test/test_controller_workfloo_model_rejection.py
 tox.ini

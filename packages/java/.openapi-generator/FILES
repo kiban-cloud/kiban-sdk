@@ -174,5 +174,3 @@ src/main/java/com/kiban/workfloo/model/ControllerWorkflooModelWorkflooListItem.j
 src/main/java/com/kiban/workfloo/model/ControllerWorkflooModelWorkflooPage.java
 src/main/java/com/kiban/workfloo/model/ControllerWorkflooModelWorkflooResume.java
 src/main/java/com/kiban/workfloo/model/ControllerWorkflooModelWorkflooStatus.java
-src/test/java/com/kiban/workfloo/model/ControllerWorkflooModelRejectedFieldTest.java
-src/test/java/com/kiban/workfloo/model/ControllerWorkflooModelRejectionTest.java

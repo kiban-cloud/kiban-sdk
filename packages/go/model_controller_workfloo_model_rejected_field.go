@@ -25,6 +25,7 @@ type ControllerWorkflooModelRejectedField struct {
 	Id *string `json:"id,omitempty"`
 	Label *string `json:"label,omitempty"`
 	Reason *string `json:"reason,omitempty"`
+	Value *string `json:"value,omitempty"`
 }
 
 // NewControllerWorkflooModelRejectedField instantiates a new ControllerWorkflooModelRejectedField object
@@ -205,6 +206,38 @@ func (o *ControllerWorkflooModelRejectedField) SetReason(v string) {
 	o.Reason = &v
 }
 
+// GetValue returns the Value field value if set, zero value otherwise.
+func (o *ControllerWorkflooModelRejectedField) GetValue() string {
+	if o == nil || IsNil(o.Value) {
+		var ret string
+		return ret
+	}
+	return *o.Value
+}
+
+// GetValueOk returns a tuple with the Value field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ControllerWorkflooModelRejectedField) GetValueOk() (*string, bool) {
+	if o == nil || IsNil(o.Value) {
+		return nil, false
+	}
+	return o.Value, true
+}
+
+// HasValue returns a boolean if a field has been set.
+func (o *ControllerWorkflooModelRejectedField) HasValue() bool {
+	if o != nil && !IsNil(o.Value) {
+		return true
+	}
+
+	return false
+}
+
+// SetValue gets a reference to the given string and assigns it to the Value field.
+func (o *ControllerWorkflooModelRejectedField) SetValue(v string) {
+	o.Value = &v
+}
+
 func (o ControllerWorkflooModelRejectedField) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -229,6 +262,9 @@ func (o ControllerWorkflooModelRejectedField) ToMap() (map[string]interface{}, e
 	}
 	if !IsNil(o.Reason) {
 		toSerialize["reason"] = o.Reason
+	}
+	if !IsNil(o.Value) {
+		toSerialize["value"] = o.Value
 	}
 	return toSerialize, nil
 }

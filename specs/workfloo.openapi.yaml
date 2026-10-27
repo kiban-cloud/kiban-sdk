@@ -1642,6 +1642,8 @@ components:
           type: string
         reason:
           type: string
+        value:
+          type: string
       type: object
     controller_workfloo_model.Rejection:
       properties:

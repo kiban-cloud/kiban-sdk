@@ -10,6 +10,7 @@ Name | Type | Description | Notes
 **id** | **string** |  | [optional] [default to undefined]
 **label** | **string** |  | [optional] [default to undefined]
 **reason** | **string** |  | [optional] [default to undefined]
+**value** | **string** |  | [optional] [default to undefined]
 
 ## Example
 
@@ -22,6 +23,7 @@ const instance: ControllerWorkflooModelRejectedField = {
     id,
     label,
     reason,
+    value,
 };
 ```
 
