@@ -46,7 +46,7 @@ Add this dependency to your project's POM:
 <dependency>
   <groupId>com.kiban</groupId>
   <artifactId>workfloo</artifactId>
-  <version>1.0.0</version>
+  <version>1.1.0</version>
   <scope>compile</scope>
 </dependency>
 ```
@@ -62,7 +62,7 @@ Add this dependency to your project's build file:
   }
 
   dependencies {
-     implementation "com.kiban:workfloo:1.0.0"
+     implementation "com.kiban:workfloo:1.1.0"
   }
 ```
 
@@ -76,7 +76,7 @@ mvn clean package
 
 Then manually install the following JARs:
 
-* `target/workfloo-1.0.0.jar`
+* `target/workfloo-1.1.0.jar`
 * `target/lib/*.jar`
 
 ## Getting Started

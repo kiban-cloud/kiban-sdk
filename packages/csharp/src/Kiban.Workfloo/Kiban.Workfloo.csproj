@@ -12,7 +12,7 @@
     <Description>SDK de la API pública de workfloo de kiban cloud.</Description>
     <Copyright>Copyright 2026 Nkonect S.A. de C.V.</Copyright>
     <RootNamespace>Kiban.Workfloo</RootNamespace>
-    <Version>1.0.0</Version>
+    <Version>1.1.0</Version>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Kiban.Workfloo.xml</DocumentationFile>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/kiban-cloud/kiban-sdk.git</RepositoryUrl>
