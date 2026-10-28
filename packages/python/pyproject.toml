@@ -1,6 +1,6 @@
 [project]
 name = "kiban-workfloo"
-version = "1.0.0"
+version = "1.1.0"
 description = "Workfloo API"
 authors = [
   {name = "kiban",email = "hola@kiban.com"},

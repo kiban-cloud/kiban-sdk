@@ -12,6 +12,7 @@ Name | Type | Description | Notes
 **Document** | Pointer to [**ControllerWorkflooDefinitionModelDocument**](ControllerWorkflooDefinitionModelDocument.md) |  | [optional] 
 **Form** | Pointer to [**ControllerWorkflooDefinitionModelForm**](ControllerWorkflooDefinitionModelForm.md) |  | [optional] 
 **Id** | Pointer to **string** |  | [optional] 
+**LastRejection** | Pointer to [**ControllerWorkflooModelRejection**](ControllerWorkflooModelRejection.md) | LastRejection sólo aparece mientras el paso actual tenga un rechazo vigente: su ausencia dice que nada está esperando una corrección. | [optional] 
 **Link** | Pointer to [**ControllerWorkflooModelLinkNipStatus**](ControllerWorkflooModelLinkNipStatus.md) |  | [optional] 
 **Name** | Pointer to **string** |  | [optional] 
 **Status** | Pointer to **string** |  | [optional] 
@@ -237,6 +238,31 @@ SetId sets Id field to given value.
 `func (o *ControllerWorkflooModelWorkflooStatus) HasId() bool`
 
 HasId returns a boolean if a field has been set.
+
+### GetLastRejection
+
+`func (o *ControllerWorkflooModelWorkflooStatus) GetLastRejection() ControllerWorkflooModelRejection`
+
+GetLastRejection returns the LastRejection field if non-nil, zero value otherwise.
+
+### GetLastRejectionOk
+
+`func (o *ControllerWorkflooModelWorkflooStatus) GetLastRejectionOk() (*ControllerWorkflooModelRejection, bool)`
+
+GetLastRejectionOk returns a tuple with the LastRejection field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetLastRejection
+
+`func (o *ControllerWorkflooModelWorkflooStatus) SetLastRejection(v ControllerWorkflooModelRejection)`
+
+SetLastRejection sets LastRejection field to given value.
+
+### HasLastRejection
+
+`func (o *ControllerWorkflooModelWorkflooStatus) HasLastRejection() bool`
+
+HasLastRejection returns a boolean if a field has been set.
 
 ### GetLink
 

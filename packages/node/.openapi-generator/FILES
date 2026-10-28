@@ -52,6 +52,8 @@ docs/ControllerWorkflooModelNodeDetail.md
 docs/ControllerWorkflooModelNodeResume.md
 docs/ControllerWorkflooModelOtpValidateRequest.md
 docs/ControllerWorkflooModelPdf.md
+docs/ControllerWorkflooModelRejectedField.md
+docs/ControllerWorkflooModelRejection.md
 docs/ControllerWorkflooModelRemainingTime.md
 docs/ControllerWorkflooModelReviewFieldRequest.md
 docs/ControllerWorkflooModelReviewRequest.md

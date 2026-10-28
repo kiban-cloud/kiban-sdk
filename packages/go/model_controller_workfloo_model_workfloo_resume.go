@@ -28,6 +28,7 @@ type ControllerWorkflooModelWorkflooResume struct {
 	IdUnykoo *int32 `json:"idUnykoo,omitempty"`
 	IpOrigin *string `json:"ipOrigin,omitempty"`
 	Labels []string `json:"labels,omitempty"`
+	LastRejection *ControllerWorkflooModelRejection `json:"lastRejection,omitempty"`
 	Modified *string `json:"modified,omitempty"`
 	Name *string `json:"name,omitempty"`
 	Nodes []ControllerWorkflooModelNodeResume `json:"nodes,omitempty"`
@@ -277,6 +278,38 @@ func (o *ControllerWorkflooModelWorkflooResume) HasLabels() bool {
 // SetLabels gets a reference to the given []string and assigns it to the Labels field.
 func (o *ControllerWorkflooModelWorkflooResume) SetLabels(v []string) {
 	o.Labels = v
+}
+
+// GetLastRejection returns the LastRejection field value if set, zero value otherwise.
+func (o *ControllerWorkflooModelWorkflooResume) GetLastRejection() ControllerWorkflooModelRejection {
+	if o == nil || IsNil(o.LastRejection) {
+		var ret ControllerWorkflooModelRejection
+		return ret
+	}
+	return *o.LastRejection
+}
+
+// GetLastRejectionOk returns a tuple with the LastRejection field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ControllerWorkflooModelWorkflooResume) GetLastRejectionOk() (*ControllerWorkflooModelRejection, bool) {
+	if o == nil || IsNil(o.LastRejection) {
+		return nil, false
+	}
+	return o.LastRejection, true
+}
+
+// HasLastRejection returns a boolean if a field has been set.
+func (o *ControllerWorkflooModelWorkflooResume) HasLastRejection() bool {
+	if o != nil && !IsNil(o.LastRejection) {
+		return true
+	}
+
+	return false
+}
+
+// SetLastRejection gets a reference to the given ControllerWorkflooModelRejection and assigns it to the LastRejection field.
+func (o *ControllerWorkflooModelWorkflooResume) SetLastRejection(v ControllerWorkflooModelRejection) {
+	o.LastRejection = &v
 }
 
 // GetModified returns the Modified field value if set, zero value otherwise.
@@ -534,6 +567,9 @@ func (o ControllerWorkflooModelWorkflooResume) ToMap() (map[string]interface{}, 
 	}
 	if o.Labels != nil {
 		toSerialize["labels"] = o.Labels
+	}
+	if !IsNil(o.LastRejection) {
+		toSerialize["lastRejection"] = o.LastRejection
 	}
 	if !IsNil(o.Modified) {
 		toSerialize["modified"] = o.Modified

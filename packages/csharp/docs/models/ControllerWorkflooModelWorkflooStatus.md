@@ -12,6 +12,7 @@ Name | Type | Description | Notes
 **Document** | [**ControllerWorkflooDefinitionModelDocument**](ControllerWorkflooDefinitionModelDocument.md) |  | [optional] 
 **Form** | [**ControllerWorkflooDefinitionModelForm**](ControllerWorkflooDefinitionModelForm.md) |  | [optional] 
 **Id** | **string** |  | [optional] 
+**LastRejection** | [**ControllerWorkflooModelRejection**](ControllerWorkflooModelRejection.md) | LastRejection sólo aparece mientras el paso actual tenga un rechazo vigente: su ausencia dice que nada está esperando una corrección. | [optional] 
 **Link** | [**ControllerWorkflooModelLinkNipStatus**](ControllerWorkflooModelLinkNipStatus.md) |  | [optional] 
 **Name** | **string** |  | [optional] 
 **Status** | **string** |  | [optional] 

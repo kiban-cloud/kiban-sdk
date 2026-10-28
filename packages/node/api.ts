@@ -325,6 +325,24 @@ export interface ControllerWorkflooModelPdf {
     'errorMessage'?: string;
     'pdfBase64'?: string;
 }
+export interface ControllerWorkflooModelRejectedField {
+    'code'?: string;
+    'detail'?: Array<string> | null;
+    'id'?: string;
+    'label'?: string;
+    'reason'?: string;
+    'value'?: string;
+}
+export interface ControllerWorkflooModelRejection {
+    'at'?: string;
+    'fields'?: Array<ControllerWorkflooModelRejectedField> | null;
+    'httpCode'?: number;
+    'nodeId'?: string;
+    'nodeName'?: string;
+    'nodeType'?: string;
+    'raw'?: { [key: string]: string; } | null;
+    'reason'?: string;
+}
 export interface ControllerWorkflooModelRemainingTime {
     'hours'?: number;
     'minutes'?: number;
@@ -498,6 +516,7 @@ export interface ControllerWorkflooModelWorkflooResume {
     'idUnykoo'?: number;
     'ipOrigin'?: string;
     'labels'?: Array<string> | null;
+    'lastRejection'?: ControllerWorkflooModelRejection;
     'modified'?: string;
     'name'?: string;
     'nodes'?: Array<ControllerWorkflooModelNodeResume> | null;
@@ -518,6 +537,10 @@ export interface ControllerWorkflooModelWorkflooStatus {
     'document'?: ControllerWorkflooDefinitionModelDocument;
     'form'?: ControllerWorkflooDefinitionModelForm;
     'id'?: string;
+    /**
+     * LastRejection sólo aparece mientras el paso actual tenga un rechazo vigente: su ausencia dice que nada está esperando una corrección.
+     */
+    'lastRejection'?: ControllerWorkflooModelRejection;
     'link'?: ControllerWorkflooModelLinkNipStatus;
     'name'?: string;
     'status'?: string;

@@ -23,6 +23,7 @@ from typing import Any, ClassVar, Dict, List, Optional
 from kiban.workfloo.models.controller_workfloo_definition_model_document import ControllerWorkflooDefinitionModelDocument
 from kiban.workfloo.models.controller_workfloo_definition_model_form import ControllerWorkflooDefinitionModelForm
 from kiban.workfloo.models.controller_workfloo_model_link_nip_status import ControllerWorkflooModelLinkNipStatus
+from kiban.workfloo.models.controller_workfloo_model_rejection import ControllerWorkflooModelRejection
 from kiban.workfloo.models.controller_workfloo_model_timer import ControllerWorkflooModelTimer
 from kiban.workfloo.models.controller_workfloo_model_validation_status import ControllerWorkflooModelValidationStatus
 from kiban.workfloo.models.controller_workfloo_model_verification_status import ControllerWorkflooModelVerificationStatus
@@ -42,13 +43,14 @@ class ControllerWorkflooModelWorkflooStatus(BaseModel):
     document: Optional[ControllerWorkflooDefinitionModelDocument] = None
     form: Optional[ControllerWorkflooDefinitionModelForm] = None
     id: Optional[StrictStr] = None
+    last_rejection: Optional[ControllerWorkflooModelRejection] = Field(default=None, description="LastRejection sólo aparece mientras el paso actual tenga un rechazo vigente: su ausencia dice que nada está esperando una corrección.", alias="lastRejection")
     link: Optional[ControllerWorkflooModelLinkNipStatus] = None
     name: Optional[StrictStr] = None
     status: Optional[StrictStr] = None
     timer: Optional[ControllerWorkflooModelTimer] = None
     validation: Optional[ControllerWorkflooModelValidationStatus] = None
     verification: Optional[ControllerWorkflooModelVerificationStatus] = Field(default=None, description="Verification aparece SÓLO cuando la ejecución está esperando que alguien teclee un código. Su ausencia es lo que le dice al integrador que no hay nada pendiente de ese lado.")
-    __properties: ClassVar[List[str]] = ["cancelledAt", "cancelledBy", "currentNodeId", "currentNodeName", "currentNodeType", "document", "form", "id", "link", "name", "status", "timer", "validation", "verification"]
+    __properties: ClassVar[List[str]] = ["cancelledAt", "cancelledBy", "currentNodeId", "currentNodeName", "currentNodeType", "document", "form", "id", "lastRejection", "link", "name", "status", "timer", "validation", "verification"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -95,6 +97,9 @@ class ControllerWorkflooModelWorkflooStatus(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of form
         if self.form:
             _dict['form'] = self.form.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of last_rejection
+        if self.last_rejection:
+            _dict['lastRejection'] = self.last_rejection.to_dict()
         # override the default output from pydantic by calling `to_dict()` of link
         if self.link:
             _dict['link'] = self.link.to_dict()
@@ -127,6 +132,7 @@ class ControllerWorkflooModelWorkflooStatus(BaseModel):
             "document": ControllerWorkflooDefinitionModelDocument.from_dict(obj["document"]) if obj.get("document") is not None else None,
             "form": ControllerWorkflooDefinitionModelForm.from_dict(obj["form"]) if obj.get("form") is not None else None,
             "id": obj.get("id"),
+            "lastRejection": ControllerWorkflooModelRejection.from_dict(obj["lastRejection"]) if obj.get("lastRejection") is not None else None,
             "link": ControllerWorkflooModelLinkNipStatus.from_dict(obj["link"]) if obj.get("link") is not None else None,
             "name": obj.get("name"),
             "status": obj.get("status"),

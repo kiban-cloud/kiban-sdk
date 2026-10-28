@@ -12,6 +12,7 @@ Name | Type | Description | Notes
 **idUnykoo** | **number** |  | [optional] [default to undefined]
 **ipOrigin** | **string** |  | [optional] [default to undefined]
 **labels** | **Array&lt;string&gt;** |  | [optional] [default to undefined]
+**lastRejection** | [**ControllerWorkflooModelRejection**](ControllerWorkflooModelRejection.md) |  | [optional] [default to undefined]
 **modified** | **string** |  | [optional] [default to undefined]
 **name** | **string** |  | [optional] [default to undefined]
 **nodes** | [**Array&lt;ControllerWorkflooModelNodeResume&gt;**](ControllerWorkflooModelNodeResume.md) |  | [optional] [default to undefined]
@@ -33,6 +34,7 @@ const instance: ControllerWorkflooModelWorkflooResume = {
     idUnykoo,
     ipOrigin,
     labels,
+    lastRejection,
     modified,
     name,
     nodes,

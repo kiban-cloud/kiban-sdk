@@ -5,7 +5,7 @@
     <artifactId>workfloo</artifactId>
     <packaging>jar</packaging>
     <name>workfloo</name>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
     <url>https://github.com/kiban-cloud/kiban-sdk</url>
     <description>SDK de la API pública de workfloo de kiban cloud.</description>
     <scm>

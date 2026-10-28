@@ -143,6 +143,8 @@ public class JSON {
         gsonBuilder.registerTypeAdapterFactory(new com.kiban.workfloo.model.ControllerWorkflooModelNodeResume.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.kiban.workfloo.model.ControllerWorkflooModelOtpValidateRequest.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.kiban.workfloo.model.ControllerWorkflooModelPdf.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.kiban.workfloo.model.ControllerWorkflooModelRejectedField.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.kiban.workfloo.model.ControllerWorkflooModelRejection.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.kiban.workfloo.model.ControllerWorkflooModelRemainingTime.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.kiban.workfloo.model.ControllerWorkflooModelReviewFieldRequest.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.kiban.workfloo.model.ControllerWorkflooModelReviewRequest.CustomTypeAdapterFactory());

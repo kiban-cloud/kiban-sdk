@@ -91,6 +91,8 @@ namespace Kiban.Workfloo.Client
             _jsonOptions.Converters.Add(new ControllerWorkflooModelNodeResumeJsonConverter());
             _jsonOptions.Converters.Add(new ControllerWorkflooModelOtpValidateRequestJsonConverter());
             _jsonOptions.Converters.Add(new ControllerWorkflooModelPdfJsonConverter());
+            _jsonOptions.Converters.Add(new ControllerWorkflooModelRejectedFieldJsonConverter());
+            _jsonOptions.Converters.Add(new ControllerWorkflooModelRejectionJsonConverter());
             _jsonOptions.Converters.Add(new ControllerWorkflooModelRemainingTimeJsonConverter());
             _jsonOptions.Converters.Add(new ControllerWorkflooModelReviewFieldRequestJsonConverter());
             _jsonOptions.Converters.Add(new ControllerWorkflooModelReviewRequestJsonConverter());

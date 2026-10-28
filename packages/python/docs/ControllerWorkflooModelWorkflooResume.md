@@ -12,6 +12,7 @@ Name | Type | Description | Notes
 **id_unykoo** | **int** |  | [optional] 
 **ip_origin** | **str** |  | [optional] 
 **labels** | **List[str]** |  | [optional] 
+**last_rejection** | [**ControllerWorkflooModelRejection**](ControllerWorkflooModelRejection.md) |  | [optional] 
 **modified** | **str** |  | [optional] 
 **name** | **str** |  | [optional] 
 **nodes** | [**List[ControllerWorkflooModelNodeResume]**](ControllerWorkflooModelNodeResume.md) |  | [optional] 

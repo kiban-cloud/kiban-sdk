@@ -1627,6 +1627,49 @@ components:
         pdfBase64:
           type: string
       type: object
+    controller_workfloo_model.RejectedField:
+      properties:
+        code:
+          type: string
+        detail:
+          items:
+            type: string
+          type: array
+          nullable: true
+        id:
+          type: string
+        label:
+          type: string
+        reason:
+          type: string
+        value:
+          type: string
+      type: object
+    controller_workfloo_model.Rejection:
+      properties:
+        at:
+          type: string
+        fields:
+          items:
+            $ref: '#/components/schemas/controller_workfloo_model.RejectedField'
+          type: array
+          nullable: true
+        httpCode:
+          type: integer
+        nodeId:
+          type: string
+        nodeName:
+          type: string
+        nodeType:
+          type: string
+        raw:
+          additionalProperties:
+            type: string
+          type: object
+          nullable: true
+        reason:
+          type: string
+      type: object
     controller_workfloo_model.RemainingTime:
       properties:
         hours:
@@ -1960,6 +2003,8 @@ components:
             type: string
           type: array
           nullable: true
+        lastRejection:
+          $ref: '#/components/schemas/controller_workfloo_model.Rejection'
         modified:
           type: string
         name:
@@ -2000,6 +2045,12 @@ components:
           $ref: '#/components/schemas/controller_workfloo_definition_model.Form'
         id:
           type: string
+        lastRejection:
+          allOf:
+            - $ref: '#/components/schemas/controller_workfloo_model.Rejection'
+          description: |-
+            LastRejection sólo aparece mientras el paso actual tenga un rechazo
+            vigente: su ausencia dice que nada está esperando una corrección.
         link:
           $ref: '#/components/schemas/controller_workfloo_model.LinkNipStatus'
         name:

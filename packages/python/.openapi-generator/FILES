@@ -50,6 +50,8 @@ docs/ControllerWorkflooModelNodeDetail.md
 docs/ControllerWorkflooModelNodeResume.md
 docs/ControllerWorkflooModelOtpValidateRequest.md
 docs/ControllerWorkflooModelPdf.md
+docs/ControllerWorkflooModelRejectedField.md
+docs/ControllerWorkflooModelRejection.md
 docs/ControllerWorkflooModelRemainingTime.md
 docs/ControllerWorkflooModelReviewFieldRequest.md
 docs/ControllerWorkflooModelReviewRequest.md
@@ -130,6 +132,8 @@ kiban/workfloo/models/controller_workfloo_model_node_detail.py
 kiban/workfloo/models/controller_workfloo_model_node_resume.py
 kiban/workfloo/models/controller_workfloo_model_otp_validate_request.py
 kiban/workfloo/models/controller_workfloo_model_pdf.py
+kiban/workfloo/models/controller_workfloo_model_rejected_field.py
+kiban/workfloo/models/controller_workfloo_model_rejection.py
 kiban/workfloo/models/controller_workfloo_model_remaining_time.py
 kiban/workfloo/models/controller_workfloo_model_review_field_request.py
 kiban/workfloo/models/controller_workfloo_model_review_request.py
@@ -158,8 +162,4 @@ setup.cfg
 setup.py
 test-requirements.txt
 test/__init__.py
-test/test_controller_workfloo_definition_model_field_validator.py
-test/test_controller_workfloo_model_file_response_v2.py
-test/test_controller_workfloo_model_validate_field_request.py
-test/test_controller_workfloo_model_validate_field_response.py
 tox.ini

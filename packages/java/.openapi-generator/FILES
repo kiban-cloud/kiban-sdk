@@ -52,6 +52,8 @@ docs/ControllerWorkflooModelNodeDetail.md
 docs/ControllerWorkflooModelNodeResume.md
 docs/ControllerWorkflooModelOtpValidateRequest.md
 docs/ControllerWorkflooModelPdf.md
+docs/ControllerWorkflooModelRejectedField.md
+docs/ControllerWorkflooModelRejection.md
 docs/ControllerWorkflooModelRemainingTime.md
 docs/ControllerWorkflooModelReviewFieldRequest.md
 docs/ControllerWorkflooModelReviewRequest.md
@@ -150,6 +152,8 @@ src/main/java/com/kiban/workfloo/model/ControllerWorkflooModelNodeDetail.java
 src/main/java/com/kiban/workfloo/model/ControllerWorkflooModelNodeResume.java
 src/main/java/com/kiban/workfloo/model/ControllerWorkflooModelOtpValidateRequest.java
 src/main/java/com/kiban/workfloo/model/ControllerWorkflooModelPdf.java
+src/main/java/com/kiban/workfloo/model/ControllerWorkflooModelRejectedField.java
+src/main/java/com/kiban/workfloo/model/ControllerWorkflooModelRejection.java
 src/main/java/com/kiban/workfloo/model/ControllerWorkflooModelRemainingTime.java
 src/main/java/com/kiban/workfloo/model/ControllerWorkflooModelReviewFieldRequest.java
 src/main/java/com/kiban/workfloo/model/ControllerWorkflooModelReviewRequest.java
@@ -170,7 +174,3 @@ src/main/java/com/kiban/workfloo/model/ControllerWorkflooModelWorkflooListItem.j
 src/main/java/com/kiban/workfloo/model/ControllerWorkflooModelWorkflooPage.java
 src/main/java/com/kiban/workfloo/model/ControllerWorkflooModelWorkflooResume.java
 src/main/java/com/kiban/workfloo/model/ControllerWorkflooModelWorkflooStatus.java
-src/test/java/com/kiban/workfloo/model/ControllerWorkflooDefinitionModelFieldValidatorTest.java
-src/test/java/com/kiban/workfloo/model/ControllerWorkflooModelFileResponseV2Test.java
-src/test/java/com/kiban/workfloo/model/ControllerWorkflooModelValidateFieldRequestTest.java
-src/test/java/com/kiban/workfloo/model/ControllerWorkflooModelValidateFieldResponseTest.java

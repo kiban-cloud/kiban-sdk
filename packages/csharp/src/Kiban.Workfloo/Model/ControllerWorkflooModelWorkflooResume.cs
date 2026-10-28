@@ -41,6 +41,7 @@ namespace Kiban.Workfloo.Model
         /// <param name="idUnykoo">idUnykoo</param>
         /// <param name="ipOrigin">ipOrigin</param>
         /// <param name="labels">labels</param>
+        /// <param name="lastRejection">lastRejection</param>
         /// <param name="modified">modified</param>
         /// <param name="name">name</param>
         /// <param name="nodes">nodes</param>
@@ -49,7 +50,7 @@ namespace Kiban.Workfloo.Model
         /// <param name="sceneryName">sceneryName</param>
         /// <param name="status">status</param>
         [JsonConstructor]
-        public ControllerWorkflooModelWorkflooResume(Option<string?> cancelledAt = default, Option<string?> cancelledBy = default, Option<string?> created = default, Option<string?> id = default, Option<int?> idUnykoo = default, Option<string?> ipOrigin = default, Option<List<string>?> labels = default, Option<string?> modified = default, Option<string?> name = default, Option<List<ControllerWorkflooModelNodeResume>?> nodes = default, Option<string?> origin = default, Option<string?> sceneryId = default, Option<string?> sceneryName = default, Option<string?> status = default)
+        public ControllerWorkflooModelWorkflooResume(Option<string?> cancelledAt = default, Option<string?> cancelledBy = default, Option<string?> created = default, Option<string?> id = default, Option<int?> idUnykoo = default, Option<string?> ipOrigin = default, Option<List<string>?> labels = default, Option<ControllerWorkflooModelRejection?> lastRejection = default, Option<string?> modified = default, Option<string?> name = default, Option<List<ControllerWorkflooModelNodeResume>?> nodes = default, Option<string?> origin = default, Option<string?> sceneryId = default, Option<string?> sceneryName = default, Option<string?> status = default)
         {
             CancelledAtOption = cancelledAt;
             CancelledByOption = cancelledBy;
@@ -58,6 +59,7 @@ namespace Kiban.Workfloo.Model
             IdUnykooOption = idUnykoo;
             IpOriginOption = ipOrigin;
             LabelsOption = labels;
+            LastRejectionOption = lastRejection;
             ModifiedOption = modified;
             NameOption = name;
             NodesOption = nodes;
@@ -161,6 +163,19 @@ namespace Kiban.Workfloo.Model
         /// </summary>
         [JsonPropertyName("labels")]
         public List<string>? Labels { get { return this.LabelsOption.Value; } set { this.LabelsOption = new(value); } }
+
+        /// <summary>
+        /// Used to track the state of LastRejection
+        /// </summary>
+        [JsonIgnore]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<ControllerWorkflooModelRejection?> LastRejectionOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets LastRejection
+        /// </summary>
+        [JsonPropertyName("lastRejection")]
+        public ControllerWorkflooModelRejection? LastRejection { get { return this.LastRejectionOption.Value; } set { this.LastRejectionOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Modified
@@ -268,6 +283,7 @@ namespace Kiban.Workfloo.Model
             sb.Append("  IdUnykoo: ").Append(IdUnykoo).Append("\n");
             sb.Append("  IpOrigin: ").Append(IpOrigin).Append("\n");
             sb.Append("  Labels: ").Append(Labels).Append("\n");
+            sb.Append("  LastRejection: ").Append(LastRejection).Append("\n");
             sb.Append("  Modified: ").Append(Modified).Append("\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
             sb.Append("  Nodes: ").Append(Nodes).Append("\n");
@@ -329,6 +345,7 @@ namespace Kiban.Workfloo.Model
             Option<int?> idUnykoo = default;
             Option<string?> ipOrigin = default;
             Option<List<string>?> labels = default;
+            Option<ControllerWorkflooModelRejection?> lastRejection = default;
             Option<string?> modified = default;
             Option<string?> name = default;
             Option<List<ControllerWorkflooModelNodeResume>?> nodes = default;
@@ -372,6 +389,9 @@ namespace Kiban.Workfloo.Model
                             break;
                         case "labels":
                             labels = new Option<List<string>?>(JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions));
+                            break;
+                        case "lastRejection":
+                            lastRejection = new Option<ControllerWorkflooModelRejection?>(JsonSerializer.Deserialize<ControllerWorkflooModelRejection>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         case "modified":
                             modified = new Option<string?>(utf8JsonReader.GetString()!);
@@ -418,6 +438,9 @@ namespace Kiban.Workfloo.Model
             if (ipOrigin.IsSet && ipOrigin.Value == null)
                 throw new ArgumentNullException(nameof(ipOrigin), "Property is not nullable for class ControllerWorkflooModelWorkflooResume.");
 
+            if (lastRejection.IsSet && lastRejection.Value == null)
+                throw new ArgumentNullException(nameof(lastRejection), "Property is not nullable for class ControllerWorkflooModelWorkflooResume.");
+
             if (modified.IsSet && modified.Value == null)
                 throw new ArgumentNullException(nameof(modified), "Property is not nullable for class ControllerWorkflooModelWorkflooResume.");
 
@@ -436,7 +459,7 @@ namespace Kiban.Workfloo.Model
             if (status.IsSet && status.Value == null)
                 throw new ArgumentNullException(nameof(status), "Property is not nullable for class ControllerWorkflooModelWorkflooResume.");
 
-            return new ControllerWorkflooModelWorkflooResume(cancelledAt, cancelledBy, created, id, idUnykoo, ipOrigin, labels, modified, name, nodes, origin, sceneryId, sceneryName, status);
+            return new ControllerWorkflooModelWorkflooResume(cancelledAt, cancelledBy, created, id, idUnykoo, ipOrigin, labels, lastRejection, modified, name, nodes, origin, sceneryId, sceneryName, status);
         }
 
         /// <summary>
@@ -477,6 +500,9 @@ namespace Kiban.Workfloo.Model
 
             if (controllerWorkflooModelWorkflooResume.IpOriginOption.IsSet && controllerWorkflooModelWorkflooResume.IpOrigin == null)
                 throw new ArgumentNullException(nameof(controllerWorkflooModelWorkflooResume.IpOrigin), "Property is required for class ControllerWorkflooModelWorkflooResume.");
+
+            if (controllerWorkflooModelWorkflooResume.LastRejectionOption.IsSet && controllerWorkflooModelWorkflooResume.LastRejection == null)
+                throw new ArgumentNullException(nameof(controllerWorkflooModelWorkflooResume.LastRejection), "Property is required for class ControllerWorkflooModelWorkflooResume.");
 
             if (controllerWorkflooModelWorkflooResume.ModifiedOption.IsSet && controllerWorkflooModelWorkflooResume.Modified == null)
                 throw new ArgumentNullException(nameof(controllerWorkflooModelWorkflooResume.Modified), "Property is required for class ControllerWorkflooModelWorkflooResume.");
@@ -522,6 +548,11 @@ namespace Kiban.Workfloo.Model
                 }
                 else
                     writer.WriteNull("labels");
+            if (controllerWorkflooModelWorkflooResume.LastRejectionOption.IsSet)
+            {
+                writer.WritePropertyName("lastRejection");
+                JsonSerializer.Serialize(writer, controllerWorkflooModelWorkflooResume.LastRejection, jsonSerializerOptions);
+            }
             if (controllerWorkflooModelWorkflooResume.ModifiedOption.IsSet)
                 writer.WriteString("modified", controllerWorkflooModelWorkflooResume.Modified);
 

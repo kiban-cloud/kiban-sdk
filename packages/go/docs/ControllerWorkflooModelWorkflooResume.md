@@ -11,6 +11,7 @@ Name | Type | Description | Notes
 **IdUnykoo** | Pointer to **int32** |  | [optional] 
 **IpOrigin** | Pointer to **string** |  | [optional] 
 **Labels** | Pointer to **[]string** |  | [optional] 
+**LastRejection** | Pointer to [**ControllerWorkflooModelRejection**](ControllerWorkflooModelRejection.md) |  | [optional] 
 **Modified** | Pointer to **string** |  | [optional] 
 **Name** | Pointer to **string** |  | [optional] 
 **Nodes** | Pointer to [**[]ControllerWorkflooModelNodeResume**](ControllerWorkflooModelNodeResume.md) |  | [optional] 
@@ -223,6 +224,31 @@ HasLabels returns a boolean if a field has been set.
 `func (o *ControllerWorkflooModelWorkflooResume) UnsetLabels()`
 
 UnsetLabels ensures that no value is present for Labels, not even an explicit nil
+### GetLastRejection
+
+`func (o *ControllerWorkflooModelWorkflooResume) GetLastRejection() ControllerWorkflooModelRejection`
+
+GetLastRejection returns the LastRejection field if non-nil, zero value otherwise.
+
+### GetLastRejectionOk
+
+`func (o *ControllerWorkflooModelWorkflooResume) GetLastRejectionOk() (*ControllerWorkflooModelRejection, bool)`
+
+GetLastRejectionOk returns a tuple with the LastRejection field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetLastRejection
+
+`func (o *ControllerWorkflooModelWorkflooResume) SetLastRejection(v ControllerWorkflooModelRejection)`
+
+SetLastRejection sets LastRejection field to given value.
+
+### HasLastRejection
+
+`func (o *ControllerWorkflooModelWorkflooResume) HasLastRejection() bool`
+
+HasLastRejection returns a boolean if a field has been set.
+
 ### GetModified
 
 `func (o *ControllerWorkflooModelWorkflooResume) GetModified() string`

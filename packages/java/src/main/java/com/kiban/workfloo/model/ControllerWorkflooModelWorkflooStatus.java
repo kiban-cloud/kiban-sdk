@@ -22,6 +22,7 @@ import com.google.gson.stream.JsonWriter;
 import com.kiban.workfloo.model.ControllerWorkflooDefinitionModelDocument;
 import com.kiban.workfloo.model.ControllerWorkflooDefinitionModelForm;
 import com.kiban.workfloo.model.ControllerWorkflooModelLinkNipStatus;
+import com.kiban.workfloo.model.ControllerWorkflooModelRejection;
 import com.kiban.workfloo.model.ControllerWorkflooModelTimer;
 import com.kiban.workfloo.model.ControllerWorkflooModelValidationStatus;
 import com.kiban.workfloo.model.ControllerWorkflooModelVerificationStatus;
@@ -95,6 +96,11 @@ public class ControllerWorkflooModelWorkflooStatus {
   @SerializedName(SERIALIZED_NAME_ID)
   @javax.annotation.Nullable
   private String id;
+
+  public static final String SERIALIZED_NAME_LAST_REJECTION = "lastRejection";
+  @SerializedName(SERIALIZED_NAME_LAST_REJECTION)
+  @javax.annotation.Nullable
+  private ControllerWorkflooModelRejection lastRejection;
 
   public static final String SERIALIZED_NAME_LINK = "link";
   @SerializedName(SERIALIZED_NAME_LINK)
@@ -281,6 +287,25 @@ public class ControllerWorkflooModelWorkflooStatus {
   }
 
 
+  public ControllerWorkflooModelWorkflooStatus lastRejection(@javax.annotation.Nullable ControllerWorkflooModelRejection lastRejection) {
+    this.lastRejection = lastRejection;
+    return this;
+  }
+
+  /**
+   * LastRejection sólo aparece mientras el paso actual tenga un rechazo vigente: su ausencia dice que nada está esperando una corrección.
+   * @return lastRejection
+   */
+  @javax.annotation.Nullable
+  public ControllerWorkflooModelRejection getLastRejection() {
+    return lastRejection;
+  }
+
+  public void setLastRejection(@javax.annotation.Nullable ControllerWorkflooModelRejection lastRejection) {
+    this.lastRejection = lastRejection;
+  }
+
+
   public ControllerWorkflooModelWorkflooStatus link(@javax.annotation.Nullable ControllerWorkflooModelLinkNipStatus link) {
     this.link = link;
     return this;
@@ -413,6 +438,7 @@ public class ControllerWorkflooModelWorkflooStatus {
         Objects.equals(this.document, controllerWorkflooModelWorkflooStatus.document) &&
         Objects.equals(this.form, controllerWorkflooModelWorkflooStatus.form) &&
         Objects.equals(this.id, controllerWorkflooModelWorkflooStatus.id) &&
+        Objects.equals(this.lastRejection, controllerWorkflooModelWorkflooStatus.lastRejection) &&
         Objects.equals(this.link, controllerWorkflooModelWorkflooStatus.link) &&
         Objects.equals(this.name, controllerWorkflooModelWorkflooStatus.name) &&
         Objects.equals(this.status, controllerWorkflooModelWorkflooStatus.status) &&
@@ -423,7 +449,7 @@ public class ControllerWorkflooModelWorkflooStatus {
 
   @Override
   public int hashCode() {
-    return Objects.hash(cancelledAt, cancelledBy, currentNodeId, currentNodeName, currentNodeType, document, form, id, link, name, status, timer, validation, verification);
+    return Objects.hash(cancelledAt, cancelledBy, currentNodeId, currentNodeName, currentNodeType, document, form, id, lastRejection, link, name, status, timer, validation, verification);
   }
 
   @Override
@@ -438,6 +464,7 @@ public class ControllerWorkflooModelWorkflooStatus {
     sb.append("    document: ").append(toIndentedString(document)).append("\n");
     sb.append("    form: ").append(toIndentedString(form)).append("\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    lastRejection: ").append(toIndentedString(lastRejection)).append("\n");
     sb.append("    link: ").append(toIndentedString(link)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
@@ -462,7 +489,7 @@ public class ControllerWorkflooModelWorkflooStatus {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("cancelledAt", "cancelledBy", "currentNodeId", "currentNodeName", "currentNodeType", "document", "form", "id", "link", "name", "status", "timer", "validation", "verification"));
+    openapiFields = new HashSet<String>(Arrays.asList("cancelledAt", "cancelledBy", "currentNodeId", "currentNodeName", "currentNodeType", "document", "form", "id", "lastRejection", "link", "name", "status", "timer", "validation", "verification"));
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>(0);
@@ -514,6 +541,10 @@ public class ControllerWorkflooModelWorkflooStatus {
       }
       if ((jsonObj.get("id") != null && !jsonObj.get("id").isJsonNull()) && !jsonObj.get("id").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `id` to be a primitive type in the JSON string but got `%s`", jsonObj.get("id").toString()));
+      }
+      // validate the optional field `lastRejection`
+      if (jsonObj.get("lastRejection") != null && !jsonObj.get("lastRejection").isJsonNull()) {
+        ControllerWorkflooModelRejection.validateJsonElement(jsonObj.get("lastRejection"));
       }
       // validate the optional field `link`
       if (jsonObj.get("link") != null && !jsonObj.get("link").isJsonNull()) {
