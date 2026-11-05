@@ -85,6 +85,11 @@ credenciales). Producción en `https://link.kiban.com` y sandbox en
 `https://sandbox.link.kiban.com`; en sandbox cada ejecución responde un test
 case del servicio (`testCase` / `testCaseId`) en lugar de llamar al proveedor.
 
+El modo va en la API key: una key de sandbox sólo funciona en el host sandbox o
+con `sandbox=true` en cada llamada, y una de producción sólo sin él. Mezclarlos
+responde 401. Para crear o editar una credencial, el body lleva `name`, `type` y
+los campos de ese tipo (por ejemplo BC_PF: `usuario` y `password`).
+
 ```ts
 import { Configuration, LinkApi, VaultApi } from '@kiban/link';
 
