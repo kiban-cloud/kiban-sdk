@@ -15,7 +15,7 @@ Method | HTTP request | Description
 
 ## CreateVault
 
-> ControllerMicroserviceModelMicroserviceDetailDto CreateVault(ctx).DomainVaultModelVaultDto(domainVaultModelVaultDto).Sandbox(sandbox).Execute()
+> ControllerMicroserviceModelMicroserviceDetailDto CreateVault(ctx).Body(body).Sandbox(sandbox).Execute()
 
 Crear una credencial
 
@@ -34,12 +34,12 @@ import (
 )
 
 func main() {
-	domainVaultModelVaultDto := *openapiclient.NewDomainVaultModelVaultDto("Name_example", "Type_example", "Value_example") // DomainVaultModelVaultDto | Credencial
-	sandbox := true // bool | Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+	body := map[string]interface{}{ ... } // map[string]interface{} | Objeto con name, type y los campos propios del tipo de credencial (cada tipo define los suyos; por ejemplo BC_PF: usuario, password y autorenew opcional). Los secretos nunca se devuelven
+	sandbox := true // bool | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.VaultAPI.CreateVault(context.Background()).DomainVaultModelVaultDto(domainVaultModelVaultDto).Sandbox(sandbox).Execute()
+	resp, r, err := apiClient.VaultAPI.CreateVault(context.Background()).Body(body).Sandbox(sandbox).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `VaultAPI.CreateVault``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -60,8 +60,8 @@ Other parameters are passed through a pointer to a apiCreateVaultRequest struct 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **domainVaultModelVaultDto** | [**DomainVaultModelVaultDto**](DomainVaultModelVaultDto.md) | Credencial | 
- **sandbox** | **bool** | Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito | 
+ **body** | **map[string]interface{}** | Objeto con name, type y los campos propios del tipo de credencial (cada tipo define los suyos; por ejemplo BC_PF: usuario, password y autorenew opcional). Los secretos nunca se devuelven | 
+ **sandbox** | **bool** | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito | 
 
 ### Return type
 
@@ -103,7 +103,7 @@ import (
 
 func main() {
 	id := "id_example" // string | Id de la credencial
-	sandbox := true // bool | Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+	sandbox := true // bool | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -131,7 +131,7 @@ Other parameters are passed through a pointer to a apiDeleteVaultRequest struct 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **sandbox** | **bool** | Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito | 
+ **sandbox** | **bool** | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito | 
 
 ### Return type
 
@@ -173,7 +173,7 @@ import (
 
 func main() {
 	id := "id_example" // string | Id de la credencial
-	sandbox := true // bool | Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+	sandbox := true // bool | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -203,7 +203,7 @@ Other parameters are passed through a pointer to a apiGetVaultRequest struct via
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **sandbox** | **bool** | Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito | 
+ **sandbox** | **bool** | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito | 
 
 ### Return type
 
@@ -246,7 +246,7 @@ import (
 func main() {
 	page := int32(56) // int32 | Número de página, empieza en 1
 	itemsPerPage := int32(56) // int32 | Resultados por página
-	sandbox := true // bool | Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+	sandbox := true // bool | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -273,7 +273,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **page** | **int32** | Número de página, empieza en 1 | 
  **itemsPerPage** | **int32** | Resultados por página | 
- **sandbox** | **bool** | Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito | 
+ **sandbox** | **bool** | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito | 
 
 ### Return type
 
@@ -295,7 +295,7 @@ Name | Type | Description  | Notes
 
 ## UpdateVault
 
-> UpdateVault(ctx, id).DomainVaultModelVaultEditDto(domainVaultModelVaultEditDto).Sandbox(sandbox).Execute()
+> UpdateVault(ctx, id).Body(body).Sandbox(sandbox).Execute()
 
 Editar una credencial
 
@@ -315,12 +315,12 @@ import (
 
 func main() {
 	id := "id_example" // string | Id de la credencial
-	domainVaultModelVaultEditDto := *openapiclient.NewDomainVaultModelVaultEditDto("Name_example", "Type_example", "Value_example") // DomainVaultModelVaultEditDto | Credencial con sus nuevos valores
-	sandbox := true // bool | Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+	body := map[string]interface{}{ ... } // map[string]interface{} | Objeto con name, type y los campos propios del tipo de credencial (cada tipo define los suyos; por ejemplo BC_PF: usuario, password y autorenew opcional). Los secretos nunca se devuelven
+	sandbox := true // bool | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	r, err := apiClient.VaultAPI.UpdateVault(context.Background(), id).DomainVaultModelVaultEditDto(domainVaultModelVaultEditDto).Sandbox(sandbox).Execute()
+	r, err := apiClient.VaultAPI.UpdateVault(context.Background(), id).Body(body).Sandbox(sandbox).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `VaultAPI.UpdateVault``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -344,8 +344,8 @@ Other parameters are passed through a pointer to a apiUpdateVaultRequest struct 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **domainVaultModelVaultEditDto** | [**DomainVaultModelVaultEditDto**](DomainVaultModelVaultEditDto.md) | Credencial con sus nuevos valores | 
- **sandbox** | **bool** | Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito | 
+ **body** | **map[string]interface{}** | Objeto con name, type y los campos propios del tipo de credencial (cada tipo define los suyos; por ejemplo BC_PF: usuario, password y autorenew opcional). Los secretos nunca se devuelven | 
+ **sandbox** | **bool** | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito | 
 
 ### Return type
 
@@ -389,7 +389,7 @@ func main() {
 	service := "service_example" // string | Servicio del catálogo
 	subservice := "subservice_example" // string | Operación del servicio
 	controllerMicroserviceModelVaultNameDto := *openapiclient.NewControllerMicroserviceModelVaultNameDto() // ControllerMicroserviceModelVaultNameDto | Nombre de la credencial
-	sandbox := true // bool | Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+	sandbox := true // bool | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -422,7 +422,7 @@ Name | Type | Description  | Notes
 
 
  **controllerMicroserviceModelVaultNameDto** | [**ControllerMicroserviceModelVaultNameDto**](ControllerMicroserviceModelVaultNameDto.md) | Nombre de la credencial | 
- **sandbox** | **bool** | Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito | 
+ **sandbox** | **bool** | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito | 
 
 ### Return type
 

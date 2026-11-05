@@ -17,14 +17,12 @@ from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
 from pydantic import Field, StrictBool, StrictInt, StrictStr
-from typing import Optional
+from typing import Any, Dict, Optional
 from typing_extensions import Annotated
 from kiban.link.models.controller_microservice_model_execution_page import ControllerMicroserviceModelExecutionPage
 from kiban.link.models.controller_microservice_model_microservice_detail_dto import ControllerMicroserviceModelMicroserviceDetailDto
 from kiban.link.models.controller_microservice_model_vault_name_dto import ControllerMicroserviceModelVaultNameDto
 from kiban.link.models.controller_microservice_model_vault_validation_dto import ControllerMicroserviceModelVaultValidationDto
-from kiban.link.models.domain_vault_model_vault_dto import DomainVaultModelVaultDto
-from kiban.link.models.domain_vault_model_vault_edit_dto import DomainVaultModelVaultEditDto
 
 from kiban.link.api_client import ApiClient, RequestSerialized
 from kiban.link.api_response import ApiResponse
@@ -47,8 +45,8 @@ class VaultApi:
     @validate_call
     def create_vault(
         self,
-        domain_vault_model_vault_dto: Annotated[DomainVaultModelVaultDto, Field(description="Credencial")],
-        sandbox: Annotated[Optional[StrictBool], Field(description="Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito")] = None,
+        body: Annotated[Dict[str, Any], Field(description="Objeto con name, type y los campos propios del tipo de credencial (cada tipo define los suyos; por ejemplo BC_PF: usuario, password y autorenew opcional). Los secretos nunca se devuelven")],
+        sandbox: Annotated[Optional[StrictBool], Field(description="Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -64,11 +62,11 @@ class VaultApi:
     ) -> ControllerMicroserviceModelMicroserviceDetailDto:
         """Crear una credencial
 
-        Guarda una credencial (vault) para usarla después en los servicios que la piden. El tipo sale del catálogo de tipos de credencial; value, value2… son sus secretos y nunca se devuelven.
+        Guarda una credencial (vault) para usarla después en los servicios que la piden. El tipo sale del catálogo de tipos de credencial y define qué campos lleva el body; por ejemplo {\"name\": \"buro-pf\", \"type\": \"BC_PF\", \"usuario\": \"…\", \"password\": \"…\"}. Los secretos nunca se devuelven.
 
-        :param domain_vault_model_vault_dto: Credencial (required)
-        :type domain_vault_model_vault_dto: DomainVaultModelVaultDto
-        :param sandbox: Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+        :param body: Objeto con name, type y los campos propios del tipo de credencial (cada tipo define los suyos; por ejemplo BC_PF: usuario, password y autorenew opcional). Los secretos nunca se devuelven (required)
+        :type body: object
+        :param sandbox: Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
         :type sandbox: bool
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -93,7 +91,7 @@ class VaultApi:
         """ # noqa: E501
 
         _param = self._create_vault_serialize(
-            domain_vault_model_vault_dto=domain_vault_model_vault_dto,
+            body=body,
             sandbox=sandbox,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -122,8 +120,8 @@ class VaultApi:
     @validate_call
     def create_vault_with_http_info(
         self,
-        domain_vault_model_vault_dto: Annotated[DomainVaultModelVaultDto, Field(description="Credencial")],
-        sandbox: Annotated[Optional[StrictBool], Field(description="Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito")] = None,
+        body: Annotated[Dict[str, Any], Field(description="Objeto con name, type y los campos propios del tipo de credencial (cada tipo define los suyos; por ejemplo BC_PF: usuario, password y autorenew opcional). Los secretos nunca se devuelven")],
+        sandbox: Annotated[Optional[StrictBool], Field(description="Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -139,11 +137,11 @@ class VaultApi:
     ) -> ApiResponse[ControllerMicroserviceModelMicroserviceDetailDto]:
         """Crear una credencial
 
-        Guarda una credencial (vault) para usarla después en los servicios que la piden. El tipo sale del catálogo de tipos de credencial; value, value2… son sus secretos y nunca se devuelven.
+        Guarda una credencial (vault) para usarla después en los servicios que la piden. El tipo sale del catálogo de tipos de credencial y define qué campos lleva el body; por ejemplo {\"name\": \"buro-pf\", \"type\": \"BC_PF\", \"usuario\": \"…\", \"password\": \"…\"}. Los secretos nunca se devuelven.
 
-        :param domain_vault_model_vault_dto: Credencial (required)
-        :type domain_vault_model_vault_dto: DomainVaultModelVaultDto
-        :param sandbox: Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+        :param body: Objeto con name, type y los campos propios del tipo de credencial (cada tipo define los suyos; por ejemplo BC_PF: usuario, password y autorenew opcional). Los secretos nunca se devuelven (required)
+        :type body: object
+        :param sandbox: Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
         :type sandbox: bool
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -168,7 +166,7 @@ class VaultApi:
         """ # noqa: E501
 
         _param = self._create_vault_serialize(
-            domain_vault_model_vault_dto=domain_vault_model_vault_dto,
+            body=body,
             sandbox=sandbox,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -197,8 +195,8 @@ class VaultApi:
     @validate_call
     def create_vault_without_preload_content(
         self,
-        domain_vault_model_vault_dto: Annotated[DomainVaultModelVaultDto, Field(description="Credencial")],
-        sandbox: Annotated[Optional[StrictBool], Field(description="Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito")] = None,
+        body: Annotated[Dict[str, Any], Field(description="Objeto con name, type y los campos propios del tipo de credencial (cada tipo define los suyos; por ejemplo BC_PF: usuario, password y autorenew opcional). Los secretos nunca se devuelven")],
+        sandbox: Annotated[Optional[StrictBool], Field(description="Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -214,11 +212,11 @@ class VaultApi:
     ) -> RESTResponseType:
         """Crear una credencial
 
-        Guarda una credencial (vault) para usarla después en los servicios que la piden. El tipo sale del catálogo de tipos de credencial; value, value2… son sus secretos y nunca se devuelven.
+        Guarda una credencial (vault) para usarla después en los servicios que la piden. El tipo sale del catálogo de tipos de credencial y define qué campos lleva el body; por ejemplo {\"name\": \"buro-pf\", \"type\": \"BC_PF\", \"usuario\": \"…\", \"password\": \"…\"}. Los secretos nunca se devuelven.
 
-        :param domain_vault_model_vault_dto: Credencial (required)
-        :type domain_vault_model_vault_dto: DomainVaultModelVaultDto
-        :param sandbox: Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+        :param body: Objeto con name, type y los campos propios del tipo de credencial (cada tipo define los suyos; por ejemplo BC_PF: usuario, password y autorenew opcional). Los secretos nunca se devuelven (required)
+        :type body: object
+        :param sandbox: Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
         :type sandbox: bool
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -243,7 +241,7 @@ class VaultApi:
         """ # noqa: E501
 
         _param = self._create_vault_serialize(
-            domain_vault_model_vault_dto=domain_vault_model_vault_dto,
+            body=body,
             sandbox=sandbox,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -267,7 +265,7 @@ class VaultApi:
 
     def _create_vault_serialize(
         self,
-        domain_vault_model_vault_dto,
+        body,
         sandbox,
         _request_auth,
         _content_type,
@@ -298,8 +296,8 @@ class VaultApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if domain_vault_model_vault_dto is not None:
-            _body_params = domain_vault_model_vault_dto
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -351,7 +349,7 @@ class VaultApi:
     def delete_vault(
         self,
         id: Annotated[StrictStr, Field(description="Id de la credencial")],
-        sandbox: Annotated[Optional[StrictBool], Field(description="Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito")] = None,
+        sandbox: Annotated[Optional[StrictBool], Field(description="Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -371,7 +369,7 @@ class VaultApi:
 
         :param id: Id de la credencial (required)
         :type id: str
-        :param sandbox: Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+        :param sandbox: Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
         :type sandbox: bool
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -427,7 +425,7 @@ class VaultApi:
     def delete_vault_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="Id de la credencial")],
-        sandbox: Annotated[Optional[StrictBool], Field(description="Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito")] = None,
+        sandbox: Annotated[Optional[StrictBool], Field(description="Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -447,7 +445,7 @@ class VaultApi:
 
         :param id: Id de la credencial (required)
         :type id: str
-        :param sandbox: Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+        :param sandbox: Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
         :type sandbox: bool
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -503,7 +501,7 @@ class VaultApi:
     def delete_vault_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="Id de la credencial")],
-        sandbox: Annotated[Optional[StrictBool], Field(description="Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito")] = None,
+        sandbox: Annotated[Optional[StrictBool], Field(description="Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -523,7 +521,7 @@ class VaultApi:
 
         :param id: Id de la credencial (required)
         :type id: str
-        :param sandbox: Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+        :param sandbox: Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
         :type sandbox: bool
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -637,7 +635,7 @@ class VaultApi:
     def get_vault(
         self,
         id: Annotated[StrictStr, Field(description="Id de la credencial")],
-        sandbox: Annotated[Optional[StrictBool], Field(description="Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito")] = None,
+        sandbox: Annotated[Optional[StrictBool], Field(description="Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -657,7 +655,7 @@ class VaultApi:
 
         :param id: Id de la credencial (required)
         :type id: str
-        :param sandbox: Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+        :param sandbox: Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
         :type sandbox: bool
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -712,7 +710,7 @@ class VaultApi:
     def get_vault_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="Id de la credencial")],
-        sandbox: Annotated[Optional[StrictBool], Field(description="Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito")] = None,
+        sandbox: Annotated[Optional[StrictBool], Field(description="Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -732,7 +730,7 @@ class VaultApi:
 
         :param id: Id de la credencial (required)
         :type id: str
-        :param sandbox: Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+        :param sandbox: Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
         :type sandbox: bool
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -787,7 +785,7 @@ class VaultApi:
     def get_vault_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="Id de la credencial")],
-        sandbox: Annotated[Optional[StrictBool], Field(description="Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito")] = None,
+        sandbox: Annotated[Optional[StrictBool], Field(description="Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -807,7 +805,7 @@ class VaultApi:
 
         :param id: Id de la credencial (required)
         :type id: str
-        :param sandbox: Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+        :param sandbox: Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
         :type sandbox: bool
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -928,7 +926,7 @@ class VaultApi:
         self,
         page: Annotated[StrictInt, Field(description="Número de página, empieza en 1")],
         items_per_page: Annotated[StrictInt, Field(description="Resultados por página")],
-        sandbox: Annotated[Optional[StrictBool], Field(description="Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito")] = None,
+        sandbox: Annotated[Optional[StrictBool], Field(description="Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -950,7 +948,7 @@ class VaultApi:
         :type page: int
         :param items_per_page: Resultados por página (required)
         :type items_per_page: int
-        :param sandbox: Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+        :param sandbox: Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
         :type sandbox: bool
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1006,7 +1004,7 @@ class VaultApi:
         self,
         page: Annotated[StrictInt, Field(description="Número de página, empieza en 1")],
         items_per_page: Annotated[StrictInt, Field(description="Resultados por página")],
-        sandbox: Annotated[Optional[StrictBool], Field(description="Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito")] = None,
+        sandbox: Annotated[Optional[StrictBool], Field(description="Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1028,7 +1026,7 @@ class VaultApi:
         :type page: int
         :param items_per_page: Resultados por página (required)
         :type items_per_page: int
-        :param sandbox: Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+        :param sandbox: Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
         :type sandbox: bool
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1084,7 +1082,7 @@ class VaultApi:
         self,
         page: Annotated[StrictInt, Field(description="Número de página, empieza en 1")],
         items_per_page: Annotated[StrictInt, Field(description="Resultados por página")],
-        sandbox: Annotated[Optional[StrictBool], Field(description="Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito")] = None,
+        sandbox: Annotated[Optional[StrictBool], Field(description="Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1106,7 +1104,7 @@ class VaultApi:
         :type page: int
         :param items_per_page: Resultados por página (required)
         :type items_per_page: int
-        :param sandbox: Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+        :param sandbox: Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
         :type sandbox: bool
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1233,8 +1231,8 @@ class VaultApi:
     def update_vault(
         self,
         id: Annotated[StrictStr, Field(description="Id de la credencial")],
-        domain_vault_model_vault_edit_dto: Annotated[DomainVaultModelVaultEditDto, Field(description="Credencial con sus nuevos valores")],
-        sandbox: Annotated[Optional[StrictBool], Field(description="Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito")] = None,
+        body: Annotated[Dict[str, Any], Field(description="Objeto con name, type y los campos propios del tipo de credencial (cada tipo define los suyos; por ejemplo BC_PF: usuario, password y autorenew opcional). Los secretos nunca se devuelven")],
+        sandbox: Annotated[Optional[StrictBool], Field(description="Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1254,9 +1252,9 @@ class VaultApi:
 
         :param id: Id de la credencial (required)
         :type id: str
-        :param domain_vault_model_vault_edit_dto: Credencial con sus nuevos valores (required)
-        :type domain_vault_model_vault_edit_dto: DomainVaultModelVaultEditDto
-        :param sandbox: Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+        :param body: Objeto con name, type y los campos propios del tipo de credencial (cada tipo define los suyos; por ejemplo BC_PF: usuario, password y autorenew opcional). Los secretos nunca se devuelven (required)
+        :type body: object
+        :param sandbox: Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
         :type sandbox: bool
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1282,7 +1280,7 @@ class VaultApi:
 
         _param = self._update_vault_serialize(
             id=id,
-            domain_vault_model_vault_edit_dto=domain_vault_model_vault_edit_dto,
+            body=body,
             sandbox=sandbox,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1314,8 +1312,8 @@ class VaultApi:
     def update_vault_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="Id de la credencial")],
-        domain_vault_model_vault_edit_dto: Annotated[DomainVaultModelVaultEditDto, Field(description="Credencial con sus nuevos valores")],
-        sandbox: Annotated[Optional[StrictBool], Field(description="Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito")] = None,
+        body: Annotated[Dict[str, Any], Field(description="Objeto con name, type y los campos propios del tipo de credencial (cada tipo define los suyos; por ejemplo BC_PF: usuario, password y autorenew opcional). Los secretos nunca se devuelven")],
+        sandbox: Annotated[Optional[StrictBool], Field(description="Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1335,9 +1333,9 @@ class VaultApi:
 
         :param id: Id de la credencial (required)
         :type id: str
-        :param domain_vault_model_vault_edit_dto: Credencial con sus nuevos valores (required)
-        :type domain_vault_model_vault_edit_dto: DomainVaultModelVaultEditDto
-        :param sandbox: Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+        :param body: Objeto con name, type y los campos propios del tipo de credencial (cada tipo define los suyos; por ejemplo BC_PF: usuario, password y autorenew opcional). Los secretos nunca se devuelven (required)
+        :type body: object
+        :param sandbox: Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
         :type sandbox: bool
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1363,7 +1361,7 @@ class VaultApi:
 
         _param = self._update_vault_serialize(
             id=id,
-            domain_vault_model_vault_edit_dto=domain_vault_model_vault_edit_dto,
+            body=body,
             sandbox=sandbox,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1395,8 +1393,8 @@ class VaultApi:
     def update_vault_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="Id de la credencial")],
-        domain_vault_model_vault_edit_dto: Annotated[DomainVaultModelVaultEditDto, Field(description="Credencial con sus nuevos valores")],
-        sandbox: Annotated[Optional[StrictBool], Field(description="Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito")] = None,
+        body: Annotated[Dict[str, Any], Field(description="Objeto con name, type y los campos propios del tipo de credencial (cada tipo define los suyos; por ejemplo BC_PF: usuario, password y autorenew opcional). Los secretos nunca se devuelven")],
+        sandbox: Annotated[Optional[StrictBool], Field(description="Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1416,9 +1414,9 @@ class VaultApi:
 
         :param id: Id de la credencial (required)
         :type id: str
-        :param domain_vault_model_vault_edit_dto: Credencial con sus nuevos valores (required)
-        :type domain_vault_model_vault_edit_dto: DomainVaultModelVaultEditDto
-        :param sandbox: Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+        :param body: Objeto con name, type y los campos propios del tipo de credencial (cada tipo define los suyos; por ejemplo BC_PF: usuario, password y autorenew opcional). Los secretos nunca se devuelven (required)
+        :type body: object
+        :param sandbox: Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
         :type sandbox: bool
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1444,7 +1442,7 @@ class VaultApi:
 
         _param = self._update_vault_serialize(
             id=id,
-            domain_vault_model_vault_edit_dto=domain_vault_model_vault_edit_dto,
+            body=body,
             sandbox=sandbox,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1471,7 +1469,7 @@ class VaultApi:
     def _update_vault_serialize(
         self,
         id,
-        domain_vault_model_vault_edit_dto,
+        body,
         sandbox,
         _request_auth,
         _content_type,
@@ -1504,8 +1502,8 @@ class VaultApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if domain_vault_model_vault_edit_dto is not None:
-            _body_params = domain_vault_model_vault_edit_dto
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -1559,7 +1557,7 @@ class VaultApi:
         service: Annotated[StrictStr, Field(description="Servicio del catálogo")],
         subservice: Annotated[StrictStr, Field(description="Operación del servicio")],
         controller_microservice_model_vault_name_dto: Annotated[ControllerMicroserviceModelVaultNameDto, Field(description="Nombre de la credencial")],
-        sandbox: Annotated[Optional[StrictBool], Field(description="Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito")] = None,
+        sandbox: Annotated[Optional[StrictBool], Field(description="Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1583,7 +1581,7 @@ class VaultApi:
         :type subservice: str
         :param controller_microservice_model_vault_name_dto: Nombre de la credencial (required)
         :type controller_microservice_model_vault_name_dto: ControllerMicroserviceModelVaultNameDto
-        :param sandbox: Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+        :param sandbox: Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
         :type sandbox: bool
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1641,7 +1639,7 @@ class VaultApi:
         service: Annotated[StrictStr, Field(description="Servicio del catálogo")],
         subservice: Annotated[StrictStr, Field(description="Operación del servicio")],
         controller_microservice_model_vault_name_dto: Annotated[ControllerMicroserviceModelVaultNameDto, Field(description="Nombre de la credencial")],
-        sandbox: Annotated[Optional[StrictBool], Field(description="Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito")] = None,
+        sandbox: Annotated[Optional[StrictBool], Field(description="Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1665,7 +1663,7 @@ class VaultApi:
         :type subservice: str
         :param controller_microservice_model_vault_name_dto: Nombre de la credencial (required)
         :type controller_microservice_model_vault_name_dto: ControllerMicroserviceModelVaultNameDto
-        :param sandbox: Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+        :param sandbox: Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
         :type sandbox: bool
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1723,7 +1721,7 @@ class VaultApi:
         service: Annotated[StrictStr, Field(description="Servicio del catálogo")],
         subservice: Annotated[StrictStr, Field(description="Operación del servicio")],
         controller_microservice_model_vault_name_dto: Annotated[ControllerMicroserviceModelVaultNameDto, Field(description="Nombre de la credencial")],
-        sandbox: Annotated[Optional[StrictBool], Field(description="Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito")] = None,
+        sandbox: Annotated[Optional[StrictBool], Field(description="Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1747,7 +1745,7 @@ class VaultApi:
         :type subservice: str
         :param controller_microservice_model_vault_name_dto: Nombre de la credencial (required)
         :type controller_microservice_model_vault_name_dto: ControllerMicroserviceModelVaultNameDto
-        :param sandbox: Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+        :param sandbox: Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
         :type sandbox: bool
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request

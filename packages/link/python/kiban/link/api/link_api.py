@@ -47,7 +47,7 @@ class LinkApi:
         service: Annotated[StrictStr, Field(description="Servicio del catálogo (p. ej. curp, sat, imss, bc_pf)")],
         subservice: Annotated[StrictStr, Field(description="Operación del servicio (p. ej. validate, query)")],
         body: Annotated[Dict[str, Any], Field(description="Datos del servicio; cada servicio define sus campos")],
-        sandbox: Annotated[Optional[StrictBool], Field(description="Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito")] = None,
+        sandbox: Annotated[Optional[StrictBool], Field(description="Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito")] = None,
         test_case: Annotated[Optional[StrictStr], Field(description="Sandbox: nombre del test case que debe responder")] = None,
         test_case_id: Annotated[Optional[StrictStr], Field(description="Sandbox: id del test case que debe responder")] = None,
         origin: Annotated[Optional[StrictStr], Field(description="Identificador libre del origen de la petición")] = None,
@@ -74,7 +74,7 @@ class LinkApi:
         :type subservice: str
         :param body: Datos del servicio; cada servicio define sus campos (required)
         :type body: object
-        :param sandbox: Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+        :param sandbox: Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
         :type sandbox: bool
         :param test_case: Sandbox: nombre del test case que debe responder
         :type test_case: str
@@ -146,7 +146,7 @@ class LinkApi:
         service: Annotated[StrictStr, Field(description="Servicio del catálogo (p. ej. curp, sat, imss, bc_pf)")],
         subservice: Annotated[StrictStr, Field(description="Operación del servicio (p. ej. validate, query)")],
         body: Annotated[Dict[str, Any], Field(description="Datos del servicio; cada servicio define sus campos")],
-        sandbox: Annotated[Optional[StrictBool], Field(description="Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito")] = None,
+        sandbox: Annotated[Optional[StrictBool], Field(description="Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito")] = None,
         test_case: Annotated[Optional[StrictStr], Field(description="Sandbox: nombre del test case que debe responder")] = None,
         test_case_id: Annotated[Optional[StrictStr], Field(description="Sandbox: id del test case que debe responder")] = None,
         origin: Annotated[Optional[StrictStr], Field(description="Identificador libre del origen de la petición")] = None,
@@ -173,7 +173,7 @@ class LinkApi:
         :type subservice: str
         :param body: Datos del servicio; cada servicio define sus campos (required)
         :type body: object
-        :param sandbox: Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+        :param sandbox: Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
         :type sandbox: bool
         :param test_case: Sandbox: nombre del test case que debe responder
         :type test_case: str
@@ -245,7 +245,7 @@ class LinkApi:
         service: Annotated[StrictStr, Field(description="Servicio del catálogo (p. ej. curp, sat, imss, bc_pf)")],
         subservice: Annotated[StrictStr, Field(description="Operación del servicio (p. ej. validate, query)")],
         body: Annotated[Dict[str, Any], Field(description="Datos del servicio; cada servicio define sus campos")],
-        sandbox: Annotated[Optional[StrictBool], Field(description="Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito")] = None,
+        sandbox: Annotated[Optional[StrictBool], Field(description="Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito")] = None,
         test_case: Annotated[Optional[StrictStr], Field(description="Sandbox: nombre del test case que debe responder")] = None,
         test_case_id: Annotated[Optional[StrictStr], Field(description="Sandbox: id del test case que debe responder")] = None,
         origin: Annotated[Optional[StrictStr], Field(description="Identificador libre del origen de la petición")] = None,
@@ -272,7 +272,7 @@ class LinkApi:
         :type subservice: str
         :param body: Datos del servicio; cada servicio define sus campos (required)
         :type body: object
-        :param sandbox: Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+        :param sandbox: Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
         :type sandbox: bool
         :param test_case: Sandbox: nombre del test case que debe responder
         :type test_case: str
@@ -441,7 +441,7 @@ class LinkApi:
         service: Annotated[StrictStr, Field(description="Servicio del catálogo")],
         subservice: Annotated[StrictStr, Field(description="Operación del servicio")],
         id: Annotated[StrictStr, Field(description="Id de la ejecución")],
-        sandbox: Annotated[Optional[StrictBool], Field(description="Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito")] = None,
+        sandbox: Annotated[Optional[StrictBool], Field(description="Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -465,7 +465,7 @@ class LinkApi:
         :type subservice: str
         :param id: Id de la ejecución (required)
         :type id: str
-        :param sandbox: Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+        :param sandbox: Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
         :type sandbox: bool
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -524,7 +524,7 @@ class LinkApi:
         service: Annotated[StrictStr, Field(description="Servicio del catálogo")],
         subservice: Annotated[StrictStr, Field(description="Operación del servicio")],
         id: Annotated[StrictStr, Field(description="Id de la ejecución")],
-        sandbox: Annotated[Optional[StrictBool], Field(description="Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito")] = None,
+        sandbox: Annotated[Optional[StrictBool], Field(description="Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -548,7 +548,7 @@ class LinkApi:
         :type subservice: str
         :param id: Id de la ejecución (required)
         :type id: str
-        :param sandbox: Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+        :param sandbox: Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
         :type sandbox: bool
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -607,7 +607,7 @@ class LinkApi:
         service: Annotated[StrictStr, Field(description="Servicio del catálogo")],
         subservice: Annotated[StrictStr, Field(description="Operación del servicio")],
         id: Annotated[StrictStr, Field(description="Id de la ejecución")],
-        sandbox: Annotated[Optional[StrictBool], Field(description="Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito")] = None,
+        sandbox: Annotated[Optional[StrictBool], Field(description="Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -631,7 +631,7 @@ class LinkApi:
         :type subservice: str
         :param id: Id de la ejecución (required)
         :type id: str
-        :param sandbox: Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+        :param sandbox: Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
         :type sandbox: bool
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -759,7 +759,7 @@ class LinkApi:
     def get_file(
         self,
         path: Annotated[StrictStr, Field(description="Ruta del archivo, tal como viene en el detalle de la ejecución")],
-        sandbox: Annotated[Optional[StrictBool], Field(description="Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito")] = None,
+        sandbox: Annotated[Optional[StrictBool], Field(description="Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -779,7 +779,7 @@ class LinkApi:
 
         :param path: Ruta del archivo, tal como viene en el detalle de la ejecución (required)
         :type path: str
-        :param sandbox: Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+        :param sandbox: Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
         :type sandbox: bool
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -833,7 +833,7 @@ class LinkApi:
     def get_file_with_http_info(
         self,
         path: Annotated[StrictStr, Field(description="Ruta del archivo, tal como viene en el detalle de la ejecución")],
-        sandbox: Annotated[Optional[StrictBool], Field(description="Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito")] = None,
+        sandbox: Annotated[Optional[StrictBool], Field(description="Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -853,7 +853,7 @@ class LinkApi:
 
         :param path: Ruta del archivo, tal como viene en el detalle de la ejecución (required)
         :type path: str
-        :param sandbox: Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+        :param sandbox: Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
         :type sandbox: bool
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -907,7 +907,7 @@ class LinkApi:
     def get_file_without_preload_content(
         self,
         path: Annotated[StrictStr, Field(description="Ruta del archivo, tal como viene en el detalle de la ejecución")],
-        sandbox: Annotated[Optional[StrictBool], Field(description="Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito")] = None,
+        sandbox: Annotated[Optional[StrictBool], Field(description="Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -927,7 +927,7 @@ class LinkApi:
 
         :param path: Ruta del archivo, tal como viene en el detalle de la ejecución (required)
         :type path: str
-        :param sandbox: Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+        :param sandbox: Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
         :type sandbox: bool
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1051,7 +1051,7 @@ class LinkApi:
         subservice: Annotated[StrictStr, Field(description="Operación del servicio")],
         page: Annotated[StrictInt, Field(description="Número de página, empieza en 1")],
         items_per_page: Annotated[StrictInt, Field(description="Resultados por página")],
-        sandbox: Annotated[Optional[StrictBool], Field(description="Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito")] = None,
+        sandbox: Annotated[Optional[StrictBool], Field(description="Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1077,7 +1077,7 @@ class LinkApi:
         :type page: int
         :param items_per_page: Resultados por página (required)
         :type items_per_page: int
-        :param sandbox: Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+        :param sandbox: Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
         :type sandbox: bool
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1137,7 +1137,7 @@ class LinkApi:
         subservice: Annotated[StrictStr, Field(description="Operación del servicio")],
         page: Annotated[StrictInt, Field(description="Número de página, empieza en 1")],
         items_per_page: Annotated[StrictInt, Field(description="Resultados por página")],
-        sandbox: Annotated[Optional[StrictBool], Field(description="Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito")] = None,
+        sandbox: Annotated[Optional[StrictBool], Field(description="Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1163,7 +1163,7 @@ class LinkApi:
         :type page: int
         :param items_per_page: Resultados por página (required)
         :type items_per_page: int
-        :param sandbox: Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+        :param sandbox: Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
         :type sandbox: bool
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1223,7 +1223,7 @@ class LinkApi:
         subservice: Annotated[StrictStr, Field(description="Operación del servicio")],
         page: Annotated[StrictInt, Field(description="Número de página, empieza en 1")],
         items_per_page: Annotated[StrictInt, Field(description="Resultados por página")],
-        sandbox: Annotated[Optional[StrictBool], Field(description="Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito")] = None,
+        sandbox: Annotated[Optional[StrictBool], Field(description="Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1249,7 +1249,7 @@ class LinkApi:
         :type page: int
         :param items_per_page: Resultados por página (required)
         :type items_per_page: int
-        :param sandbox: Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+        :param sandbox: Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
         :type sandbox: bool
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1385,6 +1385,7 @@ class LinkApi:
         self,
         service: Annotated[StrictStr, Field(description="Servicio del catálogo")],
         subservice: Annotated[StrictStr, Field(description="Operación del servicio")],
+        sandbox: Annotated[Optional[StrictBool], Field(description="Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1406,6 +1407,8 @@ class LinkApi:
         :type service: str
         :param subservice: Operación del servicio (required)
         :type subservice: str
+        :param sandbox: Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
+        :type sandbox: bool
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1431,6 +1434,7 @@ class LinkApi:
         _param = self._list_test_cases_serialize(
             service=service,
             subservice=subservice,
+            sandbox=sandbox,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1459,6 +1463,7 @@ class LinkApi:
         self,
         service: Annotated[StrictStr, Field(description="Servicio del catálogo")],
         subservice: Annotated[StrictStr, Field(description="Operación del servicio")],
+        sandbox: Annotated[Optional[StrictBool], Field(description="Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1480,6 +1485,8 @@ class LinkApi:
         :type service: str
         :param subservice: Operación del servicio (required)
         :type subservice: str
+        :param sandbox: Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
+        :type sandbox: bool
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1505,6 +1512,7 @@ class LinkApi:
         _param = self._list_test_cases_serialize(
             service=service,
             subservice=subservice,
+            sandbox=sandbox,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1533,6 +1541,7 @@ class LinkApi:
         self,
         service: Annotated[StrictStr, Field(description="Servicio del catálogo")],
         subservice: Annotated[StrictStr, Field(description="Operación del servicio")],
+        sandbox: Annotated[Optional[StrictBool], Field(description="Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1554,6 +1563,8 @@ class LinkApi:
         :type service: str
         :param subservice: Operación del servicio (required)
         :type subservice: str
+        :param sandbox: Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
+        :type sandbox: bool
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1579,6 +1590,7 @@ class LinkApi:
         _param = self._list_test_cases_serialize(
             service=service,
             subservice=subservice,
+            sandbox=sandbox,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1602,6 +1614,7 @@ class LinkApi:
         self,
         service,
         subservice,
+        sandbox,
         _request_auth,
         _content_type,
         _headers,
@@ -1628,6 +1641,10 @@ class LinkApi:
         if subservice is not None:
             _path_params['subservice'] = subservice
         # process the query parameters
+        if sandbox is not None:
+            
+            _query_params.append(('sandbox', sandbox))
+            
         # process the header parameters
         # process the form parameters
         # process the body parameter

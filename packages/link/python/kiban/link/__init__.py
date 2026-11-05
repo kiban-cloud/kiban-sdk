@@ -42,8 +42,6 @@ __all__ = [
     "ControllerMicroserviceModelVaultNameDto",
     "ControllerMicroserviceModelVaultValidationDto",
     "ControllerTestCaseModelTestCaseOutputMany",
-    "DomainVaultModelVaultDto",
-    "DomainVaultModelVaultEditDto",
 ]
 
 # import apis into sdk package
@@ -74,6 +72,4 @@ from kiban.link.models.controller_microservice_model_validation_error_dto import
 from kiban.link.models.controller_microservice_model_vault_name_dto import ControllerMicroserviceModelVaultNameDto as ControllerMicroserviceModelVaultNameDto
 from kiban.link.models.controller_microservice_model_vault_validation_dto import ControllerMicroserviceModelVaultValidationDto as ControllerMicroserviceModelVaultValidationDto
 from kiban.link.models.controller_test_case_model_test_case_output_many import ControllerTestCaseModelTestCaseOutputMany as ControllerTestCaseModelTestCaseOutputMany
-from kiban.link.models.domain_vault_model_vault_dto import DomainVaultModelVaultDto as DomainVaultModelVaultDto
-from kiban.link.models.domain_vault_model_vault_edit_dto import DomainVaultModelVaultEditDto as DomainVaultModelVaultEditDto
 

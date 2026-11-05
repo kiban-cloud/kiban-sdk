@@ -52,7 +52,7 @@ with kiban.link.ApiClient(configuration) as api_client:
     service = 'service_example' # str | Servicio del catálogo (p. ej. curp, sat, imss, bc_pf)
     subservice = 'subservice_example' # str | Operación del servicio (p. ej. validate, query)
     body = None # object | Datos del servicio; cada servicio define sus campos
-    sandbox = True # bool | Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+    sandbox = True # bool | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)
     test_case = 'test_case_example' # str | Sandbox: nombre del test case que debe responder (optional)
     test_case_id = 'test_case_id_example' # str | Sandbox: id del test case que debe responder (optional)
     origin = 'origin_example' # str | Identificador libre del origen de la petición (optional)
@@ -76,7 +76,7 @@ Name | Type | Description  | Notes
  **service** | **str**| Servicio del catálogo (p. ej. curp, sat, imss, bc_pf) | 
  **subservice** | **str**| Operación del servicio (p. ej. validate, query) | 
  **body** | **object**| Datos del servicio; cada servicio define sus campos | 
- **sandbox** | **bool**| Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito | [optional] 
+ **sandbox** | **bool**| Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito | [optional] 
  **test_case** | **str**| Sandbox: nombre del test case que debe responder | [optional] 
  **test_case_id** | **str**| Sandbox: id del test case que debe responder | [optional] 
  **origin** | **str**| Identificador libre del origen de la petición | [optional] 
@@ -151,7 +151,7 @@ with kiban.link.ApiClient(configuration) as api_client:
     service = 'service_example' # str | Servicio del catálogo
     subservice = 'subservice_example' # str | Operación del servicio
     id = 'id_example' # str | Id de la ejecución
-    sandbox = True # bool | Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+    sandbox = True # bool | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)
 
     try:
         # Detalle de una ejecución
@@ -172,7 +172,7 @@ Name | Type | Description  | Notes
  **service** | **str**| Servicio del catálogo | 
  **subservice** | **str**| Operación del servicio | 
  **id** | **str**| Id de la ejecución | 
- **sandbox** | **bool**| Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito | [optional] 
+ **sandbox** | **bool**| Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito | [optional] 
 
 ### Return type
 
@@ -237,7 +237,7 @@ with kiban.link.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = kiban.link.LinkApi(api_client)
     path = 'path_example' # str | Ruta del archivo, tal como viene en el detalle de la ejecución
-    sandbox = True # bool | Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+    sandbox = True # bool | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)
 
     try:
         # Descargar un archivo de una ejecución
@@ -256,7 +256,7 @@ with kiban.link.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **path** | **str**| Ruta del archivo, tal como viene en el detalle de la ejecución | 
- **sandbox** | **bool**| Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito | [optional] 
+ **sandbox** | **bool**| Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito | [optional] 
 
 ### Return type
 
@@ -324,7 +324,7 @@ with kiban.link.ApiClient(configuration) as api_client:
     subservice = 'subservice_example' # str | Operación del servicio
     page = 56 # int | Número de página, empieza en 1
     items_per_page = 56 # int | Resultados por página
-    sandbox = True # bool | Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+    sandbox = True # bool | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)
 
     try:
         # Historial de ejecuciones de un servicio
@@ -346,7 +346,7 @@ Name | Type | Description  | Notes
  **subservice** | **str**| Operación del servicio | 
  **page** | **int**| Número de página, empieza en 1 | 
  **items_per_page** | **int**| Resultados por página | 
- **sandbox** | **bool**| Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito | [optional] 
+ **sandbox** | **bool**| Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito | [optional] 
 
 ### Return type
 
@@ -373,7 +373,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_test_cases**
-> List[ControllerTestCaseModelTestCaseOutputMany] list_test_cases(service, subservice)
+> List[ControllerTestCaseModelTestCaseOutputMany] list_test_cases(service, subservice, sandbox=sandbox)
 
 Test cases de un servicio
 
@@ -412,10 +412,11 @@ with kiban.link.ApiClient(configuration) as api_client:
     api_instance = kiban.link.LinkApi(api_client)
     service = 'service_example' # str | Servicio del catálogo
     subservice = 'subservice_example' # str | Operación del servicio
+    sandbox = True # bool | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)
 
     try:
         # Test cases de un servicio
-        api_response = api_instance.list_test_cases(service, subservice)
+        api_response = api_instance.list_test_cases(service, subservice, sandbox=sandbox)
         print("The response of LinkApi->list_test_cases:\n")
         pprint(api_response)
     except Exception as e:
@@ -431,6 +432,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **service** | **str**| Servicio del catálogo | 
  **subservice** | **str**| Operación del servicio | 
+ **sandbox** | **bool**| Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito | [optional] 
 
 ### Return type
 

@@ -1,6 +1,5 @@
 .github/workflows/maven.yml
 .gitignore
-.openapi-generator-ignore
 .travis.yml
 README.md
 api/openapi.yaml
@@ -18,8 +17,6 @@ docs/ControllerMicroserviceModelValidationErrorDto.md
 docs/ControllerMicroserviceModelVaultNameDto.md
 docs/ControllerMicroserviceModelVaultValidationDto.md
 docs/ControllerTestCaseModelTestCaseOutputMany.md
-docs/DomainVaultModelVaultDto.md
-docs/DomainVaultModelVaultEditDto.md
 docs/LinkApi.md
 docs/VaultApi.md
 git_push.sh
@@ -63,21 +60,3 @@ src/main/java/com/kiban/link/model/ControllerMicroserviceModelValidationErrorDto
 src/main/java/com/kiban/link/model/ControllerMicroserviceModelVaultNameDto.java
 src/main/java/com/kiban/link/model/ControllerMicroserviceModelVaultValidationDto.java
 src/main/java/com/kiban/link/model/ControllerTestCaseModelTestCaseOutputMany.java
-src/main/java/com/kiban/link/model/DomainVaultModelVaultDto.java
-src/main/java/com/kiban/link/model/DomainVaultModelVaultEditDto.java
-src/test/java/com/kiban/link/api/LinkApiTest.java
-src/test/java/com/kiban/link/api/VaultApiTest.java
-src/test/java/com/kiban/link/model/ControllerMicroserviceModelApiDataDetailDtoTest.java
-src/test/java/com/kiban/link/model/ControllerMicroserviceModelApiDataEventDtoTest.java
-src/test/java/com/kiban/link/model/ControllerMicroserviceModelApiDataFileDtoTest.java
-src/test/java/com/kiban/link/model/ControllerMicroserviceModelApiDataHttpDtoTest.java
-src/test/java/com/kiban/link/model/ControllerMicroserviceModelEventDtoTest.java
-src/test/java/com/kiban/link/model/ControllerMicroserviceModelExecutionPageTest.java
-src/test/java/com/kiban/link/model/ControllerMicroserviceModelMicroserviceDetailDtoTest.java
-src/test/java/com/kiban/link/model/ControllerMicroserviceModelMicroserviceResumeDtoTest.java
-src/test/java/com/kiban/link/model/ControllerMicroserviceModelValidationErrorDtoTest.java
-src/test/java/com/kiban/link/model/ControllerMicroserviceModelVaultNameDtoTest.java
-src/test/java/com/kiban/link/model/ControllerMicroserviceModelVaultValidationDtoTest.java
-src/test/java/com/kiban/link/model/ControllerTestCaseModelTestCaseOutputManyTest.java
-src/test/java/com/kiban/link/model/DomainVaultModelVaultDtoTest.java
-src/test/java/com/kiban/link/model/DomainVaultModelVaultEditDtoTest.java

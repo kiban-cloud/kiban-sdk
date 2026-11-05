@@ -36,7 +36,7 @@ func main() {
 	service := "service_example" // string | Servicio del catálogo (p. ej. curp, sat, imss, bc_pf)
 	subservice := "subservice_example" // string | Operación del servicio (p. ej. validate, query)
 	body := map[string]interface{}{ ... } // map[string]interface{} | Datos del servicio; cada servicio define sus campos
-	sandbox := true // bool | Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+	sandbox := true // bool | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)
 	testCase := "testCase_example" // string | Sandbox: nombre del test case que debe responder (optional)
 	testCaseId := "testCaseId_example" // string | Sandbox: id del test case que debe responder (optional)
 	origin := "origin_example" // string | Identificador libre del origen de la petición (optional)
@@ -72,7 +72,7 @@ Name | Type | Description  | Notes
 
 
  **body** | **map[string]interface{}** | Datos del servicio; cada servicio define sus campos | 
- **sandbox** | **bool** | Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito | 
+ **sandbox** | **bool** | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito | 
  **testCase** | **string** | Sandbox: nombre del test case que debe responder | 
  **testCaseId** | **string** | Sandbox: id del test case que debe responder | 
  **origin** | **string** | Identificador libre del origen de la petición | 
@@ -119,7 +119,7 @@ func main() {
 	service := "service_example" // string | Servicio del catálogo
 	subservice := "subservice_example" // string | Operación del servicio
 	id := "id_example" // string | Id de la ejecución
-	sandbox := true // bool | Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+	sandbox := true // bool | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -153,7 +153,7 @@ Name | Type | Description  | Notes
 
 
 
- **sandbox** | **bool** | Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito | 
+ **sandbox** | **bool** | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito | 
 
 ### Return type
 
@@ -195,7 +195,7 @@ import (
 
 func main() {
 	path := "path_example" // string | Ruta del archivo, tal como viene en el detalle de la ejecución
-	sandbox := true // bool | Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+	sandbox := true // bool | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -221,7 +221,7 @@ Other parameters are passed through a pointer to a apiGetFileRequest struct via 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **path** | **string** | Ruta del archivo, tal como viene en el detalle de la ejecución | 
- **sandbox** | **bool** | Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito | 
+ **sandbox** | **bool** | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito | 
 
 ### Return type
 
@@ -266,7 +266,7 @@ func main() {
 	subservice := "subservice_example" // string | Operación del servicio
 	page := int32(56) // int32 | Número de página, empieza en 1
 	itemsPerPage := int32(56) // int32 | Resultados por página
-	sandbox := true // bool | Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+	sandbox := true // bool | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -300,7 +300,7 @@ Name | Type | Description  | Notes
 
  **page** | **int32** | Número de página, empieza en 1 | 
  **itemsPerPage** | **int32** | Resultados por página | 
- **sandbox** | **bool** | Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito | 
+ **sandbox** | **bool** | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito | 
 
 ### Return type
 
@@ -322,7 +322,7 @@ Name | Type | Description  | Notes
 
 ## ListTestCases
 
-> []ControllerTestCaseModelTestCaseOutputMany ListTestCases(ctx, service, subservice).Execute()
+> []ControllerTestCaseModelTestCaseOutputMany ListTestCases(ctx, service, subservice).Sandbox(sandbox).Execute()
 
 Test cases de un servicio
 
@@ -343,10 +343,11 @@ import (
 func main() {
 	service := "service_example" // string | Servicio del catálogo
 	subservice := "subservice_example" // string | Operación del servicio
+	sandbox := true // bool | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.LinkAPI.ListTestCases(context.Background(), service, subservice).Execute()
+	resp, r, err := apiClient.LinkAPI.ListTestCases(context.Background(), service, subservice).Sandbox(sandbox).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `LinkAPI.ListTestCases``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -374,6 +375,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
 
+ **sandbox** | **bool** | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito | 
 
 ### Return type
 

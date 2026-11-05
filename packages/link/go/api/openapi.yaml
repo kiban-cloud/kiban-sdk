@@ -57,8 +57,9 @@ paths:
         schema:
           type: integer
         style: form
-      - description: "Fuerza el modo sandbox. Se ignora en el host sandbox, donde\
-          \ ya es implícito"
+      - description: "Modo sandbox. Tiene que coincidir con el modo de la API key:\
+          \ una key de sandbox exige sandbox=true y una de producción no lo acepta.\
+          \ Se ignora en el host sandbox, donde ya es implícito"
         explode: true
         in: query
         name: sandbox
@@ -114,8 +115,9 @@ paths:
         schema:
           type: string
         style: simple
-      - description: "Fuerza el modo sandbox. Se ignora en el host sandbox, donde\
-          \ ya es implícito"
+      - description: "Modo sandbox. Tiene que coincidir con el modo de la API key:\
+          \ una key de sandbox exige sandbox=true y una de producción no lo acepta.\
+          \ Se ignora en el host sandbox, donde ya es implícito"
         explode: true
         in: query
         name: sandbox
@@ -158,8 +160,9 @@ paths:
         schema:
           type: string
         style: form
-      - description: "Fuerza el modo sandbox. Se ignora en el host sandbox, donde\
-          \ ya es implícito"
+      - description: "Modo sandbox. Tiene que coincidir con el modo de la API key:\
+          \ una key de sandbox exige sandbox=true y una de producción no lo acepta.\
+          \ Se ignora en el host sandbox, donde ya es implícito"
         explode: true
         in: query
         name: sandbox
@@ -207,8 +210,9 @@ paths:
         schema:
           type: integer
         style: form
-      - description: "Fuerza el modo sandbox. Se ignora en el host sandbox, donde\
-          \ ya es implícito"
+      - description: "Modo sandbox. Tiene que coincidir con el modo de la API key:\
+          \ una key de sandbox exige sandbox=true y una de producción no lo acepta.\
+          \ Se ignora en el host sandbox, donde ya es implícito"
         explode: true
         in: query
         name: sandbox
@@ -247,8 +251,9 @@ paths:
         schema:
           type: string
         style: simple
-      - description: "Fuerza el modo sandbox. Se ignora en el host sandbox, donde\
-          \ ya es implícito"
+      - description: "Modo sandbox. Tiene que coincidir con el modo de la API key:\
+          \ una key de sandbox exige sandbox=true y una de producción no lo acepta.\
+          \ Se ignora en el host sandbox, donde ya es implícito"
         explode: true
         in: query
         name: sandbox
@@ -301,8 +306,9 @@ paths:
         schema:
           type: string
         style: simple
-      - description: "Fuerza el modo sandbox. Se ignora en el host sandbox, donde\
-          \ ya es implícito"
+      - description: "Modo sandbox. Tiene que coincidir con el modo de la API key:\
+          \ una key de sandbox exige sandbox=true y una de producción no lo acepta.\
+          \ Se ignora en el host sandbox, donde ya es implícito"
         explode: true
         in: query
         name: sandbox
@@ -416,6 +422,16 @@ paths:
         schema:
           type: string
         style: simple
+      - description: "Modo sandbox. Tiene que coincidir con el modo de la API key:\
+          \ una key de sandbox exige sandbox=true y una de producción no lo acepta.\
+          \ Se ignora en el host sandbox, donde ya es implícito"
+        explode: true
+        in: query
+        name: sandbox
+        required: false
+        schema:
+          type: boolean
+        style: form
       responses:
         "200":
           content:
@@ -458,8 +474,9 @@ paths:
         schema:
           type: string
         style: simple
-      - description: "Fuerza el modo sandbox. Se ignora en el host sandbox, donde\
-          \ ya es implícito"
+      - description: "Modo sandbox. Tiene que coincidir con el modo de la API key:\
+          \ una key de sandbox exige sandbox=true y una de producción no lo acepta.\
+          \ Se ignora en el host sandbox, donde ya es implícito"
         explode: true
         in: query
         name: sandbox
@@ -495,12 +512,15 @@ paths:
   /api/v3/vault/na:
     post:
       description: "Guarda una credencial (vault) para usarla después en los servicios\
-        \ que la piden. El tipo sale del catálogo de tipos de credencial; value, value2…\
-        \ son sus secretos y nunca se devuelven."
+        \ que la piden. El tipo sale del catálogo de tipos de credencial y define\
+        \ qué campos lleva el body; por ejemplo {\"name\": \"buro-pf\", \"type\":\
+        \ \"BC_PF\", \"usuario\": \"…\", \"password\": \"…\"}. Los secretos nunca\
+        \ se devuelven."
       operationId: createVault
       parameters:
-      - description: "Fuerza el modo sandbox. Se ignora en el host sandbox, donde\
-          \ ya es implícito"
+      - description: "Modo sandbox. Tiene que coincidir con el modo de la API key:\
+          \ una key de sandbox exige sandbox=true y una de producción no lo acepta.\
+          \ Se ignora en el host sandbox, donde ya es implícito"
         explode: true
         in: query
         name: sandbox
@@ -509,12 +529,7 @@ paths:
           type: boolean
         style: form
       requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/domain_vault_model.VaultDto"
-        description: Credencial
-        required: true
+        $ref: "#/components/requestBodies/createVaultBody"
       responses:
         "200":
           content:
@@ -560,8 +575,9 @@ paths:
         schema:
           type: string
         style: simple
-      - description: "Fuerza el modo sandbox. Se ignora en el host sandbox, donde\
-          \ ya es implícito"
+      - description: "Modo sandbox. Tiene que coincidir con el modo de la API key:\
+          \ una key de sandbox exige sandbox=true y una de producción no lo acepta.\
+          \ Se ignora en el host sandbox, donde ya es implícito"
         explode: true
         in: query
         name: sandbox
@@ -600,8 +616,9 @@ paths:
         schema:
           type: string
         style: simple
-      - description: "Fuerza el modo sandbox. Se ignora en el host sandbox, donde\
-          \ ya es implícito"
+      - description: "Modo sandbox. Tiene que coincidir con el modo de la API key:\
+          \ una key de sandbox exige sandbox=true y una de producción no lo acepta.\
+          \ Se ignora en el host sandbox, donde ya es implícito"
         explode: true
         in: query
         name: sandbox
@@ -610,12 +627,7 @@ paths:
           type: boolean
         style: form
       requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/domain_vault_model.VaultEditDto"
-        description: Credencial con sus nuevos valores
-        required: true
+        $ref: "#/components/requestBodies/createVaultBody"
       responses:
         "200":
           description: Credencial actualizada
@@ -649,6 +661,16 @@ paths:
       tags:
       - vault
 components:
+  requestBodies:
+    createVaultBody:
+      content:
+        application/json:
+          schema:
+            type: object
+      description: "Objeto con name, type y los campos propios del tipo de credencial\
+        \ (cada tipo define los suyos; por ejemplo BC_PF: usuario, password y autorenew\
+        \ opcional). Los secretos nunca se devuelven"
+      required: true
   schemas:
     controller_microservice_model.ApiDataDetailDto:
       example:
@@ -1026,48 +1048,6 @@ components:
           type: string
         subService:
           type: string
-      type: object
-    domain_vault_model.VaultDto:
-      properties:
-        autoRenew:
-          type: boolean
-        name:
-          type: string
-        type:
-          type: string
-        value:
-          type: string
-        value2:
-          type: string
-        value3:
-          type: string
-        value4:
-          type: string
-      required:
-      - name
-      - type
-      - value
-      type: object
-    domain_vault_model.VaultEditDto:
-      properties:
-        autoRenew:
-          type: boolean
-        name:
-          type: string
-        type:
-          type: string
-        value:
-          type: string
-        value2:
-          type: string
-        value3:
-          type: string
-        value4:
-          type: string
-      required:
-      - name
-      - type
-      - value
       type: object
   securitySchemes:
     ApiKeyAuth:

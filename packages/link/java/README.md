@@ -103,7 +103,7 @@ public class Example {
     String service = "service_example"; // String | Servicio del catálogo (p. ej. curp, sat, imss, bc_pf)
     String subservice = "subservice_example"; // String | Operación del servicio (p. ej. validate, query)
     Object body = null; // Object | Datos del servicio; cada servicio define sus campos
-    Boolean sandbox = true; // Boolean | Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+    Boolean sandbox = true; // Boolean | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
     String testCase = "testCase_example"; // String | Sandbox: nombre del test case que debe responder
     String testCaseId = "testCaseId_example"; // String | Sandbox: id del test case que debe responder
     String origin = "origin_example"; // String | Identificador libre del origen de la petición
@@ -160,8 +160,6 @@ Class | Method | HTTP request | Description
  - [ControllerMicroserviceModelVaultNameDto](docs/ControllerMicroserviceModelVaultNameDto.md)
  - [ControllerMicroserviceModelVaultValidationDto](docs/ControllerMicroserviceModelVaultValidationDto.md)
  - [ControllerTestCaseModelTestCaseOutputMany](docs/ControllerTestCaseModelTestCaseOutputMany.md)
- - [DomainVaultModelVaultDto](docs/DomainVaultModelVaultDto.md)
- - [DomainVaultModelVaultEditDto](docs/DomainVaultModelVaultEditDto.md)
 
 
 <a id="documentation-for-authorization"></a>

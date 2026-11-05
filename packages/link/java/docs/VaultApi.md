@@ -14,11 +14,11 @@ All URIs are relative to *https://link.kiban.com*
 
 <a id="createVault"></a>
 # **createVault**
-> ControllerMicroserviceModelMicroserviceDetailDto createVault(domainVaultModelVaultDto).sandbox(sandbox).execute();
+> ControllerMicroserviceModelMicroserviceDetailDto createVault(body).sandbox(sandbox).execute();
 
 Crear una credencial
 
-Guarda una credencial (vault) para usarla después en los servicios que la piden. El tipo sale del catálogo de tipos de credencial; value, value2… son sus secretos y nunca se devuelven.
+Guarda una credencial (vault) para usarla después en los servicios que la piden. El tipo sale del catálogo de tipos de credencial y define qué campos lleva el body; por ejemplo {\&quot;name\&quot;: \&quot;buro-pf\&quot;, \&quot;type\&quot;: \&quot;BC_PF\&quot;, \&quot;usuario\&quot;: \&quot;…\&quot;, \&quot;password\&quot;: \&quot;…\&quot;}. Los secretos nunca se devuelven.
 
 ### Example
 ```java
@@ -42,10 +42,10 @@ public class Example {
     //ApiKeyAuth.setApiKeyPrefix("Token");
 
     VaultApi apiInstance = new VaultApi(defaultClient);
-    DomainVaultModelVaultDto domainVaultModelVaultDto = new DomainVaultModelVaultDto(); // DomainVaultModelVaultDto | Credencial
-    Boolean sandbox = true; // Boolean | Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+    Object body = null; // Object | Objeto con name, type y los campos propios del tipo de credencial (cada tipo define los suyos; por ejemplo BC_PF: usuario, password y autorenew opcional). Los secretos nunca se devuelven
+    Boolean sandbox = true; // Boolean | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
     try {
-      ControllerMicroserviceModelMicroserviceDetailDto result = apiInstance.createVault(domainVaultModelVaultDto)
+      ControllerMicroserviceModelMicroserviceDetailDto result = apiInstance.createVault(body)
             .sandbox(sandbox)
             .execute();
       System.out.println(result);
@@ -64,8 +64,8 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **domainVaultModelVaultDto** | [**DomainVaultModelVaultDto**](DomainVaultModelVaultDto.md)| Credencial | |
-| **sandbox** | **Boolean**| Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito | [optional] |
+| **body** | **Object**| Objeto con name, type y los campos propios del tipo de credencial (cada tipo define los suyos; por ejemplo BC_PF: usuario, password y autorenew opcional). Los secretos nunca se devuelven | |
+| **sandbox** | **Boolean**| Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito | [optional] |
 
 ### Return type
 
@@ -120,7 +120,7 @@ public class Example {
 
     VaultApi apiInstance = new VaultApi(defaultClient);
     String id = "id_example"; // String | Id de la credencial
-    Boolean sandbox = true; // Boolean | Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+    Boolean sandbox = true; // Boolean | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
     try {
       apiInstance.deleteVault(id)
             .sandbox(sandbox)
@@ -141,7 +141,7 @@ public class Example {
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **id** | **String**| Id de la credencial | |
-| **sandbox** | **Boolean**| Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito | [optional] |
+| **sandbox** | **Boolean**| Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito | [optional] |
 
 ### Return type
 
@@ -197,7 +197,7 @@ public class Example {
 
     VaultApi apiInstance = new VaultApi(defaultClient);
     String id = "id_example"; // String | Id de la credencial
-    Boolean sandbox = true; // Boolean | Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+    Boolean sandbox = true; // Boolean | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
     try {
       ControllerMicroserviceModelMicroserviceDetailDto result = apiInstance.getVault(id)
             .sandbox(sandbox)
@@ -219,7 +219,7 @@ public class Example {
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **id** | **String**| Id de la credencial | |
-| **sandbox** | **Boolean**| Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito | [optional] |
+| **sandbox** | **Boolean**| Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito | [optional] |
 
 ### Return type
 
@@ -275,7 +275,7 @@ public class Example {
     VaultApi apiInstance = new VaultApi(defaultClient);
     Integer page = 56; // Integer | Número de página, empieza en 1
     Integer itemsPerPage = 56; // Integer | Resultados por página
-    Boolean sandbox = true; // Boolean | Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+    Boolean sandbox = true; // Boolean | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
     try {
       ControllerMicroserviceModelExecutionPage result = apiInstance.listVaults(page, itemsPerPage)
             .sandbox(sandbox)
@@ -298,7 +298,7 @@ public class Example {
 |------------- | ------------- | ------------- | -------------|
 | **page** | **Integer**| Número de página, empieza en 1 | |
 | **itemsPerPage** | **Integer**| Resultados por página | |
-| **sandbox** | **Boolean**| Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito | [optional] |
+| **sandbox** | **Boolean**| Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito | [optional] |
 
 ### Return type
 
@@ -323,7 +323,7 @@ public class Example {
 
 <a id="updateVault"></a>
 # **updateVault**
-> updateVault(id, domainVaultModelVaultEditDto).sandbox(sandbox).execute();
+> updateVault(id, body).sandbox(sandbox).execute();
 
 Editar una credencial
 
@@ -352,10 +352,10 @@ public class Example {
 
     VaultApi apiInstance = new VaultApi(defaultClient);
     String id = "id_example"; // String | Id de la credencial
-    DomainVaultModelVaultEditDto domainVaultModelVaultEditDto = new DomainVaultModelVaultEditDto(); // DomainVaultModelVaultEditDto | Credencial con sus nuevos valores
-    Boolean sandbox = true; // Boolean | Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+    Object body = null; // Object | Objeto con name, type y los campos propios del tipo de credencial (cada tipo define los suyos; por ejemplo BC_PF: usuario, password y autorenew opcional). Los secretos nunca se devuelven
+    Boolean sandbox = true; // Boolean | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
     try {
-      apiInstance.updateVault(id, domainVaultModelVaultEditDto)
+      apiInstance.updateVault(id, body)
             .sandbox(sandbox)
             .execute();
     } catch (ApiException e) {
@@ -374,8 +374,8 @@ public class Example {
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **id** | **String**| Id de la credencial | |
-| **domainVaultModelVaultEditDto** | [**DomainVaultModelVaultEditDto**](DomainVaultModelVaultEditDto.md)| Credencial con sus nuevos valores | |
-| **sandbox** | **Boolean**| Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito | [optional] |
+| **body** | **Object**| Objeto con name, type y los campos propios del tipo de credencial (cada tipo define los suyos; por ejemplo BC_PF: usuario, password y autorenew opcional). Los secretos nunca se devuelven | |
+| **sandbox** | **Boolean**| Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito | [optional] |
 
 ### Return type
 
@@ -434,7 +434,7 @@ public class Example {
     String service = "service_example"; // String | Servicio del catálogo
     String subservice = "subservice_example"; // String | Operación del servicio
     ControllerMicroserviceModelVaultNameDto controllerMicroserviceModelVaultNameDto = new ControllerMicroserviceModelVaultNameDto(); // ControllerMicroserviceModelVaultNameDto | Nombre de la credencial
-    Boolean sandbox = true; // Boolean | Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+    Boolean sandbox = true; // Boolean | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
     try {
       ControllerMicroserviceModelVaultValidationDto result = apiInstance.validateVault(service, subservice, controllerMicroserviceModelVaultNameDto)
             .sandbox(sandbox)
@@ -458,7 +458,7 @@ public class Example {
 | **service** | **String**| Servicio del catálogo | |
 | **subservice** | **String**| Operación del servicio | |
 | **controllerMicroserviceModelVaultNameDto** | [**ControllerMicroserviceModelVaultNameDto**](ControllerMicroserviceModelVaultNameDto.md)| Nombre de la credencial | |
-| **sandbox** | **Boolean**| Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito | [optional] |
+| **sandbox** | **Boolean**| Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito | [optional] |
 
 ### Return type
 

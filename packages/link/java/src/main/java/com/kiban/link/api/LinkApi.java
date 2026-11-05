@@ -200,7 +200,7 @@ public class LinkApi {
 
         /**
          * Set sandbox
-         * @param sandbox Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+         * @param sandbox Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)
          * @return APIexecuteServiceRequest
          */
         public APIexecuteServiceRequest sandbox(@javax.annotation.Nullable Boolean sandbox) {
@@ -464,7 +464,7 @@ public class LinkApi {
 
         /**
          * Set sandbox
-         * @param sandbox Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+         * @param sandbox Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)
          * @return APIgetExecutionRequest
          */
         public APIgetExecutionRequest sandbox(@javax.annotation.Nullable Boolean sandbox) {
@@ -663,7 +663,7 @@ public class LinkApi {
 
         /**
          * Set sandbox
-         * @param sandbox Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+         * @param sandbox Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)
          * @return APIgetFileRequest
          */
         public APIgetFileRequest sandbox(@javax.annotation.Nullable Boolean sandbox) {
@@ -885,7 +885,7 @@ public class LinkApi {
 
         /**
          * Set sandbox
-         * @param sandbox Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+         * @param sandbox Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)
          * @return APIlistExecutionsRequest
          */
         public APIlistExecutionsRequest sandbox(@javax.annotation.Nullable Boolean sandbox) {
@@ -990,7 +990,7 @@ public class LinkApi {
     public APIlistExecutionsRequest listExecutions(@javax.annotation.Nonnull String service, @javax.annotation.Nonnull String subservice, @javax.annotation.Nonnull Integer page, @javax.annotation.Nonnull Integer itemsPerPage) {
         return new APIlistExecutionsRequest(service, subservice, page, itemsPerPage);
     }
-    private okhttp3.Call listTestCasesCall(@javax.annotation.Nonnull String service, @javax.annotation.Nonnull String subservice, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call listTestCasesCall(@javax.annotation.Nonnull String service, @javax.annotation.Nonnull String subservice, @javax.annotation.Nullable Boolean sandbox, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -1017,6 +1017,10 @@ public class LinkApi {
         Map<String, String> localVarCookieParams = new HashMap<String, String>();
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
+        if (sandbox != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("sandbox", sandbox));
+        }
+
         final String[] localVarAccepts = {
             "application/json"
         };
@@ -1037,7 +1041,7 @@ public class LinkApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call listTestCasesValidateBeforeCall(@javax.annotation.Nonnull String service, @javax.annotation.Nonnull String subservice, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call listTestCasesValidateBeforeCall(@javax.annotation.Nonnull String service, @javax.annotation.Nonnull String subservice, @javax.annotation.Nullable Boolean sandbox, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'service' is set
         if (service == null) {
             throw new ApiException("Missing the required parameter 'service' when calling listTestCases(Async)");
@@ -1048,20 +1052,20 @@ public class LinkApi {
             throw new ApiException("Missing the required parameter 'subservice' when calling listTestCases(Async)");
         }
 
-        return listTestCasesCall(service, subservice, _callback);
+        return listTestCasesCall(service, subservice, sandbox, _callback);
 
     }
 
 
-    private ApiResponse<List<ControllerTestCaseModelTestCaseOutputMany>> listTestCasesWithHttpInfo(@javax.annotation.Nonnull String service, @javax.annotation.Nonnull String subservice) throws ApiException {
-        okhttp3.Call localVarCall = listTestCasesValidateBeforeCall(service, subservice, null);
+    private ApiResponse<List<ControllerTestCaseModelTestCaseOutputMany>> listTestCasesWithHttpInfo(@javax.annotation.Nonnull String service, @javax.annotation.Nonnull String subservice, @javax.annotation.Nullable Boolean sandbox) throws ApiException {
+        okhttp3.Call localVarCall = listTestCasesValidateBeforeCall(service, subservice, sandbox, null);
         Type localVarReturnType = new TypeToken<List<ControllerTestCaseModelTestCaseOutputMany>>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
-    private okhttp3.Call listTestCasesAsync(@javax.annotation.Nonnull String service, @javax.annotation.Nonnull String subservice, final ApiCallback<List<ControllerTestCaseModelTestCaseOutputMany>> _callback) throws ApiException {
+    private okhttp3.Call listTestCasesAsync(@javax.annotation.Nonnull String service, @javax.annotation.Nonnull String subservice, @javax.annotation.Nullable Boolean sandbox, final ApiCallback<List<ControllerTestCaseModelTestCaseOutputMany>> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = listTestCasesValidateBeforeCall(service, subservice, _callback);
+        okhttp3.Call localVarCall = listTestCasesValidateBeforeCall(service, subservice, sandbox, _callback);
         Type localVarReturnType = new TypeToken<List<ControllerTestCaseModelTestCaseOutputMany>>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
@@ -1072,10 +1076,22 @@ public class LinkApi {
         private final String service;
         @javax.annotation.Nonnull
         private final String subservice;
+        @javax.annotation.Nullable
+        private Boolean sandbox;
 
         private APIlistTestCasesRequest(@javax.annotation.Nonnull String service, @javax.annotation.Nonnull String subservice) {
             this.service = service;
             this.subservice = subservice;
+        }
+
+        /**
+         * Set sandbox
+         * @param sandbox Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)
+         * @return APIlistTestCasesRequest
+         */
+        public APIlistTestCasesRequest sandbox(@javax.annotation.Nullable Boolean sandbox) {
+            this.sandbox = sandbox;
+            return this;
         }
 
         /**
@@ -1094,7 +1110,7 @@ public class LinkApi {
          </table>
          */
         public okhttp3.Call buildCall(final ApiCallback _callback) throws ApiException {
-            return listTestCasesCall(service, subservice, _callback);
+            return listTestCasesCall(service, subservice, sandbox, _callback);
         }
 
         /**
@@ -1112,7 +1128,7 @@ public class LinkApi {
          </table>
          */
         public List<ControllerTestCaseModelTestCaseOutputMany> execute() throws ApiException {
-            ApiResponse<List<ControllerTestCaseModelTestCaseOutputMany>> localVarResp = listTestCasesWithHttpInfo(service, subservice);
+            ApiResponse<List<ControllerTestCaseModelTestCaseOutputMany>> localVarResp = listTestCasesWithHttpInfo(service, subservice, sandbox);
             return localVarResp.getData();
         }
 
@@ -1131,7 +1147,7 @@ public class LinkApi {
          </table>
          */
         public ApiResponse<List<ControllerTestCaseModelTestCaseOutputMany>> executeWithHttpInfo() throws ApiException {
-            return listTestCasesWithHttpInfo(service, subservice);
+            return listTestCasesWithHttpInfo(service, subservice, sandbox);
         }
 
         /**
@@ -1150,7 +1166,7 @@ public class LinkApi {
          </table>
          */
         public okhttp3.Call executeAsync(final ApiCallback<List<ControllerTestCaseModelTestCaseOutputMany>> _callback) throws ApiException {
-            return listTestCasesAsync(service, subservice, _callback);
+            return listTestCasesAsync(service, subservice, sandbox, _callback);
         }
     }
 

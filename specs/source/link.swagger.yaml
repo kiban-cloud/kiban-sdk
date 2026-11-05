@@ -175,48 +175,6 @@ definitions:
       subService:
         type: string
     type: object
-  domain_vault_model.VaultDto:
-    properties:
-      autoRenew:
-        type: boolean
-      name:
-        type: string
-      type:
-        type: string
-      value:
-        type: string
-      value2:
-        type: string
-      value3:
-        type: string
-      value4:
-        type: string
-    required:
-    - name
-    - type
-    - value
-    type: object
-  domain_vault_model.VaultEditDto:
-    properties:
-      autoRenew:
-        type: boolean
-      name:
-        type: string
-      type:
-        type: string
-      value:
-        type: string
-      value2:
-        type: string
-      value3:
-        type: string
-      value4:
-        type: string
-    required:
-    - name
-    - type
-    - value
-    type: object
 host: link.kiban.com
 info:
   contact:
@@ -254,8 +212,9 @@ paths:
         name: itemsPerPage
         required: true
         type: integer
-      - description: Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya
-          es implícito
+      - description: 'Modo sandbox. Tiene que coincidir con el modo de la API key:
+          una key de sandbox exige sandbox=true y una de producción no lo acepta.
+          Se ignora en el host sandbox, donde ya es implícito'
         in: query
         name: sandbox
         type: boolean
@@ -298,8 +257,9 @@ paths:
         name: id
         required: true
         type: string
-      - description: Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya
-          es implícito
+      - description: 'Modo sandbox. Tiene que coincidir con el modo de la API key:
+          una key de sandbox exige sandbox=true y una de producción no lo acepta.
+          Se ignora en el host sandbox, donde ya es implícito'
         in: query
         name: sandbox
         type: boolean
@@ -334,8 +294,9 @@ paths:
         name: path
         required: true
         type: string
-      - description: Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya
-          es implícito
+      - description: 'Modo sandbox. Tiene que coincidir con el modo de la API key:
+          una key de sandbox exige sandbox=true y una de producción no lo acepta.
+          Se ignora en el host sandbox, donde ya es implícito'
         in: query
         name: sandbox
         type: boolean
@@ -372,8 +333,9 @@ paths:
         name: itemsPerPage
         required: true
         type: integer
-      - description: Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya
-          es implícito
+      - description: 'Modo sandbox. Tiene que coincidir con el modo de la API key:
+          una key de sandbox exige sandbox=true y una de producción no lo acepta.
+          Se ignora en el host sandbox, donde ya es implícito'
         in: query
         name: sandbox
         type: boolean
@@ -405,8 +367,9 @@ paths:
         name: id
         required: true
         type: string
-      - description: Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya
-          es implícito
+      - description: 'Modo sandbox. Tiene que coincidir con el modo de la API key:
+          una key de sandbox exige sandbox=true y una de producción no lo acepta.
+          Se ignora en el host sandbox, donde ya es implícito'
         in: query
         name: sandbox
         type: boolean
@@ -451,8 +414,9 @@ paths:
         name: subservice
         required: true
         type: string
-      - description: Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya
-          es implícito
+      - description: 'Modo sandbox. Tiene que coincidir con el modo de la API key:
+          una key de sandbox exige sandbox=true y una de producción no lo acepta.
+          Se ignora en el host sandbox, donde ya es implícito'
         in: query
         name: sandbox
         type: boolean
@@ -533,6 +497,12 @@ paths:
         name: subservice
         required: true
         type: string
+      - description: 'Modo sandbox. Tiene que coincidir con el modo de la API key:
+          una key de sandbox exige sandbox=true y una de producción no lo acepta.
+          Se ignora en el host sandbox, donde ya es implícito'
+        in: query
+        name: sandbox
+        type: boolean
       produces:
       - application/json
       responses:
@@ -577,8 +547,9 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/controller_microservice_model.VaultNameDto'
-      - description: Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya
-          es implícito
+      - description: 'Modo sandbox. Tiene que coincidir con el modo de la API key:
+          una key de sandbox exige sandbox=true y una de producción no lo acepta.
+          Se ignora en el host sandbox, donde ya es implícito'
         in: query
         name: sandbox
         type: boolean
@@ -604,19 +575,23 @@ paths:
     post:
       consumes:
       - application/json
-      description: Guarda una credencial (vault) para usarla después en los servicios
-        que la piden. El tipo sale del catálogo de tipos de credencial; value, value2…
-        son sus secretos y nunca se devuelven.
+      description: 'Guarda una credencial (vault) para usarla después en los servicios
+        que la piden. El tipo sale del catálogo de tipos de credencial y define qué
+        campos lleva el body; por ejemplo {"name": "buro-pf", "type": "BC_PF", "usuario":
+        "…", "password": "…"}. Los secretos nunca se devuelven.'
       operationId: createVault
       parameters:
-      - description: Credencial
+      - description: 'Objeto con name, type y los campos propios del tipo de credencial
+          (cada tipo define los suyos; por ejemplo BC_PF: usuario, password y autorenew
+          opcional). Los secretos nunca se devuelven'
         in: body
         name: body
         required: true
         schema:
-          $ref: '#/definitions/domain_vault_model.VaultDto'
-      - description: Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya
-          es implícito
+          type: object
+      - description: 'Modo sandbox. Tiene que coincidir con el modo de la API key:
+          una key de sandbox exige sandbox=true y una de producción no lo acepta.
+          Se ignora en el host sandbox, donde ya es implícito'
         in: query
         name: sandbox
         type: boolean
@@ -658,8 +633,9 @@ paths:
         name: id
         required: true
         type: string
-      - description: Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya
-          es implícito
+      - description: 'Modo sandbox. Tiene que coincidir con el modo de la API key:
+          una key de sandbox exige sandbox=true y una de producción no lo acepta.
+          Se ignora en el host sandbox, donde ya es implícito'
         in: query
         name: sandbox
         type: boolean
@@ -693,14 +669,17 @@ paths:
         name: id
         required: true
         type: string
-      - description: Credencial con sus nuevos valores
+      - description: 'Objeto con name, type y los campos propios del tipo de credencial
+          (cada tipo define los suyos; por ejemplo BC_PF: usuario, password y autorenew
+          opcional). Los secretos nunca se devuelven'
         in: body
         name: body
         required: true
         schema:
-          $ref: '#/definitions/domain_vault_model.VaultEditDto'
-      - description: Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya
-          es implícito
+          type: object
+      - description: 'Modo sandbox. Tiene que coincidir con el modo de la API key:
+          una key de sandbox exige sandbox=true y una de producción no lo acepta.
+          Se ignora en el host sandbox, donde ya es implícito'
         in: query
         name: sandbox
         type: boolean

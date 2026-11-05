@@ -53,11 +53,15 @@ IVaultApi vault = host.Services.GetRequiredService<IVaultApi>();
 > `"Bearer "` por defecto, así que sin ese argumento el header sale como
 > `x-api-key: Bearer <tu key>` y la API responde **401**. La key va sola.
 
-- **Ambientes:** producción en `https://link.kiban.com`; sandbox en
-  `https://sandbox.link.kiban.com`, o desde producción con el parámetro
-  `sandbox` en cada llamada. En sandbox la ejecución responde un test case en
-  lugar de llamar al proveedor; elige cuál con `testCase` o `testCaseId`
-  (`ListTestCasesAsync` dice cuáles hay).
+- **Ambientes:** producción en `https://link.kiban.com` y sandbox en
+  `https://sandbox.link.kiban.com`. El modo va en la API key: una key de
+  sandbox sólo funciona en el host sandbox o con `sandbox: new Option<bool>(true)`
+  en cada llamada, y una de producción sólo sin él; mezclarlos responde 401. En
+  sandbox la ejecución responde un test case en lugar de llamar al proveedor;
+  elige cuál con `testCase` o `testCaseId` (`ListTestCasesAsync` dice cuáles hay).
+- **Credenciales:** el body de `CreateVaultAsync` / `UpdateVaultAsync` lleva
+  `name`, `type` y los campos de ese tipo, por ejemplo
+  `new Dictionary<string, object> { ["name"] = "buro-pf", ["type"] = "BC_PF", ["usuario"] = "…", ["password"] = "…" }`.
 - **La API key** viene de una variable de entorno o un secret manager, nunca
   escrita en el código.
 

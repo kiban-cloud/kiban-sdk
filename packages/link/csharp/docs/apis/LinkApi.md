@@ -26,7 +26,7 @@ Ejecuta un servicio del catálogo de link (p. ej. curp/validate, sat/rfc_validat
 | **service** | **string** | Servicio del catálogo (p. ej. curp, sat, imss, bc_pf) |  |
 | **subservice** | **string** | Operación del servicio (p. ej. validate, query) |  |
 | **body** | **Object** | Datos del servicio; cada servicio define sus campos |  |
-| **sandbox** | **bool** | Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito | [optional]  |
+| **sandbox** | **bool** | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito | [optional]  |
 | **testCase** | **string** | Sandbox: nombre del test case que debe responder | [optional]  |
 | **testCaseId** | **string** | Sandbox: id del test case que debe responder | [optional]  |
 | **origin** | **string** | Identificador libre del origen de la petición | [optional]  |
@@ -76,7 +76,7 @@ Devuelve una ejecución: su estatus, la respuesta procesada y el detalle de las 
 | **service** | **string** | Servicio del catálogo |  |
 | **subservice** | **string** | Operación del servicio |  |
 | **id** | **string** | Id de la ejecución |  |
-| **sandbox** | **bool** | Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito | [optional]  |
+| **sandbox** | **bool** | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito | [optional]  |
 
 ### Return type
 
@@ -117,7 +117,7 @@ Descarga un archivo generado por una ejecución (p. ej. un PDF). La ruta del arc
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **path** | **string** | Ruta del archivo, tal como viene en el detalle de la ejecución |  |
-| **sandbox** | **bool** | Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito | [optional]  |
+| **sandbox** | **bool** | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito | [optional]  |
 
 ### Return type
 
@@ -160,7 +160,7 @@ Devuelve una página del historial de un servicio. Cualquier query param que no 
 | **subservice** | **string** | Operación del servicio |  |
 | **page** | **int** | Número de página, empieza en 1 |  |
 | **itemsPerPage** | **int** | Resultados por página |  |
-| **sandbox** | **bool** | Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito | [optional]  |
+| **sandbox** | **bool** | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito | [optional]  |
 
 ### Return type
 
@@ -188,7 +188,7 @@ Devuelve una página del historial de un servicio. Cualquier query param que no 
 
 <a id="listtestcases"></a>
 # **ListTestCases**
-> List&lt;ControllerTestCaseModelTestCaseOutputMany&gt; ListTestCases (string service, string subservice)
+> List&lt;ControllerTestCaseModelTestCaseOutputMany&gt; ListTestCases (string service, string subservice, bool sandbox = null)
 
 Test cases de un servicio
 
@@ -201,6 +201,7 @@ Devuelve los test cases configurados para un servicio. En sandbox, la ejecución
 |------|------|-------------|-------|
 | **service** | **string** | Servicio del catálogo |  |
 | **subservice** | **string** | Operación del servicio |  |
+| **sandbox** | **bool** | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito | [optional]  |
 
 ### Return type
 
