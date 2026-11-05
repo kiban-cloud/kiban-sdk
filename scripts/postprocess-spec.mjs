@@ -3,11 +3,12 @@
 // borraría en silencio lo que se afinó a mano en la Fase 3.
 //
 //   1. Segundo server (sandbox): Swagger 2.0 sólo admite un @host, así que la
-//      conversión produce un único server de producción.
-//   2. Header `Link` en el 200 de los listados v2: swaggo no lo emite.
+//      conversión produce un único server de producción. Cada módulo tiene sus
+//      hosts (MODULES, abajo).
+//   2. Header `Link` en el 200 de los listados v2 de workfloo: swaggo no lo emite.
 //   3. Arreglos y mapas nullable: el backend Go los manda como null cuando están vacíos.
 //
-// Uso: node scripts/postprocess-spec.mjs <ruta-al-openapi.yaml>
+// Uso: node scripts/postprocess-spec.mjs <ruta-al-openapi.yaml> [módulo]   (workfloo por defecto)
 import { readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -17,8 +18,20 @@ const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const { publisher } = JSON.parse(readFileSync(join(root, 'config/modules.json'), 'utf8'));
 
 const file = process.argv[2];
+const moduleName = process.argv[3] || 'workfloo';
 if (!file) {
-  console.error('Falta la ruta al spec. Uso: node postprocess-spec.mjs <spec.yaml>');
+  console.error('Falta la ruta al spec. Uso: node postprocess-spec.mjs <spec.yaml> [módulo]');
+  process.exit(1);
+}
+
+// Por módulo: host de producción, host de sandbox y listados con header Link.
+const MODULES = {
+  workfloo: { host: 'workfloo.kiban.com', sandboxHost: 'sandbox.workfloo.kiban.com', linkHeaderPaths: ['/api/v2/workfloo'] },
+  link: { host: 'link.kiban.com', sandboxHost: 'sandbox.link.kiban.com', linkHeaderPaths: [] },
+};
+const mod = MODULES[moduleName];
+if (!mod) {
+  console.error(`Módulo sin configuración en postprocess-spec.mjs: ${moduleName}`);
   process.exit(1);
 }
 
@@ -26,16 +39,16 @@ const doc = yaml.load(readFileSync(file, 'utf8'));
 
 // 1. Servers: producción + sandbox.
 doc.servers = [
-  { url: 'https://workfloo.kiban.com', description: 'Producción' },
+  { url: `https://${mod.host}`, description: 'Producción' },
   {
-    url: 'https://sandbox.workfloo.kiban.com',
+    url: `https://${mod.sandboxHost}`,
     description:
       'Sandbox. Activa el modo sandbox implícitamente; el query param sandbox se ignora en este host.',
   },
 ];
 
 // 2. Header Link en el 200 de los listados v2 (paginación): swaggo no lo emite.
-for (const path of ['/api/v2/workfloo']) {
+for (const path of mod.linkHeaderPaths) {
   const ok200 = doc.paths?.[path]?.get?.responses?.['200'];
   if (!ok200) {
     console.warn(`Aviso: no se encontró el 200 de GET ${path}; no se agregó el header Link.`);
@@ -77,4 +90,4 @@ if (publisher.license) {
 }
 
 writeFileSync(file, yaml.dump(doc, { lineWidth: -1, noRefs: true }));
-console.log(`postprocess OK: 2 servers (prod + sandbox) + header Link en v2 + ${nullables} arreglos/mapas nullable`);
+console.log(`postprocess OK (${moduleName}): 2 servers (prod + sandbox) + header Link en ${mod.linkHeaderPaths.length} listados + ${nullables} arreglos/mapas nullable`);
