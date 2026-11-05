@@ -108,8 +108,6 @@ public class JSON {
         gsonBuilder.registerTypeAdapterFactory(new com.kiban.link.model.ControllerMicroserviceModelVaultNameDto.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.kiban.link.model.ControllerMicroserviceModelVaultValidationDto.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.kiban.link.model.ControllerTestCaseModelTestCaseOutputMany.CustomTypeAdapterFactory());
-        gsonBuilder.registerTypeAdapterFactory(new com.kiban.link.model.DomainVaultModelVaultDto.CustomTypeAdapterFactory());
-        gsonBuilder.registerTypeAdapterFactory(new com.kiban.link.model.DomainVaultModelVaultEditDto.CustomTypeAdapterFactory());
         gson = gsonBuilder.create();
     }
 

@@ -1,6 +1,5 @@
 .gitignore
 .npmignore
-.openapi-generator-ignore
 README.md
 api.ts
 base.ts
@@ -18,8 +17,6 @@ docs/ControllerMicroserviceModelValidationErrorDto.md
 docs/ControllerMicroserviceModelVaultNameDto.md
 docs/ControllerMicroserviceModelVaultValidationDto.md
 docs/ControllerTestCaseModelTestCaseOutputMany.md
-docs/DomainVaultModelVaultDto.md
-docs/DomainVaultModelVaultEditDto.md
 docs/LinkApi.md
 docs/VaultApi.md
 git_push.sh

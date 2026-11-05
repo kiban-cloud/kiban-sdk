@@ -78,8 +78,6 @@ Class | Method | HTTP request | Description
  - [ControllerMicroserviceModelVaultNameDto](docs/ControllerMicroserviceModelVaultNameDto.md)
  - [ControllerMicroserviceModelVaultValidationDto](docs/ControllerMicroserviceModelVaultValidationDto.md)
  - [ControllerTestCaseModelTestCaseOutputMany](docs/ControllerTestCaseModelTestCaseOutputMany.md)
- - [DomainVaultModelVaultDto](docs/DomainVaultModelVaultDto.md)
- - [DomainVaultModelVaultEditDto](docs/DomainVaultModelVaultEditDto.md)
 
 
 <a id="documentation-for-authorization"></a>

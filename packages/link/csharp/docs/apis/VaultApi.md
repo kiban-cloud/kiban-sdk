@@ -13,19 +13,19 @@ All URIs are relative to *https://link.kiban.com*
 
 <a id="createvault"></a>
 # **CreateVault**
-> ControllerMicroserviceModelMicroserviceDetailDto CreateVault (DomainVaultModelVaultDto domainVaultModelVaultDto, bool sandbox = null)
+> ControllerMicroserviceModelMicroserviceDetailDto CreateVault (Object body, bool sandbox = null)
 
 Crear una credencial
 
-Guarda una credencial (vault) para usarla después en los servicios que la piden. El tipo sale del catálogo de tipos de credencial; value, value2… son sus secretos y nunca se devuelven.
+Guarda una credencial (vault) para usarla después en los servicios que la piden. El tipo sale del catálogo de tipos de credencial y define qué campos lleva el body; por ejemplo {\"name\": \"buro-pf\", \"type\": \"BC_PF\", \"usuario\": \"…\", \"password\": \"…\"}. Los secretos nunca se devuelven.
 
 
 ### Parameters
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **domainVaultModelVaultDto** | [**DomainVaultModelVaultDto**](DomainVaultModelVaultDto.md) | Credencial |  |
-| **sandbox** | **bool** | Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito | [optional]  |
+| **body** | **Object** | Objeto con name, type y los campos propios del tipo de credencial (cada tipo define los suyos; por ejemplo BC_PF: usuario, password y autorenew opcional). Los secretos nunca se devuelven |  |
+| **sandbox** | **bool** | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito | [optional]  |
 
 ### Return type
 
@@ -66,7 +66,7 @@ Borra una credencial guardada (vault) y su secreto.
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **id** | **string** | Id de la credencial |  |
-| **sandbox** | **bool** | Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito | [optional]  |
+| **sandbox** | **bool** | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito | [optional]  |
 
 ### Return type
 
@@ -108,7 +108,7 @@ Devuelve una credencial guardada, sin sus secretos.
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **id** | **string** | Id de la credencial |  |
-| **sandbox** | **bool** | Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito | [optional]  |
+| **sandbox** | **bool** | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito | [optional]  |
 
 ### Return type
 
@@ -150,7 +150,7 @@ Devuelve una página de las credenciales guardadas, sin sus secretos.
 |------|------|-------------|-------|
 | **page** | **int** | Número de página, empieza en 1 |  |
 | **itemsPerPage** | **int** | Resultados por página |  |
-| **sandbox** | **bool** | Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito | [optional]  |
+| **sandbox** | **bool** | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito | [optional]  |
 
 ### Return type
 
@@ -178,7 +178,7 @@ Devuelve una página de las credenciales guardadas, sin sus secretos.
 
 <a id="updatevault"></a>
 # **UpdateVault**
-> void UpdateVault (string id, DomainVaultModelVaultEditDto domainVaultModelVaultEditDto, bool sandbox = null)
+> void UpdateVault (string id, Object body, bool sandbox = null)
 
 Editar una credencial
 
@@ -190,8 +190,8 @@ Actualiza una credencial guardada (vault). Se mandan todos sus campos, incluidos
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **id** | **string** | Id de la credencial |  |
-| **domainVaultModelVaultEditDto** | [**DomainVaultModelVaultEditDto**](DomainVaultModelVaultEditDto.md) | Credencial con sus nuevos valores |  |
-| **sandbox** | **bool** | Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito | [optional]  |
+| **body** | **Object** | Objeto con name, type y los campos propios del tipo de credencial (cada tipo define los suyos; por ejemplo BC_PF: usuario, password y autorenew opcional). Los secretos nunca se devuelven |  |
+| **sandbox** | **bool** | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito | [optional]  |
 
 ### Return type
 
@@ -236,7 +236,7 @@ Dice si una credencial existe y sirve para el servicio indicado en la ruta.
 | **service** | **string** | Servicio del catálogo |  |
 | **subservice** | **string** | Operación del servicio |  |
 | **controllerMicroserviceModelVaultNameDto** | [**ControllerMicroserviceModelVaultNameDto**](ControllerMicroserviceModelVaultNameDto.md) | Nombre de la credencial |  |
-| **sandbox** | **bool** | Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito | [optional]  |
+| **sandbox** | **bool** | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito | [optional]  |
 
 ### Return type
 

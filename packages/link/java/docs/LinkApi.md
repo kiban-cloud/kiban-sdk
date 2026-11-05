@@ -44,7 +44,7 @@ public class Example {
     String service = "service_example"; // String | Servicio del catálogo (p. ej. curp, sat, imss, bc_pf)
     String subservice = "subservice_example"; // String | Operación del servicio (p. ej. validate, query)
     Object body = null; // Object | Datos del servicio; cada servicio define sus campos
-    Boolean sandbox = true; // Boolean | Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+    Boolean sandbox = true; // Boolean | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
     String testCase = "testCase_example"; // String | Sandbox: nombre del test case que debe responder
     String testCaseId = "testCaseId_example"; // String | Sandbox: id del test case que debe responder
     String origin = "origin_example"; // String | Identificador libre del origen de la petición
@@ -74,7 +74,7 @@ public class Example {
 | **service** | **String**| Servicio del catálogo (p. ej. curp, sat, imss, bc_pf) | |
 | **subservice** | **String**| Operación del servicio (p. ej. validate, query) | |
 | **body** | **Object**| Datos del servicio; cada servicio define sus campos | |
-| **sandbox** | **Boolean**| Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito | [optional] |
+| **sandbox** | **Boolean**| Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito | [optional] |
 | **testCase** | **String**| Sandbox: nombre del test case que debe responder | [optional] |
 | **testCaseId** | **String**| Sandbox: id del test case que debe responder | [optional] |
 | **origin** | **String**| Identificador libre del origen de la petición | [optional] |
@@ -138,7 +138,7 @@ public class Example {
     String service = "service_example"; // String | Servicio del catálogo
     String subservice = "subservice_example"; // String | Operación del servicio
     String id = "id_example"; // String | Id de la ejecución
-    Boolean sandbox = true; // Boolean | Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+    Boolean sandbox = true; // Boolean | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
     try {
       ControllerMicroserviceModelMicroserviceDetailDto result = apiInstance.getExecution(service, subservice, id)
             .sandbox(sandbox)
@@ -162,7 +162,7 @@ public class Example {
 | **service** | **String**| Servicio del catálogo | |
 | **subservice** | **String**| Operación del servicio | |
 | **id** | **String**| Id de la ejecución | |
-| **sandbox** | **Boolean**| Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito | [optional] |
+| **sandbox** | **Boolean**| Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito | [optional] |
 
 ### Return type
 
@@ -217,7 +217,7 @@ public class Example {
 
     LinkApi apiInstance = new LinkApi(defaultClient);
     String path = "path_example"; // String | Ruta del archivo, tal como viene en el detalle de la ejecución
-    Boolean sandbox = true; // Boolean | Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+    Boolean sandbox = true; // Boolean | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
     try {
       File result = apiInstance.getFile(path)
             .sandbox(sandbox)
@@ -239,7 +239,7 @@ public class Example {
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **path** | **String**| Ruta del archivo, tal como viene en el detalle de la ejecución | |
-| **sandbox** | **Boolean**| Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito | [optional] |
+| **sandbox** | **Boolean**| Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito | [optional] |
 
 ### Return type
 
@@ -296,7 +296,7 @@ public class Example {
     String subservice = "subservice_example"; // String | Operación del servicio
     Integer page = 56; // Integer | Número de página, empieza en 1
     Integer itemsPerPage = 56; // Integer | Resultados por página
-    Boolean sandbox = true; // Boolean | Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+    Boolean sandbox = true; // Boolean | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
     try {
       ControllerMicroserviceModelExecutionPage result = apiInstance.listExecutions(service, subservice, page, itemsPerPage)
             .sandbox(sandbox)
@@ -321,7 +321,7 @@ public class Example {
 | **subservice** | **String**| Operación del servicio | |
 | **page** | **Integer**| Número de página, empieza en 1 | |
 | **itemsPerPage** | **Integer**| Resultados por página | |
-| **sandbox** | **Boolean**| Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito | [optional] |
+| **sandbox** | **Boolean**| Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito | [optional] |
 
 ### Return type
 
@@ -346,7 +346,7 @@ public class Example {
 
 <a id="listTestCases"></a>
 # **listTestCases**
-> List&lt;ControllerTestCaseModelTestCaseOutputMany&gt; listTestCases(service, subservice).execute();
+> List&lt;ControllerTestCaseModelTestCaseOutputMany&gt; listTestCases(service, subservice).sandbox(sandbox).execute();
 
 Test cases de un servicio
 
@@ -376,8 +376,10 @@ public class Example {
     LinkApi apiInstance = new LinkApi(defaultClient);
     String service = "service_example"; // String | Servicio del catálogo
     String subservice = "subservice_example"; // String | Operación del servicio
+    Boolean sandbox = true; // Boolean | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
     try {
       List<ControllerTestCaseModelTestCaseOutputMany> result = apiInstance.listTestCases(service, subservice)
+            .sandbox(sandbox)
             .execute();
       System.out.println(result);
     } catch (ApiException e) {
@@ -397,6 +399,7 @@ public class Example {
 |------------- | ------------- | ------------- | -------------|
 | **service** | **String**| Servicio del catálogo | |
 | **subservice** | **String**| Operación del servicio | |
+| **sandbox** | **Boolean**| Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito | [optional] |
 
 ### Return type
 

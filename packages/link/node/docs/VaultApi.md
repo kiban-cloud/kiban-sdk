@@ -12,27 +12,26 @@ All URIs are relative to *https://link.kiban.com*
 |[**validateVault**](#validatevault) | **POST** /api/v3/{service}/{subservice}/vault | Validar una credencial para un servicio|
 
 # **createVault**
-> ControllerMicroserviceModelMicroserviceDetailDto createVault(domainVaultModelVaultDto)
+> ControllerMicroserviceModelMicroserviceDetailDto createVault(body)
 
-Guarda una credencial (vault) para usarla después en los servicios que la piden. El tipo sale del catálogo de tipos de credencial; value, value2… son sus secretos y nunca se devuelven.
+Guarda una credencial (vault) para usarla después en los servicios que la piden. El tipo sale del catálogo de tipos de credencial y define qué campos lleva el body; por ejemplo {\"name\": \"buro-pf\", \"type\": \"BC_PF\", \"usuario\": \"…\", \"password\": \"…\"}. Los secretos nunca se devuelven.
 
 ### Example
 
 ```typescript
 import {
     VaultApi,
-    Configuration,
-    DomainVaultModelVaultDto
+    Configuration
 } from '@kiban/link';
 
 const configuration = new Configuration();
 const apiInstance = new VaultApi(configuration);
 
-let domainVaultModelVaultDto: DomainVaultModelVaultDto; //Credencial
-let sandbox: boolean; //Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional) (default to undefined)
+let body: object; //Objeto con name, type y los campos propios del tipo de credencial (cada tipo define los suyos; por ejemplo BC_PF: usuario, password y autorenew opcional). Los secretos nunca se devuelven
+let sandbox: boolean; //Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional) (default to undefined)
 
 const { status, data } = await apiInstance.createVault(
-    domainVaultModelVaultDto,
+    body,
     sandbox
 );
 ```
@@ -41,8 +40,8 @@ const { status, data } = await apiInstance.createVault(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **domainVaultModelVaultDto** | **DomainVaultModelVaultDto**| Credencial | |
-| **sandbox** | [**boolean**] | Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito | (optional) defaults to undefined|
+| **body** | **object**| Objeto con name, type y los campos propios del tipo de credencial (cada tipo define los suyos; por ejemplo BC_PF: usuario, password y autorenew opcional). Los secretos nunca se devuelven | |
+| **sandbox** | [**boolean**] | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito | (optional) defaults to undefined|
 
 
 ### Return type
@@ -87,7 +86,7 @@ const configuration = new Configuration();
 const apiInstance = new VaultApi(configuration);
 
 let id: string; //Id de la credencial (default to undefined)
-let sandbox: boolean; //Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional) (default to undefined)
+let sandbox: boolean; //Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional) (default to undefined)
 
 const { status, data } = await apiInstance.deleteVault(
     id,
@@ -100,7 +99,7 @@ const { status, data } = await apiInstance.deleteVault(
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
 | **id** | [**string**] | Id de la credencial | defaults to undefined|
-| **sandbox** | [**boolean**] | Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito | (optional) defaults to undefined|
+| **sandbox** | [**boolean**] | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito | (optional) defaults to undefined|
 
 
 ### Return type
@@ -146,7 +145,7 @@ const configuration = new Configuration();
 const apiInstance = new VaultApi(configuration);
 
 let id: string; //Id de la credencial (default to undefined)
-let sandbox: boolean; //Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional) (default to undefined)
+let sandbox: boolean; //Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional) (default to undefined)
 
 const { status, data } = await apiInstance.getVault(
     id,
@@ -159,7 +158,7 @@ const { status, data } = await apiInstance.getVault(
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
 | **id** | [**string**] | Id de la credencial | defaults to undefined|
-| **sandbox** | [**boolean**] | Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito | (optional) defaults to undefined|
+| **sandbox** | [**boolean**] | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito | (optional) defaults to undefined|
 
 
 ### Return type
@@ -205,7 +204,7 @@ const apiInstance = new VaultApi(configuration);
 
 let page: number; //Número de página, empieza en 1 (default to undefined)
 let itemsPerPage: number; //Resultados por página (default to undefined)
-let sandbox: boolean; //Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional) (default to undefined)
+let sandbox: boolean; //Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional) (default to undefined)
 
 const { status, data } = await apiInstance.listVaults(
     page,
@@ -220,7 +219,7 @@ const { status, data } = await apiInstance.listVaults(
 |------------- | ------------- | ------------- | -------------|
 | **page** | [**number**] | Número de página, empieza en 1 | defaults to undefined|
 | **itemsPerPage** | [**number**] | Resultados por página | defaults to undefined|
-| **sandbox** | [**boolean**] | Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito | (optional) defaults to undefined|
+| **sandbox** | [**boolean**] | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito | (optional) defaults to undefined|
 
 
 ### Return type
@@ -248,7 +247,7 @@ const { status, data } = await apiInstance.listVaults(
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **updateVault**
-> updateVault(domainVaultModelVaultEditDto)
+> updateVault(body)
 
 Actualiza una credencial guardada (vault). Se mandan todos sus campos, incluidos los secretos.
 
@@ -257,20 +256,19 @@ Actualiza una credencial guardada (vault). Se mandan todos sus campos, incluidos
 ```typescript
 import {
     VaultApi,
-    Configuration,
-    DomainVaultModelVaultEditDto
+    Configuration
 } from '@kiban/link';
 
 const configuration = new Configuration();
 const apiInstance = new VaultApi(configuration);
 
 let id: string; //Id de la credencial (default to undefined)
-let domainVaultModelVaultEditDto: DomainVaultModelVaultEditDto; //Credencial con sus nuevos valores
-let sandbox: boolean; //Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional) (default to undefined)
+let body: object; //Objeto con name, type y los campos propios del tipo de credencial (cada tipo define los suyos; por ejemplo BC_PF: usuario, password y autorenew opcional). Los secretos nunca se devuelven
+let sandbox: boolean; //Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional) (default to undefined)
 
 const { status, data } = await apiInstance.updateVault(
     id,
-    domainVaultModelVaultEditDto,
+    body,
     sandbox
 );
 ```
@@ -279,9 +277,9 @@ const { status, data } = await apiInstance.updateVault(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **domainVaultModelVaultEditDto** | **DomainVaultModelVaultEditDto**| Credencial con sus nuevos valores | |
+| **body** | **object**| Objeto con name, type y los campos propios del tipo de credencial (cada tipo define los suyos; por ejemplo BC_PF: usuario, password y autorenew opcional). Los secretos nunca se devuelven | |
 | **id** | [**string**] | Id de la credencial | defaults to undefined|
-| **sandbox** | [**boolean**] | Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito | (optional) defaults to undefined|
+| **sandbox** | [**boolean**] | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito | (optional) defaults to undefined|
 
 
 ### Return type
@@ -331,7 +329,7 @@ const apiInstance = new VaultApi(configuration);
 let service: string; //Servicio del catálogo (default to undefined)
 let subservice: string; //Operación del servicio (default to undefined)
 let controllerMicroserviceModelVaultNameDto: ControllerMicroserviceModelVaultNameDto; //Nombre de la credencial
-let sandbox: boolean; //Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional) (default to undefined)
+let sandbox: boolean; //Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional) (default to undefined)
 
 const { status, data } = await apiInstance.validateVault(
     service,
@@ -348,7 +346,7 @@ const { status, data } = await apiInstance.validateVault(
 | **controllerMicroserviceModelVaultNameDto** | **ControllerMicroserviceModelVaultNameDto**| Nombre de la credencial | |
 | **service** | [**string**] | Servicio del catálogo | defaults to undefined|
 | **subservice** | [**string**] | Operación del servicio | defaults to undefined|
-| **sandbox** | [**boolean**] | Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito | (optional) defaults to undefined|
+| **sandbox** | [**boolean**] | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito | (optional) defaults to undefined|
 
 
 ### Return type

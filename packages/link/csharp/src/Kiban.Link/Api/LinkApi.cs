@@ -49,7 +49,7 @@ namespace Kiban.Link.Api
         /// <param name="service">Servicio del catálogo (p. ej. curp, sat, imss, bc_pf)</param>
         /// <param name="subservice">Operación del servicio (p. ej. validate, query)</param>
         /// <param name="body">Datos del servicio; cada servicio define sus campos</param>
-        /// <param name="sandbox">Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="sandbox">Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
         /// <param name="testCase">Sandbox: nombre del test case que debe responder (optional)</param>
         /// <param name="testCaseId">Sandbox: id del test case que debe responder (optional)</param>
         /// <param name="origin">Identificador libre del origen de la petición (optional)</param>
@@ -66,7 +66,7 @@ namespace Kiban.Link.Api
         /// <param name="service">Servicio del catálogo (p. ej. curp, sat, imss, bc_pf)</param>
         /// <param name="subservice">Operación del servicio (p. ej. validate, query)</param>
         /// <param name="body">Datos del servicio; cada servicio define sus campos</param>
-        /// <param name="sandbox">Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="sandbox">Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
         /// <param name="testCase">Sandbox: nombre del test case que debe responder (optional)</param>
         /// <param name="testCaseId">Sandbox: id del test case que debe responder (optional)</param>
         /// <param name="origin">Identificador libre del origen de la petición (optional)</param>
@@ -84,7 +84,7 @@ namespace Kiban.Link.Api
         /// <param name="service">Servicio del catálogo</param>
         /// <param name="subservice">Operación del servicio</param>
         /// <param name="id">Id de la ejecución</param>
-        /// <param name="sandbox">Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="sandbox">Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IGetExecutionApiResponse"/>&gt;</returns>
         Task<IGetExecutionApiResponse> GetExecutionAsync(string service, string subservice, string id, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default);
@@ -98,7 +98,7 @@ namespace Kiban.Link.Api
         /// <param name="service">Servicio del catálogo</param>
         /// <param name="subservice">Operación del servicio</param>
         /// <param name="id">Id de la ejecución</param>
-        /// <param name="sandbox">Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="sandbox">Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IGetExecutionApiResponse"/>?&gt;</returns>
         Task<IGetExecutionApiResponse?> GetExecutionOrDefaultAsync(string service, string subservice, string id, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default);
@@ -111,7 +111,7 @@ namespace Kiban.Link.Api
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="path">Ruta del archivo, tal como viene en el detalle de la ejecución</param>
-        /// <param name="sandbox">Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="sandbox">Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IGetFileApiResponse"/>&gt;</returns>
         Task<IGetFileApiResponse> GetFileAsync(string path, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default);
@@ -123,7 +123,7 @@ namespace Kiban.Link.Api
         /// Descarga un archivo generado por una ejecución (p. ej. un PDF). La ruta del archivo viene en el detalle de la ejecución (apiData[].files[].path).
         /// </remarks>
         /// <param name="path">Ruta del archivo, tal como viene en el detalle de la ejecución</param>
-        /// <param name="sandbox">Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="sandbox">Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IGetFileApiResponse"/>?&gt;</returns>
         Task<IGetFileApiResponse?> GetFileOrDefaultAsync(string path, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default);
@@ -139,7 +139,7 @@ namespace Kiban.Link.Api
         /// <param name="subservice">Operación del servicio</param>
         /// <param name="page">Número de página, empieza en 1</param>
         /// <param name="itemsPerPage">Resultados por página</param>
-        /// <param name="sandbox">Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="sandbox">Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IListExecutionsApiResponse"/>&gt;</returns>
         Task<IListExecutionsApiResponse> ListExecutionsAsync(string service, string subservice, int page, int itemsPerPage, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default);
@@ -154,7 +154,7 @@ namespace Kiban.Link.Api
         /// <param name="subservice">Operación del servicio</param>
         /// <param name="page">Número de página, empieza en 1</param>
         /// <param name="itemsPerPage">Resultados por página</param>
-        /// <param name="sandbox">Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="sandbox">Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IListExecutionsApiResponse"/>?&gt;</returns>
         Task<IListExecutionsApiResponse?> ListExecutionsOrDefaultAsync(string service, string subservice, int page, int itemsPerPage, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default);
@@ -168,9 +168,10 @@ namespace Kiban.Link.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="service">Servicio del catálogo</param>
         /// <param name="subservice">Operación del servicio</param>
+        /// <param name="sandbox">Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IListTestCasesApiResponse"/>&gt;</returns>
-        Task<IListTestCasesApiResponse> ListTestCasesAsync(string service, string subservice, System.Threading.CancellationToken cancellationToken = default);
+        Task<IListTestCasesApiResponse> ListTestCasesAsync(string service, string subservice, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Test cases de un servicio
@@ -180,9 +181,10 @@ namespace Kiban.Link.Api
         /// </remarks>
         /// <param name="service">Servicio del catálogo</param>
         /// <param name="subservice">Operación del servicio</param>
+        /// <param name="sandbox">Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IListTestCasesApiResponse"/>?&gt;</returns>
-        Task<IListTestCasesApiResponse?> ListTestCasesOrDefaultAsync(string service, string subservice, System.Threading.CancellationToken cancellationToken = default);
+        Task<IListTestCasesApiResponse?> ListTestCasesOrDefaultAsync(string service, string subservice, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default);
     }
 
     /// <summary>
@@ -627,7 +629,7 @@ namespace Kiban.Link.Api
         /// <param name="service">Servicio del catálogo (p. ej. curp, sat, imss, bc_pf)</param>
         /// <param name="subservice">Operación del servicio (p. ej. validate, query)</param>
         /// <param name="body">Datos del servicio; cada servicio define sus campos</param>
-        /// <param name="sandbox">Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="sandbox">Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
         /// <param name="testCase">Sandbox: nombre del test case que debe responder (optional)</param>
         /// <param name="testCaseId">Sandbox: id del test case que debe responder (optional)</param>
         /// <param name="origin">Identificador libre del origen de la petición (optional)</param>
@@ -652,7 +654,7 @@ namespace Kiban.Link.Api
         /// <param name="service">Servicio del catálogo (p. ej. curp, sat, imss, bc_pf)</param>
         /// <param name="subservice">Operación del servicio (p. ej. validate, query)</param>
         /// <param name="body">Datos del servicio; cada servicio define sus campos</param>
-        /// <param name="sandbox">Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="sandbox">Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
         /// <param name="testCase">Sandbox: nombre del test case que debe responder (optional)</param>
         /// <param name="testCaseId">Sandbox: id del test case que debe responder (optional)</param>
         /// <param name="origin">Identificador libre del origen de la petición (optional)</param>
@@ -1157,7 +1159,7 @@ namespace Kiban.Link.Api
         /// <param name="service">Servicio del catálogo</param>
         /// <param name="subservice">Operación del servicio</param>
         /// <param name="id">Id de la ejecución</param>
-        /// <param name="sandbox">Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="sandbox">Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IGetExecutionApiResponse"/>&gt;</returns>
         public async Task<IGetExecutionApiResponse?> GetExecutionOrDefaultAsync(string service, string subservice, string id, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default)
@@ -1179,7 +1181,7 @@ namespace Kiban.Link.Api
         /// <param name="service">Servicio del catálogo</param>
         /// <param name="subservice">Operación del servicio</param>
         /// <param name="id">Id de la ejecución</param>
-        /// <param name="sandbox">Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="sandbox">Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IGetExecutionApiResponse"/>&gt;</returns>
         public async Task<IGetExecutionApiResponse> GetExecutionAsync(string service, string subservice, string id, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default)
@@ -1448,7 +1450,7 @@ namespace Kiban.Link.Api
         /// Descargar un archivo de una ejecución Descarga un archivo generado por una ejecución (p. ej. un PDF). La ruta del archivo viene en el detalle de la ejecución (apiData[].files[].path).
         /// </summary>
         /// <param name="path">Ruta del archivo, tal como viene en el detalle de la ejecución</param>
-        /// <param name="sandbox">Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="sandbox">Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IGetFileApiResponse"/>&gt;</returns>
         public async Task<IGetFileApiResponse?> GetFileOrDefaultAsync(string path, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default)
@@ -1468,7 +1470,7 @@ namespace Kiban.Link.Api
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="path">Ruta del archivo, tal como viene en el detalle de la ejecución</param>
-        /// <param name="sandbox">Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="sandbox">Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IGetFileApiResponse"/>&gt;</returns>
         public async Task<IGetFileApiResponse> GetFileAsync(string path, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default)
@@ -1757,7 +1759,7 @@ namespace Kiban.Link.Api
         /// <param name="subservice">Operación del servicio</param>
         /// <param name="page">Número de página, empieza en 1</param>
         /// <param name="itemsPerPage">Resultados por página</param>
-        /// <param name="sandbox">Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="sandbox">Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IListExecutionsApiResponse"/>&gt;</returns>
         public async Task<IListExecutionsApiResponse?> ListExecutionsOrDefaultAsync(string service, string subservice, int page, int itemsPerPage, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default)
@@ -1780,7 +1782,7 @@ namespace Kiban.Link.Api
         /// <param name="subservice">Operación del servicio</param>
         /// <param name="page">Número de página, empieza en 1</param>
         /// <param name="itemsPerPage">Resultados por página</param>
-        /// <param name="sandbox">Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="sandbox">Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IListExecutionsApiResponse"/>&gt;</returns>
         public async Task<IListExecutionsApiResponse> ListExecutionsAsync(string service, string subservice, int page, int itemsPerPage, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default)
@@ -1978,7 +1980,7 @@ namespace Kiban.Link.Api
             partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
         }
 
-        partial void FormatListTestCases(ref string service, ref string subservice);
+        partial void FormatListTestCases(ref string service, ref string subservice, ref Option<bool> sandbox);
 
         /// <summary>
         /// Validates the request parameters
@@ -2001,10 +2003,11 @@ namespace Kiban.Link.Api
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="service"></param>
         /// <param name="subservice"></param>
-        private void AfterListTestCasesDefaultImplementation(IListTestCasesApiResponse apiResponseLocalVar, string service, string subservice)
+        /// <param name="sandbox"></param>
+        private void AfterListTestCasesDefaultImplementation(IListTestCasesApiResponse apiResponseLocalVar, string service, string subservice, Option<bool> sandbox)
         {
             bool suppressDefaultLog = false;
-            AfterListTestCases(ref suppressDefaultLog, apiResponseLocalVar, service, subservice);
+            AfterListTestCases(ref suppressDefaultLog, apiResponseLocalVar, service, subservice, sandbox);
             if (!suppressDefaultLog)
                 Logger.LogInformation(RestLogEvents.ApiRequestCompleted, "{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
@@ -2016,7 +2019,8 @@ namespace Kiban.Link.Api
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="service"></param>
         /// <param name="subservice"></param>
-        partial void AfterListTestCases(ref bool suppressDefaultLog, IListTestCasesApiResponse apiResponseLocalVar, string service, string subservice);
+        /// <param name="sandbox"></param>
+        partial void AfterListTestCases(ref bool suppressDefaultLog, IListTestCasesApiResponse apiResponseLocalVar, string service, string subservice, Option<bool> sandbox);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -2026,10 +2030,11 @@ namespace Kiban.Link.Api
         /// <param name="pathLocalVar"></param>
         /// <param name="service"></param>
         /// <param name="subservice"></param>
-        private void OnErrorListTestCasesDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string service, string subservice)
+        /// <param name="sandbox"></param>
+        private void OnErrorListTestCasesDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string service, string subservice, Option<bool> sandbox)
         {
             bool suppressDefaultLogLocalVar = false;
-            OnErrorListTestCases(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, service, subservice);
+            OnErrorListTestCases(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, service, subservice, sandbox);
             if (!suppressDefaultLogLocalVar)
                 Logger.LogError(RestLogEvents.ApiRequestFailed, exceptionLocalVar, "An error occurred while sending the request to the server.");
         }
@@ -2043,20 +2048,22 @@ namespace Kiban.Link.Api
         /// <param name="pathLocalVar"></param>
         /// <param name="service"></param>
         /// <param name="subservice"></param>
-        partial void OnErrorListTestCases(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string service, string subservice);
+        /// <param name="sandbox"></param>
+        partial void OnErrorListTestCases(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string service, string subservice, Option<bool> sandbox);
 
         /// <summary>
         /// Test cases de un servicio Devuelve los test cases configurados para un servicio. En sandbox, la ejecución responde uno de ellos en lugar de llamar al proveedor (se elige con testCase o testCaseId al ejecutar).
         /// </summary>
         /// <param name="service">Servicio del catálogo</param>
         /// <param name="subservice">Operación del servicio</param>
+        /// <param name="sandbox">Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IListTestCasesApiResponse"/>&gt;</returns>
-        public async Task<IListTestCasesApiResponse?> ListTestCasesOrDefaultAsync(string service, string subservice, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<IListTestCasesApiResponse?> ListTestCasesOrDefaultAsync(string service, string subservice, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
-                return await ListTestCasesAsync(service, subservice, cancellationToken).ConfigureAwait(false);
+                return await ListTestCasesAsync(service, subservice, sandbox, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception)
             {
@@ -2070,9 +2077,10 @@ namespace Kiban.Link.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="service">Servicio del catálogo</param>
         /// <param name="subservice">Operación del servicio</param>
+        /// <param name="sandbox">Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IListTestCasesApiResponse"/>&gt;</returns>
-        public async Task<IListTestCasesApiResponse> ListTestCasesAsync(string service, string subservice, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<IListTestCasesApiResponse> ListTestCasesAsync(string service, string subservice, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -2080,7 +2088,7 @@ namespace Kiban.Link.Api
             {
                 ValidateListTestCases(service, subservice);
 
-                FormatListTestCases(ref service, ref subservice);
+                FormatListTestCases(ref service, ref subservice, ref sandbox);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -2092,6 +2100,13 @@ namespace Kiban.Link.Api
                         : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/api/v3/{service}/{subservice}/test_case");
                     uriBuilderLocalVar.Path = uriBuilderLocalVar.Path.Replace("%7Bservice%7D", Uri.EscapeDataString(service.ToString()));
                     uriBuilderLocalVar.Path = uriBuilderLocalVar.Path.Replace("%7Bsubservice%7D", Uri.EscapeDataString(subservice.ToString()));
+
+                    System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
+
+                    if (sandbox.IsSet)
+                        parseQueryStringLocalVar["sandbox"] = ClientUtils.ParameterToString(sandbox.Value);
+
+                    uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
 
                     List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
                     ApiKeyToken apiKeyTokenLocalVar1 = (ApiKeyToken) await ApiKeyProvider.GetAsync("x-api-key", cancellationToken).ConfigureAwait(false);
@@ -2126,7 +2141,7 @@ namespace Kiban.Link.Api
                             }
                         }
 
-                        AfterListTestCasesDefaultImplementation(apiResponseLocalVar, service, subservice);
+                        AfterListTestCasesDefaultImplementation(apiResponseLocalVar, service, subservice, sandbox);
 
                         Events.ExecuteOnListTestCases(apiResponseLocalVar);
 
@@ -2140,7 +2155,7 @@ namespace Kiban.Link.Api
             }
             catch(Exception e)
             {
-                OnErrorListTestCasesDefaultImplementation(e, "/api/v3/{service}/{subservice}/test_case", uriBuilderLocalVar.Path, service, subservice);
+                OnErrorListTestCasesDefaultImplementation(e, "/api/v3/{service}/{subservice}/test_case", uriBuilderLocalVar.Path, service, subservice, sandbox);
                 Events.ExecuteOnErrorListTestCases(e);
                 throw;
             }

@@ -1,5 +1,4 @@
 .gitignore
-.openapi-generator-ignore
 .travis.yml
 README.md
 api/openapi.yaml
@@ -19,8 +18,6 @@ docs/ControllerMicroserviceModelValidationErrorDto.md
 docs/ControllerMicroserviceModelVaultNameDto.md
 docs/ControllerMicroserviceModelVaultValidationDto.md
 docs/ControllerTestCaseModelTestCaseOutputMany.md
-docs/DomainVaultModelVaultDto.md
-docs/DomainVaultModelVaultEditDto.md
 docs/LinkAPI.md
 docs/VaultAPI.md
 git_push.sh
@@ -38,9 +35,5 @@ model_controller_microservice_model_validation_error_dto.go
 model_controller_microservice_model_vault_name_dto.go
 model_controller_microservice_model_vault_validation_dto.go
 model_controller_test_case_model_test_case_output_many.go
-model_domain_vault_model_vault_dto.go
-model_domain_vault_model_vault_edit_dto.go
 response.go
-test/api_link_test.go
-test/api_vault_test.go
 utils.go

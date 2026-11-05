@@ -81,7 +81,7 @@ with kiban.link.ApiClient(configuration) as api_client:
     service = 'service_example' # str | Servicio del catálogo (p. ej. curp, sat, imss, bc_pf)
     subservice = 'subservice_example' # str | Operación del servicio (p. ej. validate, query)
     body = None # object | Datos del servicio; cada servicio define sus campos
-    sandbox = True # bool | Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+    sandbox = True # bool | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)
     test_case = 'test_case_example' # str | Sandbox: nombre del test case que debe responder (optional)
     test_case_id = 'test_case_id_example' # str | Sandbox: id del test case que debe responder (optional)
     origin = 'origin_example' # str | Identificador libre del origen de la petición (optional)
@@ -129,8 +129,6 @@ Class | Method | HTTP request | Description
  - [ControllerMicroserviceModelVaultNameDto](docs/ControllerMicroserviceModelVaultNameDto.md)
  - [ControllerMicroserviceModelVaultValidationDto](docs/ControllerMicroserviceModelVaultValidationDto.md)
  - [ControllerTestCaseModelTestCaseOutputMany](docs/ControllerTestCaseModelTestCaseOutputMany.md)
- - [DomainVaultModelVaultDto](docs/DomainVaultModelVaultDto.md)
- - [DomainVaultModelVaultEditDto](docs/DomainVaultModelVaultEditDto.md)
 
 
 <a id="documentation-for-authorization"></a>

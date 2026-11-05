@@ -13,11 +13,11 @@ Method | HTTP request | Description
 
 
 # **create_vault**
-> ControllerMicroserviceModelMicroserviceDetailDto create_vault(domain_vault_model_vault_dto, sandbox=sandbox)
+> ControllerMicroserviceModelMicroserviceDetailDto create_vault(body, sandbox=sandbox)
 
 Crear una credencial
 
-Guarda una credencial (vault) para usarla después en los servicios que la piden. El tipo sale del catálogo de tipos de credencial; value, value2… son sus secretos y nunca se devuelven.
+Guarda una credencial (vault) para usarla después en los servicios que la piden. El tipo sale del catálogo de tipos de credencial y define qué campos lleva el body; por ejemplo {"name": "buro-pf", "type": "BC_PF", "usuario": "…", "password": "…"}. Los secretos nunca se devuelven.
 
 ### Example
 
@@ -26,7 +26,6 @@ Guarda una credencial (vault) para usarla después en los servicios que la piden
 ```python
 import kiban.link
 from kiban.link.models.controller_microservice_model_microservice_detail_dto import ControllerMicroserviceModelMicroserviceDetailDto
-from kiban.link.models.domain_vault_model_vault_dto import DomainVaultModelVaultDto
 from kiban.link.rest import ApiException
 from pprint import pprint
 
@@ -51,12 +50,12 @@ configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
 with kiban.link.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = kiban.link.VaultApi(api_client)
-    domain_vault_model_vault_dto = kiban.link.DomainVaultModelVaultDto() # DomainVaultModelVaultDto | Credencial
-    sandbox = True # bool | Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+    body = None # object | Objeto con name, type y los campos propios del tipo de credencial (cada tipo define los suyos; por ejemplo BC_PF: usuario, password y autorenew opcional). Los secretos nunca se devuelven
+    sandbox = True # bool | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)
 
     try:
         # Crear una credencial
-        api_response = api_instance.create_vault(domain_vault_model_vault_dto, sandbox=sandbox)
+        api_response = api_instance.create_vault(body, sandbox=sandbox)
         print("The response of VaultApi->create_vault:\n")
         pprint(api_response)
     except Exception as e:
@@ -70,8 +69,8 @@ with kiban.link.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **domain_vault_model_vault_dto** | [**DomainVaultModelVaultDto**](DomainVaultModelVaultDto.md)| Credencial | 
- **sandbox** | **bool**| Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito | [optional] 
+ **body** | **object**| Objeto con name, type y los campos propios del tipo de credencial (cada tipo define los suyos; por ejemplo BC_PF: usuario, password y autorenew opcional). Los secretos nunca se devuelven | 
+ **sandbox** | **bool**| Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito | [optional] 
 
 ### Return type
 
@@ -136,7 +135,7 @@ with kiban.link.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = kiban.link.VaultApi(api_client)
     id = 'id_example' # str | Id de la credencial
-    sandbox = True # bool | Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+    sandbox = True # bool | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)
 
     try:
         # Borrar una credencial
@@ -153,7 +152,7 @@ with kiban.link.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **str**| Id de la credencial | 
- **sandbox** | **bool**| Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito | [optional] 
+ **sandbox** | **bool**| Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito | [optional] 
 
 ### Return type
 
@@ -220,7 +219,7 @@ with kiban.link.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = kiban.link.VaultApi(api_client)
     id = 'id_example' # str | Id de la credencial
-    sandbox = True # bool | Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+    sandbox = True # bool | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)
 
     try:
         # Detalle de una credencial
@@ -239,7 +238,7 @@ with kiban.link.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **str**| Id de la credencial | 
- **sandbox** | **bool**| Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito | [optional] 
+ **sandbox** | **bool**| Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito | [optional] 
 
 ### Return type
 
@@ -306,7 +305,7 @@ with kiban.link.ApiClient(configuration) as api_client:
     api_instance = kiban.link.VaultApi(api_client)
     page = 56 # int | Número de página, empieza en 1
     items_per_page = 56 # int | Resultados por página
-    sandbox = True # bool | Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+    sandbox = True # bool | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)
 
     try:
         # Listar credenciales
@@ -326,7 +325,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **page** | **int**| Número de página, empieza en 1 | 
  **items_per_page** | **int**| Resultados por página | 
- **sandbox** | **bool**| Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito | [optional] 
+ **sandbox** | **bool**| Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito | [optional] 
 
 ### Return type
 
@@ -353,7 +352,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **update_vault**
-> update_vault(id, domain_vault_model_vault_edit_dto, sandbox=sandbox)
+> update_vault(id, body, sandbox=sandbox)
 
 Editar una credencial
 
@@ -365,7 +364,6 @@ Actualiza una credencial guardada (vault). Se mandan todos sus campos, incluidos
 
 ```python
 import kiban.link
-from kiban.link.models.domain_vault_model_vault_edit_dto import DomainVaultModelVaultEditDto
 from kiban.link.rest import ApiException
 from pprint import pprint
 
@@ -391,12 +389,12 @@ with kiban.link.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = kiban.link.VaultApi(api_client)
     id = 'id_example' # str | Id de la credencial
-    domain_vault_model_vault_edit_dto = kiban.link.DomainVaultModelVaultEditDto() # DomainVaultModelVaultEditDto | Credencial con sus nuevos valores
-    sandbox = True # bool | Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+    body = None # object | Objeto con name, type y los campos propios del tipo de credencial (cada tipo define los suyos; por ejemplo BC_PF: usuario, password y autorenew opcional). Los secretos nunca se devuelven
+    sandbox = True # bool | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)
 
     try:
         # Editar una credencial
-        api_instance.update_vault(id, domain_vault_model_vault_edit_dto, sandbox=sandbox)
+        api_instance.update_vault(id, body, sandbox=sandbox)
     except Exception as e:
         print("Exception when calling VaultApi->update_vault: %s\n" % e)
 ```
@@ -409,8 +407,8 @@ with kiban.link.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **str**| Id de la credencial | 
- **domain_vault_model_vault_edit_dto** | [**DomainVaultModelVaultEditDto**](DomainVaultModelVaultEditDto.md)| Credencial con sus nuevos valores | 
- **sandbox** | **bool**| Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito | [optional] 
+ **body** | **object**| Objeto con name, type y los campos propios del tipo de credencial (cada tipo define los suyos; por ejemplo BC_PF: usuario, password y autorenew opcional). Los secretos nunca se devuelven | 
+ **sandbox** | **bool**| Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito | [optional] 
 
 ### Return type
 
@@ -481,7 +479,7 @@ with kiban.link.ApiClient(configuration) as api_client:
     service = 'service_example' # str | Servicio del catálogo
     subservice = 'subservice_example' # str | Operación del servicio
     controller_microservice_model_vault_name_dto = kiban.link.ControllerMicroserviceModelVaultNameDto() # ControllerMicroserviceModelVaultNameDto | Nombre de la credencial
-    sandbox = True # bool | Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+    sandbox = True # bool | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)
 
     try:
         # Validar una credencial para un servicio
@@ -502,7 +500,7 @@ Name | Type | Description  | Notes
  **service** | **str**| Servicio del catálogo | 
  **subservice** | **str**| Operación del servicio | 
  **controller_microservice_model_vault_name_dto** | [**ControllerMicroserviceModelVaultNameDto**](ControllerMicroserviceModelVaultNameDto.md)| Nombre de la credencial | 
- **sandbox** | **bool**| Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito | [optional] 
+ **sandbox** | **bool**| Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito | [optional] 
 
 ### Return type
 

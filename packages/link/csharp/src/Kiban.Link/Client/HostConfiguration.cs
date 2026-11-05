@@ -56,8 +56,6 @@ namespace Kiban.Link.Client
             _jsonOptions.Converters.Add(new ControllerMicroserviceModelVaultNameDtoJsonConverter());
             _jsonOptions.Converters.Add(new ControllerMicroserviceModelVaultValidationDtoJsonConverter());
             _jsonOptions.Converters.Add(new ControllerTestCaseModelTestCaseOutputManyJsonConverter());
-            _jsonOptions.Converters.Add(new DomainVaultModelVaultDtoJsonConverter());
-            _jsonOptions.Converters.Add(new DomainVaultModelVaultEditDtoJsonConverter());
             JsonSerializerOptionsProvider jsonSerializerOptionsProvider = new(_jsonOptions);
             _services.AddSingleton(jsonSerializerOptionsProvider);
             _services.AddSingleton<IApiFactory, ApiFactory>();

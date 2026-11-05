@@ -43,7 +43,7 @@ func (r ApiExecuteServiceRequest) Body(body map[string]interface{}) ApiExecuteSe
 	return r
 }
 
-// Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+// Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
 func (r ApiExecuteServiceRequest) Sandbox(sandbox bool) ApiExecuteServiceRequest {
 	r.sandbox = &sandbox
 	return r
@@ -261,7 +261,7 @@ type ApiGetExecutionRequest struct {
 	sandbox *bool
 }
 
-// Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+// Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
 func (r ApiGetExecutionRequest) Sandbox(sandbox bool) ApiGetExecutionRequest {
 	r.sandbox = &sandbox
 	return r
@@ -400,7 +400,7 @@ func (r ApiGetFileRequest) Path(path string) ApiGetFileRequest {
 	return r
 }
 
-// Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+// Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
 func (r ApiGetFileRequest) Sandbox(sandbox bool) ApiGetFileRequest {
 	r.sandbox = &sandbox
 	return r
@@ -543,7 +543,7 @@ func (r ApiListExecutionsRequest) ItemsPerPage(itemsPerPage int32) ApiListExecut
 	return r
 }
 
-// Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+// Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
 func (r ApiListExecutionsRequest) Sandbox(sandbox bool) ApiListExecutionsRequest {
 	r.sandbox = &sandbox
 	return r
@@ -679,6 +679,13 @@ type ApiListTestCasesRequest struct {
 	ApiService *LinkAPIService
 	service string
 	subservice string
+	sandbox *bool
+}
+
+// Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
+func (r ApiListTestCasesRequest) Sandbox(sandbox bool) ApiListTestCasesRequest {
+	r.sandbox = &sandbox
+	return r
 }
 
 func (r ApiListTestCasesRequest) Execute() ([]ControllerTestCaseModelTestCaseOutputMany, *http.Response, error) {
@@ -727,6 +734,9 @@ func (a *LinkAPIService) ListTestCasesExecute(r ApiListTestCasesRequest) ([]Cont
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
+	if r.sandbox != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "sandbox", r.sandbox, "form", "")
+	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 

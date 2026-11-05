@@ -27,17 +27,17 @@ type VaultAPIService service
 type ApiCreateVaultRequest struct {
 	ctx context.Context
 	ApiService *VaultAPIService
-	domainVaultModelVaultDto *DomainVaultModelVaultDto
+	body *map[string]interface{}
 	sandbox *bool
 }
 
-// Credencial
-func (r ApiCreateVaultRequest) DomainVaultModelVaultDto(domainVaultModelVaultDto DomainVaultModelVaultDto) ApiCreateVaultRequest {
-	r.domainVaultModelVaultDto = &domainVaultModelVaultDto
+// Objeto con name, type y los campos propios del tipo de credencial (cada tipo define los suyos; por ejemplo BC_PF: usuario, password y autorenew opcional). Los secretos nunca se devuelven
+func (r ApiCreateVaultRequest) Body(body map[string]interface{}) ApiCreateVaultRequest {
+	r.body = &body
 	return r
 }
 
-// Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+// Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
 func (r ApiCreateVaultRequest) Sandbox(sandbox bool) ApiCreateVaultRequest {
 	r.sandbox = &sandbox
 	return r
@@ -50,7 +50,7 @@ func (r ApiCreateVaultRequest) Execute() (*ControllerMicroserviceModelMicroservi
 /*
 CreateVault Crear una credencial
 
-Guarda una credencial (vault) para usarla después en los servicios que la piden. El tipo sale del catálogo de tipos de credencial; value, value2… son sus secretos y nunca se devuelven.
+Guarda una credencial (vault) para usarla después en los servicios que la piden. El tipo sale del catálogo de tipos de credencial y define qué campos lleva el body; por ejemplo {"name": "buro-pf", "type": "BC_PF", "usuario": "…", "password": "…"}. Los secretos nunca se devuelven.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiCreateVaultRequest
@@ -82,8 +82,8 @@ func (a *VaultAPIService) CreateVaultExecute(r ApiCreateVaultRequest) (*Controll
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
-	if r.domainVaultModelVaultDto == nil {
-		return localVarReturnValue, nil, reportError("domainVaultModelVaultDto is required and must be specified")
+	if r.body == nil {
+		return localVarReturnValue, nil, reportError("body is required and must be specified")
 	}
 
 	if r.sandbox != nil {
@@ -107,7 +107,7 @@ func (a *VaultAPIService) CreateVaultExecute(r ApiCreateVaultRequest) (*Controll
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	// body params
-	localVarPostBody = r.domainVaultModelVaultDto
+	localVarPostBody = r.body
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
@@ -188,7 +188,7 @@ type ApiDeleteVaultRequest struct {
 	sandbox *bool
 }
 
-// Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+// Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
 func (r ApiDeleteVaultRequest) Sandbox(sandbox bool) ApiDeleteVaultRequest {
 	r.sandbox = &sandbox
 	return r
@@ -304,7 +304,7 @@ type ApiGetVaultRequest struct {
 	sandbox *bool
 }
 
-// Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+// Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
 func (r ApiGetVaultRequest) Sandbox(sandbox bool) ApiGetVaultRequest {
 	r.sandbox = &sandbox
 	return r
@@ -444,7 +444,7 @@ func (r ApiListVaultsRequest) ItemsPerPage(itemsPerPage int32) ApiListVaultsRequ
 	return r
 }
 
-// Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+// Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
 func (r ApiListVaultsRequest) Sandbox(sandbox bool) ApiListVaultsRequest {
 	r.sandbox = &sandbox
 	return r
@@ -573,17 +573,17 @@ type ApiUpdateVaultRequest struct {
 	ctx context.Context
 	ApiService *VaultAPIService
 	id string
-	domainVaultModelVaultEditDto *DomainVaultModelVaultEditDto
+	body *map[string]interface{}
 	sandbox *bool
 }
 
-// Credencial con sus nuevos valores
-func (r ApiUpdateVaultRequest) DomainVaultModelVaultEditDto(domainVaultModelVaultEditDto DomainVaultModelVaultEditDto) ApiUpdateVaultRequest {
-	r.domainVaultModelVaultEditDto = &domainVaultModelVaultEditDto
+// Objeto con name, type y los campos propios del tipo de credencial (cada tipo define los suyos; por ejemplo BC_PF: usuario, password y autorenew opcional). Los secretos nunca se devuelven
+func (r ApiUpdateVaultRequest) Body(body map[string]interface{}) ApiUpdateVaultRequest {
+	r.body = &body
 	return r
 }
 
-// Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+// Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
 func (r ApiUpdateVaultRequest) Sandbox(sandbox bool) ApiUpdateVaultRequest {
 	r.sandbox = &sandbox
 	return r
@@ -629,8 +629,8 @@ func (a *VaultAPIService) UpdateVaultExecute(r ApiUpdateVaultRequest) (*http.Res
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
-	if r.domainVaultModelVaultEditDto == nil {
-		return nil, reportError("domainVaultModelVaultEditDto is required and must be specified")
+	if r.body == nil {
+		return nil, reportError("body is required and must be specified")
 	}
 
 	if r.sandbox != nil {
@@ -654,7 +654,7 @@ func (a *VaultAPIService) UpdateVaultExecute(r ApiUpdateVaultRequest) (*http.Res
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	// body params
-	localVarPostBody = r.domainVaultModelVaultEditDto
+	localVarPostBody = r.body
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
@@ -734,7 +734,7 @@ func (r ApiValidateVaultRequest) ControllerMicroserviceModelVaultNameDto(control
 	return r
 }
 
-// Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+// Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
 func (r ApiValidateVaultRequest) Sandbox(sandbox bool) ApiValidateVaultRequest {
 	r.sandbox = &sandbox
 	return r

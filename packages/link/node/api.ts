@@ -120,24 +120,6 @@ export interface ControllerTestCaseModelTestCaseOutputMany {
     'service'?: string;
     'subService'?: string;
 }
-export interface DomainVaultModelVaultDto {
-    'autoRenew'?: boolean;
-    'name': string;
-    'type': string;
-    'value': string;
-    'value2'?: string;
-    'value3'?: string;
-    'value4'?: string;
-}
-export interface DomainVaultModelVaultEditDto {
-    'autoRenew'?: boolean;
-    'name': string;
-    'type': string;
-    'value': string;
-    'value2'?: string;
-    'value3'?: string;
-    'value4'?: string;
-}
 
 /**
  * LinkApi - axios parameter creator
@@ -150,7 +132,7 @@ export const LinkApiAxiosParamCreator = function (configuration?: Configuration)
          * @param {string} service Servicio del catálogo (p. ej. curp, sat, imss, bc_pf)
          * @param {string} subservice Operación del servicio (p. ej. validate, query)
          * @param {object} body Datos del servicio; cada servicio define sus campos
-         * @param {boolean} [sandbox] Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+         * @param {boolean} [sandbox] Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
          * @param {string} [testCase] Sandbox: nombre del test case que debe responder
          * @param {string} [testCaseId] Sandbox: id del test case que debe responder
          * @param {string} [origin] Identificador libre del origen de la petición
@@ -215,7 +197,7 @@ export const LinkApiAxiosParamCreator = function (configuration?: Configuration)
          * @param {string} service Servicio del catálogo
          * @param {string} subservice Operación del servicio
          * @param {string} id Id de la ejecución
-         * @param {boolean} [sandbox] Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+         * @param {boolean} [sandbox] Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -263,7 +245,7 @@ export const LinkApiAxiosParamCreator = function (configuration?: Configuration)
          * Descarga un archivo generado por una ejecución (p. ej. un PDF). La ruta del archivo viene en el detalle de la ejecución (apiData[].files[].path).
          * @summary Descargar un archivo de una ejecución
          * @param {string} path Ruta del archivo, tal como viene en el detalle de la ejecución
-         * @param {boolean} [sandbox] Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+         * @param {boolean} [sandbox] Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -311,7 +293,7 @@ export const LinkApiAxiosParamCreator = function (configuration?: Configuration)
          * @param {string} subservice Operación del servicio
          * @param {number} page Número de página, empieza en 1
          * @param {number} itemsPerPage Resultados por página
-         * @param {boolean} [sandbox] Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+         * @param {boolean} [sandbox] Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -369,10 +351,11 @@ export const LinkApiAxiosParamCreator = function (configuration?: Configuration)
          * @summary Test cases de un servicio
          * @param {string} service Servicio del catálogo
          * @param {string} subservice Operación del servicio
+         * @param {boolean} [sandbox] Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listTestCases: async (service: string, subservice: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        listTestCases: async (service: string, subservice: string, sandbox?: boolean, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'service' is not null or undefined
             assertParamExists('listTestCases', 'service', service)
             // verify required parameter 'subservice' is not null or undefined
@@ -393,6 +376,10 @@ export const LinkApiAxiosParamCreator = function (configuration?: Configuration)
 
             // authentication ApiKeyAuth required
             await setApiKeyToObject(localVarHeaderParameter, "x-api-key", configuration)
+
+            if (sandbox !== undefined) {
+                localVarQueryParameter['sandbox'] = sandbox;
+            }
 
             localVarHeaderParameter['Accept'] = 'application/json';
 
@@ -420,7 +407,7 @@ export const LinkApiFp = function(configuration?: Configuration) {
          * @param {string} service Servicio del catálogo (p. ej. curp, sat, imss, bc_pf)
          * @param {string} subservice Operación del servicio (p. ej. validate, query)
          * @param {object} body Datos del servicio; cada servicio define sus campos
-         * @param {boolean} [sandbox] Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+         * @param {boolean} [sandbox] Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
          * @param {string} [testCase] Sandbox: nombre del test case que debe responder
          * @param {string} [testCaseId] Sandbox: id del test case que debe responder
          * @param {string} [origin] Identificador libre del origen de la petición
@@ -439,7 +426,7 @@ export const LinkApiFp = function(configuration?: Configuration) {
          * @param {string} service Servicio del catálogo
          * @param {string} subservice Operación del servicio
          * @param {string} id Id de la ejecución
-         * @param {boolean} [sandbox] Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+         * @param {boolean} [sandbox] Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -453,7 +440,7 @@ export const LinkApiFp = function(configuration?: Configuration) {
          * Descarga un archivo generado por una ejecución (p. ej. un PDF). La ruta del archivo viene en el detalle de la ejecución (apiData[].files[].path).
          * @summary Descargar un archivo de una ejecución
          * @param {string} path Ruta del archivo, tal como viene en el detalle de la ejecución
-         * @param {boolean} [sandbox] Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+         * @param {boolean} [sandbox] Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -470,7 +457,7 @@ export const LinkApiFp = function(configuration?: Configuration) {
          * @param {string} subservice Operación del servicio
          * @param {number} page Número de página, empieza en 1
          * @param {number} itemsPerPage Resultados por página
-         * @param {boolean} [sandbox] Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+         * @param {boolean} [sandbox] Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -485,11 +472,12 @@ export const LinkApiFp = function(configuration?: Configuration) {
          * @summary Test cases de un servicio
          * @param {string} service Servicio del catálogo
          * @param {string} subservice Operación del servicio
+         * @param {boolean} [sandbox] Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async listTestCases(service: string, subservice: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ControllerTestCaseModelTestCaseOutputMany>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.listTestCases(service, subservice, options);
+        async listTestCases(service: string, subservice: string, sandbox?: boolean, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ControllerTestCaseModelTestCaseOutputMany>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listTestCases(service, subservice, sandbox, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['LinkApi.listTestCases']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -551,7 +539,7 @@ export const LinkApiFactory = function (configuration?: Configuration, basePath?
          * @throws {RequiredError}
          */
         listTestCases(requestParameters: LinkApiListTestCasesRequest, options?: RawAxiosRequestConfig): AxiosPromise<Array<ControllerTestCaseModelTestCaseOutputMany>> {
-            return localVarFp.listTestCases(requestParameters.service, requestParameters.subservice, options).then((request) => request(axios, basePath));
+            return localVarFp.listTestCases(requestParameters.service, requestParameters.subservice, requestParameters.sandbox, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -576,7 +564,7 @@ export interface LinkApiExecuteServiceRequest {
     readonly body: object
 
     /**
-     * Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+     * Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
      */
     readonly sandbox?: boolean
 
@@ -616,7 +604,7 @@ export interface LinkApiGetExecutionRequest {
     readonly id: string
 
     /**
-     * Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+     * Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
      */
     readonly sandbox?: boolean
 }
@@ -631,7 +619,7 @@ export interface LinkApiGetFileRequest {
     readonly path: string
 
     /**
-     * Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+     * Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
      */
     readonly sandbox?: boolean
 }
@@ -661,7 +649,7 @@ export interface LinkApiListExecutionsRequest {
     readonly itemsPerPage: number
 
     /**
-     * Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+     * Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
      */
     readonly sandbox?: boolean
 }
@@ -679,6 +667,11 @@ export interface LinkApiListTestCasesRequest {
      * Operación del servicio
      */
     readonly subservice: string
+
+    /**
+     * Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
+     */
+    readonly sandbox?: boolean
 }
 
 /**
@@ -737,7 +730,7 @@ export class LinkApi extends BaseAPI {
      * @throws {RequiredError}
      */
     public listTestCases(requestParameters: LinkApiListTestCasesRequest, options?: RawAxiosRequestConfig) {
-        return LinkApiFp(this.configuration).listTestCases(requestParameters.service, requestParameters.subservice, options).then((request) => request(this.axios, this.basePath));
+        return LinkApiFp(this.configuration).listTestCases(requestParameters.service, requestParameters.subservice, requestParameters.sandbox, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -749,16 +742,16 @@ export class LinkApi extends BaseAPI {
 export const VaultApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * Guarda una credencial (vault) para usarla después en los servicios que la piden. El tipo sale del catálogo de tipos de credencial; value, value2… son sus secretos y nunca se devuelven.
+         * Guarda una credencial (vault) para usarla después en los servicios que la piden. El tipo sale del catálogo de tipos de credencial y define qué campos lleva el body; por ejemplo {\"name\": \"buro-pf\", \"type\": \"BC_PF\", \"usuario\": \"…\", \"password\": \"…\"}. Los secretos nunca se devuelven.
          * @summary Crear una credencial
-         * @param {DomainVaultModelVaultDto} domainVaultModelVaultDto Credencial
-         * @param {boolean} [sandbox] Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+         * @param {object} body Objeto con name, type y los campos propios del tipo de credencial (cada tipo define los suyos; por ejemplo BC_PF: usuario, password y autorenew opcional). Los secretos nunca se devuelven
+         * @param {boolean} [sandbox] Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createVault: async (domainVaultModelVaultDto: DomainVaultModelVaultDto, sandbox?: boolean, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'domainVaultModelVaultDto' is not null or undefined
-            assertParamExists('createVault', 'domainVaultModelVaultDto', domainVaultModelVaultDto)
+        createVault: async (body: object, sandbox?: boolean, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'body' is not null or undefined
+            assertParamExists('createVault', 'body', body)
             const localVarPath = `/api/v3/vault/na`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -784,7 +777,7 @@ export const VaultApiAxiosParamCreator = function (configuration?: Configuration
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(domainVaultModelVaultDto, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -795,7 +788,7 @@ export const VaultApiAxiosParamCreator = function (configuration?: Configuration
          * Borra una credencial guardada (vault) y su secreto.
          * @summary Borrar una credencial
          * @param {string} id Id de la credencial
-         * @param {boolean} [sandbox] Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+         * @param {boolean} [sandbox] Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -836,7 +829,7 @@ export const VaultApiAxiosParamCreator = function (configuration?: Configuration
          * Devuelve una credencial guardada, sin sus secretos.
          * @summary Detalle de una credencial
          * @param {string} id Id de la credencial
-         * @param {boolean} [sandbox] Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+         * @param {boolean} [sandbox] Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -879,7 +872,7 @@ export const VaultApiAxiosParamCreator = function (configuration?: Configuration
          * @summary Listar credenciales
          * @param {number} page Número de página, empieza en 1
          * @param {number} itemsPerPage Resultados por página
-         * @param {boolean} [sandbox] Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+         * @param {boolean} [sandbox] Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -930,16 +923,16 @@ export const VaultApiAxiosParamCreator = function (configuration?: Configuration
          * Actualiza una credencial guardada (vault). Se mandan todos sus campos, incluidos los secretos.
          * @summary Editar una credencial
          * @param {string} id Id de la credencial
-         * @param {DomainVaultModelVaultEditDto} domainVaultModelVaultEditDto Credencial con sus nuevos valores
-         * @param {boolean} [sandbox] Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+         * @param {object} body Objeto con name, type y los campos propios del tipo de credencial (cada tipo define los suyos; por ejemplo BC_PF: usuario, password y autorenew opcional). Los secretos nunca se devuelven
+         * @param {boolean} [sandbox] Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateVault: async (id: string, domainVaultModelVaultEditDto: DomainVaultModelVaultEditDto, sandbox?: boolean, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        updateVault: async (id: string, body: object, sandbox?: boolean, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('updateVault', 'id', id)
-            // verify required parameter 'domainVaultModelVaultEditDto' is not null or undefined
-            assertParamExists('updateVault', 'domainVaultModelVaultEditDto', domainVaultModelVaultEditDto)
+            // verify required parameter 'body' is not null or undefined
+            assertParamExists('updateVault', 'body', body)
             const localVarPath = `/api/v3/vault/na/{id}`
                 .replace('{id}', encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -966,7 +959,7 @@ export const VaultApiAxiosParamCreator = function (configuration?: Configuration
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(domainVaultModelVaultEditDto, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -979,7 +972,7 @@ export const VaultApiAxiosParamCreator = function (configuration?: Configuration
          * @param {string} service Servicio del catálogo
          * @param {string} subservice Operación del servicio
          * @param {ControllerMicroserviceModelVaultNameDto} controllerMicroserviceModelVaultNameDto Nombre de la credencial
-         * @param {boolean} [sandbox] Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+         * @param {boolean} [sandbox] Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1034,15 +1027,15 @@ export const VaultApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = VaultApiAxiosParamCreator(configuration)
     return {
         /**
-         * Guarda una credencial (vault) para usarla después en los servicios que la piden. El tipo sale del catálogo de tipos de credencial; value, value2… son sus secretos y nunca se devuelven.
+         * Guarda una credencial (vault) para usarla después en los servicios que la piden. El tipo sale del catálogo de tipos de credencial y define qué campos lleva el body; por ejemplo {\"name\": \"buro-pf\", \"type\": \"BC_PF\", \"usuario\": \"…\", \"password\": \"…\"}. Los secretos nunca se devuelven.
          * @summary Crear una credencial
-         * @param {DomainVaultModelVaultDto} domainVaultModelVaultDto Credencial
-         * @param {boolean} [sandbox] Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+         * @param {object} body Objeto con name, type y los campos propios del tipo de credencial (cada tipo define los suyos; por ejemplo BC_PF: usuario, password y autorenew opcional). Los secretos nunca se devuelven
+         * @param {boolean} [sandbox] Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createVault(domainVaultModelVaultDto: DomainVaultModelVaultDto, sandbox?: boolean, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ControllerMicroserviceModelMicroserviceDetailDto>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.createVault(domainVaultModelVaultDto, sandbox, options);
+        async createVault(body: object, sandbox?: boolean, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ControllerMicroserviceModelMicroserviceDetailDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createVault(body, sandbox, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['VaultApi.createVault']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -1051,7 +1044,7 @@ export const VaultApiFp = function(configuration?: Configuration) {
          * Borra una credencial guardada (vault) y su secreto.
          * @summary Borrar una credencial
          * @param {string} id Id de la credencial
-         * @param {boolean} [sandbox] Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+         * @param {boolean} [sandbox] Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1065,7 +1058,7 @@ export const VaultApiFp = function(configuration?: Configuration) {
          * Devuelve una credencial guardada, sin sus secretos.
          * @summary Detalle de una credencial
          * @param {string} id Id de la credencial
-         * @param {boolean} [sandbox] Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+         * @param {boolean} [sandbox] Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1080,7 +1073,7 @@ export const VaultApiFp = function(configuration?: Configuration) {
          * @summary Listar credenciales
          * @param {number} page Número de página, empieza en 1
          * @param {number} itemsPerPage Resultados por página
-         * @param {boolean} [sandbox] Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+         * @param {boolean} [sandbox] Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1094,13 +1087,13 @@ export const VaultApiFp = function(configuration?: Configuration) {
          * Actualiza una credencial guardada (vault). Se mandan todos sus campos, incluidos los secretos.
          * @summary Editar una credencial
          * @param {string} id Id de la credencial
-         * @param {DomainVaultModelVaultEditDto} domainVaultModelVaultEditDto Credencial con sus nuevos valores
-         * @param {boolean} [sandbox] Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+         * @param {object} body Objeto con name, type y los campos propios del tipo de credencial (cada tipo define los suyos; por ejemplo BC_PF: usuario, password y autorenew opcional). Los secretos nunca se devuelven
+         * @param {boolean} [sandbox] Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateVault(id: string, domainVaultModelVaultEditDto: DomainVaultModelVaultEditDto, sandbox?: boolean, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updateVault(id, domainVaultModelVaultEditDto, sandbox, options);
+        async updateVault(id: string, body: object, sandbox?: boolean, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateVault(id, body, sandbox, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['VaultApi.updateVault']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -1111,7 +1104,7 @@ export const VaultApiFp = function(configuration?: Configuration) {
          * @param {string} service Servicio del catálogo
          * @param {string} subservice Operación del servicio
          * @param {ControllerMicroserviceModelVaultNameDto} controllerMicroserviceModelVaultNameDto Nombre de la credencial
-         * @param {boolean} [sandbox] Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+         * @param {boolean} [sandbox] Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1131,14 +1124,14 @@ export const VaultApiFactory = function (configuration?: Configuration, basePath
     const localVarFp = VaultApiFp(configuration)
     return {
         /**
-         * Guarda una credencial (vault) para usarla después en los servicios que la piden. El tipo sale del catálogo de tipos de credencial; value, value2… son sus secretos y nunca se devuelven.
+         * Guarda una credencial (vault) para usarla después en los servicios que la piden. El tipo sale del catálogo de tipos de credencial y define qué campos lleva el body; por ejemplo {\"name\": \"buro-pf\", \"type\": \"BC_PF\", \"usuario\": \"…\", \"password\": \"…\"}. Los secretos nunca se devuelven.
          * @summary Crear una credencial
          * @param {VaultApiCreateVaultRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
         createVault(requestParameters: VaultApiCreateVaultRequest, options?: RawAxiosRequestConfig): AxiosPromise<ControllerMicroserviceModelMicroserviceDetailDto> {
-            return localVarFp.createVault(requestParameters.domainVaultModelVaultDto, requestParameters.sandbox, options).then((request) => request(axios, basePath));
+            return localVarFp.createVault(requestParameters.body, requestParameters.sandbox, options).then((request) => request(axios, basePath));
         },
         /**
          * Borra una credencial guardada (vault) y su secreto.
@@ -1178,7 +1171,7 @@ export const VaultApiFactory = function (configuration?: Configuration, basePath
          * @throws {RequiredError}
          */
         updateVault(requestParameters: VaultApiUpdateVaultRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.updateVault(requestParameters.id, requestParameters.domainVaultModelVaultEditDto, requestParameters.sandbox, options).then((request) => request(axios, basePath));
+            return localVarFp.updateVault(requestParameters.id, requestParameters.body, requestParameters.sandbox, options).then((request) => request(axios, basePath));
         },
         /**
          * Dice si una credencial existe y sirve para el servicio indicado en la ruta.
@@ -1198,12 +1191,12 @@ export const VaultApiFactory = function (configuration?: Configuration, basePath
  */
 export interface VaultApiCreateVaultRequest {
     /**
-     * Credencial
+     * Objeto con name, type y los campos propios del tipo de credencial (cada tipo define los suyos; por ejemplo BC_PF: usuario, password y autorenew opcional). Los secretos nunca se devuelven
      */
-    readonly domainVaultModelVaultDto: DomainVaultModelVaultDto
+    readonly body: object
 
     /**
-     * Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+     * Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
      */
     readonly sandbox?: boolean
 }
@@ -1218,7 +1211,7 @@ export interface VaultApiDeleteVaultRequest {
     readonly id: string
 
     /**
-     * Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+     * Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
      */
     readonly sandbox?: boolean
 }
@@ -1233,7 +1226,7 @@ export interface VaultApiGetVaultRequest {
     readonly id: string
 
     /**
-     * Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+     * Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
      */
     readonly sandbox?: boolean
 }
@@ -1253,7 +1246,7 @@ export interface VaultApiListVaultsRequest {
     readonly itemsPerPage: number
 
     /**
-     * Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+     * Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
      */
     readonly sandbox?: boolean
 }
@@ -1268,12 +1261,12 @@ export interface VaultApiUpdateVaultRequest {
     readonly id: string
 
     /**
-     * Credencial con sus nuevos valores
+     * Objeto con name, type y los campos propios del tipo de credencial (cada tipo define los suyos; por ejemplo BC_PF: usuario, password y autorenew opcional). Los secretos nunca se devuelven
      */
-    readonly domainVaultModelVaultEditDto: DomainVaultModelVaultEditDto
+    readonly body: object
 
     /**
-     * Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+     * Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
      */
     readonly sandbox?: boolean
 }
@@ -1298,7 +1291,7 @@ export interface VaultApiValidateVaultRequest {
     readonly controllerMicroserviceModelVaultNameDto: ControllerMicroserviceModelVaultNameDto
 
     /**
-     * Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito
+     * Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito
      */
     readonly sandbox?: boolean
 }
@@ -1308,14 +1301,14 @@ export interface VaultApiValidateVaultRequest {
  */
 export class VaultApi extends BaseAPI {
     /**
-     * Guarda una credencial (vault) para usarla después en los servicios que la piden. El tipo sale del catálogo de tipos de credencial; value, value2… son sus secretos y nunca se devuelven.
+     * Guarda una credencial (vault) para usarla después en los servicios que la piden. El tipo sale del catálogo de tipos de credencial y define qué campos lleva el body; por ejemplo {\"name\": \"buro-pf\", \"type\": \"BC_PF\", \"usuario\": \"…\", \"password\": \"…\"}. Los secretos nunca se devuelven.
      * @summary Crear una credencial
      * @param {VaultApiCreateVaultRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     public createVault(requestParameters: VaultApiCreateVaultRequest, options?: RawAxiosRequestConfig) {
-        return VaultApiFp(this.configuration).createVault(requestParameters.domainVaultModelVaultDto, requestParameters.sandbox, options).then((request) => request(this.axios, this.basePath));
+        return VaultApiFp(this.configuration).createVault(requestParameters.body, requestParameters.sandbox, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1359,7 +1352,7 @@ export class VaultApi extends BaseAPI {
      * @throws {RequiredError}
      */
     public updateVault(requestParameters: VaultApiUpdateVaultRequest, options?: RawAxiosRequestConfig) {
-        return VaultApiFp(this.configuration).updateVault(requestParameters.id, requestParameters.domainVaultModelVaultEditDto, requestParameters.sandbox, options).then((request) => request(this.axios, this.basePath));
+        return VaultApiFp(this.configuration).updateVault(requestParameters.id, requestParameters.body, requestParameters.sandbox, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

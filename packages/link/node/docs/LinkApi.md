@@ -29,7 +29,7 @@ const apiInstance = new LinkApi(configuration);
 let service: string; //Servicio del catálogo (p. ej. curp, sat, imss, bc_pf) (default to undefined)
 let subservice: string; //Operación del servicio (p. ej. validate, query) (default to undefined)
 let body: object; //Datos del servicio; cada servicio define sus campos
-let sandbox: boolean; //Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional) (default to undefined)
+let sandbox: boolean; //Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional) (default to undefined)
 let testCase: string; //Sandbox: nombre del test case que debe responder (optional) (default to undefined)
 let testCaseId: string; //Sandbox: id del test case que debe responder (optional) (default to undefined)
 let origin: string; //Identificador libre del origen de la petición (optional) (default to undefined)
@@ -52,7 +52,7 @@ const { status, data } = await apiInstance.executeService(
 | **body** | **object**| Datos del servicio; cada servicio define sus campos | |
 | **service** | [**string**] | Servicio del catálogo (p. ej. curp, sat, imss, bc_pf) | defaults to undefined|
 | **subservice** | [**string**] | Operación del servicio (p. ej. validate, query) | defaults to undefined|
-| **sandbox** | [**boolean**] | Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito | (optional) defaults to undefined|
+| **sandbox** | [**boolean**] | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito | (optional) defaults to undefined|
 | **testCase** | [**string**] | Sandbox: nombre del test case que debe responder | (optional) defaults to undefined|
 | **testCaseId** | [**string**] | Sandbox: id del test case que debe responder | (optional) defaults to undefined|
 | **origin** | [**string**] | Identificador libre del origen de la petición | (optional) defaults to undefined|
@@ -106,7 +106,7 @@ const apiInstance = new LinkApi(configuration);
 let service: string; //Servicio del catálogo (default to undefined)
 let subservice: string; //Operación del servicio (default to undefined)
 let id: string; //Id de la ejecución (default to undefined)
-let sandbox: boolean; //Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional) (default to undefined)
+let sandbox: boolean; //Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional) (default to undefined)
 
 const { status, data } = await apiInstance.getExecution(
     service,
@@ -123,7 +123,7 @@ const { status, data } = await apiInstance.getExecution(
 | **service** | [**string**] | Servicio del catálogo | defaults to undefined|
 | **subservice** | [**string**] | Operación del servicio | defaults to undefined|
 | **id** | [**string**] | Id de la ejecución | defaults to undefined|
-| **sandbox** | [**boolean**] | Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito | (optional) defaults to undefined|
+| **sandbox** | [**boolean**] | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito | (optional) defaults to undefined|
 
 
 ### Return type
@@ -168,7 +168,7 @@ const configuration = new Configuration();
 const apiInstance = new LinkApi(configuration);
 
 let path: string; //Ruta del archivo, tal como viene en el detalle de la ejecución (default to undefined)
-let sandbox: boolean; //Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional) (default to undefined)
+let sandbox: boolean; //Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional) (default to undefined)
 
 const { status, data } = await apiInstance.getFile(
     path,
@@ -181,7 +181,7 @@ const { status, data } = await apiInstance.getFile(
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
 | **path** | [**string**] | Ruta del archivo, tal como viene en el detalle de la ejecución | defaults to undefined|
-| **sandbox** | [**boolean**] | Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito | (optional) defaults to undefined|
+| **sandbox** | [**boolean**] | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito | (optional) defaults to undefined|
 
 
 ### Return type
@@ -228,7 +228,7 @@ let service: string; //Servicio del catálogo (default to undefined)
 let subservice: string; //Operación del servicio (default to undefined)
 let page: number; //Número de página, empieza en 1 (default to undefined)
 let itemsPerPage: number; //Resultados por página (default to undefined)
-let sandbox: boolean; //Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional) (default to undefined)
+let sandbox: boolean; //Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional) (default to undefined)
 
 const { status, data } = await apiInstance.listExecutions(
     service,
@@ -247,7 +247,7 @@ const { status, data } = await apiInstance.listExecutions(
 | **subservice** | [**string**] | Operación del servicio | defaults to undefined|
 | **page** | [**number**] | Número de página, empieza en 1 | defaults to undefined|
 | **itemsPerPage** | [**number**] | Resultados por página | defaults to undefined|
-| **sandbox** | [**boolean**] | Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito | (optional) defaults to undefined|
+| **sandbox** | [**boolean**] | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito | (optional) defaults to undefined|
 
 
 ### Return type
@@ -292,10 +292,12 @@ const apiInstance = new LinkApi(configuration);
 
 let service: string; //Servicio del catálogo (default to undefined)
 let subservice: string; //Operación del servicio (default to undefined)
+let sandbox: boolean; //Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox=true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional) (default to undefined)
 
 const { status, data } = await apiInstance.listTestCases(
     service,
-    subservice
+    subservice,
+    sandbox
 );
 ```
 
@@ -305,6 +307,7 @@ const { status, data } = await apiInstance.listTestCases(
 |------------- | ------------- | ------------- | -------------|
 | **service** | [**string**] | Servicio del catálogo | defaults to undefined|
 | **subservice** | [**string**] | Operación del servicio | defaults to undefined|
+| **sandbox** | [**boolean**] | Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito | (optional) defaults to undefined|
 
 
 ### Return type

@@ -43,26 +43,26 @@ namespace Kiban.Link.Api
         /// Crear una credencial
         /// </summary>
         /// <remarks>
-        /// Guarda una credencial (vault) para usarla después en los servicios que la piden. El tipo sale del catálogo de tipos de credencial; value, value2… son sus secretos y nunca se devuelven.
+        /// Guarda una credencial (vault) para usarla después en los servicios que la piden. El tipo sale del catálogo de tipos de credencial y define qué campos lleva el body; por ejemplo {\&quot;name\&quot;: \&quot;buro-pf\&quot;, \&quot;type\&quot;: \&quot;BC_PF\&quot;, \&quot;usuario\&quot;: \&quot;…\&quot;, \&quot;password\&quot;: \&quot;…\&quot;}. Los secretos nunca se devuelven.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="domainVaultModelVaultDto">Credencial</param>
-        /// <param name="sandbox">Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="body">Objeto con name, type y los campos propios del tipo de credencial (cada tipo define los suyos; por ejemplo BC_PF: usuario, password y autorenew opcional). Los secretos nunca se devuelven</param>
+        /// <param name="sandbox">Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ICreateVaultApiResponse"/>&gt;</returns>
-        Task<ICreateVaultApiResponse> CreateVaultAsync(DomainVaultModelVaultDto domainVaultModelVaultDto, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default);
+        Task<ICreateVaultApiResponse> CreateVaultAsync(Object body, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Crear una credencial
         /// </summary>
         /// <remarks>
-        /// Guarda una credencial (vault) para usarla después en los servicios que la piden. El tipo sale del catálogo de tipos de credencial; value, value2… son sus secretos y nunca se devuelven.
+        /// Guarda una credencial (vault) para usarla después en los servicios que la piden. El tipo sale del catálogo de tipos de credencial y define qué campos lleva el body; por ejemplo {\&quot;name\&quot;: \&quot;buro-pf\&quot;, \&quot;type\&quot;: \&quot;BC_PF\&quot;, \&quot;usuario\&quot;: \&quot;…\&quot;, \&quot;password\&quot;: \&quot;…\&quot;}. Los secretos nunca se devuelven.
         /// </remarks>
-        /// <param name="domainVaultModelVaultDto">Credencial</param>
-        /// <param name="sandbox">Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="body">Objeto con name, type y los campos propios del tipo de credencial (cada tipo define los suyos; por ejemplo BC_PF: usuario, password y autorenew opcional). Los secretos nunca se devuelven</param>
+        /// <param name="sandbox">Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ICreateVaultApiResponse"/>?&gt;</returns>
-        Task<ICreateVaultApiResponse?> CreateVaultOrDefaultAsync(DomainVaultModelVaultDto domainVaultModelVaultDto, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default);
+        Task<ICreateVaultApiResponse?> CreateVaultOrDefaultAsync(Object body, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Borrar una credencial
@@ -72,7 +72,7 @@ namespace Kiban.Link.Api
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">Id de la credencial</param>
-        /// <param name="sandbox">Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="sandbox">Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IDeleteVaultApiResponse"/>&gt;</returns>
         Task<IDeleteVaultApiResponse> DeleteVaultAsync(string id, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default);
@@ -84,7 +84,7 @@ namespace Kiban.Link.Api
         /// Borra una credencial guardada (vault) y su secreto.
         /// </remarks>
         /// <param name="id">Id de la credencial</param>
-        /// <param name="sandbox">Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="sandbox">Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IDeleteVaultApiResponse"/>?&gt;</returns>
         Task<IDeleteVaultApiResponse?> DeleteVaultOrDefaultAsync(string id, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default);
@@ -97,7 +97,7 @@ namespace Kiban.Link.Api
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">Id de la credencial</param>
-        /// <param name="sandbox">Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="sandbox">Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IGetVaultApiResponse"/>&gt;</returns>
         Task<IGetVaultApiResponse> GetVaultAsync(string id, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default);
@@ -109,7 +109,7 @@ namespace Kiban.Link.Api
         /// Devuelve una credencial guardada, sin sus secretos.
         /// </remarks>
         /// <param name="id">Id de la credencial</param>
-        /// <param name="sandbox">Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="sandbox">Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IGetVaultApiResponse"/>?&gt;</returns>
         Task<IGetVaultApiResponse?> GetVaultOrDefaultAsync(string id, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default);
@@ -123,7 +123,7 @@ namespace Kiban.Link.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="page">Número de página, empieza en 1</param>
         /// <param name="itemsPerPage">Resultados por página</param>
-        /// <param name="sandbox">Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="sandbox">Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IListVaultsApiResponse"/>&gt;</returns>
         Task<IListVaultsApiResponse> ListVaultsAsync(int page, int itemsPerPage, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default);
@@ -136,7 +136,7 @@ namespace Kiban.Link.Api
         /// </remarks>
         /// <param name="page">Número de página, empieza en 1</param>
         /// <param name="itemsPerPage">Resultados por página</param>
-        /// <param name="sandbox">Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="sandbox">Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IListVaultsApiResponse"/>?&gt;</returns>
         Task<IListVaultsApiResponse?> ListVaultsOrDefaultAsync(int page, int itemsPerPage, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default);
@@ -149,11 +149,11 @@ namespace Kiban.Link.Api
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">Id de la credencial</param>
-        /// <param name="domainVaultModelVaultEditDto">Credencial con sus nuevos valores</param>
-        /// <param name="sandbox">Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="body">Objeto con name, type y los campos propios del tipo de credencial (cada tipo define los suyos; por ejemplo BC_PF: usuario, password y autorenew opcional). Los secretos nunca se devuelven</param>
+        /// <param name="sandbox">Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IUpdateVaultApiResponse"/>&gt;</returns>
-        Task<IUpdateVaultApiResponse> UpdateVaultAsync(string id, DomainVaultModelVaultEditDto domainVaultModelVaultEditDto, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default);
+        Task<IUpdateVaultApiResponse> UpdateVaultAsync(string id, Object body, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Editar una credencial
@@ -162,11 +162,11 @@ namespace Kiban.Link.Api
         /// Actualiza una credencial guardada (vault). Se mandan todos sus campos, incluidos los secretos.
         /// </remarks>
         /// <param name="id">Id de la credencial</param>
-        /// <param name="domainVaultModelVaultEditDto">Credencial con sus nuevos valores</param>
-        /// <param name="sandbox">Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="body">Objeto con name, type y los campos propios del tipo de credencial (cada tipo define los suyos; por ejemplo BC_PF: usuario, password y autorenew opcional). Los secretos nunca se devuelven</param>
+        /// <param name="sandbox">Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IUpdateVaultApiResponse"/>?&gt;</returns>
-        Task<IUpdateVaultApiResponse?> UpdateVaultOrDefaultAsync(string id, DomainVaultModelVaultEditDto domainVaultModelVaultEditDto, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default);
+        Task<IUpdateVaultApiResponse?> UpdateVaultOrDefaultAsync(string id, Object body, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Validar una credencial para un servicio
@@ -178,7 +178,7 @@ namespace Kiban.Link.Api
         /// <param name="service">Servicio del catálogo</param>
         /// <param name="subservice">Operación del servicio</param>
         /// <param name="controllerMicroserviceModelVaultNameDto">Nombre de la credencial</param>
-        /// <param name="sandbox">Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="sandbox">Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IValidateVaultApiResponse"/>&gt;</returns>
         Task<IValidateVaultApiResponse> ValidateVaultAsync(string service, string subservice, ControllerMicroserviceModelVaultNameDto controllerMicroserviceModelVaultNameDto, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default);
@@ -192,7 +192,7 @@ namespace Kiban.Link.Api
         /// <param name="service">Servicio del catálogo</param>
         /// <param name="subservice">Operación del servicio</param>
         /// <param name="controllerMicroserviceModelVaultNameDto">Nombre de la credencial</param>
-        /// <param name="sandbox">Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="sandbox">Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IValidateVaultApiResponse"/>?&gt;</returns>
         Task<IValidateVaultApiResponse?> ValidateVaultOrDefaultAsync(string service, string subservice, ControllerMicroserviceModelVaultNameDto controllerMicroserviceModelVaultNameDto, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default);
@@ -587,29 +587,29 @@ namespace Kiban.Link.Api
             ApiKeyProvider = apiKeyProvider;
         }
 
-        partial void FormatCreateVault(DomainVaultModelVaultDto domainVaultModelVaultDto, ref Option<bool> sandbox);
+        partial void FormatCreateVault(ref Object body, ref Option<bool> sandbox);
 
         /// <summary>
         /// Validates the request parameters
         /// </summary>
-        /// <param name="domainVaultModelVaultDto"></param>
+        /// <param name="body"></param>
         /// <returns></returns>
-        private void ValidateCreateVault(DomainVaultModelVaultDto domainVaultModelVaultDto)
+        private void ValidateCreateVault(Object body)
         {
-            if (domainVaultModelVaultDto == null)
-                throw new ArgumentNullException(nameof(domainVaultModelVaultDto));
+            if (body == null)
+                throw new ArgumentNullException(nameof(body));
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
-        /// <param name="domainVaultModelVaultDto"></param>
+        /// <param name="body"></param>
         /// <param name="sandbox"></param>
-        private void AfterCreateVaultDefaultImplementation(ICreateVaultApiResponse apiResponseLocalVar, DomainVaultModelVaultDto domainVaultModelVaultDto, Option<bool> sandbox)
+        private void AfterCreateVaultDefaultImplementation(ICreateVaultApiResponse apiResponseLocalVar, Object body, Option<bool> sandbox)
         {
             bool suppressDefaultLog = false;
-            AfterCreateVault(ref suppressDefaultLog, apiResponseLocalVar, domainVaultModelVaultDto, sandbox);
+            AfterCreateVault(ref suppressDefaultLog, apiResponseLocalVar, body, sandbox);
             if (!suppressDefaultLog)
                 Logger.LogInformation(RestLogEvents.ApiRequestCompleted, "{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
@@ -619,9 +619,9 @@ namespace Kiban.Link.Api
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
-        /// <param name="domainVaultModelVaultDto"></param>
+        /// <param name="body"></param>
         /// <param name="sandbox"></param>
-        partial void AfterCreateVault(ref bool suppressDefaultLog, ICreateVaultApiResponse apiResponseLocalVar, DomainVaultModelVaultDto domainVaultModelVaultDto, Option<bool> sandbox);
+        partial void AfterCreateVault(ref bool suppressDefaultLog, ICreateVaultApiResponse apiResponseLocalVar, Object body, Option<bool> sandbox);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -629,12 +629,12 @@ namespace Kiban.Link.Api
         /// <param name="exceptionLocalVar"></param>
         /// <param name="pathFormatLocalVar"></param>
         /// <param name="pathLocalVar"></param>
-        /// <param name="domainVaultModelVaultDto"></param>
+        /// <param name="body"></param>
         /// <param name="sandbox"></param>
-        private void OnErrorCreateVaultDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, DomainVaultModelVaultDto domainVaultModelVaultDto, Option<bool> sandbox)
+        private void OnErrorCreateVaultDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, Object body, Option<bool> sandbox)
         {
             bool suppressDefaultLogLocalVar = false;
-            OnErrorCreateVault(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, domainVaultModelVaultDto, sandbox);
+            OnErrorCreateVault(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, body, sandbox);
             if (!suppressDefaultLogLocalVar)
                 Logger.LogError(RestLogEvents.ApiRequestFailed, exceptionLocalVar, "An error occurred while sending the request to the server.");
         }
@@ -646,22 +646,22 @@ namespace Kiban.Link.Api
         /// <param name="exceptionLocalVar"></param>
         /// <param name="pathFormatLocalVar"></param>
         /// <param name="pathLocalVar"></param>
-        /// <param name="domainVaultModelVaultDto"></param>
+        /// <param name="body"></param>
         /// <param name="sandbox"></param>
-        partial void OnErrorCreateVault(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, DomainVaultModelVaultDto domainVaultModelVaultDto, Option<bool> sandbox);
+        partial void OnErrorCreateVault(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, Object body, Option<bool> sandbox);
 
         /// <summary>
-        /// Crear una credencial Guarda una credencial (vault) para usarla después en los servicios que la piden. El tipo sale del catálogo de tipos de credencial; value, value2… son sus secretos y nunca se devuelven.
+        /// Crear una credencial Guarda una credencial (vault) para usarla después en los servicios que la piden. El tipo sale del catálogo de tipos de credencial y define qué campos lleva el body; por ejemplo {\&quot;name\&quot;: \&quot;buro-pf\&quot;, \&quot;type\&quot;: \&quot;BC_PF\&quot;, \&quot;usuario\&quot;: \&quot;…\&quot;, \&quot;password\&quot;: \&quot;…\&quot;}. Los secretos nunca se devuelven.
         /// </summary>
-        /// <param name="domainVaultModelVaultDto">Credencial</param>
-        /// <param name="sandbox">Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="body">Objeto con name, type y los campos propios del tipo de credencial (cada tipo define los suyos; por ejemplo BC_PF: usuario, password y autorenew opcional). Los secretos nunca se devuelven</param>
+        /// <param name="sandbox">Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ICreateVaultApiResponse"/>&gt;</returns>
-        public async Task<ICreateVaultApiResponse?> CreateVaultOrDefaultAsync(DomainVaultModelVaultDto domainVaultModelVaultDto, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ICreateVaultApiResponse?> CreateVaultOrDefaultAsync(Object body, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
-                return await CreateVaultAsync(domainVaultModelVaultDto, sandbox, cancellationToken).ConfigureAwait(false);
+                return await CreateVaultAsync(body, sandbox, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception)
             {
@@ -670,22 +670,22 @@ namespace Kiban.Link.Api
         }
 
         /// <summary>
-        /// Crear una credencial Guarda una credencial (vault) para usarla después en los servicios que la piden. El tipo sale del catálogo de tipos de credencial; value, value2… son sus secretos y nunca se devuelven.
+        /// Crear una credencial Guarda una credencial (vault) para usarla después en los servicios que la piden. El tipo sale del catálogo de tipos de credencial y define qué campos lleva el body; por ejemplo {\&quot;name\&quot;: \&quot;buro-pf\&quot;, \&quot;type\&quot;: \&quot;BC_PF\&quot;, \&quot;usuario\&quot;: \&quot;…\&quot;, \&quot;password\&quot;: \&quot;…\&quot;}. Los secretos nunca se devuelven.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="domainVaultModelVaultDto">Credencial</param>
-        /// <param name="sandbox">Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="body">Objeto con name, type y los campos propios del tipo de credencial (cada tipo define los suyos; por ejemplo BC_PF: usuario, password y autorenew opcional). Los secretos nunca se devuelven</param>
+        /// <param name="sandbox">Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ICreateVaultApiResponse"/>&gt;</returns>
-        public async Task<ICreateVaultApiResponse> CreateVaultAsync(DomainVaultModelVaultDto domainVaultModelVaultDto, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ICreateVaultApiResponse> CreateVaultAsync(Object body, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
             try
             {
-                ValidateCreateVault(domainVaultModelVaultDto);
+                ValidateCreateVault(body);
 
-                FormatCreateVault(domainVaultModelVaultDto, ref sandbox);
+                FormatCreateVault(ref body, ref sandbox);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -703,9 +703,9 @@ namespace Kiban.Link.Api
 
                     uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
 
-                    httpRequestMessageLocalVar.Content = (domainVaultModelVaultDto as object) is Kiban.Link.Client.FileParameter fileParameterLocalVar
+                    httpRequestMessageLocalVar.Content = (body as object) is Kiban.Link.Client.FileParameter fileParameterLocalVar
                         ? httpRequestMessageLocalVar.Content = new StreamContent(fileParameterLocalVar.Content)
-                        : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(domainVaultModelVaultDto, _jsonSerializerOptions));
+                        : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(body, _jsonSerializerOptions));
 
                     List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
                     ApiKeyToken apiKeyTokenLocalVar1 = (ApiKeyToken) await ApiKeyProvider.GetAsync("x-api-key", cancellationToken).ConfigureAwait(false);
@@ -749,7 +749,7 @@ namespace Kiban.Link.Api
                             }
                         }
 
-                        AfterCreateVaultDefaultImplementation(apiResponseLocalVar, domainVaultModelVaultDto, sandbox);
+                        AfterCreateVaultDefaultImplementation(apiResponseLocalVar, body, sandbox);
 
                         Events.ExecuteOnCreateVault(apiResponseLocalVar);
 
@@ -763,7 +763,7 @@ namespace Kiban.Link.Api
             }
             catch(Exception e)
             {
-                OnErrorCreateVaultDefaultImplementation(e, "/api/v3/vault/na", uriBuilderLocalVar.Path, domainVaultModelVaultDto, sandbox);
+                OnErrorCreateVaultDefaultImplementation(e, "/api/v3/vault/na", uriBuilderLocalVar.Path, body, sandbox);
                 Events.ExecuteOnErrorCreateVault(e);
                 throw;
             }
@@ -1017,7 +1017,7 @@ namespace Kiban.Link.Api
         /// Borrar una credencial Borra una credencial guardada (vault) y su secreto.
         /// </summary>
         /// <param name="id">Id de la credencial</param>
-        /// <param name="sandbox">Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="sandbox">Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IDeleteVaultApiResponse"/>&gt;</returns>
         public async Task<IDeleteVaultApiResponse?> DeleteVaultOrDefaultAsync(string id, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default)
@@ -1037,7 +1037,7 @@ namespace Kiban.Link.Api
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">Id de la credencial</param>
-        /// <param name="sandbox">Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="sandbox">Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IDeleteVaultApiResponse"/>&gt;</returns>
         public async Task<IDeleteVaultApiResponse> DeleteVaultAsync(string id, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default)
@@ -1269,7 +1269,7 @@ namespace Kiban.Link.Api
         /// Detalle de una credencial Devuelve una credencial guardada, sin sus secretos.
         /// </summary>
         /// <param name="id">Id de la credencial</param>
-        /// <param name="sandbox">Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="sandbox">Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IGetVaultApiResponse"/>&gt;</returns>
         public async Task<IGetVaultApiResponse?> GetVaultOrDefaultAsync(string id, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default)
@@ -1289,7 +1289,7 @@ namespace Kiban.Link.Api
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">Id de la credencial</param>
-        /// <param name="sandbox">Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="sandbox">Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IGetVaultApiResponse"/>&gt;</returns>
         public async Task<IGetVaultApiResponse> GetVaultAsync(string id, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default)
@@ -1550,7 +1550,7 @@ namespace Kiban.Link.Api
         /// </summary>
         /// <param name="page">Número de página, empieza en 1</param>
         /// <param name="itemsPerPage">Resultados por página</param>
-        /// <param name="sandbox">Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="sandbox">Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IListVaultsApiResponse"/>&gt;</returns>
         public async Task<IListVaultsApiResponse?> ListVaultsOrDefaultAsync(int page, int itemsPerPage, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default)
@@ -1571,7 +1571,7 @@ namespace Kiban.Link.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="page">Número de página, empieza en 1</param>
         /// <param name="itemsPerPage">Resultados por página</param>
-        /// <param name="sandbox">Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="sandbox">Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IListVaultsApiResponse"/>&gt;</returns>
         public async Task<IListVaultsApiResponse> ListVaultsAsync(int page, int itemsPerPage, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default)
@@ -1765,21 +1765,21 @@ namespace Kiban.Link.Api
             partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
         }
 
-        partial void FormatUpdateVault(ref string id, DomainVaultModelVaultEditDto domainVaultModelVaultEditDto, ref Option<bool> sandbox);
+        partial void FormatUpdateVault(ref string id, ref Object body, ref Option<bool> sandbox);
 
         /// <summary>
         /// Validates the request parameters
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="domainVaultModelVaultEditDto"></param>
+        /// <param name="body"></param>
         /// <returns></returns>
-        private void ValidateUpdateVault(string id, DomainVaultModelVaultEditDto domainVaultModelVaultEditDto)
+        private void ValidateUpdateVault(string id, Object body)
         {
             if (id == null)
                 throw new ArgumentNullException(nameof(id));
 
-            if (domainVaultModelVaultEditDto == null)
-                throw new ArgumentNullException(nameof(domainVaultModelVaultEditDto));
+            if (body == null)
+                throw new ArgumentNullException(nameof(body));
         }
 
         /// <summary>
@@ -1787,12 +1787,12 @@ namespace Kiban.Link.Api
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="id"></param>
-        /// <param name="domainVaultModelVaultEditDto"></param>
+        /// <param name="body"></param>
         /// <param name="sandbox"></param>
-        private void AfterUpdateVaultDefaultImplementation(IUpdateVaultApiResponse apiResponseLocalVar, string id, DomainVaultModelVaultEditDto domainVaultModelVaultEditDto, Option<bool> sandbox)
+        private void AfterUpdateVaultDefaultImplementation(IUpdateVaultApiResponse apiResponseLocalVar, string id, Object body, Option<bool> sandbox)
         {
             bool suppressDefaultLog = false;
-            AfterUpdateVault(ref suppressDefaultLog, apiResponseLocalVar, id, domainVaultModelVaultEditDto, sandbox);
+            AfterUpdateVault(ref suppressDefaultLog, apiResponseLocalVar, id, body, sandbox);
             if (!suppressDefaultLog)
                 Logger.LogInformation(RestLogEvents.ApiRequestCompleted, "{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
@@ -1803,9 +1803,9 @@ namespace Kiban.Link.Api
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="id"></param>
-        /// <param name="domainVaultModelVaultEditDto"></param>
+        /// <param name="body"></param>
         /// <param name="sandbox"></param>
-        partial void AfterUpdateVault(ref bool suppressDefaultLog, IUpdateVaultApiResponse apiResponseLocalVar, string id, DomainVaultModelVaultEditDto domainVaultModelVaultEditDto, Option<bool> sandbox);
+        partial void AfterUpdateVault(ref bool suppressDefaultLog, IUpdateVaultApiResponse apiResponseLocalVar, string id, Object body, Option<bool> sandbox);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1814,12 +1814,12 @@ namespace Kiban.Link.Api
         /// <param name="pathFormatLocalVar"></param>
         /// <param name="pathLocalVar"></param>
         /// <param name="id"></param>
-        /// <param name="domainVaultModelVaultEditDto"></param>
+        /// <param name="body"></param>
         /// <param name="sandbox"></param>
-        private void OnErrorUpdateVaultDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string id, DomainVaultModelVaultEditDto domainVaultModelVaultEditDto, Option<bool> sandbox)
+        private void OnErrorUpdateVaultDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string id, Object body, Option<bool> sandbox)
         {
             bool suppressDefaultLogLocalVar = false;
-            OnErrorUpdateVault(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, id, domainVaultModelVaultEditDto, sandbox);
+            OnErrorUpdateVault(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, id, body, sandbox);
             if (!suppressDefaultLogLocalVar)
                 Logger.LogError(RestLogEvents.ApiRequestFailed, exceptionLocalVar, "An error occurred while sending the request to the server.");
         }
@@ -1832,23 +1832,23 @@ namespace Kiban.Link.Api
         /// <param name="pathFormatLocalVar"></param>
         /// <param name="pathLocalVar"></param>
         /// <param name="id"></param>
-        /// <param name="domainVaultModelVaultEditDto"></param>
+        /// <param name="body"></param>
         /// <param name="sandbox"></param>
-        partial void OnErrorUpdateVault(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string id, DomainVaultModelVaultEditDto domainVaultModelVaultEditDto, Option<bool> sandbox);
+        partial void OnErrorUpdateVault(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string id, Object body, Option<bool> sandbox);
 
         /// <summary>
         /// Editar una credencial Actualiza una credencial guardada (vault). Se mandan todos sus campos, incluidos los secretos.
         /// </summary>
         /// <param name="id">Id de la credencial</param>
-        /// <param name="domainVaultModelVaultEditDto">Credencial con sus nuevos valores</param>
-        /// <param name="sandbox">Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="body">Objeto con name, type y los campos propios del tipo de credencial (cada tipo define los suyos; por ejemplo BC_PF: usuario, password y autorenew opcional). Los secretos nunca se devuelven</param>
+        /// <param name="sandbox">Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IUpdateVaultApiResponse"/>&gt;</returns>
-        public async Task<IUpdateVaultApiResponse?> UpdateVaultOrDefaultAsync(string id, DomainVaultModelVaultEditDto domainVaultModelVaultEditDto, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<IUpdateVaultApiResponse?> UpdateVaultOrDefaultAsync(string id, Object body, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
-                return await UpdateVaultAsync(id, domainVaultModelVaultEditDto, sandbox, cancellationToken).ConfigureAwait(false);
+                return await UpdateVaultAsync(id, body, sandbox, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception)
             {
@@ -1861,19 +1861,19 @@ namespace Kiban.Link.Api
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">Id de la credencial</param>
-        /// <param name="domainVaultModelVaultEditDto">Credencial con sus nuevos valores</param>
-        /// <param name="sandbox">Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="body">Objeto con name, type y los campos propios del tipo de credencial (cada tipo define los suyos; por ejemplo BC_PF: usuario, password y autorenew opcional). Los secretos nunca se devuelven</param>
+        /// <param name="sandbox">Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IUpdateVaultApiResponse"/>&gt;</returns>
-        public async Task<IUpdateVaultApiResponse> UpdateVaultAsync(string id, DomainVaultModelVaultEditDto domainVaultModelVaultEditDto, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<IUpdateVaultApiResponse> UpdateVaultAsync(string id, Object body, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
             try
             {
-                ValidateUpdateVault(id, domainVaultModelVaultEditDto);
+                ValidateUpdateVault(id, body);
 
-                FormatUpdateVault(ref id, domainVaultModelVaultEditDto, ref sandbox);
+                FormatUpdateVault(ref id, ref body, ref sandbox);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -1892,9 +1892,9 @@ namespace Kiban.Link.Api
 
                     uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
 
-                    httpRequestMessageLocalVar.Content = (domainVaultModelVaultEditDto as object) is Kiban.Link.Client.FileParameter fileParameterLocalVar
+                    httpRequestMessageLocalVar.Content = (body as object) is Kiban.Link.Client.FileParameter fileParameterLocalVar
                         ? httpRequestMessageLocalVar.Content = new StreamContent(fileParameterLocalVar.Content)
-                        : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(domainVaultModelVaultEditDto, _jsonSerializerOptions));
+                        : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(body, _jsonSerializerOptions));
 
                     List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
                     ApiKeyToken apiKeyTokenLocalVar1 = (ApiKeyToken) await ApiKeyProvider.GetAsync("x-api-key", cancellationToken).ConfigureAwait(false);
@@ -1938,7 +1938,7 @@ namespace Kiban.Link.Api
                             }
                         }
 
-                        AfterUpdateVaultDefaultImplementation(apiResponseLocalVar, id, domainVaultModelVaultEditDto, sandbox);
+                        AfterUpdateVaultDefaultImplementation(apiResponseLocalVar, id, body, sandbox);
 
                         Events.ExecuteOnUpdateVault(apiResponseLocalVar);
 
@@ -1952,7 +1952,7 @@ namespace Kiban.Link.Api
             }
             catch(Exception e)
             {
-                OnErrorUpdateVaultDefaultImplementation(e, "/api/v3/vault/na/{id}", uriBuilderLocalVar.Path, id, domainVaultModelVaultEditDto, sandbox);
+                OnErrorUpdateVaultDefaultImplementation(e, "/api/v3/vault/na/{id}", uriBuilderLocalVar.Path, id, body, sandbox);
                 Events.ExecuteOnErrorUpdateVault(e);
                 throw;
             }
@@ -2204,7 +2204,7 @@ namespace Kiban.Link.Api
         /// <param name="service">Servicio del catálogo</param>
         /// <param name="subservice">Operación del servicio</param>
         /// <param name="controllerMicroserviceModelVaultNameDto">Nombre de la credencial</param>
-        /// <param name="sandbox">Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="sandbox">Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IValidateVaultApiResponse"/>&gt;</returns>
         public async Task<IValidateVaultApiResponse?> ValidateVaultOrDefaultAsync(string service, string subservice, ControllerMicroserviceModelVaultNameDto controllerMicroserviceModelVaultNameDto, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default)
@@ -2226,7 +2226,7 @@ namespace Kiban.Link.Api
         /// <param name="service">Servicio del catálogo</param>
         /// <param name="subservice">Operación del servicio</param>
         /// <param name="controllerMicroserviceModelVaultNameDto">Nombre de la credencial</param>
-        /// <param name="sandbox">Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
+        /// <param name="sandbox">Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IValidateVaultApiResponse"/>&gt;</returns>
         public async Task<IValidateVaultApiResponse> ValidateVaultAsync(string service, string subservice, ControllerMicroserviceModelVaultNameDto controllerMicroserviceModelVaultNameDto, Option<bool> sandbox = default, System.Threading.CancellationToken cancellationToken = default)

@@ -32,8 +32,6 @@ import com.kiban.link.model.ControllerMicroserviceModelMicroserviceDetailDto;
 import com.kiban.link.model.ControllerMicroserviceModelValidationErrorDto;
 import com.kiban.link.model.ControllerMicroserviceModelVaultNameDto;
 import com.kiban.link.model.ControllerMicroserviceModelVaultValidationDto;
-import com.kiban.link.model.DomainVaultModelVaultDto;
-import com.kiban.link.model.DomainVaultModelVaultEditDto;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -78,7 +76,7 @@ public class VaultApi {
         this.localCustomBaseUrl = customBaseUrl;
     }
 
-    private okhttp3.Call createVaultCall(@javax.annotation.Nonnull DomainVaultModelVaultDto domainVaultModelVaultDto, @javax.annotation.Nullable Boolean sandbox, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call createVaultCall(@javax.annotation.Nonnull Object body, @javax.annotation.Nullable Boolean sandbox, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -92,7 +90,7 @@ public class VaultApi {
             basePath = null;
         }
 
-        Object localVarPostBody = domainVaultModelVaultDto;
+        Object localVarPostBody = body;
 
         // create path and map variables
         String localVarPath = "/api/v3/vault/na";
@@ -128,26 +126,26 @@ public class VaultApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call createVaultValidateBeforeCall(@javax.annotation.Nonnull DomainVaultModelVaultDto domainVaultModelVaultDto, @javax.annotation.Nullable Boolean sandbox, final ApiCallback _callback) throws ApiException {
-        // verify the required parameter 'domainVaultModelVaultDto' is set
-        if (domainVaultModelVaultDto == null) {
-            throw new ApiException("Missing the required parameter 'domainVaultModelVaultDto' when calling createVault(Async)");
+    private okhttp3.Call createVaultValidateBeforeCall(@javax.annotation.Nonnull Object body, @javax.annotation.Nullable Boolean sandbox, final ApiCallback _callback) throws ApiException {
+        // verify the required parameter 'body' is set
+        if (body == null) {
+            throw new ApiException("Missing the required parameter 'body' when calling createVault(Async)");
         }
 
-        return createVaultCall(domainVaultModelVaultDto, sandbox, _callback);
+        return createVaultCall(body, sandbox, _callback);
 
     }
 
 
-    private ApiResponse<ControllerMicroserviceModelMicroserviceDetailDto> createVaultWithHttpInfo(@javax.annotation.Nonnull DomainVaultModelVaultDto domainVaultModelVaultDto, @javax.annotation.Nullable Boolean sandbox) throws ApiException {
-        okhttp3.Call localVarCall = createVaultValidateBeforeCall(domainVaultModelVaultDto, sandbox, null);
+    private ApiResponse<ControllerMicroserviceModelMicroserviceDetailDto> createVaultWithHttpInfo(@javax.annotation.Nonnull Object body, @javax.annotation.Nullable Boolean sandbox) throws ApiException {
+        okhttp3.Call localVarCall = createVaultValidateBeforeCall(body, sandbox, null);
         Type localVarReturnType = new TypeToken<ControllerMicroserviceModelMicroserviceDetailDto>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
-    private okhttp3.Call createVaultAsync(@javax.annotation.Nonnull DomainVaultModelVaultDto domainVaultModelVaultDto, @javax.annotation.Nullable Boolean sandbox, final ApiCallback<ControllerMicroserviceModelMicroserviceDetailDto> _callback) throws ApiException {
+    private okhttp3.Call createVaultAsync(@javax.annotation.Nonnull Object body, @javax.annotation.Nullable Boolean sandbox, final ApiCallback<ControllerMicroserviceModelMicroserviceDetailDto> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = createVaultValidateBeforeCall(domainVaultModelVaultDto, sandbox, _callback);
+        okhttp3.Call localVarCall = createVaultValidateBeforeCall(body, sandbox, _callback);
         Type localVarReturnType = new TypeToken<ControllerMicroserviceModelMicroserviceDetailDto>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
@@ -155,17 +153,17 @@ public class VaultApi {
 
     public class APIcreateVaultRequest {
         @javax.annotation.Nonnull
-        private final DomainVaultModelVaultDto domainVaultModelVaultDto;
+        private final Object body;
         @javax.annotation.Nullable
         private Boolean sandbox;
 
-        private APIcreateVaultRequest(@javax.annotation.Nonnull DomainVaultModelVaultDto domainVaultModelVaultDto) {
-            this.domainVaultModelVaultDto = domainVaultModelVaultDto;
+        private APIcreateVaultRequest(@javax.annotation.Nonnull Object body) {
+            this.body = body;
         }
 
         /**
          * Set sandbox
-         * @param sandbox Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+         * @param sandbox Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)
          * @return APIcreateVaultRequest
          */
         public APIcreateVaultRequest sandbox(@javax.annotation.Nullable Boolean sandbox) {
@@ -190,7 +188,7 @@ public class VaultApi {
          </table>
          */
         public okhttp3.Call buildCall(final ApiCallback _callback) throws ApiException {
-            return createVaultCall(domainVaultModelVaultDto, sandbox, _callback);
+            return createVaultCall(body, sandbox, _callback);
         }
 
         /**
@@ -209,7 +207,7 @@ public class VaultApi {
          </table>
          */
         public ControllerMicroserviceModelMicroserviceDetailDto execute() throws ApiException {
-            ApiResponse<ControllerMicroserviceModelMicroserviceDetailDto> localVarResp = createVaultWithHttpInfo(domainVaultModelVaultDto, sandbox);
+            ApiResponse<ControllerMicroserviceModelMicroserviceDetailDto> localVarResp = createVaultWithHttpInfo(body, sandbox);
             return localVarResp.getData();
         }
 
@@ -229,7 +227,7 @@ public class VaultApi {
          </table>
          */
         public ApiResponse<ControllerMicroserviceModelMicroserviceDetailDto> executeWithHttpInfo() throws ApiException {
-            return createVaultWithHttpInfo(domainVaultModelVaultDto, sandbox);
+            return createVaultWithHttpInfo(body, sandbox);
         }
 
         /**
@@ -249,14 +247,14 @@ public class VaultApi {
          </table>
          */
         public okhttp3.Call executeAsync(final ApiCallback<ControllerMicroserviceModelMicroserviceDetailDto> _callback) throws ApiException {
-            return createVaultAsync(domainVaultModelVaultDto, sandbox, _callback);
+            return createVaultAsync(body, sandbox, _callback);
         }
     }
 
     /**
      * Crear una credencial
-     * Guarda una credencial (vault) para usarla después en los servicios que la piden. El tipo sale del catálogo de tipos de credencial; value, value2… son sus secretos y nunca se devuelven.
-     * @param domainVaultModelVaultDto Credencial (required)
+     * Guarda una credencial (vault) para usarla después en los servicios que la piden. El tipo sale del catálogo de tipos de credencial y define qué campos lleva el body; por ejemplo {\&quot;name\&quot;: \&quot;buro-pf\&quot;, \&quot;type\&quot;: \&quot;BC_PF\&quot;, \&quot;usuario\&quot;: \&quot;…\&quot;, \&quot;password\&quot;: \&quot;…\&quot;}. Los secretos nunca se devuelven.
+     * @param body Objeto con name, type y los campos propios del tipo de credencial (cada tipo define los suyos; por ejemplo BC_PF: usuario, password y autorenew opcional). Los secretos nunca se devuelven (required)
      * @return APIcreateVaultRequest
      * @http.response.details
      <table border="1">
@@ -269,8 +267,8 @@ public class VaultApi {
         <tr><td> 500 </td><td> Error interno </td><td>  -  </td></tr>
      </table>
      */
-    public APIcreateVaultRequest createVault(@javax.annotation.Nonnull DomainVaultModelVaultDto domainVaultModelVaultDto) {
-        return new APIcreateVaultRequest(domainVaultModelVaultDto);
+    public APIcreateVaultRequest createVault(@javax.annotation.Nonnull Object body) {
+        return new APIcreateVaultRequest(body);
     }
     private okhttp3.Call deleteVaultCall(@javax.annotation.Nonnull String id, @javax.annotation.Nullable Boolean sandbox, final ApiCallback _callback) throws ApiException {
         String basePath = null;
@@ -356,7 +354,7 @@ public class VaultApi {
 
         /**
          * Set sandbox
-         * @param sandbox Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+         * @param sandbox Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)
          * @return APIdeleteVaultRequest
          */
         public APIdeleteVaultRequest sandbox(@javax.annotation.Nullable Boolean sandbox) {
@@ -553,7 +551,7 @@ public class VaultApi {
 
         /**
          * Set sandbox
-         * @param sandbox Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+         * @param sandbox Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)
          * @return APIgetVaultRequest
          */
         public APIgetVaultRequest sandbox(@javax.annotation.Nullable Boolean sandbox) {
@@ -762,7 +760,7 @@ public class VaultApi {
 
         /**
          * Set sandbox
-         * @param sandbox Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+         * @param sandbox Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)
          * @return APIlistVaultsRequest
          */
         public APIlistVaultsRequest sandbox(@javax.annotation.Nullable Boolean sandbox) {
@@ -865,7 +863,7 @@ public class VaultApi {
     public APIlistVaultsRequest listVaults(@javax.annotation.Nonnull Integer page, @javax.annotation.Nonnull Integer itemsPerPage) {
         return new APIlistVaultsRequest(page, itemsPerPage);
     }
-    private okhttp3.Call updateVaultCall(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull DomainVaultModelVaultEditDto domainVaultModelVaultEditDto, @javax.annotation.Nullable Boolean sandbox, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call updateVaultCall(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull Object body, @javax.annotation.Nullable Boolean sandbox, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -879,7 +877,7 @@ public class VaultApi {
             basePath = null;
         }
 
-        Object localVarPostBody = domainVaultModelVaultEditDto;
+        Object localVarPostBody = body;
 
         // create path and map variables
         String localVarPath = "/api/v3/vault/na/{id}"
@@ -916,30 +914,30 @@ public class VaultApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call updateVaultValidateBeforeCall(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull DomainVaultModelVaultEditDto domainVaultModelVaultEditDto, @javax.annotation.Nullable Boolean sandbox, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call updateVaultValidateBeforeCall(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull Object body, @javax.annotation.Nullable Boolean sandbox, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'id' is set
         if (id == null) {
             throw new ApiException("Missing the required parameter 'id' when calling updateVault(Async)");
         }
 
-        // verify the required parameter 'domainVaultModelVaultEditDto' is set
-        if (domainVaultModelVaultEditDto == null) {
-            throw new ApiException("Missing the required parameter 'domainVaultModelVaultEditDto' when calling updateVault(Async)");
+        // verify the required parameter 'body' is set
+        if (body == null) {
+            throw new ApiException("Missing the required parameter 'body' when calling updateVault(Async)");
         }
 
-        return updateVaultCall(id, domainVaultModelVaultEditDto, sandbox, _callback);
+        return updateVaultCall(id, body, sandbox, _callback);
 
     }
 
 
-    private ApiResponse<Void> updateVaultWithHttpInfo(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull DomainVaultModelVaultEditDto domainVaultModelVaultEditDto, @javax.annotation.Nullable Boolean sandbox) throws ApiException {
-        okhttp3.Call localVarCall = updateVaultValidateBeforeCall(id, domainVaultModelVaultEditDto, sandbox, null);
+    private ApiResponse<Void> updateVaultWithHttpInfo(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull Object body, @javax.annotation.Nullable Boolean sandbox) throws ApiException {
+        okhttp3.Call localVarCall = updateVaultValidateBeforeCall(id, body, sandbox, null);
         return localVarApiClient.execute(localVarCall);
     }
 
-    private okhttp3.Call updateVaultAsync(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull DomainVaultModelVaultEditDto domainVaultModelVaultEditDto, @javax.annotation.Nullable Boolean sandbox, final ApiCallback<Void> _callback) throws ApiException {
+    private okhttp3.Call updateVaultAsync(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull Object body, @javax.annotation.Nullable Boolean sandbox, final ApiCallback<Void> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = updateVaultValidateBeforeCall(id, domainVaultModelVaultEditDto, sandbox, _callback);
+        okhttp3.Call localVarCall = updateVaultValidateBeforeCall(id, body, sandbox, _callback);
         localVarApiClient.executeAsync(localVarCall, _callback);
         return localVarCall;
     }
@@ -948,18 +946,18 @@ public class VaultApi {
         @javax.annotation.Nonnull
         private final String id;
         @javax.annotation.Nonnull
-        private final DomainVaultModelVaultEditDto domainVaultModelVaultEditDto;
+        private final Object body;
         @javax.annotation.Nullable
         private Boolean sandbox;
 
-        private APIupdateVaultRequest(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull DomainVaultModelVaultEditDto domainVaultModelVaultEditDto) {
+        private APIupdateVaultRequest(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull Object body) {
             this.id = id;
-            this.domainVaultModelVaultEditDto = domainVaultModelVaultEditDto;
+            this.body = body;
         }
 
         /**
          * Set sandbox
-         * @param sandbox Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+         * @param sandbox Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)
          * @return APIupdateVaultRequest
          */
         public APIupdateVaultRequest sandbox(@javax.annotation.Nullable Boolean sandbox) {
@@ -986,7 +984,7 @@ public class VaultApi {
          </table>
          */
         public okhttp3.Call buildCall(final ApiCallback _callback) throws ApiException {
-            return updateVaultCall(id, domainVaultModelVaultEditDto, sandbox, _callback);
+            return updateVaultCall(id, body, sandbox, _callback);
         }
 
         /**
@@ -1006,7 +1004,7 @@ public class VaultApi {
          </table>
          */
         public void execute() throws ApiException {
-            updateVaultWithHttpInfo(id, domainVaultModelVaultEditDto, sandbox);
+            updateVaultWithHttpInfo(id, body, sandbox);
         }
 
         /**
@@ -1027,7 +1025,7 @@ public class VaultApi {
          </table>
          */
         public ApiResponse<Void> executeWithHttpInfo() throws ApiException {
-            return updateVaultWithHttpInfo(id, domainVaultModelVaultEditDto, sandbox);
+            return updateVaultWithHttpInfo(id, body, sandbox);
         }
 
         /**
@@ -1049,7 +1047,7 @@ public class VaultApi {
          </table>
          */
         public okhttp3.Call executeAsync(final ApiCallback<Void> _callback) throws ApiException {
-            return updateVaultAsync(id, domainVaultModelVaultEditDto, sandbox, _callback);
+            return updateVaultAsync(id, body, sandbox, _callback);
         }
     }
 
@@ -1057,7 +1055,7 @@ public class VaultApi {
      * Editar una credencial
      * Actualiza una credencial guardada (vault). Se mandan todos sus campos, incluidos los secretos.
      * @param id Id de la credencial (required)
-     * @param domainVaultModelVaultEditDto Credencial con sus nuevos valores (required)
+     * @param body Objeto con name, type y los campos propios del tipo de credencial (cada tipo define los suyos; por ejemplo BC_PF: usuario, password y autorenew opcional). Los secretos nunca se devuelven (required)
      * @return APIupdateVaultRequest
      * @http.response.details
      <table border="1">
@@ -1072,8 +1070,8 @@ public class VaultApi {
         <tr><td> 500 </td><td> Error interno </td><td>  -  </td></tr>
      </table>
      */
-    public APIupdateVaultRequest updateVault(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull DomainVaultModelVaultEditDto domainVaultModelVaultEditDto) {
-        return new APIupdateVaultRequest(id, domainVaultModelVaultEditDto);
+    public APIupdateVaultRequest updateVault(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull Object body) {
+        return new APIupdateVaultRequest(id, body);
     }
     private okhttp3.Call validateVaultCall(@javax.annotation.Nonnull String service, @javax.annotation.Nonnull String subservice, @javax.annotation.Nonnull ControllerMicroserviceModelVaultNameDto controllerMicroserviceModelVaultNameDto, @javax.annotation.Nullable Boolean sandbox, final ApiCallback _callback) throws ApiException {
         String basePath = null;
@@ -1180,7 +1178,7 @@ public class VaultApi {
 
         /**
          * Set sandbox
-         * @param sandbox Fuerza el modo sandbox. Se ignora en el host sandbox, donde ya es implícito (optional)
+         * @param sandbox Modo sandbox. Tiene que coincidir con el modo de la API key: una key de sandbox exige sandbox&#x3D;true y una de producción no lo acepta. Se ignora en el host sandbox, donde ya es implícito (optional)
          * @return APIvalidateVaultRequest
          */
         public APIvalidateVaultRequest sandbox(@javax.annotation.Nullable Boolean sandbox) {
