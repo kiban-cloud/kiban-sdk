@@ -1,8 +1,9 @@
-# Regenera el spec, los 5 SDKs y las docs, y abre (o actualiza) el PR.
+# Regenera el spec, los 5 SDKs y las docs de un módulo, y abre (o actualiza) el PR.
 #
-# Corre cuando llega un push a la rama regenerate/workfloo. Ese push lo hace
-# el backend kiban-cloud/workfloo (.github/workflows/sdk-sync.yml): al cambiar su
-# docs/swagger.yaml en main, copia el archivo a specs/source/ de esta rama.
+# Corre cuando llega un push a la rama regenerate/<módulo> (workfloo, link). Ese
+# push lo hace el backend del módulo (kiban-cloud/workfloo, kiban-cloud/link) con
+# su .github/workflows/sdk-sync.yml: al cambiar su docs/swagger.yaml en main,
+# copia el archivo a specs/source/<módulo>.swagger.yaml de esta rama.
 # También corre si una persona empuja a la rama, por ejemplo para subir la
 # versión en config/modules.json: el commit regenerado sale ya con la versión
 # nueva.
@@ -25,8 +26,15 @@ name: regenerate
 
 on:
   push:
-    branches: [regenerate/workfloo]
+    branches: [regenerate/workfloo, regenerate/link]
   workflow_dispatch:
+    inputs:
+      module:
+        description: Módulo a regenerar (su rama regenerate/<módulo> tiene que existir)
+        required: true
+        default: workfloo
+        type: choice
+        options: [workfloo, link]
 
 permissions:
   contents: write
@@ -34,20 +42,30 @@ permissions:
   statuses: write
 
 concurrency:
-  group: regenerate-workfloo
+  group: regenerate-${{ inputs.module || github.ref_name }}
   cancel-in-progress: true
 
 env:
-  BRANCH: regenerate/workfloo
+  # En push, la rama que llegó (regenerate/<módulo>); a mano, el módulo elegido.
+  TRIGGER: ${{ inputs.module || github.ref_name }}
 
 jobs:
   regenerate:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
+      # MODULE lo leen gen-spec.sh y gen-sdks.sh.
+      - name: Módulo y rama
+        id: mod
+        run: |
+          MODULE="${TRIGGER#regenerate/}"
+          echo "module=$MODULE" >> "$GITHUB_OUTPUT"
+          echo "MODULE=$MODULE" >> "$GITHUB_ENV"
+          echo "BRANCH=regenerate/$MODULE" >> "$GITHUB_ENV"
+
       - uses: actions/checkout@v4
         with:
-          ref: ${{ env.BRANCH }}
+          ref: regenerate/${{ steps.mod.outputs.module }}
           fetch-depth: 0 # los tags de release son la base del check de semver
 
       - uses: actions/setup-go@v5
@@ -83,10 +101,14 @@ jobs:
       # validan al revisar (ver README → Verificar).
       - name: Compilar Node y Go (SDK y ejemplos)
         run: |
-          ( cd packages/node && npm install --no-audit --no-fund && npx tsc --noEmit -p . )
-          ( cd packages/go && go build ./... )
-          node --check examples/node/flujo-completo.mjs
-          ( cd examples/go && go build ./... )
+          DIR="$(node -p "require('./config/modules.json').modules['$MODULE'].packagesDir")"
+          ( cd "$DIR/node" && npm install --no-audit --no-fund && npx tsc --noEmit -p . )
+          ( cd "$DIR/go" && go build ./... )
+          # Los ejemplos de examples/ son de workfloo.
+          if [ "$MODULE" = workfloo ]; then
+            node --check examples/node/flujo-completo.mjs
+            ( cd examples/go && go build ./... )
+          fi
 
       - name: Commit de lo regenerado
         run: |
@@ -97,7 +119,7 @@ jobs:
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "chore(workfloo): regenerar spec, SDKs y docs"
+          git commit -m "chore($MODULE): regenerar spec, SDKs y docs"
           git push origin "HEAD:${BRANCH}"
 
       - name: Abrir el PR si no existe
@@ -115,19 +137,19 @@ jobs:
             exit 0
           fi
           gh pr create --base "$BASE" --head "$BRANCH" \
-            --title "chore(workfloo): regenerar spec y SDKs" \
-            --body "$(cat <<'BODY'
-          Regeneración automática a partir del `docs/swagger.yaml` de `kiban-cloud/workfloo@main`
-          (copiado a `specs/source/workfloo.swagger.yaml`).
+            --title "chore($MODULE): regenerar spec y SDKs" \
+            --body "$(cat <<BODY
+          Regeneración automática a partir del \`docs/swagger.yaml\` de \`kiban-cloud/$MODULE@main\`
+          (copiado a \`specs/source/$MODULE.swagger.yaml\`).
 
-          - [ ] Revisar el diff de `specs/workfloo.openapi.yaml` (es el contrato).
-          - [ ] Subir la versión en `config/modules.json` según semver. El status
+          - [ ] Revisar el diff de \`specs/$MODULE.openapi.yaml\` (es el contrato).
+          - [ ] Subir la versión en \`config/modules.json\` según semver. El status
                 **semver** de este PR dice cuál exige el cambio (incompatible → major;
                 cualquier otro cambio en el contrato → minor). Empujar a esta rama:
                 el workflow regenera con la versión nueva.
           - [ ] Compilar Java y C# (README → Verificar).
 
-          `packages/**` es 100% generado: no se edita a mano.
+          \`packages/**\` es 100% generado: no se edita a mano.
           BODY
           )"
 

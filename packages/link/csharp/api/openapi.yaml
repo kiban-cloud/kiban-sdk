@@ -1,0 +1,1077 @@
+openapi: 3.0.0
+info:
+  contact:
+    email: hola@kiban.com
+    name: kiban
+    url: https://kiban.com
+  description: "Servicios de consulta y validación de kiban (CURP, SAT, IMSS, Buró\
+    , etc.) y administración de credenciales. En sandbox (sandbox.link.kiban.com)\
+    \ las ejecuciones responden test cases en lugar de llamar al proveedor."
+  license:
+    name: Apache-2.0
+    url: https://spdx.org/licenses/Apache-2.0.html
+  title: Link API
+  version: "1.0"
+servers:
+- description: Producción
+  url: https://link.kiban.com
+- description: Sandbox. Activa el modo sandbox implícitamente; el query param sandbox
+    se ignora en este host.
+  url: https://sandbox.link.kiban.com
+paths:
+  /api/v1/{service}/{subservice}:
+    get:
+      description: Devuelve una página del historial de un servicio. Cualquier query
+        param que no esté listado aquí se usa como filtro sobre el historial.
+      operationId: listExecutions
+      parameters:
+      - description: Servicio del catálogo
+        explode: false
+        in: path
+        name: service
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Operación del servicio
+        explode: false
+        in: path
+        name: subservice
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: "Número de página, empieza en 1"
+        explode: true
+        in: query
+        name: page
+        required: true
+        schema:
+          type: integer
+        style: form
+      - description: Resultados por página
+        explode: true
+        in: query
+        name: itemsPerPage
+        required: true
+        schema:
+          type: integer
+        style: form
+      - description: "Fuerza el modo sandbox. Se ignora en el host sandbox, donde\
+          \ ya es implícito"
+        explode: true
+        in: query
+        name: sandbox
+        required: false
+        schema:
+          type: boolean
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/controller_microservice_model.ExecutionPage"
+          description: Página de ejecuciones
+        "400":
+          description: Parámetros de paginación o filtros inválidos
+        "401":
+          description: API key ausente o inválida
+        "500":
+          description: Error interno
+      security:
+      - ApiKeyAuth: []
+      summary: Historial de ejecuciones de un servicio
+      tags:
+      - link
+  /api/v1/{service}/{subservice}/{id}:
+    get:
+      description: "Devuelve una ejecución: su estatus, la respuesta procesada y el\
+        \ detalle de las llamadas al proveedor (apiData)."
+      operationId: getExecution
+      parameters:
+      - description: Servicio del catálogo
+        explode: false
+        in: path
+        name: service
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Operación del servicio
+        explode: false
+        in: path
+        name: subservice
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Id de la ejecución
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: "Fuerza el modo sandbox. Se ignora en el host sandbox, donde\
+          \ ya es implícito"
+        explode: true
+        in: query
+        name: sandbox
+        required: false
+        schema:
+          type: boolean
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/controller_microservice_model.MicroserviceDetailDto"
+          description: Detalle de la ejecución
+        "400":
+          description: Id ausente
+        "401":
+          description: API key ausente o inválida
+        "404":
+          description: La ejecución no existe
+        "500":
+          description: Error interno
+      security:
+      - ApiKeyAuth: []
+      summary: Detalle de una ejecución
+      tags:
+      - link
+  /api/v1/file:
+    get:
+      description: "Descarga un archivo generado por una ejecución (p. ej. un PDF).\
+        \ La ruta del archivo viene en el detalle de la ejecución (apiData[].files[].path)."
+      operationId: getFile
+      parameters:
+      - description: "Ruta del archivo, tal como viene en el detalle de la ejecució\
+          n"
+        explode: true
+        in: query
+        name: path
+        required: true
+        schema:
+          type: string
+        style: form
+      - description: "Fuerza el modo sandbox. Se ignora en el host sandbox, donde\
+          \ ya es implícito"
+        explode: true
+        in: query
+        name: sandbox
+        required: false
+        schema:
+          type: boolean
+        style: form
+      responses:
+        "200":
+          content:
+            application/octet-stream:
+              schema:
+                format: binary
+                type: string
+          description: Contenido del archivo
+        "400":
+          description: Falta el parámetro path o es inválido
+        "401":
+          description: API key ausente o inválida
+        "500":
+          description: Error interno
+      security:
+      - ApiKeyAuth: []
+      summary: Descargar un archivo de una ejecución
+      tags:
+      - link
+  /api/v1/vault/na:
+    get:
+      description: "Devuelve una página de las credenciales guardadas, sin sus secretos."
+      operationId: listVaults
+      parameters:
+      - description: "Número de página, empieza en 1"
+        explode: true
+        in: query
+        name: page
+        required: true
+        schema:
+          type: integer
+        style: form
+      - description: Resultados por página
+        explode: true
+        in: query
+        name: itemsPerPage
+        required: true
+        schema:
+          type: integer
+        style: form
+      - description: "Fuerza el modo sandbox. Se ignora en el host sandbox, donde\
+          \ ya es implícito"
+        explode: true
+        in: query
+        name: sandbox
+        required: false
+        schema:
+          type: boolean
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/controller_microservice_model.ExecutionPage"
+          description: Página de credenciales
+        "400":
+          description: Parámetros de paginación inválidos
+        "401":
+          description: API key ausente o inválida
+        "500":
+          description: Error interno
+      security:
+      - ApiKeyAuth: []
+      summary: Listar credenciales
+      tags:
+      - vault
+  /api/v1/vault/na/{id}:
+    get:
+      description: "Devuelve una credencial guardada, sin sus secretos."
+      operationId: getVault
+      parameters:
+      - description: Id de la credencial
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: "Fuerza el modo sandbox. Se ignora en el host sandbox, donde\
+          \ ya es implícito"
+        explode: true
+        in: query
+        name: sandbox
+        required: false
+        schema:
+          type: boolean
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/controller_microservice_model.MicroserviceDetailDto"
+          description: Credencial
+        "400":
+          description: Id ausente
+        "401":
+          description: API key ausente o inválida
+        "404":
+          description: La credencial no existe
+        "500":
+          description: Error interno
+      security:
+      - ApiKeyAuth: []
+      summary: Detalle de una credencial
+      tags:
+      - vault
+  /api/v3/{service}/{subservice}:
+    post:
+      description: "Ejecuta un servicio del catálogo de link (p. ej. curp/validate,\
+        \ sat/rfc_validate_pf, imss/nss). El servicio y la operación van en la ruta;\
+        \ el body depende de cada servicio. Responde el detalle de la ejecución, tambié\
+        n cuando el proveedor falla (408/503/406 traen el detalle con su error). Los\
+        \ subservicios de auditoría responden un CSV."
+      operationId: executeService
+      parameters:
+      - description: "Servicio del catálogo (p. ej. curp, sat, imss, bc_pf)"
+        explode: false
+        in: path
+        name: service
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: "Operación del servicio (p. ej. validate, query)"
+        explode: false
+        in: path
+        name: subservice
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: "Fuerza el modo sandbox. Se ignora en el host sandbox, donde\
+          \ ya es implícito"
+        explode: true
+        in: query
+        name: sandbox
+        required: false
+        schema:
+          type: boolean
+        style: form
+      - description: "Sandbox: nombre del test case que debe responder"
+        explode: true
+        in: query
+        name: testCase
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: "Sandbox: id del test case que debe responder"
+        explode: true
+        in: query
+        name: testCaseId
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Identificador libre del origen de la petición
+        explode: false
+        in: header
+        name: origin
+        required: false
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+        description: Datos del servicio; cada servicio define sus campos
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/controller_microservice_model.MicroserviceDetailDto"
+          description: Ejecución realizada
+        "400":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/controller_microservice_model.ValidationErrorDto"
+                type: array
+          description: Datos inválidos o faltantes para ese servicio
+        "401":
+          description: API key ausente o inválida
+        "404":
+          description: El servicio no existe o no está disponible en esta versión
+        "406":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/controller_microservice_model.MicroserviceDetailDto"
+          description: El proveedor rechazó la petición
+        "408":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/controller_microservice_model.MicroserviceDetailDto"
+          description: Tiempo de espera agotado con el proveedor
+        "409":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/controller_microservice_model.ValidationErrorDto"
+                type: array
+          description: Conflicto con los datos enviados
+        "500":
+          description: Error interno
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/controller_microservice_model.MicroserviceDetailDto"
+          description: Proveedor no disponible
+      security:
+      - ApiKeyAuth: []
+      summary: Ejecutar un servicio de link
+      tags:
+      - link
+  /api/v3/{service}/{subservice}/test_case:
+    get:
+      description: "Devuelve los test cases configurados para un servicio. En sandbox,\
+        \ la ejecución responde uno de ellos en lugar de llamar al proveedor (se elige\
+        \ con testCase o testCaseId al ejecutar)."
+      operationId: listTestCases
+      parameters:
+      - description: Servicio del catálogo
+        explode: false
+        in: path
+        name: service
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Operación del servicio
+        explode: false
+        in: path
+        name: subservice
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/controller_test_case_model.TestCaseOutputMany"
+                type: array
+          description: Test cases del servicio
+        "400":
+          description: Servicio u operación ausente
+        "401":
+          description: API key ausente o inválida
+        "500":
+          description: Error interno
+      security:
+      - ApiKeyAuth: []
+      summary: Test cases de un servicio
+      tags:
+      - link
+  /api/v3/{service}/{subservice}/vault:
+    post:
+      description: Dice si una credencial existe y sirve para el servicio indicado
+        en la ruta.
+      operationId: validateVault
+      parameters:
+      - description: Servicio del catálogo
+        explode: false
+        in: path
+        name: service
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Operación del servicio
+        explode: false
+        in: path
+        name: subservice
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: "Fuerza el modo sandbox. Se ignora en el host sandbox, donde\
+          \ ya es implícito"
+        explode: true
+        in: query
+        name: sandbox
+        required: false
+        schema:
+          type: boolean
+        style: form
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/controller_microservice_model.VaultNameDto"
+        description: Nombre de la credencial
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/controller_microservice_model.VaultValidationDto"
+          description: Resultado de la validación
+        "400":
+          description: Body inválido
+        "401":
+          description: API key ausente o inválida
+        "500":
+          description: Error interno
+      security:
+      - ApiKeyAuth: []
+      summary: Validar una credencial para un servicio
+      tags:
+      - vault
+  /api/v3/vault/na:
+    post:
+      description: "Guarda una credencial (vault) para usarla después en los servicios\
+        \ que la piden. El tipo sale del catálogo de tipos de credencial; value, value2…\
+        \ son sus secretos y nunca se devuelven."
+      operationId: createVault
+      parameters:
+      - description: "Fuerza el modo sandbox. Se ignora en el host sandbox, donde\
+          \ ya es implícito"
+        explode: true
+        in: query
+        name: sandbox
+        required: false
+        schema:
+          type: boolean
+        style: form
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/domain_vault_model.VaultDto"
+        description: Credencial
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/controller_microservice_model.MicroserviceDetailDto"
+          description: Credencial creada
+        "400":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/controller_microservice_model.ValidationErrorDto"
+                type: array
+          description: Datos inválidos
+        "401":
+          description: API key ausente o inválida
+        "409":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/controller_microservice_model.ValidationErrorDto"
+                type: array
+          description: Ya existe una credencial con ese nombre
+        "500":
+          description: Error interno
+      security:
+      - ApiKeyAuth: []
+      summary: Crear una credencial
+      tags:
+      - vault
+  /api/v3/vault/na/{id}:
+    delete:
+      description: Borra una credencial guardada (vault) y su secreto.
+      operationId: deleteVault
+      parameters:
+      - description: Id de la credencial
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: "Fuerza el modo sandbox. Se ignora en el host sandbox, donde\
+          \ ya es implícito"
+        explode: true
+        in: query
+        name: sandbox
+        required: false
+        schema:
+          type: boolean
+        style: form
+      responses:
+        "200":
+          description: Credencial borrada
+        "400":
+          description: Id ausente
+        "401":
+          description: API key ausente o inválida
+        "403":
+          description: Sin permiso para borrar credenciales
+        "404":
+          description: La credencial no existe
+        "500":
+          description: Error interno
+      security:
+      - ApiKeyAuth: []
+      summary: Borrar una credencial
+      tags:
+      - vault
+    put:
+      description: "Actualiza una credencial guardada (vault). Se mandan todos sus\
+        \ campos, incluidos los secretos."
+      operationId: updateVault
+      parameters:
+      - description: Id de la credencial
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: "Fuerza el modo sandbox. Se ignora en el host sandbox, donde\
+          \ ya es implícito"
+        explode: true
+        in: query
+        name: sandbox
+        required: false
+        schema:
+          type: boolean
+        style: form
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/domain_vault_model.VaultEditDto"
+        description: Credencial con sus nuevos valores
+        required: true
+      responses:
+        "200":
+          description: Credencial actualizada
+        "400":
+          content:
+            '*/*':
+              schema:
+                items:
+                  $ref: "#/components/schemas/controller_microservice_model.ValidationErrorDto"
+                type: array
+          description: Datos inválidos
+        "401":
+          description: API key ausente o inválida
+        "404":
+          description: La credencial no existe
+        "408":
+          description: Tiempo de espera agotado
+        "409":
+          content:
+            '*/*':
+              schema:
+                items:
+                  $ref: "#/components/schemas/controller_microservice_model.ValidationErrorDto"
+                type: array
+          description: Conflicto con los datos enviados
+        "500":
+          description: Error interno
+      security:
+      - ApiKeyAuth: []
+      summary: Editar una credencial
+      tags:
+      - vault
+components:
+  schemas:
+    controller_microservice_model.ApiDataDetailDto:
+      example:
+        duration: 0
+        events:
+        - body: ""
+          date: date
+        - body: ""
+          date: date
+        files:
+        - content: content
+          name: name
+          path: path
+        - content: content
+          name: name
+          path: path
+        request:
+          body: ""
+          date: date
+          headers:
+            key: headers
+          httpCode: 6
+        response:
+          body: ""
+          date: date
+          headers:
+            key: headers
+          httpCode: 6
+        url: url
+      properties:
+        duration:
+          type: integer
+        events:
+          items:
+            $ref: "#/components/schemas/controller_microservice_model.ApiDataEventDto"
+          nullable: true
+          type: array
+        files:
+          items:
+            $ref: "#/components/schemas/controller_microservice_model.ApiDataFileDto"
+          nullable: true
+          type: array
+        request:
+          $ref: "#/components/schemas/controller_microservice_model.ApiDataHttpDto"
+        response:
+          $ref: "#/components/schemas/controller_microservice_model.ApiDataHttpDto"
+        url:
+          type: string
+      type: object
+    controller_microservice_model.ApiDataEventDto:
+      example:
+        body: ""
+        date: date
+      properties:
+        body: {}
+        date:
+          type: string
+      type: object
+    controller_microservice_model.ApiDataFileDto:
+      example:
+        content: content
+        name: name
+        path: path
+      properties:
+        content:
+          description: |-
+            Go serializa []byte como texto base64; sin el swaggertype el spec lo
+            declararía como arreglo de enteros y los SDKs tipados no lo leerían.
+          format: byte
+          type: string
+        name:
+          type: string
+        path:
+          type: string
+      type: object
+    controller_microservice_model.ApiDataHttpDto:
+      example:
+        body: ""
+        date: date
+        headers:
+          key: headers
+        httpCode: 6
+      properties:
+        body: {}
+        date:
+          type: string
+        headers:
+          additionalProperties:
+            type: string
+          nullable: true
+          type: object
+        httpCode:
+          type: integer
+      type: object
+    controller_microservice_model.EventDto:
+      example:
+        date: date
+        errorMessage: errorMessage
+        status: status
+      properties:
+        date:
+          type: string
+        errorMessage:
+          type: string
+        status:
+          type: string
+      type: object
+    controller_microservice_model.ExecutionPage:
+      example:
+        currentPage: 0
+        hasNextPage: true
+        items:
+        - createdAt: createdAt
+          duration: 6
+          errorMessage: errorMessage
+          events:
+          - date: date
+            errorMessage: errorMessage
+            status: status
+          - date: date
+            errorMessage: errorMessage
+            status: status
+          finishedAt: finishedAt
+          id: id
+          modifiedAt: modifiedAt
+          response: ""
+          searchableBy:
+            key: ""
+          status: status
+        - createdAt: createdAt
+          duration: 6
+          errorMessage: errorMessage
+          events:
+          - date: date
+            errorMessage: errorMessage
+            status: status
+          - date: date
+            errorMessage: errorMessage
+            status: status
+          finishedAt: finishedAt
+          id: id
+          modifiedAt: modifiedAt
+          response: ""
+          searchableBy:
+            key: ""
+          status: status
+      properties:
+        currentPage:
+          type: integer
+        hasNextPage:
+          type: boolean
+        items:
+          items:
+            $ref: "#/components/schemas/controller_microservice_model.MicroserviceResumeDto"
+          nullable: true
+          type: array
+      type: object
+    controller_microservice_model.MicroserviceDetailDto:
+      example:
+        apiData:
+        - duration: 0
+          events:
+          - body: ""
+            date: date
+          - body: ""
+            date: date
+          files:
+          - content: content
+            name: name
+            path: path
+          - content: content
+            name: name
+            path: path
+          request:
+            body: ""
+            date: date
+            headers:
+              key: headers
+            httpCode: 6
+          response:
+            body: ""
+            date: date
+            headers:
+              key: headers
+            httpCode: 6
+          url: url
+        - duration: 0
+          events:
+          - body: ""
+            date: date
+          - body: ""
+            date: date
+          files:
+          - content: content
+            name: name
+            path: path
+          - content: content
+            name: name
+            path: path
+          request:
+            body: ""
+            date: date
+            headers:
+              key: headers
+            httpCode: 6
+          response:
+            body: ""
+            date: date
+            headers:
+              key: headers
+            httpCode: 6
+          url: url
+        cost: 1.4658129805029452
+        createdAt: createdAt
+        duration: 5
+        errorMessage: errorMessage
+        events:
+        - date: date
+          errorMessage: errorMessage
+          status: status
+        - date: date
+          errorMessage: errorMessage
+          status: status
+        extraCost: 5.637376656633329
+        finishedAt: finishedAt
+        id: id
+        modifiedAt: modifiedAt
+        request: ""
+        response: ""
+        searchableBy:
+          key: ""
+        status: status
+      properties:
+        apiData:
+          items:
+            $ref: "#/components/schemas/controller_microservice_model.ApiDataDetailDto"
+          nullable: true
+          type: array
+        cost:
+          type: number
+        createdAt:
+          type: string
+        duration:
+          type: integer
+        errorMessage:
+          type: string
+        events:
+          items:
+            $ref: "#/components/schemas/controller_microservice_model.EventDto"
+          nullable: true
+          type: array
+        extraCost:
+          type: number
+        finishedAt:
+          type: string
+        id:
+          type: string
+        modifiedAt:
+          type: string
+        request: {}
+        response: {}
+        searchableBy:
+          additionalProperties: true
+          nullable: true
+          type: object
+        status:
+          type: string
+      type: object
+    controller_microservice_model.MicroserviceResumeDto:
+      example:
+        createdAt: createdAt
+        duration: 6
+        errorMessage: errorMessage
+        events:
+        - date: date
+          errorMessage: errorMessage
+          status: status
+        - date: date
+          errorMessage: errorMessage
+          status: status
+        finishedAt: finishedAt
+        id: id
+        modifiedAt: modifiedAt
+        response: ""
+        searchableBy:
+          key: ""
+        status: status
+      properties:
+        createdAt:
+          type: string
+        duration:
+          type: integer
+        errorMessage:
+          type: string
+        events:
+          items:
+            $ref: "#/components/schemas/controller_microservice_model.EventDto"
+          nullable: true
+          type: array
+        finishedAt:
+          type: string
+        id:
+          type: string
+        modifiedAt:
+          type: string
+        response: {}
+        searchableBy:
+          additionalProperties: true
+          nullable: true
+          type: object
+        status:
+          type: string
+      type: object
+    controller_microservice_model.ValidationErrorDto:
+      example:
+        code: code
+        errors:
+        - null
+        - null
+        field: field
+        message: message
+      properties:
+        code:
+          type: string
+        errors:
+          items:
+            $ref: "#/components/schemas/controller_microservice_model.ValidationErrorDto"
+          nullable: true
+          type: array
+        field:
+          type: string
+        message:
+          type: string
+      type: object
+    controller_microservice_model.VaultNameDto:
+      properties:
+        name:
+          type: string
+      type: object
+    controller_microservice_model.VaultValidationDto:
+      example:
+        status: valid
+      properties:
+        status:
+          description: |-
+            valid: existe y sirve para el servicio; notValid: existe pero es de otro
+            tipo; notFound: no existe.
+          enum:
+          - valid
+          - notValid
+          - notFound
+          type: string
+      type: object
+    controller_test_case_model.TestCaseOutputMany:
+      example:
+        createdAt: createdAt
+        id: id
+        modifiedAt: modifiedAt
+        name: name
+        origin: origin
+        service: service
+        subService: subService
+      properties:
+        createdAt:
+          type: string
+        id:
+          type: string
+        modifiedAt:
+          type: string
+        name:
+          type: string
+        origin:
+          type: string
+        service:
+          type: string
+        subService:
+          type: string
+      type: object
+    domain_vault_model.VaultDto:
+      properties:
+        autoRenew:
+          type: boolean
+        name:
+          type: string
+        type:
+          type: string
+        value:
+          type: string
+        value2:
+          type: string
+        value3:
+          type: string
+        value4:
+          type: string
+      required:
+      - name
+      - type
+      - value
+      type: object
+    domain_vault_model.VaultEditDto:
+      properties:
+        autoRenew:
+          type: boolean
+        name:
+          type: string
+        type:
+          type: string
+        value:
+          type: string
+        value2:
+          type: string
+        value3:
+          type: string
+        value4:
+          type: string
+      required:
+      - name
+      - type
+      - value
+      type: object
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: x-api-key
+      type: apiKey
+

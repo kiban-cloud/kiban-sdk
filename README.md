@@ -1,11 +1,14 @@
 # kiban-sdk
 
-SDKs oficiales de la **API pública de kiban cloud**. Módulo **workfloo**
-(ejecutar un workfloo, consultar su estatus y revisar el historial y el detalle
-de las ejecuciones).
+SDKs oficiales de la **API pública de kiban cloud**, por módulo:
 
-La fuente es el spec OpenAPI en
-[`specs/workfloo.openapi.yaml`](specs/workfloo.openapi.yaml).
+| Módulo | Para qué | Spec | Docs en línea |
+|---|---|---|---|
+| **workfloo** | ejecutar un workfloo, consultar su estatus y revisar el historial y el detalle de las ejecuciones | [`specs/workfloo.openapi.yaml`](specs/workfloo.openapi.yaml) | [kiban-cloud.github.io/kiban-sdk](https://kiban-cloud.github.io/kiban-sdk/) |
+| **link** | ejecutar cualquier servicio del catálogo (CURP, SAT, IMSS, Buró…), consultar sus ejecuciones y administrar credenciales (vault) | [`specs/link.openapi.yaml`](specs/link.openapi.yaml) | [kiban-cloud.github.io/kiban-sdk/link](https://kiban-cloud.github.io/kiban-sdk/link/) |
+
+Cada módulo es un juego de 5 SDKs con su propia versión. La fuente de cada uno
+es su spec OpenAPI.
 
 ## Estructura
 
@@ -14,8 +17,8 @@ config/
   modules.json             versión de cada módulo y datos del publicador (fuente única)
   environments.json        hosts de producción y sandbox
 specs/                     spec OpenAPI 3
-  source/                  swagger 2.0 tal como lo publica workfloo-backend (entrada)
-openapi-generator/         un config.<lang>.yaml por lenguaje (sin versión: sale de modules.json)
+  source/                  swagger 2.0 tal como lo publica cada backend (entrada)
+openapi-generator/         config.<lang>.yaml (workfloo) y config.link.<lang>.yaml (sin versión: sale de modules.json)
   readmes/                 READMEs escritos a mano (<módulo>.<lang>.md) que gen-sdks copia a packages/
 scripts/
   gen-spec.sh              specs/source → spec OpenAPI 3
@@ -30,11 +33,15 @@ scripts/
   semver.yml               status "semver" en cada PR
   publish.yml              publica un release en los 5 registros al empujar un tag
 packages/                  SDKs generados
-  node/ go/ java/ python/ csharp/
-examples/                  flujo completo de un integrador, en los 5 lenguajes
+  node/ go/ java/ python/ csharp/          workfloo
+  link/node/ link/go/ …                    link
+docs/                      docs en línea (GitHub Pages): index.html es workfloo, link/ es link
+examples/                  flujo completo de un integrador de workfloo, en los 5 lenguajes
 ```
 
 ## SDKs
+
+### workfloo
 
 | Lenguaje | Generador | Paquete |
 |---|---|---|
@@ -53,6 +60,52 @@ go get github.com/kiban-cloud/kiban-sdk/packages/go@v1.0.0
 dotnet add package Kiban.Workfloo --version 1.0.0
 # Maven: <dependency><groupId>com.kiban</groupId><artifactId>workfloo</artifactId><version>1.0.0</version></dependency>
 ```
+
+### link
+
+| Lenguaje | Paquete |
+|---|---|
+| Node/TypeScript | npm `@kiban/link` |
+| Go | `link` (módulo `github.com/kiban-cloud/kiban-sdk/packages/link/go`) |
+| Java | Maven `com.kiban:link` · paquete `com.kiban.link` |
+| Python | PyPI `kiban-link` · import `kiban.link` |
+| C# | NuGet `Kiban.Link` · namespace `Kiban.Link` |
+
+```bash
+npm install @kiban/link@1.0.0
+pip install kiban-link==1.0.0
+go get github.com/kiban-cloud/kiban-sdk/packages/link/go@v1.0.0
+dotnet add package Kiban.Link --version 1.0.0
+# Maven: <dependency><groupId>com.kiban</groupId><artifactId>link</artifactId><version>1.0.0</version></dependency>
+```
+
+Dos clientes por SDK: `LinkApi` (ejecutar un servicio, su historial, sus test
+cases y sus archivos) y `VaultApi` (crear, listar, editar, borrar y validar
+credenciales). Producción en `https://link.kiban.com` y sandbox en
+`https://sandbox.link.kiban.com`; en sandbox cada ejecución responde un test
+case del servicio (`testCase` / `testCaseId`) en lugar de llamar al proveedor.
+
+```ts
+import { Configuration, LinkApi, VaultApi } from '@kiban/link';
+
+const config = new Configuration({
+  basePath: 'https://link.kiban.com',
+  apiKey: process.env.KIBAN_API_KEY, // header x-api-key
+});
+const link = new LinkApi(config);
+
+// El servicio y la operación van en la ruta; el body depende de cada servicio.
+const { data } = await link.executeService({
+  service: 'curp',
+  subservice: 'validate',
+  body: { curp: 'PEPJ800101HDFRRN09' },
+});
+console.log(data.id, data.status, data.response);
+```
+
+Las rutas de ejecución y de credenciales van en `v3` (errores de validación como
+lista `[{code, message, field, errors}]`); el detalle, el historial y la descarga
+de archivos, en `v1`.
 
 ### Fija la versión
 
@@ -420,13 +473,21 @@ puede reemplazar: si salió mal, se publica la siguiente patch.
 cada paquete y declara `Apache-2.0` en sus metadatos (`package.json`,
 `pyproject.toml`, `pom.xml`, `.csproj`) y en el `info.license` del spec.
 
-**Agregar un módulo** (p. ej. `link`): una entrada en `modules.json` (`version`,
-`spec`, `configPrefix`, `packagesDir`, `goModule`), sus
-`config.<prefijo><lang>.yaml`, sus `readmes/<módulo>.<lang>.md`, y generar con
-`MODULE=link npm run gen:sdks`. Cada módulo se versiona y se publica por
-separado (`link/v1.0.0`).
+**Agregar un módulo**: una entrada en `modules.json` (`version`, `spec`,
+`configPrefix`, `packagesDir`, `goModule`), sus `config.<prefijo><lang>.yaml`,
+sus `readmes/<módulo>.<lang>.md`, sus hosts en `scripts/postprocess-spec.mjs`,
+su rama `regenerate/<módulo>` en `regenerate.yml`, su página en el script `docs`
+de `package.json`, y en el backend el check `swagger.yml` y `sdk-sync.yml`
+(más su repo en el provider WIF de kiban-infra). Se genera con
+`MODULE=<módulo> npm run gen:spec` y `MODULE=<módulo> npm run gen:sdks`. Cada
+módulo se versiona y se publica por separado (`link/v1.0.0`), y en cada
+registro su primer release necesita el publicador de confianza dado de alta
+(npm, PyPI y NuGet son por paquete).
 
 ## Flujo de actualización de la API
+
+El flujo es el mismo para cada módulo; abajo con workfloo (link: repo
+`kiban-cloud/link`, rama `regenerate/link`, `specs/source/link.swagger.yaml`).
 
 1. En el backend (`kiban-cloud/workfloo`), quien toque un endpoint público actualiza su anotación
    swaggo y regenera `docs/swagger.yaml` en el mismo PR. Su check `swagger.yml`
@@ -449,7 +510,7 @@ El único secreto del flujo es el token con el que el backend escribe aquí
 (`github-token-kiban-sdk-sync`, solo con `Contents: Read and write` sobre este
 repo). No está en GitHub Secrets: vive en Secret Manager (proyecto
 `kiban-cloud`), y el backend lo lee entrando a GCP por Workload Identity
-Federation, una identidad que solo obtiene `kiban-cloud/workfloo` en `main`. El
+Federation, una identidad que solo obtienen `kiban-cloud/workfloo` y `kiban-cloud/link` en `main`. El
 provider WIF, la service account, el secreto y el runbook para cargarlo o
 rotarlo están en kiban-infra: `stacks/kibancloud/shared-prod/github-sdk-ci.tf`.
 

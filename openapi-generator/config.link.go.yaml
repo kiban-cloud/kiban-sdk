@@ -1,0 +1,12 @@
+# openapi-generator · Go (generator: go)
+# Go NO admite puntos en el nombre de paquete, así que el paquete importable es
+# "link". El path del módulo (gitHost/gitUserId/gitRepoId → go.mod) tiene que
+# coincidir con el directorio donde vive el go.mod dentro del repo, o `go get` no
+# lo resuelve: github.com/kiban-cloud/kiban-sdk/packages/link/go. Los tags de
+# release llevan el prefijo del directorio: packages/link/go/vX.Y.Z (los crea
+# publish.yml).
+# La versión NO va aquí: sale de config/modules.json (gen-sdks.sh la inyecta).
+packageName: link
+gitUserId: kiban-cloud
+gitRepoId: kiban-sdk/packages/link/go
+isGoSubmodule: false

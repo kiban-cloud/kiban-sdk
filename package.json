@@ -2,12 +2,12 @@
   "name": "kiban-sdk",
   "version": "0.1.0",
   "private": true,
-  "description": "SDKs generados de la API pública de Kiban Cloud (piloto: módulo workfloo).",
+  "description": "SDKs generados de la API pública de kiban cloud (módulos workfloo y link).",
   "scripts": {
     "gen:spec": "bash scripts/gen-spec.sh",
     "gen:sdks": "bash scripts/gen-sdks.sh",
-    "lint:spec": "redocly lint specs/workfloo.openapi.yaml",
-    "docs": "redocly build-docs specs/workfloo.openapi.yaml -o docs/index.html"
+    "lint:spec": "redocly lint specs/workfloo.openapi.yaml specs/link.openapi.yaml",
+    "docs": "redocly build-docs specs/workfloo.openapi.yaml -o docs/index.html && redocly build-docs specs/link.openapi.yaml -o docs/link/index.html"
   },
   "devDependencies": {
     "@openapitools/openapi-generator-cli": "^2.13.4",

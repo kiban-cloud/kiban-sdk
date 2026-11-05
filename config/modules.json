@@ -1,5 +1,5 @@
 {
-  "_comment": "Un módulo = una API = un juego de SDKs con su propia versión (semver) y sus propios tags (<módulo>/vX.Y.Z). La versión vive SÓLO aquí: gen-sdks.sh la pasa a los 5 generadores. Para agregar un módulo (p. ej. link): su entrada en modules, sus openapi-generator/<configPrefix><lenguaje>.yaml y su spec. publisher son los metadatos que se publican en los 5 registros; license es el identificador SPDX (el texto vive en LICENSE y el titular del copyright en NOTICE, que gen-sdks.sh copia a cada paquete). publish.yml se niega a publicar si falta alguno.",
+  "_comment": "Un módulo = una API = un juego de SDKs con su propia versión (semver) y sus propios tags (<módulo>/vX.Y.Z). La versión vive SÓLO aquí: gen-sdks.sh la pasa a los 5 generadores. Para agregar un módulo: su entrada en modules, sus openapi-generator/<configPrefix><lenguaje>.yaml, su specs/source/<módulo>.swagger.yaml (lo empuja el backend con sdk-sync.yml), sus servers en scripts/postprocess-spec.mjs y su rama en regenerate.yml. publisher son los metadatos que se publican en los 5 registros; license es el identificador SPDX (el texto vive en LICENSE y el titular del copyright en NOTICE, que gen-sdks.sh copia a cada paquete). publish.yml se niega a publicar si falta alguno.",
   "publisher": {
     "name": "kiban",
     "url": "https://kiban.com",
@@ -13,6 +13,13 @@
       "configPrefix": "config.",
       "packagesDir": "packages",
       "goModule": "github.com/kiban-cloud/kiban-sdk/packages/go"
+    },
+    "link": {
+      "version": "1.0.0",
+      "spec": "specs/link.openapi.yaml",
+      "configPrefix": "config.link.",
+      "packagesDir": "packages/link",
+      "goModule": "github.com/kiban-cloud/kiban-sdk/packages/link/go"
     }
   }
 }
