@@ -35,6 +35,7 @@ namespace Kiban.Link.Model
         /// Initializes a new instance of the <see cref="ControllerTestCaseModelTestCaseOutputMany" /> class.
         /// </summary>
         /// <param name="createdAt">createdAt</param>
+        /// <param name="default">Default marca el caso que sandbox responde cuando no se indica testCaseId.</param>
         /// <param name="id">id</param>
         /// <param name="modifiedAt">modifiedAt</param>
         /// <param name="name">name</param>
@@ -42,9 +43,10 @@ namespace Kiban.Link.Model
         /// <param name="service">service</param>
         /// <param name="subService">subService</param>
         [JsonConstructor]
-        public ControllerTestCaseModelTestCaseOutputMany(Option<string?> createdAt = default, Option<string?> id = default, Option<string?> modifiedAt = default, Option<string?> name = default, Option<string?> origin = default, Option<string?> service = default, Option<string?> subService = default)
+        public ControllerTestCaseModelTestCaseOutputMany(Option<string?> createdAt = default, Option<bool?> @default = default, Option<string?> id = default, Option<string?> modifiedAt = default, Option<string?> name = default, Option<string?> origin = default, Option<string?> service = default, Option<string?> subService = default)
         {
             CreatedAtOption = createdAt;
+            DefaultOption = @default;
             IdOption = id;
             ModifiedAtOption = modifiedAt;
             NameOption = name;
@@ -68,6 +70,20 @@ namespace Kiban.Link.Model
         /// </summary>
         [JsonPropertyName("createdAt")]
         public string? CreatedAt { get { return this.CreatedAtOption.Value; } set { this.CreatedAtOption = new(value); } }
+
+        /// <summary>
+        /// Used to track the state of Default
+        /// </summary>
+        [JsonIgnore]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<bool?> DefaultOption { get; private set; }
+
+        /// <summary>
+        /// Default marca el caso que sandbox responde cuando no se indica testCaseId.
+        /// </summary>
+        /// <value>Default marca el caso que sandbox responde cuando no se indica testCaseId.</value>
+        [JsonPropertyName("default")]
+        public bool? Default { get { return this.DefaultOption.Value; } set { this.DefaultOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Id
@@ -156,6 +172,7 @@ namespace Kiban.Link.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class ControllerTestCaseModelTestCaseOutputMany {\n");
             sb.Append("  CreatedAt: ").Append(CreatedAt).Append("\n");
+            sb.Append("  Default: ").Append(Default).Append("\n");
             sb.Append("  Id: ").Append(Id).Append("\n");
             sb.Append("  ModifiedAt: ").Append(ModifiedAt).Append("\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
@@ -210,6 +227,7 @@ namespace Kiban.Link.Model
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
             Option<string?> createdAt = default;
+            Option<bool?> varDefault = default;
             Option<string?> id = default;
             Option<string?> modifiedAt = default;
             Option<string?> name = default;
@@ -234,6 +252,9 @@ namespace Kiban.Link.Model
                     {
                         case "createdAt":
                             createdAt = new Option<string?>(utf8JsonReader.GetString()!);
+                            break;
+                        case "default":
+                            varDefault = new Option<bool?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (bool?)null : utf8JsonReader.GetBoolean());
                             break;
                         case "id":
                             id = new Option<string?>(utf8JsonReader.GetString()!);
@@ -262,6 +283,9 @@ namespace Kiban.Link.Model
             if (createdAt.IsSet && createdAt.Value == null)
                 throw new ArgumentNullException(nameof(createdAt), "Property is not nullable for class ControllerTestCaseModelTestCaseOutputMany.");
 
+            if (varDefault.IsSet && varDefault.Value == null)
+                throw new ArgumentNullException(nameof(varDefault), "Property is not nullable for class ControllerTestCaseModelTestCaseOutputMany.");
+
             if (id.IsSet && id.Value == null)
                 throw new ArgumentNullException(nameof(id), "Property is not nullable for class ControllerTestCaseModelTestCaseOutputMany.");
 
@@ -280,7 +304,7 @@ namespace Kiban.Link.Model
             if (subService.IsSet && subService.Value == null)
                 throw new ArgumentNullException(nameof(subService), "Property is not nullable for class ControllerTestCaseModelTestCaseOutputMany.");
 
-            return new ControllerTestCaseModelTestCaseOutputMany(createdAt, id, modifiedAt, name, origin, service, subService);
+            return new ControllerTestCaseModelTestCaseOutputMany(createdAt, varDefault, id, modifiedAt, name, origin, service, subService);
         }
 
         /// <summary>
@@ -330,6 +354,9 @@ namespace Kiban.Link.Model
 
             if (controllerTestCaseModelTestCaseOutputMany.CreatedAtOption.IsSet)
                 writer.WriteString("createdAt", controllerTestCaseModelTestCaseOutputMany.CreatedAt);
+
+            if (controllerTestCaseModelTestCaseOutputMany.DefaultOption.IsSet)
+                writer.WriteBoolean("default", controllerTestCaseModelTestCaseOutputMany.DefaultOption.Value!.Value);
 
             if (controllerTestCaseModelTestCaseOutputMany.IdOption.IsSet)
                 writer.WriteString("id", controllerTestCaseModelTestCaseOutputMany.Id);

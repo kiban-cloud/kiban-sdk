@@ -162,6 +162,10 @@ definitions:
     properties:
       createdAt:
         type: string
+      default:
+        description: Default marca el caso que sandbox responde cuando no se indica
+          testCaseId.
+        type: boolean
       id:
         type: string
       modifiedAt:

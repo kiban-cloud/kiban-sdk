@@ -1053,6 +1053,7 @@ components:
     controller_test_case_model.TestCaseOutputMany:
       example:
         createdAt: createdAt
+        default: true
         id: id
         modifiedAt: modifiedAt
         name: name
@@ -1062,6 +1063,10 @@ components:
       properties:
         createdAt:
           type: string
+        default:
+          description: Default marca el caso que sandbox responde cuando no se indica
+            testCaseId.
+          type: boolean
         id:
           type: string
         modifiedAt:

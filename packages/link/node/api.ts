@@ -113,6 +113,10 @@ export type ControllerMicroserviceModelVaultValidationDtoStatusEnum = typeof Con
 
 export interface ControllerTestCaseModelTestCaseOutputMany {
     'createdAt'?: string;
+    /**
+     * Default marca el caso que sandbox responde cuando no se indica testCaseId.
+     */
+    'default'?: boolean;
     'id'?: string;
     'modifiedAt'?: string;
     'name'?: string;
