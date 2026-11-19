@@ -6,6 +6,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **created_at** | **str** |  | [optional] 
+**default** | **bool** | Default marca el caso que sandbox responde cuando no se indica testCaseId. | [optional] 
 **id** | **str** |  | [optional] 
 **modified_at** | **str** |  | [optional] 
 **name** | **str** |  | [optional] 

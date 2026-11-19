@@ -5,6 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **CreatedAt** | **string** |  | [optional] 
+**Default** | **bool** | Default marca el caso que sandbox responde cuando no se indica testCaseId. | [optional] 
 **Id** | **string** |  | [optional] 
 **ModifiedAt** | **string** |  | [optional] 
 **Name** | **string** |  | [optional] 

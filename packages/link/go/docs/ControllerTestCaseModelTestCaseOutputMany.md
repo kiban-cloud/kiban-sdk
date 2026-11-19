@@ -5,6 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **CreatedAt** | Pointer to **string** |  | [optional] 
+**Default** | Pointer to **bool** | Default marca el caso que sandbox responde cuando no se indica testCaseId. | [optional] 
 **Id** | Pointer to **string** |  | [optional] 
 **ModifiedAt** | Pointer to **string** |  | [optional] 
 **Name** | Pointer to **string** |  | [optional] 
@@ -55,6 +56,31 @@ SetCreatedAt sets CreatedAt field to given value.
 `func (o *ControllerTestCaseModelTestCaseOutputMany) HasCreatedAt() bool`
 
 HasCreatedAt returns a boolean if a field has been set.
+
+### GetDefault
+
+`func (o *ControllerTestCaseModelTestCaseOutputMany) GetDefault() bool`
+
+GetDefault returns the Default field if non-nil, zero value otherwise.
+
+### GetDefaultOk
+
+`func (o *ControllerTestCaseModelTestCaseOutputMany) GetDefaultOk() (*bool, bool)`
+
+GetDefaultOk returns a tuple with the Default field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetDefault
+
+`func (o *ControllerTestCaseModelTestCaseOutputMany) SetDefault(v bool)`
+
+SetDefault sets Default field to given value.
+
+### HasDefault
+
+`func (o *ControllerTestCaseModelTestCaseOutputMany) HasDefault() bool`
+
+HasDefault returns a boolean if a field has been set.
 
 ### GetId
 

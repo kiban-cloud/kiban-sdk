@@ -6,6 +6,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **createdAt** | **string** |  | [optional] [default to undefined]
+**_default** | **boolean** | Default marca el caso que sandbox responde cuando no se indica testCaseId. | [optional] [default to undefined]
 **id** | **string** |  | [optional] [default to undefined]
 **modifiedAt** | **string** |  | [optional] [default to undefined]
 **name** | **string** |  | [optional] [default to undefined]
@@ -20,6 +21,7 @@ import { ControllerTestCaseModelTestCaseOutputMany } from '@kiban/link';
 
 const instance: ControllerTestCaseModelTestCaseOutputMany = {
     createdAt,
+    _default,
     id,
     modifiedAt,
     name,

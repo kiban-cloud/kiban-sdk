@@ -21,6 +21,8 @@ var _ MappedNullable = &ControllerTestCaseModelTestCaseOutputMany{}
 // ControllerTestCaseModelTestCaseOutputMany struct for ControllerTestCaseModelTestCaseOutputMany
 type ControllerTestCaseModelTestCaseOutputMany struct {
 	CreatedAt *string `json:"createdAt,omitempty"`
+	// Default marca el caso que sandbox responde cuando no se indica testCaseId.
+	Default *bool `json:"default,omitempty"`
 	Id *string `json:"id,omitempty"`
 	ModifiedAt *string `json:"modifiedAt,omitempty"`
 	Name *string `json:"name,omitempty"`
@@ -76,6 +78,38 @@ func (o *ControllerTestCaseModelTestCaseOutputMany) HasCreatedAt() bool {
 // SetCreatedAt gets a reference to the given string and assigns it to the CreatedAt field.
 func (o *ControllerTestCaseModelTestCaseOutputMany) SetCreatedAt(v string) {
 	o.CreatedAt = &v
+}
+
+// GetDefault returns the Default field value if set, zero value otherwise.
+func (o *ControllerTestCaseModelTestCaseOutputMany) GetDefault() bool {
+	if o == nil || IsNil(o.Default) {
+		var ret bool
+		return ret
+	}
+	return *o.Default
+}
+
+// GetDefaultOk returns a tuple with the Default field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ControllerTestCaseModelTestCaseOutputMany) GetDefaultOk() (*bool, bool) {
+	if o == nil || IsNil(o.Default) {
+		return nil, false
+	}
+	return o.Default, true
+}
+
+// HasDefault returns a boolean if a field has been set.
+func (o *ControllerTestCaseModelTestCaseOutputMany) HasDefault() bool {
+	if o != nil && !IsNil(o.Default) {
+		return true
+	}
+
+	return false
+}
+
+// SetDefault gets a reference to the given bool and assigns it to the Default field.
+func (o *ControllerTestCaseModelTestCaseOutputMany) SetDefault(v bool) {
+	o.Default = &v
 }
 
 // GetId returns the Id field value if set, zero value otherwise.
@@ -282,6 +316,9 @@ func (o ControllerTestCaseModelTestCaseOutputMany) ToMap() (map[string]interface
 	toSerialize := map[string]interface{}{}
 	if !IsNil(o.CreatedAt) {
 		toSerialize["createdAt"] = o.CreatedAt
+	}
+	if !IsNil(o.Default) {
+		toSerialize["default"] = o.Default
 	}
 	if !IsNil(o.Id) {
 		toSerialize["id"] = o.Id

@@ -18,7 +18,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -29,13 +29,14 @@ class ControllerTestCaseModelTestCaseOutputMany(BaseModel):
     ControllerTestCaseModelTestCaseOutputMany
     """ # noqa: E501
     created_at: Optional[StrictStr] = Field(default=None, alias="createdAt")
+    default: Optional[StrictBool] = Field(default=None, description="Default marca el caso que sandbox responde cuando no se indica testCaseId.")
     id: Optional[StrictStr] = None
     modified_at: Optional[StrictStr] = Field(default=None, alias="modifiedAt")
     name: Optional[StrictStr] = None
     origin: Optional[StrictStr] = None
     service: Optional[StrictStr] = None
     sub_service: Optional[StrictStr] = Field(default=None, alias="subService")
-    __properties: ClassVar[List[str]] = ["createdAt", "id", "modifiedAt", "name", "origin", "service", "subService"]
+    __properties: ClassVar[List[str]] = ["createdAt", "default", "id", "modifiedAt", "name", "origin", "service", "subService"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -89,6 +90,7 @@ class ControllerTestCaseModelTestCaseOutputMany(BaseModel):
 
         _obj = cls.model_validate({
             "createdAt": obj.get("createdAt"),
+            "default": obj.get("default"),
             "id": obj.get("id"),
             "modifiedAt": obj.get("modifiedAt"),
             "name": obj.get("name"),

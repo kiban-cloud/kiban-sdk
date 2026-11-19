@@ -55,6 +55,11 @@ public class ControllerTestCaseModelTestCaseOutputMany {
   @javax.annotation.Nullable
   private String createdAt;
 
+  public static final String SERIALIZED_NAME_DEFAULT = "default";
+  @SerializedName(SERIALIZED_NAME_DEFAULT)
+  @javax.annotation.Nullable
+  private Boolean _default;
+
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
   @javax.annotation.Nullable
@@ -104,6 +109,25 @@ public class ControllerTestCaseModelTestCaseOutputMany {
 
   public void setCreatedAt(@javax.annotation.Nullable String createdAt) {
     this.createdAt = createdAt;
+  }
+
+
+  public ControllerTestCaseModelTestCaseOutputMany _default(@javax.annotation.Nullable Boolean _default) {
+    this._default = _default;
+    return this;
+  }
+
+  /**
+   * Default marca el caso que sandbox responde cuando no se indica testCaseId.
+   * @return _default
+   */
+  @javax.annotation.Nullable
+  public Boolean getDefault() {
+    return _default;
+  }
+
+  public void setDefault(@javax.annotation.Nullable Boolean _default) {
+    this._default = _default;
   }
 
 
@@ -232,6 +256,7 @@ public class ControllerTestCaseModelTestCaseOutputMany {
     }
     ControllerTestCaseModelTestCaseOutputMany controllerTestCaseModelTestCaseOutputMany = (ControllerTestCaseModelTestCaseOutputMany) o;
     return Objects.equals(this.createdAt, controllerTestCaseModelTestCaseOutputMany.createdAt) &&
+        Objects.equals(this._default, controllerTestCaseModelTestCaseOutputMany._default) &&
         Objects.equals(this.id, controllerTestCaseModelTestCaseOutputMany.id) &&
         Objects.equals(this.modifiedAt, controllerTestCaseModelTestCaseOutputMany.modifiedAt) &&
         Objects.equals(this.name, controllerTestCaseModelTestCaseOutputMany.name) &&
@@ -242,7 +267,7 @@ public class ControllerTestCaseModelTestCaseOutputMany {
 
   @Override
   public int hashCode() {
-    return Objects.hash(createdAt, id, modifiedAt, name, origin, service, subService);
+    return Objects.hash(createdAt, _default, id, modifiedAt, name, origin, service, subService);
   }
 
   @Override
@@ -250,6 +275,7 @@ public class ControllerTestCaseModelTestCaseOutputMany {
     StringBuilder sb = new StringBuilder();
     sb.append("class ControllerTestCaseModelTestCaseOutputMany {\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
+    sb.append("    _default: ").append(toIndentedString(_default)).append("\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    modifiedAt: ").append(toIndentedString(modifiedAt)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
@@ -274,7 +300,7 @@ public class ControllerTestCaseModelTestCaseOutputMany {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("createdAt", "id", "modifiedAt", "name", "origin", "service", "subService"));
+    openapiFields = new HashSet<String>(Arrays.asList("createdAt", "default", "id", "modifiedAt", "name", "origin", "service", "subService"));
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>(0);
