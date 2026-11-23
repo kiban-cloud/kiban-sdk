@@ -55,6 +55,11 @@ public class ControllerWorkflooModelPdf {
   @javax.annotation.Nullable
   private String errorMessage;
 
+  public static final String SERIALIZED_NAME_FILE_NAME = "fileName";
+  @SerializedName(SERIALIZED_NAME_FILE_NAME)
+  @javax.annotation.Nullable
+  private String fileName;
+
   public static final String SERIALIZED_NAME_PDF_BASE64 = "pdfBase64";
   @SerializedName(SERIALIZED_NAME_PDF_BASE64)
   @javax.annotation.Nullable
@@ -79,6 +84,25 @@ public class ControllerWorkflooModelPdf {
 
   public void setErrorMessage(@javax.annotation.Nullable String errorMessage) {
     this.errorMessage = errorMessage;
+  }
+
+
+  public ControllerWorkflooModelPdf fileName(@javax.annotation.Nullable String fileName) {
+    this.fileName = fileName;
+    return this;
+  }
+
+  /**
+   * Get fileName
+   * @return fileName
+   */
+  @javax.annotation.Nullable
+  public String getFileName() {
+    return fileName;
+  }
+
+  public void setFileName(@javax.annotation.Nullable String fileName) {
+    this.fileName = fileName;
   }
 
 
@@ -112,12 +136,13 @@ public class ControllerWorkflooModelPdf {
     }
     ControllerWorkflooModelPdf controllerWorkflooModelPdf = (ControllerWorkflooModelPdf) o;
     return Objects.equals(this.errorMessage, controllerWorkflooModelPdf.errorMessage) &&
+        Objects.equals(this.fileName, controllerWorkflooModelPdf.fileName) &&
         Objects.equals(this.pdfBase64, controllerWorkflooModelPdf.pdfBase64);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(errorMessage, pdfBase64);
+    return Objects.hash(errorMessage, fileName, pdfBase64);
   }
 
   @Override
@@ -125,6 +150,7 @@ public class ControllerWorkflooModelPdf {
     StringBuilder sb = new StringBuilder();
     sb.append("class ControllerWorkflooModelPdf {\n");
     sb.append("    errorMessage: ").append(toIndentedString(errorMessage)).append("\n");
+    sb.append("    fileName: ").append(toIndentedString(fileName)).append("\n");
     sb.append("    pdfBase64: ").append(toIndentedString(pdfBase64)).append("\n");
     sb.append("}");
     return sb.toString();
@@ -144,7 +170,7 @@ public class ControllerWorkflooModelPdf {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("errorMessage", "pdfBase64"));
+    openapiFields = new HashSet<String>(Arrays.asList("errorMessage", "fileName", "pdfBase64"));
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>(0);
@@ -173,6 +199,9 @@ public class ControllerWorkflooModelPdf {
         JsonObject jsonObj = jsonElement.getAsJsonObject();
       if ((jsonObj.get("errorMessage") != null && !jsonObj.get("errorMessage").isJsonNull()) && !jsonObj.get("errorMessage").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `errorMessage` to be a primitive type in the JSON string but got `%s`", jsonObj.get("errorMessage").toString()));
+      }
+      if ((jsonObj.get("fileName") != null && !jsonObj.get("fileName").isJsonNull()) && !jsonObj.get("fileName").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `fileName` to be a primitive type in the JSON string but got `%s`", jsonObj.get("fileName").toString()));
       }
       if ((jsonObj.get("pdfBase64") != null && !jsonObj.get("pdfBase64").isJsonNull()) && !jsonObj.get("pdfBase64").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `pdfBase64` to be a primitive type in the JSON string but got `%s`", jsonObj.get("pdfBase64").toString()));

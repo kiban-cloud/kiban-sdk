@@ -35,11 +35,13 @@ namespace Kiban.Workfloo.Model
         /// Initializes a new instance of the <see cref="ControllerWorkflooModelPdf" /> class.
         /// </summary>
         /// <param name="errorMessage">errorMessage</param>
+        /// <param name="fileName">fileName</param>
         /// <param name="pdfBase64">pdfBase64</param>
         [JsonConstructor]
-        public ControllerWorkflooModelPdf(Option<string?> errorMessage = default, Option<string?> pdfBase64 = default)
+        public ControllerWorkflooModelPdf(Option<string?> errorMessage = default, Option<string?> fileName = default, Option<string?> pdfBase64 = default)
         {
             ErrorMessageOption = errorMessage;
+            FileNameOption = fileName;
             PdfBase64Option = pdfBase64;
             OnCreated();
         }
@@ -58,6 +60,19 @@ namespace Kiban.Workfloo.Model
         /// </summary>
         [JsonPropertyName("errorMessage")]
         public string? ErrorMessage { get { return this.ErrorMessageOption.Value; } set { this.ErrorMessageOption = new(value); } }
+
+        /// <summary>
+        /// Used to track the state of FileName
+        /// </summary>
+        [JsonIgnore]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<string?> FileNameOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets FileName
+        /// </summary>
+        [JsonPropertyName("fileName")]
+        public string? FileName { get { return this.FileNameOption.Value; } set { this.FileNameOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of PdfBase64
@@ -81,6 +96,7 @@ namespace Kiban.Workfloo.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class ControllerWorkflooModelPdf {\n");
             sb.Append("  ErrorMessage: ").Append(ErrorMessage).Append("\n");
+            sb.Append("  FileName: ").Append(FileName).Append("\n");
             sb.Append("  PdfBase64: ").Append(PdfBase64).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -130,6 +146,7 @@ namespace Kiban.Workfloo.Model
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
             Option<string?> errorMessage = default;
+            Option<string?> fileName = default;
             Option<string?> pdfBase64 = default;
 
             while (utf8JsonReader.Read())
@@ -150,6 +167,9 @@ namespace Kiban.Workfloo.Model
                         case "errorMessage":
                             errorMessage = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
+                        case "fileName":
+                            fileName = new Option<string?>(utf8JsonReader.GetString()!);
+                            break;
                         case "pdfBase64":
                             pdfBase64 = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
@@ -162,10 +182,13 @@ namespace Kiban.Workfloo.Model
             if (errorMessage.IsSet && errorMessage.Value == null)
                 throw new ArgumentNullException(nameof(errorMessage), "Property is not nullable for class ControllerWorkflooModelPdf.");
 
+            if (fileName.IsSet && fileName.Value == null)
+                throw new ArgumentNullException(nameof(fileName), "Property is not nullable for class ControllerWorkflooModelPdf.");
+
             if (pdfBase64.IsSet && pdfBase64.Value == null)
                 throw new ArgumentNullException(nameof(pdfBase64), "Property is not nullable for class ControllerWorkflooModelPdf.");
 
-            return new ControllerWorkflooModelPdf(errorMessage, pdfBase64);
+            return new ControllerWorkflooModelPdf(errorMessage, fileName, pdfBase64);
         }
 
         /// <summary>
@@ -195,11 +218,17 @@ namespace Kiban.Workfloo.Model
             if (controllerWorkflooModelPdf.ErrorMessageOption.IsSet && controllerWorkflooModelPdf.ErrorMessage == null)
                 throw new ArgumentNullException(nameof(controllerWorkflooModelPdf.ErrorMessage), "Property is required for class ControllerWorkflooModelPdf.");
 
+            if (controllerWorkflooModelPdf.FileNameOption.IsSet && controllerWorkflooModelPdf.FileName == null)
+                throw new ArgumentNullException(nameof(controllerWorkflooModelPdf.FileName), "Property is required for class ControllerWorkflooModelPdf.");
+
             if (controllerWorkflooModelPdf.PdfBase64Option.IsSet && controllerWorkflooModelPdf.PdfBase64 == null)
                 throw new ArgumentNullException(nameof(controllerWorkflooModelPdf.PdfBase64), "Property is required for class ControllerWorkflooModelPdf.");
 
             if (controllerWorkflooModelPdf.ErrorMessageOption.IsSet)
                 writer.WriteString("errorMessage", controllerWorkflooModelPdf.ErrorMessage);
+
+            if (controllerWorkflooModelPdf.FileNameOption.IsSet)
+                writer.WriteString("fileName", controllerWorkflooModelPdf.FileName);
 
             if (controllerWorkflooModelPdf.PdfBase64Option.IsSet)
                 writer.WriteString("pdfBase64", controllerWorkflooModelPdf.PdfBase64);

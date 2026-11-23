@@ -5,6 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **ErrorMessage** | Pointer to **string** |  | [optional] 
+**FileName** | Pointer to **string** |  | [optional] 
 **PdfBase64** | Pointer to **string** |  | [optional] 
 
 ## Methods
@@ -50,6 +51,31 @@ SetErrorMessage sets ErrorMessage field to given value.
 `func (o *ControllerWorkflooModelPdf) HasErrorMessage() bool`
 
 HasErrorMessage returns a boolean if a field has been set.
+
+### GetFileName
+
+`func (o *ControllerWorkflooModelPdf) GetFileName() string`
+
+GetFileName returns the FileName field if non-nil, zero value otherwise.
+
+### GetFileNameOk
+
+`func (o *ControllerWorkflooModelPdf) GetFileNameOk() (*string, bool)`
+
+GetFileNameOk returns a tuple with the FileName field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetFileName
+
+`func (o *ControllerWorkflooModelPdf) SetFileName(v string)`
+
+SetFileName sets FileName field to given value.
+
+### HasFileName
+
+`func (o *ControllerWorkflooModelPdf) HasFileName() bool`
+
+HasFileName returns a boolean if a field has been set.
 
 ### GetPdfBase64
 

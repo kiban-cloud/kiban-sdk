@@ -323,6 +323,7 @@ export interface ControllerWorkflooModelOtpValidateRequest {
 }
 export interface ControllerWorkflooModelPdf {
     'errorMessage'?: string;
+    'fileName'?: string;
     'pdfBase64'?: string;
 }
 export interface ControllerWorkflooModelRejectedField {

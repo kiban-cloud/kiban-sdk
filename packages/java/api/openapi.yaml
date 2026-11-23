@@ -2750,6 +2750,7 @@ components:
         name: name
         pdf:
           errorMessage: errorMessage
+          fileName: fileName
           pdfBase64: pdfBase64
         request: ""
         response: ""
@@ -2852,9 +2853,12 @@ components:
     controller_workfloo_model.Pdf:
       example:
         errorMessage: errorMessage
+        fileName: fileName
         pdfBase64: pdfBase64
       properties:
         errorMessage:
+          type: string
+        fileName:
           type: string
         pdfBase64:
           type: string
@@ -3492,6 +3496,7 @@ components:
           name: name
           pdf:
             errorMessage: errorMessage
+            fileName: fileName
             pdfBase64: pdfBase64
           request: ""
           response: ""
@@ -3607,6 +3612,7 @@ components:
           name: name
           pdf:
             errorMessage: errorMessage
+            fileName: fileName
             pdfBase64: pdfBase64
           request: ""
           response: ""
@@ -4266,6 +4272,7 @@ components:
           name: name
           pdf:
             errorMessage: errorMessage
+            fileName: fileName
             pdfBase64: pdfBase64
           request: ""
           response: ""
@@ -4381,6 +4388,7 @@ components:
           name: name
           pdf:
             errorMessage: errorMessage
+            fileName: fileName
             pdfBase64: pdfBase64
           request: ""
           response: ""

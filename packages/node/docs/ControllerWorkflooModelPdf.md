@@ -6,6 +6,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **errorMessage** | **string** |  | [optional] [default to undefined]
+**fileName** | **string** |  | [optional] [default to undefined]
 **pdfBase64** | **string** |  | [optional] [default to undefined]
 
 ## Example
@@ -15,6 +16,7 @@ import { ControllerWorkflooModelPdf } from '@kiban/workfloo';
 
 const instance: ControllerWorkflooModelPdf = {
     errorMessage,
+    fileName,
     pdfBase64,
 };
 ```

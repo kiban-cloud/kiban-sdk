@@ -21,6 +21,7 @@ var _ MappedNullable = &ControllerWorkflooModelPdf{}
 // ControllerWorkflooModelPdf struct for ControllerWorkflooModelPdf
 type ControllerWorkflooModelPdf struct {
 	ErrorMessage *string `json:"errorMessage,omitempty"`
+	FileName *string `json:"fileName,omitempty"`
 	PdfBase64 *string `json:"pdfBase64,omitempty"`
 }
 
@@ -73,6 +74,38 @@ func (o *ControllerWorkflooModelPdf) SetErrorMessage(v string) {
 	o.ErrorMessage = &v
 }
 
+// GetFileName returns the FileName field value if set, zero value otherwise.
+func (o *ControllerWorkflooModelPdf) GetFileName() string {
+	if o == nil || IsNil(o.FileName) {
+		var ret string
+		return ret
+	}
+	return *o.FileName
+}
+
+// GetFileNameOk returns a tuple with the FileName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ControllerWorkflooModelPdf) GetFileNameOk() (*string, bool) {
+	if o == nil || IsNil(o.FileName) {
+		return nil, false
+	}
+	return o.FileName, true
+}
+
+// HasFileName returns a boolean if a field has been set.
+func (o *ControllerWorkflooModelPdf) HasFileName() bool {
+	if o != nil && !IsNil(o.FileName) {
+		return true
+	}
+
+	return false
+}
+
+// SetFileName gets a reference to the given string and assigns it to the FileName field.
+func (o *ControllerWorkflooModelPdf) SetFileName(v string) {
+	o.FileName = &v
+}
+
 // GetPdfBase64 returns the PdfBase64 field value if set, zero value otherwise.
 func (o *ControllerWorkflooModelPdf) GetPdfBase64() string {
 	if o == nil || IsNil(o.PdfBase64) {
@@ -117,6 +150,9 @@ func (o ControllerWorkflooModelPdf) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !IsNil(o.ErrorMessage) {
 		toSerialize["errorMessage"] = o.ErrorMessage
+	}
+	if !IsNil(o.FileName) {
+		toSerialize["fileName"] = o.FileName
 	}
 	if !IsNil(o.PdfBase64) {
 		toSerialize["pdfBase64"] = o.PdfBase64
