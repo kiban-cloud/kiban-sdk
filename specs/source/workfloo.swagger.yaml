@@ -609,6 +609,8 @@ definitions:
     properties:
       errorMessage:
         type: string
+      fileName:
+        type: string
       pdfBase64:
         type: string
     type: object
