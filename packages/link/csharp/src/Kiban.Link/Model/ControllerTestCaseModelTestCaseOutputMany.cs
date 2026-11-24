@@ -35,21 +35,27 @@ namespace Kiban.Link.Model
         /// Initializes a new instance of the <see cref="ControllerTestCaseModelTestCaseOutputMany" /> class.
         /// </summary>
         /// <param name="createdAt">createdAt</param>
+        /// <param name="default">Default marca el caso que sandbox responde cuando no se indica testCaseId.</param>
+        /// <param name="httpCode">HttpCode es el código HTTP con el que sandbox responde este caso (200: la consulta sale bien).</param>
         /// <param name="id">id</param>
         /// <param name="modifiedAt">modifiedAt</param>
         /// <param name="name">name</param>
         /// <param name="origin">origin</param>
         /// <param name="service">service</param>
+        /// <param name="status">Status es el status de la respuesta de sandbox con este caso; vacío equivale a SUCCESS.</param>
         /// <param name="subService">subService</param>
         [JsonConstructor]
-        public ControllerTestCaseModelTestCaseOutputMany(Option<string?> createdAt = default, Option<string?> id = default, Option<string?> modifiedAt = default, Option<string?> name = default, Option<string?> origin = default, Option<string?> service = default, Option<string?> subService = default)
+        public ControllerTestCaseModelTestCaseOutputMany(Option<string?> createdAt = default, Option<bool?> @default = default, Option<int?> httpCode = default, Option<string?> id = default, Option<string?> modifiedAt = default, Option<string?> name = default, Option<string?> origin = default, Option<string?> service = default, Option<string?> status = default, Option<string?> subService = default)
         {
             CreatedAtOption = createdAt;
+            DefaultOption = @default;
+            HttpCodeOption = httpCode;
             IdOption = id;
             ModifiedAtOption = modifiedAt;
             NameOption = name;
             OriginOption = origin;
             ServiceOption = service;
+            StatusOption = status;
             SubServiceOption = subService;
             OnCreated();
         }
@@ -68,6 +74,34 @@ namespace Kiban.Link.Model
         /// </summary>
         [JsonPropertyName("createdAt")]
         public string? CreatedAt { get { return this.CreatedAtOption.Value; } set { this.CreatedAtOption = new(value); } }
+
+        /// <summary>
+        /// Used to track the state of Default
+        /// </summary>
+        [JsonIgnore]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<bool?> DefaultOption { get; private set; }
+
+        /// <summary>
+        /// Default marca el caso que sandbox responde cuando no se indica testCaseId.
+        /// </summary>
+        /// <value>Default marca el caso que sandbox responde cuando no se indica testCaseId.</value>
+        [JsonPropertyName("default")]
+        public bool? Default { get { return this.DefaultOption.Value; } set { this.DefaultOption = new(value); } }
+
+        /// <summary>
+        /// Used to track the state of HttpCode
+        /// </summary>
+        [JsonIgnore]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<int?> HttpCodeOption { get; private set; }
+
+        /// <summary>
+        /// HttpCode es el código HTTP con el que sandbox responde este caso (200: la consulta sale bien).
+        /// </summary>
+        /// <value>HttpCode es el código HTTP con el que sandbox responde este caso (200: la consulta sale bien).</value>
+        [JsonPropertyName("httpCode")]
+        public int? HttpCode { get { return this.HttpCodeOption.Value; } set { this.HttpCodeOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Id
@@ -135,6 +169,20 @@ namespace Kiban.Link.Model
         public string? Service { get { return this.ServiceOption.Value; } set { this.ServiceOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of Status
+        /// </summary>
+        [JsonIgnore]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<string?> StatusOption { get; private set; }
+
+        /// <summary>
+        /// Status es el status de la respuesta de sandbox con este caso; vacío equivale a SUCCESS.
+        /// </summary>
+        /// <value>Status es el status de la respuesta de sandbox con este caso; vacío equivale a SUCCESS.</value>
+        [JsonPropertyName("status")]
+        public string? Status { get { return this.StatusOption.Value; } set { this.StatusOption = new(value); } }
+
+        /// <summary>
         /// Used to track the state of SubService
         /// </summary>
         [JsonIgnore]
@@ -156,11 +204,14 @@ namespace Kiban.Link.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class ControllerTestCaseModelTestCaseOutputMany {\n");
             sb.Append("  CreatedAt: ").Append(CreatedAt).Append("\n");
+            sb.Append("  Default: ").Append(Default).Append("\n");
+            sb.Append("  HttpCode: ").Append(HttpCode).Append("\n");
             sb.Append("  Id: ").Append(Id).Append("\n");
             sb.Append("  ModifiedAt: ").Append(ModifiedAt).Append("\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
             sb.Append("  Origin: ").Append(Origin).Append("\n");
             sb.Append("  Service: ").Append(Service).Append("\n");
+            sb.Append("  Status: ").Append(Status).Append("\n");
             sb.Append("  SubService: ").Append(SubService).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -210,11 +261,14 @@ namespace Kiban.Link.Model
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
             Option<string?> createdAt = default;
+            Option<bool?> varDefault = default;
+            Option<int?> httpCode = default;
             Option<string?> id = default;
             Option<string?> modifiedAt = default;
             Option<string?> name = default;
             Option<string?> origin = default;
             Option<string?> service = default;
+            Option<string?> status = default;
             Option<string?> subService = default;
 
             while (utf8JsonReader.Read())
@@ -235,6 +289,12 @@ namespace Kiban.Link.Model
                         case "createdAt":
                             createdAt = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
+                        case "default":
+                            varDefault = new Option<bool?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (bool?)null : utf8JsonReader.GetBoolean());
+                            break;
+                        case "httpCode":
+                            httpCode = new Option<int?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (int?)null : utf8JsonReader.GetInt32());
+                            break;
                         case "id":
                             id = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
@@ -250,6 +310,9 @@ namespace Kiban.Link.Model
                         case "service":
                             service = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
+                        case "status":
+                            status = new Option<string?>(utf8JsonReader.GetString()!);
+                            break;
                         case "subService":
                             subService = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
@@ -261,6 +324,12 @@ namespace Kiban.Link.Model
 
             if (createdAt.IsSet && createdAt.Value == null)
                 throw new ArgumentNullException(nameof(createdAt), "Property is not nullable for class ControllerTestCaseModelTestCaseOutputMany.");
+
+            if (varDefault.IsSet && varDefault.Value == null)
+                throw new ArgumentNullException(nameof(varDefault), "Property is not nullable for class ControllerTestCaseModelTestCaseOutputMany.");
+
+            if (httpCode.IsSet && httpCode.Value == null)
+                throw new ArgumentNullException(nameof(httpCode), "Property is not nullable for class ControllerTestCaseModelTestCaseOutputMany.");
 
             if (id.IsSet && id.Value == null)
                 throw new ArgumentNullException(nameof(id), "Property is not nullable for class ControllerTestCaseModelTestCaseOutputMany.");
@@ -277,10 +346,13 @@ namespace Kiban.Link.Model
             if (service.IsSet && service.Value == null)
                 throw new ArgumentNullException(nameof(service), "Property is not nullable for class ControllerTestCaseModelTestCaseOutputMany.");
 
+            if (status.IsSet && status.Value == null)
+                throw new ArgumentNullException(nameof(status), "Property is not nullable for class ControllerTestCaseModelTestCaseOutputMany.");
+
             if (subService.IsSet && subService.Value == null)
                 throw new ArgumentNullException(nameof(subService), "Property is not nullable for class ControllerTestCaseModelTestCaseOutputMany.");
 
-            return new ControllerTestCaseModelTestCaseOutputMany(createdAt, id, modifiedAt, name, origin, service, subService);
+            return new ControllerTestCaseModelTestCaseOutputMany(createdAt, varDefault, httpCode, id, modifiedAt, name, origin, service, status, subService);
         }
 
         /// <summary>
@@ -325,11 +397,20 @@ namespace Kiban.Link.Model
             if (controllerTestCaseModelTestCaseOutputMany.ServiceOption.IsSet && controllerTestCaseModelTestCaseOutputMany.Service == null)
                 throw new ArgumentNullException(nameof(controllerTestCaseModelTestCaseOutputMany.Service), "Property is required for class ControllerTestCaseModelTestCaseOutputMany.");
 
+            if (controllerTestCaseModelTestCaseOutputMany.StatusOption.IsSet && controllerTestCaseModelTestCaseOutputMany.Status == null)
+                throw new ArgumentNullException(nameof(controllerTestCaseModelTestCaseOutputMany.Status), "Property is required for class ControllerTestCaseModelTestCaseOutputMany.");
+
             if (controllerTestCaseModelTestCaseOutputMany.SubServiceOption.IsSet && controllerTestCaseModelTestCaseOutputMany.SubService == null)
                 throw new ArgumentNullException(nameof(controllerTestCaseModelTestCaseOutputMany.SubService), "Property is required for class ControllerTestCaseModelTestCaseOutputMany.");
 
             if (controllerTestCaseModelTestCaseOutputMany.CreatedAtOption.IsSet)
                 writer.WriteString("createdAt", controllerTestCaseModelTestCaseOutputMany.CreatedAt);
+
+            if (controllerTestCaseModelTestCaseOutputMany.DefaultOption.IsSet)
+                writer.WriteBoolean("default", controllerTestCaseModelTestCaseOutputMany.DefaultOption.Value!.Value);
+
+            if (controllerTestCaseModelTestCaseOutputMany.HttpCodeOption.IsSet)
+                writer.WriteNumber("httpCode", controllerTestCaseModelTestCaseOutputMany.HttpCodeOption.Value!.Value);
 
             if (controllerTestCaseModelTestCaseOutputMany.IdOption.IsSet)
                 writer.WriteString("id", controllerTestCaseModelTestCaseOutputMany.Id);
@@ -345,6 +426,9 @@ namespace Kiban.Link.Model
 
             if (controllerTestCaseModelTestCaseOutputMany.ServiceOption.IsSet)
                 writer.WriteString("service", controllerTestCaseModelTestCaseOutputMany.Service);
+
+            if (controllerTestCaseModelTestCaseOutputMany.StatusOption.IsSet)
+                writer.WriteString("status", controllerTestCaseModelTestCaseOutputMany.Status);
 
             if (controllerTestCaseModelTestCaseOutputMany.SubServiceOption.IsSet)
                 writer.WriteString("subService", controllerTestCaseModelTestCaseOutputMany.SubService);

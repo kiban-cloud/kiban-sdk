@@ -55,6 +55,16 @@ public class ControllerTestCaseModelTestCaseOutputMany {
   @javax.annotation.Nullable
   private String createdAt;
 
+  public static final String SERIALIZED_NAME_DEFAULT = "default";
+  @SerializedName(SERIALIZED_NAME_DEFAULT)
+  @javax.annotation.Nullable
+  private Boolean _default;
+
+  public static final String SERIALIZED_NAME_HTTP_CODE = "httpCode";
+  @SerializedName(SERIALIZED_NAME_HTTP_CODE)
+  @javax.annotation.Nullable
+  private Integer httpCode;
+
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
   @javax.annotation.Nullable
@@ -80,6 +90,11 @@ public class ControllerTestCaseModelTestCaseOutputMany {
   @javax.annotation.Nullable
   private String service;
 
+  public static final String SERIALIZED_NAME_STATUS = "status";
+  @SerializedName(SERIALIZED_NAME_STATUS)
+  @javax.annotation.Nullable
+  private String status;
+
   public static final String SERIALIZED_NAME_SUB_SERVICE = "subService";
   @SerializedName(SERIALIZED_NAME_SUB_SERVICE)
   @javax.annotation.Nullable
@@ -104,6 +119,44 @@ public class ControllerTestCaseModelTestCaseOutputMany {
 
   public void setCreatedAt(@javax.annotation.Nullable String createdAt) {
     this.createdAt = createdAt;
+  }
+
+
+  public ControllerTestCaseModelTestCaseOutputMany _default(@javax.annotation.Nullable Boolean _default) {
+    this._default = _default;
+    return this;
+  }
+
+  /**
+   * Default marca el caso que sandbox responde cuando no se indica testCaseId.
+   * @return _default
+   */
+  @javax.annotation.Nullable
+  public Boolean getDefault() {
+    return _default;
+  }
+
+  public void setDefault(@javax.annotation.Nullable Boolean _default) {
+    this._default = _default;
+  }
+
+
+  public ControllerTestCaseModelTestCaseOutputMany httpCode(@javax.annotation.Nullable Integer httpCode) {
+    this.httpCode = httpCode;
+    return this;
+  }
+
+  /**
+   * HttpCode es el código HTTP con el que sandbox responde este caso (200: la consulta sale bien).
+   * @return httpCode
+   */
+  @javax.annotation.Nullable
+  public Integer getHttpCode() {
+    return httpCode;
+  }
+
+  public void setHttpCode(@javax.annotation.Nullable Integer httpCode) {
+    this.httpCode = httpCode;
   }
 
 
@@ -202,6 +255,25 @@ public class ControllerTestCaseModelTestCaseOutputMany {
   }
 
 
+  public ControllerTestCaseModelTestCaseOutputMany status(@javax.annotation.Nullable String status) {
+    this.status = status;
+    return this;
+  }
+
+  /**
+   * Status es el status de la respuesta de sandbox con este caso; vacío equivale a SUCCESS.
+   * @return status
+   */
+  @javax.annotation.Nullable
+  public String getStatus() {
+    return status;
+  }
+
+  public void setStatus(@javax.annotation.Nullable String status) {
+    this.status = status;
+  }
+
+
   public ControllerTestCaseModelTestCaseOutputMany subService(@javax.annotation.Nullable String subService) {
     this.subService = subService;
     return this;
@@ -232,17 +304,20 @@ public class ControllerTestCaseModelTestCaseOutputMany {
     }
     ControllerTestCaseModelTestCaseOutputMany controllerTestCaseModelTestCaseOutputMany = (ControllerTestCaseModelTestCaseOutputMany) o;
     return Objects.equals(this.createdAt, controllerTestCaseModelTestCaseOutputMany.createdAt) &&
+        Objects.equals(this._default, controllerTestCaseModelTestCaseOutputMany._default) &&
+        Objects.equals(this.httpCode, controllerTestCaseModelTestCaseOutputMany.httpCode) &&
         Objects.equals(this.id, controllerTestCaseModelTestCaseOutputMany.id) &&
         Objects.equals(this.modifiedAt, controllerTestCaseModelTestCaseOutputMany.modifiedAt) &&
         Objects.equals(this.name, controllerTestCaseModelTestCaseOutputMany.name) &&
         Objects.equals(this.origin, controllerTestCaseModelTestCaseOutputMany.origin) &&
         Objects.equals(this.service, controllerTestCaseModelTestCaseOutputMany.service) &&
+        Objects.equals(this.status, controllerTestCaseModelTestCaseOutputMany.status) &&
         Objects.equals(this.subService, controllerTestCaseModelTestCaseOutputMany.subService);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(createdAt, id, modifiedAt, name, origin, service, subService);
+    return Objects.hash(createdAt, _default, httpCode, id, modifiedAt, name, origin, service, status, subService);
   }
 
   @Override
@@ -250,11 +325,14 @@ public class ControllerTestCaseModelTestCaseOutputMany {
     StringBuilder sb = new StringBuilder();
     sb.append("class ControllerTestCaseModelTestCaseOutputMany {\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
+    sb.append("    _default: ").append(toIndentedString(_default)).append("\n");
+    sb.append("    httpCode: ").append(toIndentedString(httpCode)).append("\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    modifiedAt: ").append(toIndentedString(modifiedAt)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    origin: ").append(toIndentedString(origin)).append("\n");
     sb.append("    service: ").append(toIndentedString(service)).append("\n");
+    sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("    subService: ").append(toIndentedString(subService)).append("\n");
     sb.append("}");
     return sb.toString();
@@ -274,7 +352,7 @@ public class ControllerTestCaseModelTestCaseOutputMany {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("createdAt", "id", "modifiedAt", "name", "origin", "service", "subService"));
+    openapiFields = new HashSet<String>(Arrays.asList("createdAt", "default", "httpCode", "id", "modifiedAt", "name", "origin", "service", "status", "subService"));
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>(0);
@@ -318,6 +396,9 @@ public class ControllerTestCaseModelTestCaseOutputMany {
       }
       if ((jsonObj.get("service") != null && !jsonObj.get("service").isJsonNull()) && !jsonObj.get("service").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `service` to be a primitive type in the JSON string but got `%s`", jsonObj.get("service").toString()));
+      }
+      if ((jsonObj.get("status") != null && !jsonObj.get("status").isJsonNull()) && !jsonObj.get("status").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `status` to be a primitive type in the JSON string but got `%s`", jsonObj.get("status").toString()));
       }
       if ((jsonObj.get("subService") != null && !jsonObj.get("subService").isJsonNull()) && !jsonObj.get("subService").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `subService` to be a primitive type in the JSON string but got `%s`", jsonObj.get("subService").toString()));

@@ -18,7 +18,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -29,13 +29,16 @@ class ControllerTestCaseModelTestCaseOutputMany(BaseModel):
     ControllerTestCaseModelTestCaseOutputMany
     """ # noqa: E501
     created_at: Optional[StrictStr] = Field(default=None, alias="createdAt")
+    default: Optional[StrictBool] = Field(default=None, description="Default marca el caso que sandbox responde cuando no se indica testCaseId.")
+    http_code: Optional[StrictInt] = Field(default=None, description="HttpCode es el código HTTP con el que sandbox responde este caso (200: la consulta sale bien).", alias="httpCode")
     id: Optional[StrictStr] = None
     modified_at: Optional[StrictStr] = Field(default=None, alias="modifiedAt")
     name: Optional[StrictStr] = None
     origin: Optional[StrictStr] = None
     service: Optional[StrictStr] = None
+    status: Optional[StrictStr] = Field(default=None, description="Status es el status de la respuesta de sandbox con este caso; vacío equivale a SUCCESS.")
     sub_service: Optional[StrictStr] = Field(default=None, alias="subService")
-    __properties: ClassVar[List[str]] = ["createdAt", "id", "modifiedAt", "name", "origin", "service", "subService"]
+    __properties: ClassVar[List[str]] = ["createdAt", "default", "httpCode", "id", "modifiedAt", "name", "origin", "service", "status", "subService"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -89,11 +92,14 @@ class ControllerTestCaseModelTestCaseOutputMany(BaseModel):
 
         _obj = cls.model_validate({
             "createdAt": obj.get("createdAt"),
+            "default": obj.get("default"),
+            "httpCode": obj.get("httpCode"),
             "id": obj.get("id"),
             "modifiedAt": obj.get("modifiedAt"),
             "name": obj.get("name"),
             "origin": obj.get("origin"),
             "service": obj.get("service"),
+            "status": obj.get("status"),
             "subService": obj.get("subService")
         })
         return _obj

@@ -21,11 +21,17 @@ var _ MappedNullable = &ControllerTestCaseModelTestCaseOutputMany{}
 // ControllerTestCaseModelTestCaseOutputMany struct for ControllerTestCaseModelTestCaseOutputMany
 type ControllerTestCaseModelTestCaseOutputMany struct {
 	CreatedAt *string `json:"createdAt,omitempty"`
+	// Default marca el caso que sandbox responde cuando no se indica testCaseId.
+	Default *bool `json:"default,omitempty"`
+	// HttpCode es el código HTTP con el que sandbox responde este caso (200: la consulta sale bien).
+	HttpCode *int32 `json:"httpCode,omitempty"`
 	Id *string `json:"id,omitempty"`
 	ModifiedAt *string `json:"modifiedAt,omitempty"`
 	Name *string `json:"name,omitempty"`
 	Origin *string `json:"origin,omitempty"`
 	Service *string `json:"service,omitempty"`
+	// Status es el status de la respuesta de sandbox con este caso; vacío equivale a SUCCESS.
+	Status *string `json:"status,omitempty"`
 	SubService *string `json:"subService,omitempty"`
 }
 
@@ -76,6 +82,70 @@ func (o *ControllerTestCaseModelTestCaseOutputMany) HasCreatedAt() bool {
 // SetCreatedAt gets a reference to the given string and assigns it to the CreatedAt field.
 func (o *ControllerTestCaseModelTestCaseOutputMany) SetCreatedAt(v string) {
 	o.CreatedAt = &v
+}
+
+// GetDefault returns the Default field value if set, zero value otherwise.
+func (o *ControllerTestCaseModelTestCaseOutputMany) GetDefault() bool {
+	if o == nil || IsNil(o.Default) {
+		var ret bool
+		return ret
+	}
+	return *o.Default
+}
+
+// GetDefaultOk returns a tuple with the Default field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ControllerTestCaseModelTestCaseOutputMany) GetDefaultOk() (*bool, bool) {
+	if o == nil || IsNil(o.Default) {
+		return nil, false
+	}
+	return o.Default, true
+}
+
+// HasDefault returns a boolean if a field has been set.
+func (o *ControllerTestCaseModelTestCaseOutputMany) HasDefault() bool {
+	if o != nil && !IsNil(o.Default) {
+		return true
+	}
+
+	return false
+}
+
+// SetDefault gets a reference to the given bool and assigns it to the Default field.
+func (o *ControllerTestCaseModelTestCaseOutputMany) SetDefault(v bool) {
+	o.Default = &v
+}
+
+// GetHttpCode returns the HttpCode field value if set, zero value otherwise.
+func (o *ControllerTestCaseModelTestCaseOutputMany) GetHttpCode() int32 {
+	if o == nil || IsNil(o.HttpCode) {
+		var ret int32
+		return ret
+	}
+	return *o.HttpCode
+}
+
+// GetHttpCodeOk returns a tuple with the HttpCode field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ControllerTestCaseModelTestCaseOutputMany) GetHttpCodeOk() (*int32, bool) {
+	if o == nil || IsNil(o.HttpCode) {
+		return nil, false
+	}
+	return o.HttpCode, true
+}
+
+// HasHttpCode returns a boolean if a field has been set.
+func (o *ControllerTestCaseModelTestCaseOutputMany) HasHttpCode() bool {
+	if o != nil && !IsNil(o.HttpCode) {
+		return true
+	}
+
+	return false
+}
+
+// SetHttpCode gets a reference to the given int32 and assigns it to the HttpCode field.
+func (o *ControllerTestCaseModelTestCaseOutputMany) SetHttpCode(v int32) {
+	o.HttpCode = &v
 }
 
 // GetId returns the Id field value if set, zero value otherwise.
@@ -238,6 +308,38 @@ func (o *ControllerTestCaseModelTestCaseOutputMany) SetService(v string) {
 	o.Service = &v
 }
 
+// GetStatus returns the Status field value if set, zero value otherwise.
+func (o *ControllerTestCaseModelTestCaseOutputMany) GetStatus() string {
+	if o == nil || IsNil(o.Status) {
+		var ret string
+		return ret
+	}
+	return *o.Status
+}
+
+// GetStatusOk returns a tuple with the Status field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ControllerTestCaseModelTestCaseOutputMany) GetStatusOk() (*string, bool) {
+	if o == nil || IsNil(o.Status) {
+		return nil, false
+	}
+	return o.Status, true
+}
+
+// HasStatus returns a boolean if a field has been set.
+func (o *ControllerTestCaseModelTestCaseOutputMany) HasStatus() bool {
+	if o != nil && !IsNil(o.Status) {
+		return true
+	}
+
+	return false
+}
+
+// SetStatus gets a reference to the given string and assigns it to the Status field.
+func (o *ControllerTestCaseModelTestCaseOutputMany) SetStatus(v string) {
+	o.Status = &v
+}
+
 // GetSubService returns the SubService field value if set, zero value otherwise.
 func (o *ControllerTestCaseModelTestCaseOutputMany) GetSubService() string {
 	if o == nil || IsNil(o.SubService) {
@@ -283,6 +385,12 @@ func (o ControllerTestCaseModelTestCaseOutputMany) ToMap() (map[string]interface
 	if !IsNil(o.CreatedAt) {
 		toSerialize["createdAt"] = o.CreatedAt
 	}
+	if !IsNil(o.Default) {
+		toSerialize["default"] = o.Default
+	}
+	if !IsNil(o.HttpCode) {
+		toSerialize["httpCode"] = o.HttpCode
+	}
 	if !IsNil(o.Id) {
 		toSerialize["id"] = o.Id
 	}
@@ -297,6 +405,9 @@ func (o ControllerTestCaseModelTestCaseOutputMany) ToMap() (map[string]interface
 	}
 	if !IsNil(o.Service) {
 		toSerialize["service"] = o.Service
+	}
+	if !IsNil(o.Status) {
+		toSerialize["status"] = o.Status
 	}
 	if !IsNil(o.SubService) {
 		toSerialize["subService"] = o.SubService
