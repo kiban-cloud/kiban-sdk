@@ -166,6 +166,10 @@ definitions:
         description: Default marca el caso que sandbox responde cuando no se indica
           testCaseId.
         type: boolean
+      httpCode:
+        description: 'HttpCode es el código HTTP con el que sandbox responde este
+          caso (200: la consulta sale bien).'
+        type: integer
       id:
         type: string
       modifiedAt:
@@ -175,6 +179,10 @@ definitions:
       origin:
         type: string
       service:
+        type: string
+      status:
+        description: Status es el status de la respuesta de sandbox con este caso;
+          vacío equivale a SUCCESS.
         type: string
       subService:
         type: string
