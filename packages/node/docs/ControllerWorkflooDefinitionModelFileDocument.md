@@ -7,6 +7,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **fileMetadata** | [**ControllerWorkflooDefinitionModelFileMetadata**](ControllerWorkflooDefinitionModelFileMetadata.md) |  | [optional] [default to undefined]
 **id** | **string** |  | [optional] [default to undefined]
+**instructions** | **string** | Instructions son las indicaciones para quien sube el archivo; sólo viene si el paso las tiene. | [optional] [default to undefined]
 **name** | **string** |  | [optional] [default to undefined]
 **predefined** | **boolean** |  | [optional] [default to undefined]
 **required** | **boolean** |  | [optional] [default to undefined]
@@ -21,6 +22,7 @@ import { ControllerWorkflooDefinitionModelFileDocument } from '@kiban/workfloo';
 const instance: ControllerWorkflooDefinitionModelFileDocument = {
     fileMetadata,
     id,
+    instructions,
     name,
     predefined,
     required,

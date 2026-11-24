@@ -22,6 +22,8 @@ var _ MappedNullable = &ControllerWorkflooDefinitionModelFileDocument{}
 type ControllerWorkflooDefinitionModelFileDocument struct {
 	FileMetadata *ControllerWorkflooDefinitionModelFileMetadata `json:"fileMetadata,omitempty"`
 	Id *string `json:"id,omitempty"`
+	// Instructions son las indicaciones para quien sube el archivo; sólo viene si el paso las tiene.
+	Instructions *string `json:"instructions,omitempty"`
 	Name *string `json:"name,omitempty"`
 	Predefined *bool `json:"predefined,omitempty"`
 	Required *bool `json:"required,omitempty"`
@@ -109,6 +111,38 @@ func (o *ControllerWorkflooDefinitionModelFileDocument) HasId() bool {
 // SetId gets a reference to the given string and assigns it to the Id field.
 func (o *ControllerWorkflooDefinitionModelFileDocument) SetId(v string) {
 	o.Id = &v
+}
+
+// GetInstructions returns the Instructions field value if set, zero value otherwise.
+func (o *ControllerWorkflooDefinitionModelFileDocument) GetInstructions() string {
+	if o == nil || IsNil(o.Instructions) {
+		var ret string
+		return ret
+	}
+	return *o.Instructions
+}
+
+// GetInstructionsOk returns a tuple with the Instructions field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ControllerWorkflooDefinitionModelFileDocument) GetInstructionsOk() (*string, bool) {
+	if o == nil || IsNil(o.Instructions) {
+		return nil, false
+	}
+	return o.Instructions, true
+}
+
+// HasInstructions returns a boolean if a field has been set.
+func (o *ControllerWorkflooDefinitionModelFileDocument) HasInstructions() bool {
+	if o != nil && !IsNil(o.Instructions) {
+		return true
+	}
+
+	return false
+}
+
+// SetInstructions gets a reference to the given string and assigns it to the Instructions field.
+func (o *ControllerWorkflooDefinitionModelFileDocument) SetInstructions(v string) {
+	o.Instructions = &v
 }
 
 // GetName returns the Name field value if set, zero value otherwise.
@@ -286,6 +320,9 @@ func (o ControllerWorkflooDefinitionModelFileDocument) ToMap() (map[string]inter
 	}
 	if !IsNil(o.Id) {
 		toSerialize["id"] = o.Id
+	}
+	if !IsNil(o.Instructions) {
+		toSerialize["instructions"] = o.Instructions
 	}
 	if !IsNil(o.Name) {
 		toSerialize["name"] = o.Name

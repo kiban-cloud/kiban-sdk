@@ -62,6 +62,11 @@ public class ControllerWorkflooDefinitionModelFileDocument {
   @javax.annotation.Nullable
   private String id;
 
+  public static final String SERIALIZED_NAME_INSTRUCTIONS = "instructions";
+  @SerializedName(SERIALIZED_NAME_INSTRUCTIONS)
+  @javax.annotation.Nullable
+  private String instructions;
+
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
   @javax.annotation.Nullable
@@ -125,6 +130,25 @@ public class ControllerWorkflooDefinitionModelFileDocument {
 
   public void setId(@javax.annotation.Nullable String id) {
     this.id = id;
+  }
+
+
+  public ControllerWorkflooDefinitionModelFileDocument instructions(@javax.annotation.Nullable String instructions) {
+    this.instructions = instructions;
+    return this;
+  }
+
+  /**
+   * Instructions son las indicaciones para quien sube el archivo; sólo viene si el paso las tiene.
+   * @return instructions
+   */
+  @javax.annotation.Nullable
+  public String getInstructions() {
+    return instructions;
+  }
+
+  public void setInstructions(@javax.annotation.Nullable String instructions) {
+    this.instructions = instructions;
   }
 
 
@@ -235,6 +259,7 @@ public class ControllerWorkflooDefinitionModelFileDocument {
     ControllerWorkflooDefinitionModelFileDocument controllerWorkflooDefinitionModelFileDocument = (ControllerWorkflooDefinitionModelFileDocument) o;
     return Objects.equals(this.fileMetadata, controllerWorkflooDefinitionModelFileDocument.fileMetadata) &&
         Objects.equals(this.id, controllerWorkflooDefinitionModelFileDocument.id) &&
+        Objects.equals(this.instructions, controllerWorkflooDefinitionModelFileDocument.instructions) &&
         Objects.equals(this.name, controllerWorkflooDefinitionModelFileDocument.name) &&
         Objects.equals(this.predefined, controllerWorkflooDefinitionModelFileDocument.predefined) &&
         Objects.equals(this.required, controllerWorkflooDefinitionModelFileDocument.required) &&
@@ -244,7 +269,7 @@ public class ControllerWorkflooDefinitionModelFileDocument {
 
   @Override
   public int hashCode() {
-    return Objects.hash(fileMetadata, id, name, predefined, required, set, sourcePdfNodeId);
+    return Objects.hash(fileMetadata, id, instructions, name, predefined, required, set, sourcePdfNodeId);
   }
 
   @Override
@@ -253,6 +278,7 @@ public class ControllerWorkflooDefinitionModelFileDocument {
     sb.append("class ControllerWorkflooDefinitionModelFileDocument {\n");
     sb.append("    fileMetadata: ").append(toIndentedString(fileMetadata)).append("\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    instructions: ").append(toIndentedString(instructions)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    predefined: ").append(toIndentedString(predefined)).append("\n");
     sb.append("    required: ").append(toIndentedString(required)).append("\n");
@@ -276,7 +302,7 @@ public class ControllerWorkflooDefinitionModelFileDocument {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("fileMetadata", "id", "name", "predefined", "required", "set", "sourcePdfNodeId"));
+    openapiFields = new HashSet<String>(Arrays.asList("fileMetadata", "id", "instructions", "name", "predefined", "required", "set", "sourcePdfNodeId"));
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>(0);
@@ -309,6 +335,9 @@ public class ControllerWorkflooDefinitionModelFileDocument {
       }
       if ((jsonObj.get("id") != null && !jsonObj.get("id").isJsonNull()) && !jsonObj.get("id").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `id` to be a primitive type in the JSON string but got `%s`", jsonObj.get("id").toString()));
+      }
+      if ((jsonObj.get("instructions") != null && !jsonObj.get("instructions").isJsonNull()) && !jsonObj.get("instructions").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `instructions` to be a primitive type in the JSON string but got `%s`", jsonObj.get("instructions").toString()));
       }
       if ((jsonObj.get("name") != null && !jsonObj.get("name").isJsonNull()) && !jsonObj.get("name").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `name` to be a primitive type in the JSON string but got `%s`", jsonObj.get("name").toString()));

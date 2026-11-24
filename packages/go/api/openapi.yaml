@@ -1236,6 +1236,7 @@ components:
             maxSize: 6
             min: 1
           id: id
+          instructions: instructions
           name: name
           predefined: true
           required: true
@@ -1278,6 +1279,7 @@ components:
             maxSize: 6
             min: 1
           id: id
+          instructions: instructions
           name: name
           predefined: true
           required: true
@@ -1485,6 +1487,7 @@ components:
           maxSize: 6
           min: 1
         id: id
+        instructions: instructions
         name: name
         predefined: true
         required: true
@@ -1523,6 +1526,11 @@ components:
         fileMetadata:
           $ref: "#/components/schemas/controller_workfloo_definition_model.FileMetadata"
         id:
+          type: string
+        instructions:
+          description: |-
+            Instructions son las indicaciones para quien sube el archivo; sólo
+            viene si el paso las tiene.
           type: string
         name:
           type: string
@@ -4442,6 +4450,7 @@ components:
               maxSize: 6
               min: 1
             id: id
+            instructions: instructions
             name: name
             predefined: true
             required: true
@@ -4484,6 +4493,7 @@ components:
               maxSize: 6
               min: 1
             id: id
+            instructions: instructions
             name: name
             predefined: true
             required: true
