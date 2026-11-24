@@ -6,11 +6,13 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **CreatedAt** | Pointer to **string** |  | [optional] 
 **Default** | Pointer to **bool** | Default marca el caso que sandbox responde cuando no se indica testCaseId. | [optional] 
+**HttpCode** | Pointer to **int32** | HttpCode es el código HTTP con el que sandbox responde este caso (200: la consulta sale bien). | [optional] 
 **Id** | Pointer to **string** |  | [optional] 
 **ModifiedAt** | Pointer to **string** |  | [optional] 
 **Name** | Pointer to **string** |  | [optional] 
 **Origin** | Pointer to **string** |  | [optional] 
 **Service** | Pointer to **string** |  | [optional] 
+**Status** | Pointer to **string** | Status es el status de la respuesta de sandbox con este caso; vacío equivale a SUCCESS. | [optional] 
 **SubService** | Pointer to **string** |  | [optional] 
 
 ## Methods
@@ -81,6 +83,31 @@ SetDefault sets Default field to given value.
 `func (o *ControllerTestCaseModelTestCaseOutputMany) HasDefault() bool`
 
 HasDefault returns a boolean if a field has been set.
+
+### GetHttpCode
+
+`func (o *ControllerTestCaseModelTestCaseOutputMany) GetHttpCode() int32`
+
+GetHttpCode returns the HttpCode field if non-nil, zero value otherwise.
+
+### GetHttpCodeOk
+
+`func (o *ControllerTestCaseModelTestCaseOutputMany) GetHttpCodeOk() (*int32, bool)`
+
+GetHttpCodeOk returns a tuple with the HttpCode field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetHttpCode
+
+`func (o *ControllerTestCaseModelTestCaseOutputMany) SetHttpCode(v int32)`
+
+SetHttpCode sets HttpCode field to given value.
+
+### HasHttpCode
+
+`func (o *ControllerTestCaseModelTestCaseOutputMany) HasHttpCode() bool`
+
+HasHttpCode returns a boolean if a field has been set.
 
 ### GetId
 
@@ -206,6 +233,31 @@ SetService sets Service field to given value.
 `func (o *ControllerTestCaseModelTestCaseOutputMany) HasService() bool`
 
 HasService returns a boolean if a field has been set.
+
+### GetStatus
+
+`func (o *ControllerTestCaseModelTestCaseOutputMany) GetStatus() string`
+
+GetStatus returns the Status field if non-nil, zero value otherwise.
+
+### GetStatusOk
+
+`func (o *ControllerTestCaseModelTestCaseOutputMany) GetStatusOk() (*string, bool)`
+
+GetStatusOk returns a tuple with the Status field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetStatus
+
+`func (o *ControllerTestCaseModelTestCaseOutputMany) SetStatus(v string)`
+
+SetStatus sets Status field to given value.
+
+### HasStatus
+
+`func (o *ControllerTestCaseModelTestCaseOutputMany) HasStatus() bool`
+
+HasStatus returns a boolean if a field has been set.
 
 ### GetSubService
 

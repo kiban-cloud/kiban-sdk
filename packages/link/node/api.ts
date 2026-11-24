@@ -117,11 +117,19 @@ export interface ControllerTestCaseModelTestCaseOutputMany {
      * Default marca el caso que sandbox responde cuando no se indica testCaseId.
      */
     'default'?: boolean;
+    /**
+     * HttpCode es el código HTTP con el que sandbox responde este caso (200: la consulta sale bien).
+     */
+    'httpCode'?: number;
     'id'?: string;
     'modifiedAt'?: string;
     'name'?: string;
     'origin'?: string;
     'service'?: string;
+    /**
+     * Status es el status de la respuesta de sandbox con este caso; vacío equivale a SUCCESS.
+     */
+    'status'?: string;
     'subService'?: string;
 }
 

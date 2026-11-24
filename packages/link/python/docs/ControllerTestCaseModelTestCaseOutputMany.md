@@ -7,11 +7,13 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **created_at** | **str** |  | [optional] 
 **default** | **bool** | Default marca el caso que sandbox responde cuando no se indica testCaseId. | [optional] 
+**http_code** | **int** | HttpCode es el código HTTP con el que sandbox responde este caso (200: la consulta sale bien). | [optional] 
 **id** | **str** |  | [optional] 
 **modified_at** | **str** |  | [optional] 
 **name** | **str** |  | [optional] 
 **origin** | **str** |  | [optional] 
 **service** | **str** |  | [optional] 
+**status** | **str** | Status es el status de la respuesta de sandbox con este caso; vacío equivale a SUCCESS. | [optional] 
 **sub_service** | **str** |  | [optional] 
 
 ## Example
