@@ -36,16 +36,18 @@ namespace Kiban.Workfloo.Model
         /// </summary>
         /// <param name="fileMetadata">fileMetadata</param>
         /// <param name="id">id</param>
+        /// <param name="instructions">Instructions son las indicaciones para quien sube el archivo; sólo viene si el paso las tiene.</param>
         /// <param name="name">name</param>
         /// <param name="predefined">predefined</param>
         /// <param name="required">required</param>
         /// <param name="set">set</param>
         /// <param name="sourcePdfNodeId">SourcePdfNodeId: id del nodo PDF que genera este archivo. Cuando viene, el motor lo toma de ahí y no lo pide en el paso.</param>
         [JsonConstructor]
-        public ControllerWorkflooDefinitionModelFileDocument(Option<ControllerWorkflooDefinitionModelFileMetadata?> fileMetadata = default, Option<string?> id = default, Option<string?> name = default, Option<bool?> predefined = default, Option<bool?> required = default, Option<ControllerWorkflooDefinitionModelSetDataDocument?> set = default, Option<string?> sourcePdfNodeId = default)
+        public ControllerWorkflooDefinitionModelFileDocument(Option<ControllerWorkflooDefinitionModelFileMetadata?> fileMetadata = default, Option<string?> id = default, Option<string?> instructions = default, Option<string?> name = default, Option<bool?> predefined = default, Option<bool?> required = default, Option<ControllerWorkflooDefinitionModelSetDataDocument?> set = default, Option<string?> sourcePdfNodeId = default)
         {
             FileMetadataOption = fileMetadata;
             IdOption = id;
+            InstructionsOption = instructions;
             NameOption = name;
             PredefinedOption = predefined;
             RequiredOption = required;
@@ -81,6 +83,20 @@ namespace Kiban.Workfloo.Model
         /// </summary>
         [JsonPropertyName("id")]
         public string? Id { get { return this.IdOption.Value; } set { this.IdOption = new(value); } }
+
+        /// <summary>
+        /// Used to track the state of Instructions
+        /// </summary>
+        [JsonIgnore]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<string?> InstructionsOption { get; private set; }
+
+        /// <summary>
+        /// Instructions son las indicaciones para quien sube el archivo; sólo viene si el paso las tiene.
+        /// </summary>
+        /// <value>Instructions son las indicaciones para quien sube el archivo; sólo viene si el paso las tiene.</value>
+        [JsonPropertyName("instructions")]
+        public string? Instructions { get { return this.InstructionsOption.Value; } set { this.InstructionsOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Name
@@ -158,6 +174,7 @@ namespace Kiban.Workfloo.Model
             sb.Append("class ControllerWorkflooDefinitionModelFileDocument {\n");
             sb.Append("  FileMetadata: ").Append(FileMetadata).Append("\n");
             sb.Append("  Id: ").Append(Id).Append("\n");
+            sb.Append("  Instructions: ").Append(Instructions).Append("\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
             sb.Append("  Predefined: ").Append(Predefined).Append("\n");
             sb.Append("  Required: ").Append(Required).Append("\n");
@@ -212,6 +229,7 @@ namespace Kiban.Workfloo.Model
 
             Option<ControllerWorkflooDefinitionModelFileMetadata?> fileMetadata = default;
             Option<string?> id = default;
+            Option<string?> instructions = default;
             Option<string?> name = default;
             Option<bool?> predefined = default;
             Option<bool?> required = default;
@@ -238,6 +256,9 @@ namespace Kiban.Workfloo.Model
                             break;
                         case "id":
                             id = new Option<string?>(utf8JsonReader.GetString()!);
+                            break;
+                        case "instructions":
+                            instructions = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "name":
                             name = new Option<string?>(utf8JsonReader.GetString()!);
@@ -266,6 +287,9 @@ namespace Kiban.Workfloo.Model
             if (id.IsSet && id.Value == null)
                 throw new ArgumentNullException(nameof(id), "Property is not nullable for class ControllerWorkflooDefinitionModelFileDocument.");
 
+            if (instructions.IsSet && instructions.Value == null)
+                throw new ArgumentNullException(nameof(instructions), "Property is not nullable for class ControllerWorkflooDefinitionModelFileDocument.");
+
             if (name.IsSet && name.Value == null)
                 throw new ArgumentNullException(nameof(name), "Property is not nullable for class ControllerWorkflooDefinitionModelFileDocument.");
 
@@ -281,7 +305,7 @@ namespace Kiban.Workfloo.Model
             if (sourcePdfNodeId.IsSet && sourcePdfNodeId.Value == null)
                 throw new ArgumentNullException(nameof(sourcePdfNodeId), "Property is not nullable for class ControllerWorkflooDefinitionModelFileDocument.");
 
-            return new ControllerWorkflooDefinitionModelFileDocument(fileMetadata, id, name, predefined, required, set, sourcePdfNodeId);
+            return new ControllerWorkflooDefinitionModelFileDocument(fileMetadata, id, instructions, name, predefined, required, set, sourcePdfNodeId);
         }
 
         /// <summary>
@@ -314,6 +338,9 @@ namespace Kiban.Workfloo.Model
             if (controllerWorkflooDefinitionModelFileDocument.IdOption.IsSet && controllerWorkflooDefinitionModelFileDocument.Id == null)
                 throw new ArgumentNullException(nameof(controllerWorkflooDefinitionModelFileDocument.Id), "Property is required for class ControllerWorkflooDefinitionModelFileDocument.");
 
+            if (controllerWorkflooDefinitionModelFileDocument.InstructionsOption.IsSet && controllerWorkflooDefinitionModelFileDocument.Instructions == null)
+                throw new ArgumentNullException(nameof(controllerWorkflooDefinitionModelFileDocument.Instructions), "Property is required for class ControllerWorkflooDefinitionModelFileDocument.");
+
             if (controllerWorkflooDefinitionModelFileDocument.NameOption.IsSet && controllerWorkflooDefinitionModelFileDocument.Name == null)
                 throw new ArgumentNullException(nameof(controllerWorkflooDefinitionModelFileDocument.Name), "Property is required for class ControllerWorkflooDefinitionModelFileDocument.");
 
@@ -330,6 +357,9 @@ namespace Kiban.Workfloo.Model
             }
             if (controllerWorkflooDefinitionModelFileDocument.IdOption.IsSet)
                 writer.WriteString("id", controllerWorkflooDefinitionModelFileDocument.Id);
+
+            if (controllerWorkflooDefinitionModelFileDocument.InstructionsOption.IsSet)
+                writer.WriteString("instructions", controllerWorkflooDefinitionModelFileDocument.Instructions);
 
             if (controllerWorkflooDefinitionModelFileDocument.NameOption.IsSet)
                 writer.WriteString("name", controllerWorkflooDefinitionModelFileDocument.Name);

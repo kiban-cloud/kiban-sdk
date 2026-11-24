@@ -1284,6 +1284,7 @@ components:
             maxSize: 6
             min: 1
           id: id
+          instructions: instructions
           name: name
           predefined: true
           required: true
@@ -1326,6 +1327,7 @@ components:
             maxSize: 6
             min: 1
           id: id
+          instructions: instructions
           name: name
           predefined: true
           required: true
@@ -1533,6 +1535,7 @@ components:
           maxSize: 6
           min: 1
         id: id
+        instructions: instructions
         name: name
         predefined: true
         required: true
@@ -1571,6 +1574,11 @@ components:
         fileMetadata:
           $ref: "#/components/schemas/controller_workfloo_definition_model.FileMetadata"
         id:
+          type: string
+        instructions:
+          description: |-
+            Instructions son las indicaciones para quien sube el archivo; sólo
+            viene si el paso las tiene.
           type: string
         name:
           type: string
@@ -2750,6 +2758,7 @@ components:
         name: name
         pdf:
           errorMessage: errorMessage
+          fileName: fileName
           pdfBase64: pdfBase64
         request: ""
         response: ""
@@ -2852,9 +2861,12 @@ components:
     controller_workfloo_model.Pdf:
       example:
         errorMessage: errorMessage
+        fileName: fileName
         pdfBase64: pdfBase64
       properties:
         errorMessage:
+          type: string
+        fileName:
           type: string
         pdfBase64:
           type: string
@@ -3492,6 +3504,7 @@ components:
           name: name
           pdf:
             errorMessage: errorMessage
+            fileName: fileName
             pdfBase64: pdfBase64
           request: ""
           response: ""
@@ -3607,6 +3620,7 @@ components:
           name: name
           pdf:
             errorMessage: errorMessage
+            fileName: fileName
             pdfBase64: pdfBase64
           request: ""
           response: ""
@@ -4266,6 +4280,7 @@ components:
           name: name
           pdf:
             errorMessage: errorMessage
+            fileName: fileName
             pdfBase64: pdfBase64
           request: ""
           response: ""
@@ -4381,6 +4396,7 @@ components:
           name: name
           pdf:
             errorMessage: errorMessage
+            fileName: fileName
             pdfBase64: pdfBase64
           request: ""
           response: ""
@@ -4482,6 +4498,7 @@ components:
               maxSize: 6
               min: 1
             id: id
+            instructions: instructions
             name: name
             predefined: true
             required: true
@@ -4524,6 +4541,7 @@ components:
               maxSize: 6
               min: 1
             id: id
+            instructions: instructions
             name: name
             predefined: true
             required: true

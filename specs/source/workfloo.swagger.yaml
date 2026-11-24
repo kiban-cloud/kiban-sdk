@@ -111,6 +111,11 @@ definitions:
         $ref: '#/definitions/controller_workfloo_definition_model.FileMetadata'
       id:
         type: string
+      instructions:
+        description: |-
+          Instructions son las indicaciones para quien sube el archivo; sólo
+          viene si el paso las tiene.
+        type: string
       name:
         type: string
       predefined:
@@ -608,6 +613,8 @@ definitions:
   controller_workfloo_model.Pdf:
     properties:
       errorMessage:
+        type: string
+      fileName:
         type: string
       pdfBase64:
         type: string

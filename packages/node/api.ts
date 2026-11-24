@@ -76,6 +76,10 @@ export interface ControllerWorkflooDefinitionModelFieldValidator {
 export interface ControllerWorkflooDefinitionModelFileDocument {
     'fileMetadata'?: ControllerWorkflooDefinitionModelFileMetadata;
     'id'?: string;
+    /**
+     * Instructions son las indicaciones para quien sube el archivo; sólo viene si el paso las tiene.
+     */
+    'instructions'?: string;
     'name'?: string;
     'predefined'?: boolean;
     'required'?: boolean;
@@ -323,6 +327,7 @@ export interface ControllerWorkflooModelOtpValidateRequest {
 }
 export interface ControllerWorkflooModelPdf {
     'errorMessage'?: string;
+    'fileName'?: string;
     'pdfBase64'?: string;
 }
 export interface ControllerWorkflooModelRejectedField {

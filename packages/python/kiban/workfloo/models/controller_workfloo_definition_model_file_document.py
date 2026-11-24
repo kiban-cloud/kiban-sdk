@@ -32,12 +32,13 @@ class ControllerWorkflooDefinitionModelFileDocument(BaseModel):
     """ # noqa: E501
     file_metadata: Optional[ControllerWorkflooDefinitionModelFileMetadata] = Field(default=None, alias="fileMetadata")
     id: Optional[StrictStr] = None
+    instructions: Optional[StrictStr] = Field(default=None, description="Instructions son las indicaciones para quien sube el archivo; sólo viene si el paso las tiene.")
     name: Optional[StrictStr] = None
     predefined: Optional[StrictBool] = None
     required: Optional[StrictBool] = None
     set: Optional[ControllerWorkflooDefinitionModelSetDataDocument] = None
     source_pdf_node_id: Optional[StrictStr] = Field(default=None, description="SourcePdfNodeId: id del nodo PDF que genera este archivo. Cuando viene, el motor lo toma de ahí y no lo pide en el paso.", alias="sourcePdfNodeId")
-    __properties: ClassVar[List[str]] = ["fileMetadata", "id", "name", "predefined", "required", "set", "sourcePdfNodeId"]
+    __properties: ClassVar[List[str]] = ["fileMetadata", "id", "instructions", "name", "predefined", "required", "set", "sourcePdfNodeId"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -98,6 +99,7 @@ class ControllerWorkflooDefinitionModelFileDocument(BaseModel):
         _obj = cls.model_validate({
             "fileMetadata": ControllerWorkflooDefinitionModelFileMetadata.from_dict(obj["fileMetadata"]) if obj.get("fileMetadata") is not None else None,
             "id": obj.get("id"),
+            "instructions": obj.get("instructions"),
             "name": obj.get("name"),
             "predefined": obj.get("predefined"),
             "required": obj.get("required"),

@@ -6,6 +6,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **error_message** | **str** |  | [optional] 
+**file_name** | **str** |  | [optional] 
 **pdf_base64** | **str** |  | [optional] 
 
 ## Example

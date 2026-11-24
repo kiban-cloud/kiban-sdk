@@ -29,8 +29,9 @@ class ControllerWorkflooModelPdf(BaseModel):
     ControllerWorkflooModelPdf
     """ # noqa: E501
     error_message: Optional[StrictStr] = Field(default=None, alias="errorMessage")
+    file_name: Optional[StrictStr] = Field(default=None, alias="fileName")
     pdf_base64: Optional[StrictStr] = Field(default=None, alias="pdfBase64")
-    __properties: ClassVar[List[str]] = ["errorMessage", "pdfBase64"]
+    __properties: ClassVar[List[str]] = ["errorMessage", "fileName", "pdfBase64"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -84,6 +85,7 @@ class ControllerWorkflooModelPdf(BaseModel):
 
         _obj = cls.model_validate({
             "errorMessage": obj.get("errorMessage"),
+            "fileName": obj.get("fileName"),
             "pdfBase64": obj.get("pdfBase64")
         })
         return _obj

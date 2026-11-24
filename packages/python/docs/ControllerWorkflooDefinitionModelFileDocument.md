@@ -7,6 +7,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **file_metadata** | [**ControllerWorkflooDefinitionModelFileMetadata**](ControllerWorkflooDefinitionModelFileMetadata.md) |  | [optional] 
 **id** | **str** |  | [optional] 
+**instructions** | **str** | Instructions son las indicaciones para quien sube el archivo; sólo viene si el paso las tiene. | [optional] 
 **name** | **str** |  | [optional] 
 **predefined** | **bool** |  | [optional] 
 **required** | **bool** |  | [optional] 

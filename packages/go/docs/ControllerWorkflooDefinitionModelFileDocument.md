@@ -6,6 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **FileMetadata** | Pointer to [**ControllerWorkflooDefinitionModelFileMetadata**](ControllerWorkflooDefinitionModelFileMetadata.md) |  | [optional] 
 **Id** | Pointer to **string** |  | [optional] 
+**Instructions** | Pointer to **string** | Instructions son las indicaciones para quien sube el archivo; sólo viene si el paso las tiene. | [optional] 
 **Name** | Pointer to **string** |  | [optional] 
 **Predefined** | Pointer to **bool** |  | [optional] 
 **Required** | Pointer to **bool** |  | [optional] 
@@ -80,6 +81,31 @@ SetId sets Id field to given value.
 `func (o *ControllerWorkflooDefinitionModelFileDocument) HasId() bool`
 
 HasId returns a boolean if a field has been set.
+
+### GetInstructions
+
+`func (o *ControllerWorkflooDefinitionModelFileDocument) GetInstructions() string`
+
+GetInstructions returns the Instructions field if non-nil, zero value otherwise.
+
+### GetInstructionsOk
+
+`func (o *ControllerWorkflooDefinitionModelFileDocument) GetInstructionsOk() (*string, bool)`
+
+GetInstructionsOk returns a tuple with the Instructions field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetInstructions
+
+`func (o *ControllerWorkflooDefinitionModelFileDocument) SetInstructions(v string)`
+
+SetInstructions sets Instructions field to given value.
+
+### HasInstructions
+
+`func (o *ControllerWorkflooDefinitionModelFileDocument) HasInstructions() bool`
+
+HasInstructions returns a boolean if a field has been set.
 
 ### GetName
 
